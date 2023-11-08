@@ -1,6 +1,8 @@
 name: containers
 on:
-  - push
+  push:
+    paths:
+      - containers/**
 jobs:
   build:
     runs-on: ubuntu-latest

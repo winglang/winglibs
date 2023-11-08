@@ -71,7 +71,11 @@ pub class Library {
 
     fs.writeYaml("${workflowdir}/${base}.yaml", { 
       name: base,
-      on: ["push"],
+      on: {
+        push: {
+          paths: ["${dir}/**"]
+        }
+      },
       jobs: {
         build: {
           "runs-on": "ubuntu-latest",
