@@ -1,0 +1,32 @@
+name: containers
+on:
+  - push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: containers
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install
+        working-directory: containers
+      - name: Test
+        run: wing test
+        working-directory: containers
+      - name: Pack
+        run: wing pack
+        working-directory: containers
+      - name: Publish
+        run: npm publish *.tgz
+        working-directory: containers
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

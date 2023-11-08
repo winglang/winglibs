@@ -1,0 +1,38 @@
+{
+  "name": "@winglibs/containers",
+  "version": "0.0.9",
+  "description": "Wing container support",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "tag": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eladb/wing-containers.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "wing test test/*.test.w",
+    "pack": "wing pack",
+    "build": "npm test && npm run pack"
+  },
+  "author": {
+    "email": "eladb@wing.cloud",
+    "name": "Elad Ben-Israel"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "winglang": "^0.44.3",
+    "cdktf": "^0.18.2"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^17.0.9",
+    "@cdktf/provider-docker": "^9.0.0",
+    "@cdktf/provider-helm": "^8.0.1",
+    "@cdktf/provider-kubernetes": "^9.0.0",
+    "@cdktf/provider-null": "^8.0.0",
+    "cdk8s-plus-27": "^2.7.33",
+    "glob": "^10.3.10"
+  }
+}
