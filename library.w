@@ -62,7 +62,7 @@ pub class Library {
 
     steps.push({
       name: "Publish",
-      run: "npm publish *.tgz",
+      run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": dir,
       env: {
         NODE_AUTH_TOKEN: "\${{ secrets.NPM_TOKEN }}"

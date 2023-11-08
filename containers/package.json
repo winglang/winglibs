@@ -1,21 +1,11 @@
 {
   "name": "@winglibs/containers",
-  "version": "0.0.9",
-  "description": "Wing container support",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org",
-    "tag": "latest"
-  },
+  "version": "0.0.10",
+  "description": "Container support for Wing",
   "repository": {
     "type": "git",
-    "url": "https://github.com/eladb/wing-containers.git"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "wing test test/*.test.w",
-    "pack": "wing pack",
-    "build": "npm test && npm run pack"
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "containers"
   },
   "author": {
     "email": "eladb@wing.cloud",
