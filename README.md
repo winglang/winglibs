@@ -8,7 +8,7 @@ and that meet our community's quality bar.
 One of the cool things about trusted libraries is that we take care of building, testing and
 publishing them for you.
 
-## How do I add a library?
+## How do I add a new library?
 
 It's so damn easy.
 
@@ -33,6 +33,31 @@ Now do your magic.
 When you are ready, submit a pull request to this repository. Someone from the team will review it
 and will hopefully provide you with useful feedback and a lot of love, and eventually merge it into
 `main`, and your library will be live.
+
+## Updating libraries
+
+If you wish to publish an update to your library, simply submit a new pull request with your update.
+Once the PR is merged, your new version will be published.
+
+- :v: Make sure you use a conventional commit title. (`feat:` for new features, `fix:` for bug fix
+  and `chore:` for anything else).
+- :v: **DON'T FORGET!** You will need to manually bump the `version` field of your library based on
+the semantic version update. In the future we plan to automate this so that bumps will happen
+automatically.
+
+  > ### A quick primer on semantic versioning
+  > 
+  > Semantic versioning is a convention for version numbers that is commonly used to indicate the type
+  > of update. The version number consists of three components: `MAJOR`.`MINOR`.`PATCH`:
+  >
+  > * The `MAJOR` component must be bumped if the update includes a **breaking change**.
+  > * The `MINOR` component must be bumped if the update includes a **new feature**.
+  > * The `PATCH` component must be bumped if the update includes a **bug fix**.
+  >
+  > Before 1.0.0, the `MAJOR` component is always `0`, the `MINOR` component represents breaking
+  > changes and the `PATCH` component represents new features *and* bug fixes.
+
+## Consuming trusted libraries
 
 To consume these libraries, users just need to:
 
