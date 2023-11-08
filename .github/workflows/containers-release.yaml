@@ -1,4 +1,4 @@
-name: containers
+name: containers-release
 on:
   push:
     paths:

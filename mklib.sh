@@ -37,6 +37,38 @@ test "add() adds two numbers" {
 }
 HERE
 
+cat > $1/.gitignore <<HERE
+target/
+node_modules/
+HERE
+
+cat > $1/README.md <<HERE
+# $1
+
+## Prerequisites
+
+* [winglang](https://winglang.io).
+
+## Installation
+
+``\`sh
+npm i @winglibs/$1
+``\`
+
+## Usage
+
+``\`js
+bring $1;
+
+let adder = new $1.Adder();
+``\`
+
+## License
+
+This library is licensed under the [MIT License](./LICENSE).
+HERE
+
+cp ./LICENSE $1/
 
 wing compile generate-workflows.main.w
 rm -fr target/

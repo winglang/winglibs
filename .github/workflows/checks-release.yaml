@@ -1,0 +1,35 @@
+name: checks-release
+on:
+  push:
+    paths:
+      - checks/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: checks
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install
+        working-directory: checks
+      - name: Test
+        run: wing test **/*.test.w
+        working-directory: checks
+      - name: Pack
+        run: wing pack
+        working-directory: checks
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

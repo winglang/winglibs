@@ -18,49 +18,57 @@ pub class Library {
 
     let workflowdir = ".github/workflows";
     fs.mkdir(workflowdir);
-    let steps = MutArray<Json>[];
 
-    steps.push({
-      name: "Checkout",
-      uses: "actions/checkout@v3",
-      with: {
-        "sparse-checkout": dir
-      }
-    });
+    let addCommonSteps = (steps: MutArray<Json>) => {
+      steps.push({
+        name: "Checkout",
+        uses: "actions/checkout@v3",
+        with: {
+          "sparse-checkout": dir
+        }
+      });
+  
+      steps.push({
+        name: "Setup Node.js",
+        uses: "actions/setup-node@v3",
+        with: {
+          "node-version": "18.x",
+          "registry-url": "https://registry.npmjs.org",
+        },
+      });
+  
+      steps.push({
+        name: "Install winglang",
+        run: "npm i -g winglang",
+      });
+  
+      steps.push({
+        name: "Install dependencies",
+        run: "npm install",
+        "working-directory": dir,
+      });
+  
+      steps.push({
+        name: "Test",
+        run: "wing test **/*.test.w",
+        "working-directory": dir,
+      });
+    };
 
-    steps.push({
-      name: "Setup Node.js",
-      uses: "actions/setup-node@v3",
-      with: {
-        "node-version": "18.x",
-        "registry-url": "https://registry.npmjs.org",
-      },
-    });
+    let releaseSteps = MutArray<Json>[];
+    let pullSteps = MutArray<Json>[];
 
-    steps.push({
-      name: "Install winglang",
-      run: "npm i -g winglang",
-    });
+    addCommonSteps(pullSteps);
 
-    steps.push({
-      name: "Install dependencies",
-      run: "npm install",
-      "working-directory": dir,
-    });
+    addCommonSteps(releaseSteps);
 
-    steps.push({
-      name: "Test",
-      run: "wing test **/*.test.w",
-      "working-directory": dir,
-    });
-
-    steps.push({
+    releaseSteps.push({
       name: "Pack",
       run: "wing pack",
       "working-directory": dir,
     });
 
-    steps.push({
+    releaseSteps.push({
       name: "Publish",
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": dir,
@@ -69,8 +77,8 @@ pub class Library {
       } 
     });
 
-    fs.writeYaml("${workflowdir}/${base}.yaml", { 
-      name: base,
+    fs.writeYaml("${workflowdir}/${base}-release.yaml", { 
+      name: "${base}-release",
       on: {
         push: {
           paths: ["${dir}/**"]
@@ -79,9 +87,25 @@ pub class Library {
       jobs: {
         build: {
           "runs-on": "ubuntu-latest",
-          steps: steps.copy()
+          steps: releaseSteps.copy()
         }
       }
     });
+
+    fs.writeYaml("${workflowdir}/${base}-pull.yaml", { 
+      name: "${base}-pull",
+      on: {
+        pull_request: {
+          paths: ["${dir}/**"]
+        }
+      },
+      jobs: {
+        build: {
+          "runs-on": "ubuntu-latest",
+          steps: pullSteps.copy()
+        }
+      }
+    });
+
   }
 }
