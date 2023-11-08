@@ -50,7 +50,7 @@ pub class Library {
 
     steps.push({
       name: "Test",
-      run: "wing test",
+      run: "wing test **/*.test.w",
       "working-directory": dir,
     });
 

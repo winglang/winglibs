@@ -20,7 +20,7 @@ jobs:
         run: npm install
         working-directory: containers
       - name: Test
-        run: wing test
+        run: wing test **/*.test.w
         working-directory: containers
       - name: Pack
         run: wing pack
