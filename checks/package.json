@@ -1,0 +1,25 @@
+{
+  "name": "@winglibs/checks",
+  "version": "0.0.2",
+  "description": "Cloud checks",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "tag": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "checks"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "wing test",
+    "pack": "wing pack"
+  },
+  "author": {
+    "email": "eladb@wing.cloud",
+    "name": "Elad Ben-Israel"
+  },
+  "license": "MIT"
+}
