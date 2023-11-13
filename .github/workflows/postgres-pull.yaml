@@ -1,6 +1,6 @@
-name: postgres
+name: postgres-pull
 on:
-  push:
+  pull_request:
     paths:
       - postgres/**
 jobs:
@@ -24,12 +24,3 @@ jobs:
       - name: Test
         run: wing test **/*.test.w
         working-directory: postgres
-      - name: Pack
-        run: wing pack
-        working-directory: postgres
-      - name: Publish
-        run: npm publish --access=public --registry https://registry.npmjs.org --tag
-          latest *.tgz
-        working-directory: postgres
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
