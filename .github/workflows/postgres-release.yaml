@@ -1,0 +1,37 @@
+name: postgres-release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - postgres/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: postgres
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install
+        working-directory: postgres
+      - name: Test
+        run: wing test **/*.test.w
+        working-directory: postgres
+      - name: Pack
+        run: wing pack
+        working-directory: postgres
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: postgres
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

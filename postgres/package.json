@@ -1,0 +1,24 @@
+{
+  "name": "@winglibs/postgres",
+  "version": "0.0.2",
+  "description": "Postgres support for Wing",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "postgres"
+  },
+  "author": {
+    "email": "chrisr@wing.cloud",
+    "name": "Chris Rybicki"
+  },
+  "peerDependencies": {
+    "winglang": "^0.44.3",
+    "cdktf": "^0.19.1"
+  },
+  "dependencies": {
+    "@rybickic/cdktf-provider-neon": "^1.0.0",
+    "@cdktf/provider-aws": "^18.0.4",
+    "pg": "^8.11.3"
+  },
+  "license": "MIT"
+}
