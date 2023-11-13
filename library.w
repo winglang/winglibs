@@ -81,6 +81,7 @@ pub class Library {
       name: "${base}-release",
       on: {
         push: {
+          branches: ["main"],
           paths: ["${dir}/**"]
         }
       },

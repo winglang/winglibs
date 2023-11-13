@@ -1,6 +1,8 @@
 name: containers-release
 on:
   push:
+    branches:
+      - main
     paths:
       - containers/**
 jobs:
