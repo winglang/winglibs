@@ -13,7 +13,7 @@ struct Credentials {
   dbname: str;
 }
 
-pub struct DatabaseNeonProps {
+pub struct DatabaseProps {
   /**
    * The database name.
    */
@@ -28,7 +28,7 @@ pub struct DatabaseNeonProps {
 pub class DatabaseNeon {
   creds: cloud.Secret;
 
-  init(props: DatabaseNeonProps) {
+  init(props: DatabaseProps) {
     this.neonProvider();
 
     // TODO: share a project between multiple databases
