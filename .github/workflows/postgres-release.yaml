@@ -1,6 +1,8 @@
 name: postgres-release
 on:
   push:
+    branches:
+      - main
     paths:
       - postgres/**
 jobs:
