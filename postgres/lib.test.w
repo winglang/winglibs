@@ -3,7 +3,7 @@ bring util;
 bring "./lib.w" as l;
 
 if util.env("WING_TARGET") == "tf-aws" {
-  let db = new l.DatabaseNeon(name: "test", pgVersion: 15);
+  let db = new l.Database(name: "test", pgVersion: 15);
 
   test "run a simple query" {
     let result = db.query("SELECT 1 as one, 2 as two;");

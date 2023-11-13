@@ -25,7 +25,27 @@ pub struct DatabaseProps {
   pgVersion: num;
 }
 
-pub class DatabaseNeon {
+pub interface IDatabase {
+  inflight query(query: str): Array<Map<Json>>;
+}
+
+pub class Database {
+  inner: IDatabase;
+  init(props: DatabaseProps) {
+    let target = util.env("WING_TARGET");
+    if target == "tf-aws" {
+      this.inner = new DatabaseNeon(props);
+    } else {
+      throw "Unsupported target: " + target;
+    }
+  }
+
+  pub inflight query(query: str): Array<Map<Json>> {
+    return this.inner.query(query);
+  }
+}
+
+pub class DatabaseNeon impl IDatabase {
   creds: cloud.Secret;
 
   init(props: DatabaseProps) {
