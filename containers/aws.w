@@ -13,7 +13,7 @@ pub class Aws {
   accountData: aws.dataAwsCallerIdentity.DataAwsCallerIdentity;
 
 
-  init() { 
+  new() { 
     this.regionData = new aws.dataAwsRegion.DataAwsRegion();
     this.accountData = new aws.dataAwsCallerIdentity.DataAwsCallerIdentity();
   }

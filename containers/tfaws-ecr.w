@@ -13,7 +13,7 @@ pub class Repository {
   pub image: str;
   pub deps: Array<cdktf.ITerraformDependable>;
 
-  init(props: RepositoryProps) {
+  new(props: RepositoryProps) {
     let deps = MutArray<cdktf.ITerraformDependable>[];
 
     let count = 5;

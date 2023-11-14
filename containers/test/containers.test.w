@@ -27,9 +27,7 @@ let echo = new containers.Workload(
 
 let httpGet = inflight (url: str?): str => {
   if let url = url {
-    if let body = http.get(url).body {
-      return body;
-    }
+    return http.get(url).body;
   }
 
   throw "no body";
