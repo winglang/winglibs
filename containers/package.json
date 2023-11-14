@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/containers",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Container support for Wing",
   "repository": {
     "type": "git",
@@ -14,14 +14,14 @@
   "license": "MIT",
   "peerDependencies": {
     "winglang": "^0.44.3",
-    "cdktf": "^0.18.2"
+    "cdktf": "^0.19.1"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "^17.0.9",
-    "@cdktf/provider-docker": "^9.0.0",
-    "@cdktf/provider-helm": "^8.0.1",
-    "@cdktf/provider-kubernetes": "^9.0.0",
-    "@cdktf/provider-null": "^8.0.0",
+    "@cdktf/provider-aws": "^18.0.5",
+    "@cdktf/provider-docker": "^10.0.0",
+    "@cdktf/provider-helm": "^9.0.0",
+    "@cdktf/provider-kubernetes": "^10.0.0",
+    "@cdktf/provider-null": "^9.0.0",
     "cdk8s-plus-27": "^2.7.33",
     "glob": "^10.3.10"
   }
