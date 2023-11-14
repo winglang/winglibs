@@ -3,7 +3,7 @@ bring "./results.w" as r;
 class MyClass {
   pub results: r.Results;
 
-  init() {
+  new() {
     this.results = r.Results.of(this);
   }
 }

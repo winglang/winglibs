@@ -25,7 +25,7 @@ let check = new c.Check(inflight () => {
     throw "response status ${response.status}";
   }
 
-  log(response.body ?? "THROW");
+  log(response.body);
   expect.equal(response.body, "/foo"); // body is expected to be the path
 }, deploy: false);
 

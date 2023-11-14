@@ -29,7 +29,7 @@ pub class Results {
 
   bucket: cloud.Bucket;
 
-  init() {
+  new() {
     this.bucket = new cloud.Bucket() as "results";
   }
 

@@ -13,7 +13,7 @@ pub struct CheckHttpProps extends c.CheckProps {
 pub class CheckHttp impl c.ICheck {
   inner: c.Check;
 
-  init(url: str, options: CheckHttpProps?) {
+  new(url: str, options: CheckHttpProps?) {
     this.inner = new c.Check(inflight () => {
       let var full_url: str = url;
       if let path = options?.path {

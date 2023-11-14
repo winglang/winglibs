@@ -3,12 +3,12 @@ interface IHandler {
 }
 
 class Base {
-  init(handler: IHandler?) {
+  new(handler: IHandler?) {
   }
 }
 
 class Derived extends Base {
-  init() {
+  new() {
     super();
   }
 }

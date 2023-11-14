@@ -33,7 +33,7 @@ pub class Check impl ICheck {
   checkid: str;
   checkpath: str;
 
-  init(handler: inflight (): void, props: CheckProps?) {
+  new(handler: inflight (): void, props: CheckProps?) {
     this.checkid = std.Node.of(this).addr;
     this.checkpath = std.Node.of(this).path;
     this.results = r.Results.of(this);
