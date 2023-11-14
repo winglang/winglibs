@@ -12,7 +12,7 @@ pub class Workload_tfaws impl api.IWorkload {
   internalUrl: str?;
   publicUrl: str?;
 
-  init(props: api.WorkloadProps) {
+  new(props: api.WorkloadProps) {
     let cluster = eks.Cluster.getOrCreate(this);
 
     let var image = props.image;
@@ -36,7 +36,7 @@ pub class Workload_tfaws impl api.IWorkload {
     class _Chart extends cdk8s.Chart {
       name: str;
     
-      init(props: api.WorkloadProps) {
+      new(props: api.WorkloadProps) {
         let env = props.env ?? {};
         let envVariables = MutMap<plus.EnvValue>{};
     

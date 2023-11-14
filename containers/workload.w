@@ -9,7 +9,7 @@ pub class Workload impl api.IWorkload {
   pub internalUrl: str?;
   pub publicUrl: str?;
 
-  init(props: api.WorkloadProps) {
+  new(props: api.WorkloadProps) {
     let target = util.env("WING_TARGET");
 
     if target == "sim" {

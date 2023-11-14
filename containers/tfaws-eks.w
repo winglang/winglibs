@@ -68,7 +68,7 @@ pub class ClusterBase impl ICluster {
 class ClusterRef extends ClusterBase impl ICluster {
   _attributes: ClusterAttributes;
 
-  init(attributes: ClusterAttributes) {
+  new(attributes: ClusterAttributes) {
     this._attributes = attributes;
   }
 
@@ -115,7 +115,7 @@ pub class Cluster extends ClusterBase impl ICluster {
 
   vpc: vpc.Vpc;
 
-  init(clusterName: str) {
+  new(clusterName: str) {
     let privateSubnetTags = MutMap<str>{};
     privateSubnetTags.set("kubernetes.io/role/internal-elb", "1");
     privateSubnetTags.set("kubernetes.io/cluster/${clusterName}", "shared");

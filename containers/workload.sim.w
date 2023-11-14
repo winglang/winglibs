@@ -16,7 +16,7 @@ pub class Workload_sim impl api.IWorkload {
   public: bool;
   state: sim.State;
   
-  init(props: api.WorkloadProps) {
+  new(props: api.WorkloadProps) {
     this.appDir = utils.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();

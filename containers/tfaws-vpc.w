@@ -11,7 +11,7 @@ pub class Vpc {
   pub privateSubnets: Array<str>;
   pub publicSubnets: Array<str>;
 
-  init(props: VpcProps?) {
+  new(props: VpcProps?) {
     let available = new aws.dataAwsAvailabilityZones.DataAwsAvailabilityZones(filter: {
       name: "opt-in-status",
       values: ["opt-in-not-required"]

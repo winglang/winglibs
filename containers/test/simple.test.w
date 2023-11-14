@@ -18,9 +18,6 @@ new cloud.Function(inflight () => {
 test "http get" {
   if let url = app.publicUrl {
     let response = http.get(url);
-    log(response.body ?? "");
-    if let body = response.body {
-      assert(body.contains("bang_bang"));
-    }
+    assert(response.body.contains("bang_bang"));
   }
 }
