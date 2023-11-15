@@ -1,17 +1,12 @@
 bring aws;
 bring cloud;
+bring containers;
+bring http;
 bring util;
 bring "constructs" as constructs;
 bring "cdktf" as cdktf;
 bring "@rybickic/cdktf-provider-neon" as rawNeon;
 bring "@cdktf/provider-aws" as tfaws;
-
-struct Credentials {
-  host: str;
-  user: str;
-  password: str;
-  dbname: str;
-}
 
 pub struct DatabaseProps {
   /**
@@ -22,7 +17,7 @@ pub struct DatabaseProps {
    * The postgres version.
    * @default 15
    */
-  pgVersion: num;
+  pgVersion: num?;
 }
 
 pub interface IDatabase {
@@ -31,9 +26,11 @@ pub interface IDatabase {
 
 pub class Database {
   inner: IDatabase;
-  init(props: DatabaseProps) {
+  new(props: DatabaseProps) {
     let target = util.env("WING_TARGET");
-    if target == "tf-aws" {
+    if target == "sim" {
+      this.inner = new DatabaseSim(props);
+    } elif target == "tf-aws" {
       this.inner = new DatabaseNeon(props);
     } else {
       throw "Unsupported target: " + target;
@@ -45,16 +42,52 @@ pub class Database {
   }
 }
 
-pub class DatabaseNeon impl IDatabase {
+class DatabaseSim impl IDatabase {
+  url: str?;
+  new(props: DatabaseProps) {
+    let image = "postgres:${props.pgVersion ?? 15}";
+    let container = new containers.Workload(
+      name: "postgres",
+      image: image,
+      env: {
+        POSTGRES_PASSWORD: "password"
+      },
+      port: 5432,
+      public: true,
+    );
+    this.url = container.getPublicUrl();
+  }
+
+  pub inflight query(query: str): Array<Map<Json>> {
+    let port = num.fromStr(http.parseUrl(this.url ?? "error").port);
+    return PgUtil._query(query, {
+      host: "localhost",
+      password: "password",
+      database: "postgres",
+      user: "postgres",
+      port: port,
+      ssl: false,
+    });
+  }
+}
+
+struct DbCredentials {
+  host: str;
+  user: str;
+  password: str;
+  database: str;
+}
+
+class DatabaseNeon impl IDatabase {
   creds: cloud.Secret;
 
-  init(props: DatabaseProps) {
+  new(props: DatabaseProps) {
     this.neonProvider();
 
     // TODO: share a project between multiple databases
     let project = new rawNeon.project.Project(
       name: props.name,
-      pgVersion: props.pgVersion,
+      pgVersion: props.pgVersion ?? 15,
     );
 
     let db = new rawNeon.database.Database(
@@ -74,7 +107,7 @@ pub class DatabaseNeon impl IDatabase {
         host: project.databaseHost,
         user: project.databaseUser,
         password: project.databasePassword,
-        dbname: project.databaseName,
+        database: project.databaseName,
       })
     ) as "NeonCredentialsVersion";
   }
@@ -90,10 +123,27 @@ pub class DatabaseNeon impl IDatabase {
     return new rawNeon.provider.NeonProvider() as singletonKey in stack;
   }
 
-  extern "./pg.js" static inflight _query(query: str, creds: Credentials): Array<Map<Json>>;
-
   pub inflight query(query: str): Array<Map<Json>> {
-    let creds = Credentials.fromJson(this.creds.valueJson());
-    return DatabaseNeon._query(query, creds);
+    let creds = DbCredentials.fromJson(this.creds.valueJson());
+    return PgUtil._query(query, {
+      host: creds.host,
+      user: creds.user,
+      password: creds.password,
+      database: creds.database,
+      ssl: true,
+    });
   }
+}
+
+struct ConnectionOptions {
+  host: str;
+  port: num?; // default: 5432
+  user: str;
+  password: str;
+  database: str;
+  ssl: bool;
+}
+
+class PgUtil {
+  pub extern "./pg.js" static inflight _query(query: str, creds: ConnectionOptions): Array<Map<Json>>;
 }

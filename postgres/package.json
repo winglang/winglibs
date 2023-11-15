@@ -12,12 +12,13 @@
     "name": "Chris Rybicki"
   },
   "peerDependencies": {
-    "winglang": "^0.44.3",
+    "winglang": "^0.47.3",
     "cdktf": "^0.19.1"
   },
   "dependencies": {
     "@rybickic/cdktf-provider-neon": "^1.0.0",
     "@cdktf/provider-aws": "^18.0.4",
+    "@winglibs/containers": "^0.0.12",
     "pg": "^8.11.3"
   },
   "license": "MIT"
