@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/postgres",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Postgres support for Wing",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "name": "Chris Rybicki"
   },
   "peerDependencies": {
-    "winglang": "^0.47.3",
+    "winglang": "^0.44.3",
     "cdktf": "^0.19.1"
   },
   "dependencies": {
