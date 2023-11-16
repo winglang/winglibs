@@ -4,7 +4,7 @@ bring "./platform/awscdk.w" as awscdk;
 bring "./platform/tf-aws.w" as tfaws;
 
 pub class WebSocket impl api.IWebSocket {
-  var inner: api.IWebSocket;
+  inner: api.IWebSocket;
   
   new(props: api.WebSocketProps) {
     let target = util.env("WING_TARGET");

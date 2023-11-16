@@ -7,7 +7,7 @@ bring "@cdktf/provider-aws" as tfaws;
 pub class WebSocket_tfaws impl api.IWebSocket {
   webSocketApi: tfaws.apigatewayv2Api.Apigatewayv2Api;
   role: tfaws.iamRole.IamRole;
-  pub url: str;
+  url: str;
 
   new(props: api.WebSocketProps) {
 
@@ -64,7 +64,9 @@ pub class WebSocket_tfaws impl api.IWebSocket {
     });
   }
   pub addRoute(handler: inflight(str): Json, props: api.RouteOptions): void {
-    let func = new cloud.Function(handler) as props.routeKey.replace("$", "");
+    let func = new cloud.Function(handler, env: {
+      "url": this.url,
+    }) as props.routeKey.replace("$", "");
     if let func = aws.Function.from(func) {
       let functionArn = func.arn();
         

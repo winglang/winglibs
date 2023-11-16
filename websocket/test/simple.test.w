@@ -13,6 +13,7 @@ let tb = new ex.DynamodbTable(
 let wb = new websocket.WebSocket(name: "MyWebSocket") as "my-websocket";
 
 wb.connect(inflight(e: str): Json => {
+  let z: Json = e;
   let a = Json.stringify(e);
   let b = Json.parse(a);
   let x = b.get("requestContext");
@@ -35,3 +36,11 @@ wb.disconnect(inflight(e: str): Json => {
   });
   return { statusCode: 200 };
 });
+
+wb.addRoute(inflight (event: str): Json => {
+  let payload: Json = event;
+  let message = str.fromJson((Json.parse(str.fromJson(payload.get("body")))).get("message"));
+  let connectionId = str.fromJson((payload.get("requestContext")).get("connectionId"));
+  wb.postToConnection(connectionId, message);
+  return { statusCode: 200 };
+}, routeKey: "sendpublicmessage");
