@@ -3,31 +3,12 @@ bring fs;
 
 pub class Util {
   extern "./utils.js" pub static inflight shell(command: str, args: Array<str>, cwd: str?): str;
-  extern "./utils.js" pub static inflight redisClient(connectionUrl:str): MutJson;
   // redis client methods
-  extern "./utils.js" pub static inflight redisGet(redisClient:MutJson, key:str): str;
-  extern "./utils.js" pub static inflight redisSet(redisClient:MutJson, key:str, value:str): str;
-  extern "./utils.js" pub static inflight redisDel(redisClient:Json, key:str): str;
-
-  // extern "./utils.js" pub static contentHash(files: Array<str>, cwd: str): str;
-//   extern "./utils.js" pub static entrypointDir(scope: std.IResource): str;
-//   extern "./utils.js" pub static dirname(): str;
-
-//   pub static isPath(s: str): bool {
-//     return s.startsWith("/") || s.startsWith("./");
-//   }
-
-//   pub static inflight isPathInflight(s: str): bool {
-//     return s.startsWith("/") || s.startsWith("./");
-//   }
-
-  // pub static resolveContentHash(scope: std.IResource, props: api.WorkloadProps): str? {
-  //   if !Util.isPath(props.image) {
-  //     return nil;
-  //   }
-    
-  //   let sources = props.sources ?? ["**/*"];
-  //   let imageDir = props.image;
-  //   return props.sourceHash ?? Util.contentHash(sources, imageDir);
-  // }
+  extern "./utils.js" pub static inflight ioRedisGet(redisUrl:str, key:str): str;
+  extern "./utils.js" pub static inflight ioRedisSet(redisUrl:str, key:str, value:str): str;
+  extern "./utils.js" pub static inflight ioRedisDel(redisUrl:str, key:str): str;
+  extern "./utils.js" pub static inflight ioRedisHset(redisUrl:str, key:str, field:str, value:str): num;
+  extern "./utils.js" pub static inflight ioRedisHget(redisUrl:str, key:str, field:str): str;
+  extern "./utils.js" pub static inflight ioRedisSadd(redisUrl:str, key:str, value:str): num;
+  extern "./utils.js" pub static inflight ioRedisSmembers(redisUrl:str, key:str): Array<str>;
 }

@@ -41,11 +41,9 @@ pub class Redis_sim impl api.IRedis {
         let inspectJson = Json.parse(inspect);
         let port = inspectJson.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("6379/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.asStr();
         let connectionUrl = "redis://localhost:${port}";
+
         // set the connection_url in the state
         this.state.set("connection_url", connectionUrl);
-        // set the ioredis connection in the state
-        let connection = utils.redisClient(connectionUrl);
-        this.state.set("connection", connection);
         log("redis server running on port ${port}");
     }
 
@@ -55,29 +53,37 @@ pub class Redis_sim impl api.IRedis {
     }
 
     pub inflight get(key: str): str? {
-        let connection:MutJson = this.state.get("connection");
-        let value = utils.redisGet(connection, key);
+        let redisUrl = this.state.get("connection_url").asStr();
+        let value = utils.ioRedisGet(redisUrl, key);
         return value;
     }
     pub inflight set(key: str, value: str): void {
-        let redisClient = this.state.get("connection");
-        utils.redisSet(redisClient, key, value);
+        let redisUrl = this.state.get("connection_url").asStr();
+        utils.ioRedisSet(redisUrl, key, value);
     }
     pub inflight del(key: str): void{
-        let connection = this.state.get("connection").asStr();
-        utils.redisDel(connection, key);
+        let redisUrl = this.state.get("connection_url").asStr();
+        utils.ioRedisDel(redisUrl, key);
     }
     pub inflight smembers(key: str): Array<str> {
-        return ["", ""];
+        let redisUrl = this.state.get("connection_url").asStr();
+        let members = utils.ioRedisSmembers(redisUrl, key);
+        return members;
     }
     pub inflight sadd(key: str, value: str): num {
-        return 0;
+        let redisUrl = this.state.get("connection_url").asStr();
+        let result = utils.ioRedisSadd(redisUrl, key, value);
+        return result;
     }
     pub inflight hget(key: str, field: str): str? {
-        return "";
+        let redisUrl = this.state.get("connection_url").asStr();
+        let value = utils.ioRedisHget(redisUrl, key, field);
+        return value;
     }
     pub inflight hset(key: str, field: str, value: str):num {
-        return 0;
+        let redisUrl = this.state.get("connection_url").asStr();
+        let result = utils.ioRedisHset(redisUrl, key, field, value);
+        return result;
     }
     pub inflight url(): str {
         return this.state.get("connection_url")?.asStr() ?? "";

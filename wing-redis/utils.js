@@ -15,37 +15,40 @@ exports.shell = async function (command, args, cwd) {
     });
 };
 
-exports.redisClient = async function (connectionUrl) {
-    try {
-        if (!connectionUrl) {
-            throw new Error("connectionUrl is required")
-        }
-        let redis = await new IoRedis(connectionUrl);
-        // redis = JSON.stringify(redis);
-        return redis;
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-};
-
-const redisGet = async (redisClient, key) =>{
-    console.log("redisClient at get", redisClient);
-    const value = await redisClient.get(key);
-    return value;
+exports.ioRedisGet = async function (redisUrl, key){
+    let redis = new IoRedis(redisUrl);
+    const result = await redis.get(key);
+    return result;
 }
 
-const redisSet = async (redisClient, key, value) => {
-    try {
-        await redisClient.set(key, value);
-    } catch (error) {
-        console.error(error);
-    }
+exports.ioRedisSet = async function (redisUrl, key, value){
+    let redis = new IoRedis(redisUrl);
+    await redis.set(key, value);
 }
 
-exports.redisDel = async function (redisClient, key) {
-    return redisClient.del(key);
+exports.ioRedisDel = async function (redisUrl, key) {
+    let redis = new IoRedis(redisUrl);
+    await redis.del(key);
 }
 
-exports.redisGet = redisGet;
-exports.redisSet = redisSet;
+exports.ioRedisHset = async function (redisUrl, key, field, value) {
+    let redis = new IoRedis(redisUrl);
+    await redis.hset(key, field, value);
+}
+
+exports.ioRedisHget = async function (redisUrl, key, field) {
+    let redis = new IoRedis(redisUrl);
+    const result = await redis.hget(key, field);
+    return result;
+}
+
+exports.ioRedisSadd = async function (redisUrl, key, value) {
+    let redis = new IoRedis(redisUrl);
+    await redis.sadd(key, value);
+}
+
+exports.ioRedisSmembers = async function (redisUrl, key) {
+    let redis = new IoRedis(redisUrl);
+    const result = await redis.smembers(key);
+    return result ?? [];
+}
