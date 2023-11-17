@@ -9,10 +9,3 @@ pub interface IRedis extends std.IResource {
    inflight del(key: str): void;
 }
 
-pub struct RedisProps {
-   host: str;
-   port: num;
-   password: str;
-   db: num;
-   name: str;
-}

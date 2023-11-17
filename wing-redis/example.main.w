@@ -23,7 +23,6 @@ new cloud.Function(inflight () => {
     log("value deleted from redis1 successfully");
 }) as "delValFromRedis1";
 
-// hset and hget
 let hash = "HASH";
 let field = "FIELD";
 let hashValue = "HASH_VALUE";
@@ -38,7 +37,6 @@ new cloud.Function(inflight () => {
     log("hash value get from redis1 ${value}");
 }) as "getHashValFromRedis1";
 
-// sadd and smembers
 let set = "SET";
 let setValue = "SET_VALUE";
 

@@ -7,11 +7,9 @@ pub class Redis impl api.IRedis {
   
   init() {
     let target = util.env("WING_TARGET");
-
+    
     if target == "sim" {
       this.inner = new sim.Redis_sim();
-    } elif target == "tf-aws" {
-      throw "unsupported target ${target}";
     } else {
       throw "unsupported target ${target}";
     }
