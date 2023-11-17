@@ -8,8 +8,13 @@ test "set and get" {
   expect.equal(redis.get("foo"), "bar");
 }
 
-test "set and get and del" {
+test "set, get and del" {
   redis.set("foo", "bar");
   redis.del("foo");
   expect.nil(redis.get("foo"));
+}
+
+test "hset and hget" {
+  redis.hset("foo", "bar", "baz");
+  expect.equal(redis.hget("foo", "bar"), "baz");
 }

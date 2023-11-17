@@ -11,7 +11,7 @@ pub class Redis impl api.IRedis {
     if target == "sim" {
       this.inner = new sim.Redis_sim();
     } elif target == "tf-aws" {
-      // this.inner = new tfaws(props) as props.name;
+      throw "unsupported target ${target}";
     } else {
       throw "unsupported target ${target}";
     }
