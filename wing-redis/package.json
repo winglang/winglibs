@@ -1,0 +1,18 @@
+{
+  "name": "@winglibs/wing-redis",
+  "version": "0.0.1",
+  "description": "Redis client for Wing",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "wing-redis"
+  },
+  "author": {
+    "email": "subhodiproy281@gmail.com",
+    "name": "Subhodip Roy"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "ioredis": "^5.3.2"
+  }
+}
