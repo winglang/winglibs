@@ -1,3 +1,4 @@
+// example file for redis.w
 bring ex;
 bring cloud;
 bring "./redis.w" as wing_redis;
