@@ -23,7 +23,6 @@ pub class Redis_sim impl api.IRedis {
     });
     }
     inflight start(){
-        log("starting redis server locally");
         try{
             // check if image exists
             utils.shell("docker", ["image", "inspect", this.redisImage]);
@@ -33,7 +32,6 @@ pub class Redis_sim impl api.IRedis {
             log("pulling image ${this.redisImage}");
             utils.shell("docker", ["pull", this.redisImage]);
         }
-        log("starting container ${this.redisContainerName}");
         utils.shell("docker", ["run", "-d", "--name", this.redisContainerName, "-p", "6379", this.redisImage]);
 
         // inspect the container to get the port
@@ -48,7 +46,6 @@ pub class Redis_sim impl api.IRedis {
     }
 
     inflight stop() {
-        log("stopping container ${this.redisContainerName}");
         utils.shell("docker", ["rm", "-f", this.redisContainerName]);
     }
 
