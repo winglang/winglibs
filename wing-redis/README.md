@@ -20,6 +20,19 @@ bring wing-redis;
 new redis.Redis() as "redis";
 ```
 
+## Use it
+
+The `redis.Redis` resource provides the following methods:
+
+* `get` - Gets a value from the Redis server.
+* `set` - Sets a value on the Redis server.
+* `del` - Deletes a value from the Redis server.
+* `hget` - Gets a value from a hash on the Redis server.
+* `hset` - Sets a value on a hash on the Redis server.
+* `sadd` - Adds a value to a set on the Redis server.
+* `smembers` - Gets all members of a set on the Redis server.
+
+
 ## `sim`
 
 When executed in the Wing Simulator, the client is started within a local Docker container.
