@@ -39,7 +39,7 @@ The `redis.Redis` resource provides the following inflight methods:
 
 ## `sim`
 
-When executed in the Wing Simulator, the client is started within a local Docker container.
+When executed in the Wing Simulator, a Redis server is started within a local Docker container.
 
 ## `tf-aws`
 
