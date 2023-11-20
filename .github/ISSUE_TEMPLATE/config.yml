@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Winglang Repository
+    url: https://github.com/winglang/wing/issues/new
+    about: Create an issue in the Winglang repository
