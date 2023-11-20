@@ -64,6 +64,7 @@ pub class Check impl ICheck {
       }
 
       this.results.store(result);
+
       return Json.stringify(result);
     };
 
