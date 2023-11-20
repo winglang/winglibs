@@ -5,13 +5,13 @@ bring expect;
 
 let producer = new containers.Workload(
   name: "producer",
-  image: "./microservices-producer",
+  image: "./microservices_producer",
   port: 4000,
 ) as "producer";
 
 let consumer = new containers.Workload(
   name: "consumer",
-  image: "./microservices-consumer",
+  image: "./microservices_consumer",
   port: 3000,
   public: true,
   env: {
