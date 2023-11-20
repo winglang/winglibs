@@ -1,5 +1,6 @@
 bring cloud;
 bring ex;
+bring util;
 bring "../websocket.w" as websocket;
 
 let tb = new ex.DynamodbTable(
@@ -12,26 +13,23 @@ let tb = new ex.DynamodbTable(
 
 let wb = new websocket.WebSocket(name: "MyWebSocket") as "my-websocket";
 
-wb.connect(inflight(e: str): Json => {
-  let z: Json = e;
-  let a = Json.stringify(e);
-  let b = Json.parse(a);
-  let x = b.get("requestContext");
+wb.connect(inflight(event: str): Json => {
+  let payload: Json = event;
+  let requestContext = payload.get("requestContext");
   tb.putItem({
     item: {
-      "connectionId": x.get("connectionId")
+      "connectionId": requestContext.get("connectionId")
     }
   });
   return { statusCode: 200 };
 });
 
-wb.disconnect(inflight(e: str): Json => {
-  let a = Json.stringify(e);
-  let b = Json.parse(a);
-  let x = b.get("requestContext");
+wb.disconnect(inflight(event: str): Json => {
+  let payload: Json = event;
+  let requestContext = payload.get("requestContext");
   tb.deleteItem({
     key: {
-      "connectionId": x.get("connectionId")
+      "connectionId": requestContext.get("connectionId")
     }
   });
   return { statusCode: 200 };
@@ -39,8 +37,36 @@ wb.disconnect(inflight(e: str): Json => {
 
 wb.addRoute(inflight (event: str): Json => {
   let payload: Json = event;
-  let message = str.fromJson((Json.parse(str.fromJson(payload.get("body")))).get("message"));
-  let connectionId = str.fromJson((payload.get("requestContext")).get("connectionId"));
-  wb.postToConnection(connectionId, message);
+  let body = Json.parse(str.fromJson(payload.get("body")));
+  let message = str.fromJson(body.get("message"));
+
+  let connections = tb.scan();
+  for item in connections.items {
+    wb.postToConnection(str.fromJson(item.get("connectionId")), message);
+  }
+  
   return { statusCode: 200 };
-}, routeKey: "sendpublicmessage");
+}, routeKey: "broadcast");
+
+pub inflight class WSUtil {
+  extern "./websocket.js" static inflight _openSenderSocket(url: str);
+  pub inflight openSenderSocket(url: str) {
+    WSUtil._openSenderSocket(url);
+  }
+
+  extern "./websocket.js" static inflight _broadcastMessage(url: str, msg: str);
+  pub inflight broadcastMessage(url: str, msg: str) {
+    WSUtil._broadcastMessage(url, msg);
+  }
+}
+
+let wssUrl = wb.wssUrl();
+
+new cloud.Function(inflight () => {
+  util.sleep(30s);
+  log("enviou");
+  let socket = new WSUtil();
+  // socket.openSenderSocket(wssUrl);
+  socket.broadcastMessage(wssUrl, "Hello World!!!");
+  util.sleep(30s);
+}, timeout: 5m);

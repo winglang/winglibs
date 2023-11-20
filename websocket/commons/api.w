@@ -8,6 +8,8 @@ pub interface IWebSocket {
   addRoute(handler: inflight(str): Json, props: RouteOptions): void;
 
   inflight postToConnection(connectionId: str, message: str);
+
+  wssUrl(): str;
 }
 
 pub struct WebSocketProps {

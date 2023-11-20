@@ -13,6 +13,8 @@ pub class WebSocket impl api.IWebSocket {
       this.inner = new tfaws.WebSocket_tfaws(props) as props.name;
     } elif target == "awscdk" {
       this.inner = new awscdk.WebSocket_awscdk(props) as props.name;
+    } else {
+      throw "unsupported target ${target}";
     }
   }
 
@@ -24,6 +26,10 @@ pub class WebSocket impl api.IWebSocket {
   }
   pub addRoute(handler: inflight(str):Json, props: api.RouteOptions): void {
     this.inner.addRoute(handler, props);
+  }
+
+  pub wssUrl(): str {
+    return this.inner.wssUrl();
   }
 
   pub inflight postToConnection(connectionId: str, message: str) {

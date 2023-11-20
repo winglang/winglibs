@@ -113,6 +113,10 @@ pub class WebSocket_awscdk impl api.IWebSocket {
     }
   }
 
+  pub wssUrl(): str {
+    return this.url;    
+  }
+
   extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight postToConnection(connectionId: str, message: str) {
     WebSocket_awscdk._postToConnection(this.callbackUrl, connectionId, message);
