@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/containers",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Container support for Wing",
   "repository": {
     "type": "git",
