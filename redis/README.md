@@ -1,4 +1,4 @@
-# Wing Redis Client Library
+# Redis support for Winglang
 
 This library provides a Wing client for Redis.
 
@@ -20,7 +20,7 @@ bring redis;
 let redis  = new redis.Redis();
 
 new cloud.Function(inflight () => {
-    redis.set(key, value);
+    redis.set("mykey", "myvalue");
 });
 ```
 
