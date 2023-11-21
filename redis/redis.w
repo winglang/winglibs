@@ -5,9 +5,8 @@ bring "./redis.sim.w" as sim;
 pub class Redis impl api.IRedis {
   inner: api.IRedis;
   
-  init() {
+  new() {
     let target = util.env("WING_TARGET");
-    
     if target == "sim" {
       this.inner = new sim.Redis_sim();
     } else {

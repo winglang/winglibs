@@ -50,3 +50,7 @@ new cloud.Function(inflight () => {
     log("set value get from redis1 ${value}");
 }) as "getSetValFromRedis1";
 
+new cloud.Function(inflight () => {
+    let url = redis1.url();
+    log("redis1 Url ${url}");
+});
