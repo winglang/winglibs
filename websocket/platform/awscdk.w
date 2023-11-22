@@ -65,20 +65,20 @@ pub class WebSocket_awscdk impl api.IWebSocket {
 
   pub connect(handler: inflight(str):Json): void {
     this.addRoute(handler, {
-      routeKey: "$connect",
+      routeKey: "/$connect",
     });
   }
 
   pub disconnect(handler: inflight(str):Json): void {
     this.addRoute(handler, {
-      routeKey: "$disconnect",
+      routeKey: "/$disconnect",
     });
   }
 
   pub addRoute(handler: inflight(str): void, props: api.RouteOptions): void {
     let func = new cloud.Function(handler) as props.routeKey;
     if let lambda = aws.Function.from(func) {
-      let functionArn = lambda.arn();
+      let functionArn = lambda.functionArn;
       
       this.role.addToPolicy(
         new awscdk.aws_iam.PolicyStatement(

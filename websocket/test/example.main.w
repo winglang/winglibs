@@ -47,26 +47,3 @@ wb.addRoute(inflight (event: str): Json => {
   
   return { statusCode: 200 };
 }, routeKey: "broadcast");
-
-pub inflight class WSUtil {
-  extern "./websocket.js" static inflight _openSenderSocket(url: str);
-  pub inflight openSenderSocket(url: str) {
-    WSUtil._openSenderSocket(url);
-  }
-
-  extern "./websocket.js" static inflight _broadcastMessage(url: str, msg: str);
-  pub inflight broadcastMessage(url: str, msg: str) {
-    WSUtil._broadcastMessage(url, msg);
-  }
-}
-
-let wssUrl = wb.wssUrl();
-
-new cloud.Function(inflight () => {
-  util.sleep(30s);
-  log("enviou");
-  let socket = new WSUtil();
-  // socket.openSenderSocket(wssUrl);
-  socket.broadcastMessage(wssUrl, "Hello World!!!");
-  util.sleep(30s);
-}, timeout: 5m);

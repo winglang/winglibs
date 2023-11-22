@@ -68,7 +68,7 @@ pub class WebSocket_tfaws impl api.IWebSocket {
       "url": this.url,
     }) as props.routeKey.replace("$", "");
     if let func = aws.Function.from(func) {
-      let functionArn = func.arn();
+      let functionArn = func.functionArn;
         
       let iamPolicy = new tfaws.iamPolicy.IamPolicy(
         policy: cdktf.Fn.jsonencode({
