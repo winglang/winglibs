@@ -70,19 +70,20 @@ pub class Workload_sim impl api.IWorkload {
 
     let opts = this.props;
 
-    // if this a reference to a local directory, build the image from a docker file
-    if utils.isPathInflight(opts.image) {
-      // check if the image is already built
-      try {
-        utils.shell("docker", ["inspect", this.imageTag]);
-        log("image ${this.imageTag} already exists");
-      } catch {
-        log("building locally from ${opts.image} and tagging ${this.imageTag}...");
-        utils.shell("docker", ["build", "-t", this.imageTag, opts.image], this.appDir);
+    try {
+      // check if the image exists
+      utils.shell("docker", ["image", "inspect", this.imageTag]);
+      log("image ${this.imageTag} already exists");
+    } catch {
+      // if this a reference to a local directory, build the image from a docker file
+      if (utils.isPathInflight(opts.image)) {
+        log("building image ${this.imageTag} from ${opts.image}");
+        utils.shell("docker", ["build", "-t", this.imageTag, opts.image]);
+      } else {
+        // pull the image from a registry
+        log("pulling image ${this.imageTag}");
+        utils.shell("docker", ["pull", this.imageTag]);
       }
-    } else {
-      log("pulling ${opts.image}");
-      utils.shell("docker", ["pull", opts.image], this.appDir);
     }
 
     // remove old container
