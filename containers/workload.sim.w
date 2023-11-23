@@ -85,8 +85,8 @@ pub class Workload_sim impl api.IWorkload {
         utils.shell("docker", ["inspect", this.imageTag]);
         log("image ${this.imageTag} already exists");
       } catch {
-        log("pulling ${opts.image}");
-        utils.shell("docker", ["pull", opts.image], this.appDir);
+        log("pulling ${this.imageTag}");
+        utils.shell("docker", ["pull", this.imageTag]);
       }
     }
 
