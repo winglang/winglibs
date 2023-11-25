@@ -36,7 +36,7 @@ let url = website.url;
 ```
 
 - For the `sim` target, the Vite resource will start the Vite dev server. The `url` property will be the URL of the dev server
-- For the `tf-aws` target, the Vite resource will build the website files and upload them using the `cloud.Website` resource. It will configure cache the files in `/assets/*` forever, and will cache the rest of the files for `5min` by default. The `url` property will be the URL of the website
+- For the `tf-aws` target, the Vite resource will build the website files and upload them using the `cloud.Website` resource. It will cache the files in `/assets/*` forever, and will cache the rest of the files for `5min` by default. The `url` property will be the URL of the website
 
 ## License
 
