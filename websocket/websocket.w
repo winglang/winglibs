@@ -14,25 +14,25 @@ pub class WebSocket impl api.IWebSocket {
     } elif target == "awscdk" {
       this.inner = new awscdk.WebSocket_awscdk(props) as props.name;
     } else {
-      throw "unsupported target ${target}";
+      throw "unsupported target {target}";
     }
   }
 
-  pub connect(handler: inflight(str): Json): void {
-    this.inner.connect(handler);
+  pub onConnect(handler: inflight(str): void): void {
+    this.inner.onConnect(handler);
   }
-  pub disconnect(handler: inflight(str): Json): void {
-    this.inner.disconnect(handler);
+  pub onDisconnect(handler: inflight(str): void): void {
+    this.inner.onDisconnect(handler);
   }
-  pub addRoute(handler: inflight(str):Json, props: api.RouteOptions): void {
-    this.inner.addRoute(handler, props);
+  pub onMessage(handler: inflight(str, str): void): void {
+    this.inner.onMessage(handler);
   }
 
   pub wssUrl(): str {
     return this.inner.wssUrl();
   }
 
-  pub inflight postToConnection(connectionId: str, message: str) {
-    this.inner.postToConnection(connectionId, message);
+  pub inflight sendMessage(connectionId: str, message: str) {
+    this.inner.sendMessage(connectionId, message);
   }
 }

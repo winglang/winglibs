@@ -13,37 +13,31 @@ let tb = new ex.DynamodbTable(
 
 let wb = new websocket.WebSocket(name: "MyWebSocket") as "my-websocket";
 
-wb.connect(inflight(event: str): Json => {
-  let payload: Json = event;
-  let requestContext = payload.get("requestContext");
+wb.onConnect(inflight(id: str): Json => {
+  log(id);
   tb.putItem({
     item: {
-      "connectionId": requestContext.get("connectionId")
+      "connectionId": id
     }
   });
   return { statusCode: 200 };
 });
 
-wb.disconnect(inflight(event: str): Json => {
-  let payload: Json = event;
-  let requestContext = payload.get("requestContext");
+wb.onDisconnect(inflight(id: str): Json => {
+  log(id);
   tb.deleteItem({
     key: {
-      "connectionId": requestContext.get("connectionId")
+      "connectionId": id
     }
   });
   return { statusCode: 200 };
 });
 
-wb.addRoute(inflight (event: str): Json => {
-  let payload: Json = event;
-  let body = Json.parse(str.fromJson(payload.get("body")));
-  let message = str.fromJson(body.get("message"));
-
+wb.onMessage(inflight (id: str, body: str): Json => {
   let connections = tb.scan();
   for item in connections.items {
-    wb.postToConnection(str.fromJson(item.get("connectionId")), message);
+    wb.sendMessage(str.fromJson(item.get("connectionId")), body);
   }
   
   return { statusCode: 200 };
-}, routeKey: "broadcast");
+});

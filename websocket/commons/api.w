@@ -2,12 +2,12 @@ pub struct RouteOptions {
   routeKey: str;
 }
 
-pub interface IWebSocket {
-  connect(handler: inflight(str): Json): void;
-  disconnect(handler: inflight(str): Json): void;
-  addRoute(handler: inflight(str): Json, props: RouteOptions): void;
+pub interface IWebSocket extends std.IResource {
+  onConnect(handler: inflight(str): void): void;
+  onDisconnect(handler: inflight(str): void): void;
+  onMessage(handler: inflight(str, str): void): void;
 
-  inflight postToConnection(connectionId: str, message: str);
+  inflight sendMessage(connectionId: str, message: str);
 
   wssUrl(): str;
 }

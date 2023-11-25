@@ -1,9 +1,10 @@
 bring cloud;
 bring aws;
 bring "../commons/api.w" as api;
+bring "./aws/api.w" as awsapi;
 bring "aws-cdk-lib" as awscdk;
 
-pub class WebSocket_awscdk impl api.IWebSocket {
+pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
   api: awscdk.aws_apigatewayv2.CfnApi;
   role: awscdk.aws_iam.Role;
   deployment: awscdk.aws_apigatewayv2.CfnDeployment;
@@ -37,7 +38,7 @@ pub class WebSocket_awscdk impl api.IWebSocket {
     this.region = awscdk.Stack.of(this).region;
     let urlSuffix = awscdk.Stack.of(this).urlSuffix;
 
-    this.url = "wss://{this.api.attrApiId}.execute-api.{this.region}.amazonaws/prod";
+    this.url = "wss://{this.api.attrApiId}.execute-api.{this.region}.amazonaws/{stageName}";
     this.callbackUrl = "https://{this.api.attrApiId}.execute-api.{this.region}.{urlSuffix}/{stageName}";
 
     new awscdk.CfnOutput(
@@ -53,7 +54,7 @@ pub class WebSocket_awscdk impl api.IWebSocket {
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
     if let host = aws.Function.from(host) {
-      if ops.contains("postToConnection") {
+      if ops.contains("sendMessage") {
         host.addPolicyStatements(aws.PolicyStatement {
           effect: awscdk.aws_iam.Effect.ALLOW,
           actions: ["execute-api:ManageConnections", "execute-api:Invoke"],
@@ -63,21 +64,60 @@ pub class WebSocket_awscdk impl api.IWebSocket {
     }
   }
 
-  pub connect(handler: inflight(str):Json): void {
-    this.addRoute(handler, {
-      routeKey: "/$connect",
+  pub onConnect(handler: inflight(str): void): void {
+    let routeKey = "$connect";
+    let onConnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    })) as "on connect";
+
+    this.addRoute(onConnectFunction, {
+      routeKey: routeKey,
+    });
+  }
+  pub onDisconnect(handler: inflight(str): void): void {
+    let routeKey = "$disconnect";
+    let onDisconnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    })) as "on disconnect";
+
+    this.addRoute(onDisconnectFunction, {
+      routeKey: routeKey,
+    });
+  }
+  pub onMessage(handler: inflight(str, str): void): void {
+    let routeKey = "$default";
+    let onMessageFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId, event.body);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    })) as "on message";
+
+    this.addRoute(onMessageFunction, {
+      routeKey: routeKey,
     });
   }
 
-  pub disconnect(handler: inflight(str):Json): void {
-    this.addRoute(handler, {
-      routeKey: "/$disconnect",
-    });
-  }
-
-  pub addRoute(handler: inflight(str): void, props: api.RouteOptions): void {
-    let func = new cloud.Function(handler) as props.routeKey;
-    if let lambda = aws.Function.from(func) {
+  pub addRoute(handler: cloud.Function, props: api.RouteOptions): void {
+    if let lambda = aws.Function.from(handler) {
       let functionArn = lambda.functionArn;
       
       this.role.addToPolicy(
@@ -118,7 +158,7 @@ pub class WebSocket_awscdk impl api.IWebSocket {
   }
 
   extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
-  pub inflight postToConnection(connectionId: str, message: str) {
+  pub inflight sendMessage(connectionId: str, message: str) {
     WebSocket_awscdk._postToConnection(this.callbackUrl, connectionId, message);
   }
 }

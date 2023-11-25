@@ -3,8 +3,9 @@ bring cloud;
 bring "../commons/api.w" as api;
 bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfaws;
+bring "./aws/api.w" as awsapi;
 
-pub class WebSocket_tfaws impl api.IWebSocket {
+pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
   webSocketApi: tfaws.apigatewayv2Api.Apigatewayv2Api;
   role: tfaws.iamRole.IamRole;
   url: str;
@@ -44,7 +45,7 @@ pub class WebSocket_tfaws impl api.IWebSocket {
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
     if let host = aws.Function.from(host) {
-      if ops.contains("postToConnection") {
+      if ops.contains("sendMessage") {
         host.addPolicyStatements(aws.PolicyStatement {
           actions: ["execute-api:ManageConnections", "execute-api:Invoke"],
           resources: ["*"],
@@ -53,21 +54,66 @@ pub class WebSocket_tfaws impl api.IWebSocket {
     }
   }
 
-  pub connect(handler: inflight(str):Json): void {
-    this.addRoute(handler, {
-      routeKey: "$connect",
-    });
-  }
-  pub disconnect(handler: inflight(str):Json): void {
-    this.addRoute(handler, {
-      routeKey: "$disconnect",
-    });
-  }
-  pub addRoute(handler: inflight(str): Json, props: api.RouteOptions): void {
-    let func = new cloud.Function(handler, env: {
+  pub onConnect(handler: inflight(str): void): void {
+    let routeKey = "$connect";
+    let onConnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    }), env: {
       "url": this.url,
-    }) as props.routeKey.replace("$", "");
-    if let func = aws.Function.from(func) {
+    }) as "on connect";
+
+    this.addRoute(onConnectFunction, {
+      routeKey: routeKey,
+    });
+  }
+  pub onDisconnect(handler: inflight(str): void): void {
+    let routeKey = "$disconnect";
+    let onDisconnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    }), env: {
+      "url": this.url,
+    }) as "on disconnect";
+
+    this.addRoute(onDisconnectFunction, {
+      routeKey: routeKey,
+    });
+  }
+  pub onMessage(handler: inflight(str, str): void): void {
+    let routeKey = "$default";
+    let onMessageFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+      if event.requestContext.routeKey == routeKey {
+        handler(event.requestContext.connectionId, event.body);
+      }
+
+      return {
+        statusCode: 200,
+        body: "ack"
+      };
+    }), env: {
+      "url": this.url,
+    }) as "on message";
+
+    this.addRoute(onMessageFunction, {
+      routeKey: routeKey,
+    });
+  }
+
+  pub addRoute(handler: cloud.Function, props: api.RouteOptions): void {
+    if let func = aws.Function.from(handler) {
       let functionArn = func.functionArn;
         
       let iamPolicy = new tfaws.iamPolicy.IamPolicy(
@@ -107,9 +153,8 @@ pub class WebSocket_tfaws impl api.IWebSocket {
   }
 
   extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
-  pub inflight postToConnection(connectionId: str, message: str) {
+  pub inflight sendMessage(connectionId: str, message: str) {
     let url = this.url;
     WebSocket_tfaws._postToConnection(url.replace("wss://", "https://"), connectionId, message);
   }
 }
-

@@ -20,9 +20,11 @@
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3.451.0",
     "@cdktf/provider-aws": "^18.0.5",
+    "@winglang/platform-awscdk": "^0.49.0",
     "aws-cdk-lib": "^2.109.0"
   },
   "devDependencies": {
+    "@types/ws": "^8.5.10",
     "ws": "^8.14.2"
   }
 }
