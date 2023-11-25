@@ -11,12 +11,15 @@ const args = parseArgs({
     open: {
       type: "boolean",
     },
+    generateTypeDefinitions: {
+      type: "boolean",
+    },
   },
 });
 
 /** @type {import("vite").InlineConfig} */
 const config = {
-  plugins: [env()],
+  plugins: [args.values.generateTypeDefinitions ? env() : undefined],
   server: {
     port: Number(args.values.port),
   },
