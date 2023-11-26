@@ -12,9 +12,6 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "checks"
   },
-  "dependencies": {
-    "constructs": "^10"
-  },
   "main": "index.js",
   "scripts": {
     "test": "wing test",
