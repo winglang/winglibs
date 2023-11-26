@@ -6,6 +6,7 @@ fs.remove(".github/workflows");
 
 for file in fs.readdir(".") {
   if !fs.exists("{file}/package.json") {
+    log("skipping {file}");
     continue;
   }
 

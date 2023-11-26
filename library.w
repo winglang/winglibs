@@ -73,7 +73,7 @@ pub class Library {
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": dir,
       env: {
-        NODE_AUTH_TOKEN: "$\{\{ secrets.NPM_TOKEN }}"
+        NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
       } 
     });
 
