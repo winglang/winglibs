@@ -15,6 +15,9 @@
   "peerDependencies": {
     "constructs": "^10"
   },
+  "devDependencies": {
+    "constructs": "^10"
+  },
   "main": "index.js",
   "scripts": {
     "test": "wing test",
