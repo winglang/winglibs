@@ -17,7 +17,7 @@ pub class Workload impl api.IWorkload {
     } elif target == "tf-aws" {
       this.inner = new tfaws.Workload_tfaws(props) as props.name;
     } else {
-      throw "unsupported target ${target}";
+      throw "unsupported target {target}";
     }
 
     
