@@ -88,7 +88,7 @@ pub class Cluster extends ClusterBase impl ICluster {
       if let attrs = Cluster.tryGetClusterAttributes() {
         return new ClusterRef(attrs) as uid in stack;
       } else {
-        let clusterName = "wing-eks-${std.Node.of(scope).addr.substring(0, 6)}";
+        let clusterName = "wing-eks-{std.Node.of(scope).addr.substring(0, 6)}";
         return new Cluster(clusterName) as uid in stack;
       }
     };
@@ -118,11 +118,11 @@ pub class Cluster extends ClusterBase impl ICluster {
   new(clusterName: str) {
     let privateSubnetTags = MutMap<str>{};
     privateSubnetTags.set("kubernetes.io/role/internal-elb", "1");
-    privateSubnetTags.set("kubernetes.io/cluster/${clusterName}", "shared");
+    privateSubnetTags.set("kubernetes.io/cluster/{clusterName}", "shared");
 
     let publicSubnetTags = MutMap<str>{};
     publicSubnetTags.set("kubernetes.io/role/elb", "1");
-    publicSubnetTags.set("kubernetes.io/cluster/${clusterName}", "shared");
+    publicSubnetTags.set("kubernetes.io/cluster/{clusterName}", "shared");
 
     this.vpc = new vpc.Vpc(
       privateSubnetTags: privateSubnetTags.copy(),
@@ -189,12 +189,12 @@ pub class Cluster extends ClusterBase impl ICluster {
     let lbRole = new cdktf.TerraformHclModule(
       source: "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks",
       variables: {
-        role_name: "eks-lb-role-${this.node.addr}",
+        role_name: "eks-lb-role-{this.node.addr}",
         attach_load_balancer_controller_policy: true,
         oidc_providers: {
           main: {
             provider_arn: this._oidcProviderArn,
-            namespace_service_accounts: ["kube-system:${serviceAccountName}"],
+            namespace_service_accounts: ["kube-system:{serviceAccountName}"],
           }
         }
       }

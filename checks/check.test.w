@@ -20,9 +20,9 @@ api.get("/foo", inflight (req) => {
 new cloud.Function(simulateFailure) as "simulate failure";
 
 let check = new c.Check(inflight () => {
-  let response = http.get("${api.url}/foo");
+  let response = http.get("{api.url}/foo");
   if !response.ok {
-    throw "response status ${response.status}";
+    throw "response status {response.status}";
   }
 
   log(response.body);
