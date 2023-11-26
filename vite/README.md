@@ -1,5 +1,7 @@
 # vite
 
+`@winglibs/vite` allows using a [Vite](https://vitejs.dev/) project with Wing.
+
 ## Prerequisites
 
 - [winglang](https://winglang.io).
@@ -19,7 +21,7 @@ let website = new vite.Vite(
   // The path to the website root.
   root: "../website",
 
-  // (optional) Environment variables.
+  // (optional) Environment variables. Vite requires them to start with `VITE_` in order to be accessible in the browser.
   env: {
     VITE_API_URL: "https://api.example.com",
   },
