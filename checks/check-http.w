@@ -26,9 +26,9 @@ pub class CheckHttp impl c.ICheck {
       }
 
       let method = options?.method ?? http.HttpMethod.GET;
-      log("http ${method} ${full_url}");
+      log("http {method} {full_url}");
       let response = http.fetch(full_url, method: method);
-      log("status ${response.status}");
+      log("status {response.status}");
       
       expect.equal(response.status, options?.status ?? 200);
 

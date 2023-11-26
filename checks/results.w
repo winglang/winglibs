@@ -47,9 +47,9 @@ pub class Results {
     let checkid = result.checkid;
     let body = Json.stringify(result);
     let key = this.makeLatestKey(checkid);
-    log("storing ${key}");
+    log("storing {key}");
     this.bucket.putJson(key, result);
-    this.bucket.putJson(this.makeKey(checkid, "${result.timestamp}.json"), result);
+    this.bucket.putJson(this.makeKey(checkid, "{result.timestamp}.json"), result);
   }
 
   pub inflight latest(checkid: str): CheckResult? {
@@ -59,7 +59,7 @@ pub class Results {
   }
 
   inflight makeKey(checkid: str, key: str): str {
-    return "${checkid}/${key}";
+    return "{checkid}/{key}";
   }
 
   inflight makeLatestKey(checkid: str): str {
