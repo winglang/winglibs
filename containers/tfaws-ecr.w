@@ -35,7 +35,7 @@ pub class Repository {
         rules: [
 	        {
 	          rulePriority: 1,
-	          description: "Keep only the last ${count} untagged images.",
+	          description: "Keep only the last {count} untagged images.",
 	          selection: {
 	            tagStatus: "untagged",
 	            countType: "imageCountMoreThan",
@@ -52,7 +52,7 @@ pub class Repository {
     let awsInfo = aws_info.Aws.getOrCreate(this);
     let region = awsInfo.region();
     let accountId = awsInfo.accountId();
-    let image = "${r.repositoryUrl}:${props.tag}";
+    let image = "{r.repositoryUrl}:{props.tag}";
     let arch = "linux/amd64";
 
 
@@ -72,9 +72,9 @@ pub class Repository {
         {
           type: "local-exec",
           command: [
-            "aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${accountId}.dkr.ecr.${region}.amazonaws.com || exit 1",
-            "docker buildx build --platform ${arch} -t ${image} ${props.directory} || exit 1",
-            "docker push ${image} || exit 1",
+            "aws ecr get-login-password --region {region} | docker login --username AWS --password-stdin {accountId}.dkr.ecr.{region}.amazonaws.com || exit 1",
+            "docker buildx build --platform {arch} -t {image} {props.directory} || exit 1",
+            "docker push {image} || exit 1",
           ].join("\n")
         }
       ],

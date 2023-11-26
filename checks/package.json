@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/checks",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Cloud checks",
   "publishConfig": {
     "access": "public",
@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "checks"
+  },
+  "peerDependencies": {
+    "constructs": "^10"
   },
   "main": "index.js",
   "scripts": {

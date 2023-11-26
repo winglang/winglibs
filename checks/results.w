@@ -1,4 +1,5 @@
 bring cloud;
+bring "constructs" as c;
 
 pub struct CheckResult {
   /** a unique id of the check */
@@ -20,13 +21,13 @@ pub struct CheckResult {
 /** Centralized storage for check results */
 pub class Results {
   pub static of(scope: std.IResource): Results {
-    let var root = std.Node.of(scope).root;
+    let var root: c.IConstruct = std.Node.of(scope).root;
 
     // special case where the root is an app with a test runner (which means we are running inside a test context)
     // in this case our app is actually the child called "Default". yes this is horribly hacky.
     // help! https://github.com/winglang/wing/issues/513
     if root.node.tryFindChild("cloud.TestRunner") != nil {
-      if let defaultChild = root.node.defaultChild {
+      if let defaultChild = std.Node.of(root).defaultChild {
         root = defaultChild;
       }
     }
@@ -47,9 +48,9 @@ pub class Results {
     let checkid = result.checkid;
     let body = Json.stringify(result);
     let key = this.makeLatestKey(checkid);
-    log("storing ${key}");
+    log("storing {key}");
     this.bucket.putJson(key, result);
-    this.bucket.putJson(this.makeKey(checkid, "${result.timestamp}.json"), result);
+    this.bucket.putJson(this.makeKey(checkid, "{result.timestamp}.json"), result);
   }
 
   pub inflight latest(checkid: str): CheckResult? {
@@ -59,7 +60,7 @@ pub class Results {
   }
 
   inflight makeKey(checkid: str, key: str): str {
-    return "${checkid}/${key}";
+    return "{checkid}/{key}";
   }
 
   inflight makeLatestKey(checkid: str): str {

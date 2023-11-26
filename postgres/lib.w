@@ -31,7 +31,7 @@ pub interface IDatabase {
 
 pub class Database {
   inner: IDatabase;
-  init(props: DatabaseProps) {
+  new(props: DatabaseProps) {
     let target = util.env("WING_TARGET");
     if target == "tf-aws" {
       this.inner = new DatabaseNeon(props);
@@ -48,7 +48,7 @@ pub class Database {
 pub class DatabaseNeon impl IDatabase {
   creds: cloud.Secret;
 
-  init(props: DatabaseProps) {
+  new(props: DatabaseProps) {
     this.neonProvider();
 
     // TODO: share a project between multiple databases
