@@ -27,7 +27,7 @@ pub class Library {
           "sparse-checkout": dir
         }
       });
-
+  
       steps.push({
         name: "Setup Node.js",
         uses: "actions/setup-node@v3",
@@ -36,18 +36,18 @@ pub class Library {
           "registry-url": "https://registry.npmjs.org",
         },
       });
-
+  
       steps.push({
         name: "Install winglang",
         run: "npm i -g winglang",
       });
-
+  
       steps.push({
         name: "Install dependencies",
         run: "npm install --include=dev",
         "working-directory": dir,
       });
-
+  
       steps.push({
         name: "Test",
         run: "wing test **/*.test.w",
@@ -73,11 +73,11 @@ pub class Library {
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": dir,
       env: {
-        NODE_AUTH_TOKEN: "$\{\{ secrets.NPM_TOKEN }}"
-      }
+        NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
+      } 
     });
 
-    fs.writeYaml("{workflowdir}/{base}-release.yaml", {
+    fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
       name: "{base}-release",
       on: {
         push: {
@@ -93,7 +93,7 @@ pub class Library {
       }
     });
 
-    fs.writeYaml("{workflowdir}/{base}-pull.yaml", {
+    fs.writeYaml("{workflowdir}/{base}-pull.yaml", { 
       name: "{base}-pull",
       on: {
         pull_request: {
