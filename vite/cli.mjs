@@ -22,6 +22,7 @@ const config = {
   plugins: [args.values.generateTypeDefinitions ? env() : undefined],
   server: {
     port: Number(args.values.port),
+    strictPort: true,
   },
   clearScreen: false,
 };
