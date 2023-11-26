@@ -21,18 +21,19 @@ pub struct CheckResult {
 pub class Results {
   pub static of(scope: std.IResource): Results {
     let var root = std.Node.of(scope).root;
+    let rootNode = std.Node.of(root);
 
     // special case where the root is an app with a test runner (which means we are running inside a test context)
     // in this case our app is actually the child called "Default". yes this is horribly hacky.
     // help! https://github.com/winglang/wing/issues/513
-    if root.node.tryFindChild("cloud.TestRunner") != nil {
-      if let defaultChild = root.node.defaultChild {
-        root = defaultChild;
+    if rootNode.tryFindChild("cloud.TestRunner") != nil {
+      if let defaultChild = rootNode.defaultChild {
+        root = unsafeCast(defaultChild);
       }
     }
 
     let id = "checks.Results";
-    let exists: Results? = unsafeCast(root.node.tryFindChild(id));
+    let exists: Results? = unsafeCast(std.Node.of(root).tryFindChild(id));
     let rootAsResource: Results = unsafeCast(root);
     return exists ?? new Results() as id in rootAsResource;
   }
