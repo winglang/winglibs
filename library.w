@@ -107,6 +107,5 @@ pub class Library {
         }
       }
     });
-
   }
 }

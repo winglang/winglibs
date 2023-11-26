@@ -12,10 +12,7 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "checks"
   },
-  "peerDependencies": {
-    "constructs": "^10"
-  },
-  "devDependencies": {
+  "dependencies": {
     "constructs": "^10"
   },
   "main": "index.js",
