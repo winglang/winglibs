@@ -44,7 +44,7 @@ pub class Library {
   
       steps.push({
         name: "Install dependencies",
-        run: "npm install",
+        run: "npm install --include=dev",
         "working-directory": dir,
       });
   
