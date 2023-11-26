@@ -68,7 +68,7 @@ pub class Workload_tfaws impl api.IWorkload {
         );
     
         deployment.addContainer(
-          image: "{{ .Values.image }}",
+          image: "\{\{ .Values.image }}",
           envVariables: envVariables.copy(),
           ports: ports.copy(),
           readiness: readiness,
@@ -125,11 +125,11 @@ pub class Workload_tfaws impl api.IWorkload {
       dependsOn: deps.copy(),
       name: props.name,
       chart: chart.toHelm(),
-      values: ["image: ${image}"],
+      values: ["image: {image}"],
     );
 
     if let port = props.port {
-      this.internalUrl = "http://${props.name}:${props.port}";
+      this.internalUrl = "http://{props.name}:{props.port}";
     }
 
     // if "public" is set, lookup the address from the ingress resource created by the helm chart
@@ -144,7 +144,7 @@ pub class Workload_tfaws impl api.IWorkload {
       );
 
       let hostname = ingress.status.get(0).loadBalancer.get(0).ingress.get(0).hostname;
-      this.publicUrl = "http://${hostname}";
+      this.publicUrl = "http://{hostname}";
     }
   }
 

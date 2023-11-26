@@ -9,7 +9,7 @@ pub class Values {
     if let valuesFile = util.tryEnv("WING_VALUES_FILE") {
       if valuesFile != "undefined" { // bug
         if !fs.exists(valuesFile) {
-          throw "Values file ${valuesFile} not found";
+          throw "Values file {valuesFile} not found";
         }
 
         for x in fs.readYaml(valuesFile) {
@@ -46,7 +46,7 @@ pub class Values {
     if let value = Values.tryGet(key) {
       return value;
     } else {
-      throw "Missing platform value '${key}' (use --values or -v)";
+      throw "Missing platform value '{key}' (use --values or -v)";
     }
   }
 }

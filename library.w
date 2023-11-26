@@ -6,14 +6,14 @@ struct PackageManifest {
 
 pub class Library {
   new(dir: str) {
-    let pkgjsonpath = "${dir}/package.json";
+    let pkgjsonpath = "{dir}/package.json";
     let pkgjson = fs.readJson(pkgjsonpath);
     let manifest = PackageManifest.fromJson(pkgjson);
     log(manifest.name);
     let base = fs.basename(dir);
-    let expected = "@winglibs/${base}";
+    let expected = "@winglibs/{base}";
     if manifest.name != expected {
-      throw "'name' in ${pkgjsonpath} is expected to be ${expected}";
+      throw "'name' in {pkgjsonpath} is expected to be {expected}";
     }
 
     let workflowdir = ".github/workflows";
@@ -44,7 +44,7 @@ pub class Library {
   
       steps.push({
         name: "Install dependencies",
-        run: "npm install",
+        run: "npm install --include=dev",
         "working-directory": dir,
       });
   
@@ -73,16 +73,16 @@ pub class Library {
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": dir,
       env: {
-        NODE_AUTH_TOKEN: "\${{ secrets.NPM_TOKEN }}"
+        NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
       } 
     });
 
-    fs.writeYaml("${workflowdir}/${base}-release.yaml", { 
-      name: "${base}-release",
+    fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
+      name: "{base}-release",
       on: {
         push: {
           branches: ["main"],
-          paths: ["${dir}/**"]
+          paths: ["{dir}/**"]
         }
       },
       jobs: {
@@ -93,11 +93,11 @@ pub class Library {
       }
     });
 
-    fs.writeYaml("${workflowdir}/${base}-pull.yaml", { 
-      name: "${base}-pull",
+    fs.writeYaml("{workflowdir}/{base}-pull.yaml", { 
+      name: "{base}-pull",
       on: {
         pull_request: {
-          paths: ["${dir}/**"]
+          paths: ["{dir}/**"]
         }
       },
       jobs: {
@@ -107,6 +107,5 @@ pub class Library {
         }
       }
     });
-
   }
 }
