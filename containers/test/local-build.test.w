@@ -9,6 +9,6 @@ let app = new containers.Workload(
 );
 
 test "can access container" {
-  let response = http.get("${app.publicUrl}");
+  let response = http.get("{app.publicUrl}");
   assert(response.body == "Hello, Wingnuts!");
 }
