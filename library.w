@@ -5,7 +5,7 @@ struct PackageManifest {
 }
 
 pub class Library {
-  init(dir: str) {
+  new(dir: str) {
     let pkgjsonpath = "${dir}/package.json";
     let pkgjson = fs.readJson(pkgjsonpath);
     let manifest = PackageManifest.fromJson(pkgjson);
