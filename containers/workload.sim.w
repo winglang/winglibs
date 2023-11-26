@@ -81,8 +81,13 @@ pub class Workload_sim impl api.IWorkload {
         utils.shell("docker", ["build", "-t", this.imageTag, opts.image], this.appDir);
       }
     } else {
-      log("pulling {opts.image}");
-      utils.shell("docker", ["pull", opts.image], this.appDir);
+      try {
+        utils.shell("docker", ["inspect", this.imageTag]);
+        log("image {this.imageTag} already exists");
+      } catch {
+        log("pulling {this.imageTag}");
+        utils.shell("docker", ["pull", this.imageTag]);
+      }
     }
 
     // remove old container
