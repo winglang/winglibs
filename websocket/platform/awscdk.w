@@ -2,7 +2,6 @@ bring cloud;
 bring aws;
 bring "../commons/api.w" as commons;
 bring "./aws/api.w" as awsapi;
-bring "./aws/websocket.w" as awswebsocket;
 bring "aws-cdk-lib" as awscdk;
 
 pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
@@ -11,7 +10,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
   deployment: awscdk.aws_apigatewayv2.CfnDeployment;
   region: str?;
   callbackUrl: str;
-  pub url: str;
+  invokeUrl: str;
 
   new(props: commons.WebSocketProps) {
     
@@ -39,11 +38,11 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     this.region = awscdk.Stack.of(this).region;
     let urlSuffix = awscdk.Stack.of(this).urlSuffix;
 
-    this.url = "wss://{this.api.attrApiId}.execute-api.{this.region}.amazonaws/{stageName}";
+    this.invokeUrl = "wss://{this.api.attrApiId}.execute-api.{this.region}.amazonaws/{stageName}";
     this.callbackUrl = "https://{this.api.attrApiId}.execute-api.{this.region}.{urlSuffix}/{stageName}";
 
     new awscdk.CfnOutput(
-      value: this.url,
+      value: this.invokeUrl,
       exportName: "url"
     ) as "url";
 
@@ -156,11 +155,11 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub wssUrl(): str {
-    return this.url;    
+  pub inflight url(): str {
+    return this.invokeUrl;    
   }
 
-  extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
+  extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
     WebSocket_awscdk._postToConnection(this.callbackUrl, connectionId, message);
   }

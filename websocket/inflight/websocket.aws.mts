@@ -1,16 +1,16 @@
-const {
+import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand
-} = require("@aws-sdk/client-apigatewaymanagementapi");
+} from "@aws-sdk/client-apigatewaymanagementapi";
 
-exports._postToConnection = async function (callbackUrl, connectionId, message) {
+export const _postToConnection = async function (callbackUrl: string, connectionId: string, data: string) {
   const client = new ApiGatewayManagementApiClient({
     endpoint: callbackUrl,
   });
 
   const command = new PostToConnectionCommand({
     ConnectionId: connectionId,
-    Data: Buffer.from(message),
+    Data: Buffer.from(data),
   });
 
   await client.send(command);

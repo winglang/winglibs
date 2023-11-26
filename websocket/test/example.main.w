@@ -41,3 +41,10 @@ wb.onMessage(inflight (id: str, body: str): Json => {
   
   return { statusCode: 200 };
 });
+
+wb.initialize();
+
+test "print url" {
+  log(wb.url());
+  assert(true);  
+}

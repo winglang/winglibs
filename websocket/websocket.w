@@ -2,6 +2,7 @@ bring util;
 bring "./commons/api.w" as api;
 bring "./platform/awscdk.w" as awscdk;
 bring "./platform/tf-aws.w" as tfaws;
+bring "./platform/sim.w" as sim;
 
 pub class WebSocket impl api.IWebSocket {
   inner: api.IWebSocket;
@@ -14,7 +15,7 @@ pub class WebSocket impl api.IWebSocket {
     } elif target == "awscdk" {
       this.inner = new awscdk.WebSocket_awscdk(props) as props.name;
     } elif target == "sim" {
-      this.inner;
+      this.inner = new sim.WebSocket_sim(props) as props.name;
     } else {
       throw "unsupported target {target}";
     }
@@ -30,10 +31,12 @@ pub class WebSocket impl api.IWebSocket {
     this.inner.onMessage(handler);
   }
 
-  pub initialize() {}
+  pub initialize() {
+    this.inner.initialize();
+  }
 
-  pub wssUrl(): str {
-    return this.inner.wssUrl();
+  pub inflight url(): str {
+    return this.inner.url();
   }
 
   pub inflight sendMessage(connectionId: str, message: str) {

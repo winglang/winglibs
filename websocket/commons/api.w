@@ -11,7 +11,7 @@ pub interface IWebSocket extends std.IResource {
 
   inflight sendMessage(connectionId: str, message: str);
 
-  wssUrl(): str;
+  inflight url(): str;
 }
 
 pub struct WebSocketProps {

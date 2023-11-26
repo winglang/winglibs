@@ -8,7 +8,7 @@ bring "./aws/api.w" as awsapi;
 pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
   webSocketApi: tfaws.apigatewayv2Api.Apigatewayv2Api;
   role: tfaws.iamRole.IamRole;
-  url: str;
+  invokeUrl: str;
 
   new(props: commons.WebSocketProps) {
 
@@ -40,7 +40,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
       autoDeploy: true,
     );
 
-    this.url = stage.invokeUrl;
+    this.invokeUrl = stage.invokeUrl;
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
@@ -66,7 +66,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
         body: "ack"
       };
     }), env: {
-      "url": this.url,
+      "url": this.invokeUrl,
     }) as "on connect";
 
     this.addRoute(onConnectFunction, {
@@ -85,7 +85,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
         body: "ack"
       };
     }), env: {
-      "url": this.url,
+      "url": this.invokeUrl,
     }) as "on disconnect";
 
     this.addRoute(onDisconnectFunction, {
@@ -104,7 +104,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
         body: "ack"
       };
     }), env: {
-      "url": this.url,
+      "url": this.invokeUrl,
     }) as "on message";
 
     this.addRoute(onMessageFunction, {
@@ -150,13 +150,13 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub wssUrl(): str {
-    return this.url;    
+  pub inflight url(): str {
+    return this.invokeUrl;    
   }
 
-  extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
+  extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
-    let url = this.url;
+    let url = this.url();
     WebSocket_tfaws._postToConnection(url.replace("wss://", "https://"), connectionId, message);
   }
 }
