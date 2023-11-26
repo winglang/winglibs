@@ -16,6 +16,6 @@ pub struct WebSocketAwsResponse {
   body: str?;
 }
 
-pub interface IAwsWebSocket  extends api.IWebSocket {
+pub interface IAwsWebSocket extends api.IWebSocket {
   addRoute(handler: cloud.Function, props: api.RouteOptions): void;
 }

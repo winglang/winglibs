@@ -1,7 +1,8 @@
 bring cloud;
 bring aws;
-bring "../commons/api.w" as api;
+bring "../commons/api.w" as commons;
 bring "./aws/api.w" as awsapi;
+bring "./aws/websocket.w" as awswebsocket;
 bring "aws-cdk-lib" as awscdk;
 
 pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
@@ -12,7 +13,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
   callbackUrl: str;
   pub url: str;
 
-  new(props: api.WebSocketProps) {
+  new(props: commons.WebSocketProps) {
     
     this.api = new awscdk.aws_apigatewayv2.CfnApi(
       name: props.name,
@@ -116,7 +117,9 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     });
   }
 
-  pub addRoute(handler: cloud.Function, props: api.RouteOptions): void {
+  pub initialize() {}
+
+  pub addRoute(handler: cloud.Function, props: commons.RouteOptions): void {
     if let lambda = aws.Function.from(handler) {
       let functionArn = lambda.functionArn;
       

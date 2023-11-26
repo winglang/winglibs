@@ -1,6 +1,6 @@
 bring aws;
 bring cloud;
-bring "../commons/api.w" as api;
+bring "../commons/api.w" as commons;
 bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfaws;
 bring "./aws/api.w" as awsapi;
@@ -10,7 +10,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
   role: tfaws.iamRole.IamRole;
   url: str;
 
-  new(props: api.WebSocketProps) {
+  new(props: commons.WebSocketProps) {
 
     this.webSocketApi = new tfaws.apigatewayv2Api.Apigatewayv2Api(
       name: props.name,
@@ -112,7 +112,9 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     });
   }
 
-  pub addRoute(handler: cloud.Function, props: api.RouteOptions): void {
+  pub initialize() {}
+
+  pub addRoute(handler: cloud.Function, props: commons.RouteOptions): void {
     if let func = aws.Function.from(handler) {
       let functionArn = func.functionArn;
         

@@ -13,6 +13,8 @@ pub class WebSocket impl api.IWebSocket {
       this.inner = new tfaws.WebSocket_tfaws(props) as props.name;
     } elif target == "awscdk" {
       this.inner = new awscdk.WebSocket_awscdk(props) as props.name;
+    } elif target == "sim" {
+      this.inner;
     } else {
       throw "unsupported target {target}";
     }
@@ -27,6 +29,8 @@ pub class WebSocket impl api.IWebSocket {
   pub onMessage(handler: inflight(str, str): void): void {
     this.inner.onMessage(handler);
   }
+
+  pub initialize() {}
 
   pub wssUrl(): str {
     return this.inner.wssUrl();

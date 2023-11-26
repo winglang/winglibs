@@ -7,6 +7,8 @@ pub interface IWebSocket extends std.IResource {
   onDisconnect(handler: inflight(str): void): void;
   onMessage(handler: inflight(str, str): void): void;
 
+  initialize(): void;
+
   inflight sendMessage(connectionId: str, message: str);
 
   wssUrl(): str;
