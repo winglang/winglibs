@@ -1,4 +1,4 @@
-bring "../workload.w" as containers;
+bring "./workload.w" as containers;
 bring http;
 
 let app = new containers.Workload(
