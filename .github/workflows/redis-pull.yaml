@@ -22,8 +22,5 @@ jobs:
         run: npm install --include=dev
         working-directory: redis
       - name: Test
-        run: wing test *.test.w
-        working-directory: redis
-      - name: Test
-        run: "[ -d test ] && wing test test/*.test.w"
+        run: wing test
         working-directory: redis
