@@ -5,10 +5,13 @@ bring sim;
 bring "./api.w" as api;
 bring "./utils.w" as utils;
 
-pub class Workload_sim impl api.IWorkload {
+pub class Workload_sim {
   containerId: str;
   publicUrlKey: str?;
   internalUrlKey: str?;
+
+  pub publicUrl: str?;
+  pub internalUrl: str?;
 
   props: api.WorkloadProps;
   appDir: str;
@@ -24,10 +27,10 @@ pub class Workload_sim impl api.IWorkload {
     let hash = utils.resolveContentHash(this, props);
     if hash? {
       this.imageTag = "{props.name}:{hash}";
-      this.containerId = "{props.name}-{hash}";
+      this.containerId = "{props.name}-{hash}-{util.nanoid()}";
     } else {
       this.imageTag = props.image;
-      this.containerId = props.name;
+      this.containerId = "{props.name}-{util.nanoid()}";
     }
 
     this.public = props.public ?? false;
@@ -37,11 +40,15 @@ pub class Workload_sim impl api.IWorkload {
         throw "'port' is required if 'public' is enabled";
       }
 
-      this.publicUrlKey = "public_url";
+      let key = "public_url";
+      this.publicUrl = this.state.token(key);
+      this.publicUrlKey = key;
     }
 
     if props.port? {
-      this.internalUrlKey = "internal_url";
+      let key = "internal_url";
+      this.internalUrl = this.state.token(key);
+      this.internalUrlKey = key;
     }
 
     let s = new cloud.Service(inflight () => {
@@ -51,18 +58,6 @@ pub class Workload_sim impl api.IWorkload {
 
     std.Node.of(s).hidden = true;
     std.Node.of(this.state).hidden = true;
-  }
-
-  pub getInternalUrl(): str? {
-    if let k = this.internalUrlKey {
-      return this.state.token(k);
-    }
-  }
-
-  pub getPublicUrl(): str? {
-    if let k = this.publicUrlKey {
-      return this.state.token(k);
-    }
   }
 
   inflight start(): void {
