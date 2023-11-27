@@ -10,7 +10,7 @@ pub class Redis impl api.IRedis {
     if target == "sim" {
       this.inner = new sim.Redis_sim();
     } else {
-      throw "unsupported target ${target}";
+      throw "unsupported target {target}";
     }
   }
 
@@ -34,15 +34,15 @@ pub class Redis impl api.IRedis {
     return this.inner.hget(key, field);
   }
 
-  pub inflight hset(key: str, field: str, value: str): num {
+  pub inflight hset(key: str, field: str, value: str): void? {
     return this.inner.hset(key, field, value);
   }
 
-  pub inflight smembers(key: str): Array<str> {
+  pub inflight smembers(key: str): Array<str>? {
     return this.inner.smembers(key);
   }
 
-  pub inflight sadd(key: str, value: str): num {
+  pub inflight sadd(key: str, value: str): void? {
     return this.inner.sadd(key, value);
   }
 }

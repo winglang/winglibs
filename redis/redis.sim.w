@@ -9,49 +9,59 @@ pub class Redis_sim impl api.IRedis {
   connectionUrl: str;
 
   new(){
-    let image = "redis@sha256:e50c7e23f79ae81351beacb20e004720d4bed657415e68c2b1a2b5557c075ce0";
+    let image = "redis:latest";
     let container = new containers.Workload(
       name: "redis",
       image: image,
       port: 6379,
       public: true,
     );
-    this.connectionUrl = container.publicUrl ?? "";
+    this.connectionUrl = container.publicUrl ?? "error";
   }
 
   pub inflight get(key: str): str? {
     let redis = utils.newClient(this.connectionUrl);
-    return redis.get(key);
+    let val = redis.get(key);
+    redis.disconnect();
+    return val;
   }
 
   pub inflight set(key: str, value: str): void {
     let redis = utils.newClient(this.connectionUrl);
     redis.set(key, value);
+    redis.disconnect();
   }
 
   pub inflight del(key: str): void{
     let redis = utils.newClient(this.connectionUrl);
     redis.del(key);
+    redis.disconnect();
   }
 
-  pub inflight smembers(key: str): Array<str> {
+  pub inflight smembers(key: str): Array<str>? {
     let redis = utils.newClient(this.connectionUrl);
-    return redis.smembers(key);
+    let val = redis.smembers(key);
+    redis.disconnect();
+    return val;
   }
 
-  pub inflight sadd(key: str, value: str): num {
+  pub inflight sadd(key: str, value: str): void {
     let redis = utils.newClient(this.connectionUrl);
-    return redis.sadd(key, value);
+    redis.sadd(key, value);
+    redis.disconnect();
   }
 
   pub inflight hget(key: str, field: str): str? {
     let redis = utils.newClient(this.connectionUrl);
-    return redis.hget(key, field);
+    let val = redis.hget(key, field);
+    redis.disconnect();
+    return val;
   }
 
-  pub inflight hset(key: str, field: str, value: str): num {
+  pub inflight hset(key: str, field: str, value: str): void {
     let redis = utils.newClient(this.connectionUrl);
-    return redis.hset(key, field, value);
+    redis.hset(key, field, value);
+    redis.disconnect();
   }
 
   pub inflight url(): str {
