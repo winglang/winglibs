@@ -3,17 +3,17 @@ bring util;
 bring sim;
 
 pub class Port {
-	pub port: str;
+  pub port: str;
 
-	new() {
-		let state = new sim.State();
+  new() {
+    let state = new sim.State();
 
-		this.port = state.token("port");
+    this.port = state.token("port");
 
-		new cloud.Service(inflight () => {
-			state.set("port", "${Port.findPort()}");
-		});
-	}
+    new cloud.Service(inflight () => {
+      state.set("port", "${Port.findPort()}");
+    });
+  }
 
-	extern "./find-port.mjs" static inflight findPort(): num;
+  extern "./find-port.mjs" static inflight findPort(): num;
 }

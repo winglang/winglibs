@@ -17,9 +17,9 @@ class Vite_sim {
   pub url: str;
 
   new(props: Vite_simProps) {
-  let port = new find_port.Port();
+    let port = new find_port.Port();
 
-  this.url = "http://localhost:${port.port}";
+    this.url = "http://localhost:${port.port}";
 
     new cloud.Service(inflight () => {
       Vite_sim.dev(props, port.port);
@@ -105,7 +105,7 @@ pub class Vite {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-  let implementation = new Vite_sim(
+      let implementation = new Vite_sim(
         root: props.root,
         homeEnv: util.env("HOME"),
         pathEnv: util.env("PATH"),
@@ -113,8 +113,8 @@ pub class Vite {
         cli: cli,
         generateTypeDefinitions: generateTypeDefinitions,
       );
-  this.url = implementation.url;
-  } elif target == "tf-aws" {
+      this.url = implementation.url;
+    } elif target == "tf-aws" {
       let implementation = new Vite_tfaws(
         root: props.root,
         homeEnv: util.env("HOME"),
@@ -132,9 +132,9 @@ pub class Vite {
 
   static mergeEnv(env: Map<str>): Map<str> {
     let commonEnv = MutMap<str>{
-  "HOME" => util.env("HOME"),
-  "PATH" => util.env("PATH"),
-  };
+      "HOME" => util.env("HOME"),
+      "PATH" => util.env("PATH"),
+    };
 
     for key in env.keys() {
       commonEnv.set(key, env.get(key));
