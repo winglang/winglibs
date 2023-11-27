@@ -6,7 +6,11 @@ exports.build = (options) => {
   execSync(`node ${options.cli} build`, {
     stdio: "inherit",
     cwd: options.root,
-    env: options.env,
+    env: {
+      HOME: options.homeEnv,
+      PATH: options.pathEnv,
+      ...options.env,
+    },
   });
 };
 
@@ -20,6 +24,10 @@ exports.dev = (options, port) => {
   spawn("node", [options.cli, "dev"], {
     stdio: "inherit",
     cwd: options.root,
-    env: options.env,
+    env: {
+      HOME: options.homeEnv,
+      PATH: options.pathEnv,
+      ...options.env,
+    },
   });
 };

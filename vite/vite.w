@@ -4,42 +4,46 @@ bring util;
 bring fs;
 bring "./find-port.w" as find_port;
 
-struct SimViteProps {
+struct Vite_simProps {
   root: str;
-  env: Map<str>;
+  homeEnv: str;
+  pathEnv: str;
+  env: Map<str>?;
   cli: str;
   generateTypeDefinitions: bool;
 }
 
-class SimVite {
+class Vite_sim {
 	pub url: str;
 
-	new(props: SimViteProps) {
+	new(props: Vite_simProps) {
 		let port = new find_port.Port();
 
 		this.url = "http://localhost:${port.port}";
 
     new cloud.Service(inflight () => {
-      SimVite.dev(props, port.port);
+      Vite_sim.dev(props, port.port);
     });
 	}
 
-  extern "./vite.cjs" static inflight dev(options: SimViteProps, port: str): void; }
+  extern "./vite.cjs" static inflight dev(options: Vite_simProps, port: str): void;
+}
 
-
-struct TfawsViteProps {
+struct Vite_tfawsProps {
   root: str;
-  env: Map<str>;
+  homeEnv: str;
+  pathEnv: str;
+  env: Map<str>?;
   cacheDuration: duration;
   cli: str;
   generateTypeDefinitions: bool;
 }
 
-class TfawsVite {
+class Vite_tfaws {
   pub url: str;
 
-  new(props: TfawsViteProps) {
-    TfawsVite.build(props);
+  new(props: Vite_tfawsProps) {
+    Vite_tfaws.build(props);
 
     let website = new cloud.Website(
       path: "${props.root}/dist",
@@ -80,7 +84,7 @@ class TfawsVite {
     this.url = website.url;
   }
 
-  extern "./vite.cjs" static build(options: TfawsViteProps): void;
+  extern "./vite.cjs" static build(options: Vite_tfawsProps): void;
 }
 
 pub struct ViteProps {
@@ -101,16 +105,20 @@ pub class Vite {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-			let implementation = new SimVite(
+			let implementation = new Vite_sim(
         root: props.root,
+        homeEnv: util.env("HOME"),
+        pathEnv: util.env("PATH"),
         env: env,
         cli: cli,
         generateTypeDefinitions: generateTypeDefinitions,
       );
 			this.url = implementation.url;
 		} elif target == "tf-aws" {
-      let implementation = new TfawsVite(
+      let implementation = new Vite_tfaws(
         root: props.root,
+        homeEnv: util.env("HOME"),
+        pathEnv: util.env("PATH"),
         env: env,
         cacheDuration: cacheDuration,
         cli: cli,
