@@ -6,9 +6,9 @@ bring "./api.w" as api;
 bring "./utils.w" as utils;
 
 pub class Workload_sim {
-  containerId: str;
   publicUrlKey: str?;
   internalUrlKey: str?;
+  containerIdKey: str;
 
   pub publicUrl: str?;
   pub internalUrl: str?;
@@ -23,14 +23,13 @@ pub class Workload_sim {
     this.appDir = utils.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();
+    this.containerIdKey = "container_id";
 
     let hash = utils.resolveContentHash(this, props);
     if hash? {
       this.imageTag = "{props.name}:{hash}";
-      this.containerId = "{props.name}-{hash}-{util.nanoid()}";
     } else {
       this.imageTag = props.image;
-      this.containerId = "{props.name}-{util.nanoid()}";
     }
 
     this.public = props.public ?? false;
@@ -85,15 +84,10 @@ pub class Workload_sim {
       }
     }
 
-    // remove old container
-    utils.shell("docker", ["rm", "-f", this.containerId]);
-    
     // start the new container
     let dockerRun = MutArray<str>[];
     dockerRun.push("run");
     dockerRun.push("--detach");
-    dockerRun.push("--name");
-    dockerRun.push(this.containerId);
 
     if let port = opts.port {
       dockerRun.push("-p");
@@ -117,11 +111,14 @@ pub class Workload_sim {
       }
     }
 
-    log("starting container {this.containerId}");
+    log("starting container from image {this.imageTag}");
     log("docker {dockerRun.join(" ")}");
-    utils.shell("docker", dockerRun.copy());
+    let containerId = utils.shell("docker", dockerRun.copy()).trim();
+    this.state.set(this.containerIdKey, containerId);
 
-    let out = Json.parse(utils.shell("docker", ["inspect", this.containerId]));
+    log("containerId={containerId}");
+
+    let out = Json.parse(utils.shell("docker", ["inspect", containerId]));
 
     if let port = opts.port {
       let hostPort = out.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
@@ -154,7 +151,8 @@ pub class Workload_sim {
   }
 
   inflight stop() {
-    log("stopping container");
-    utils.shell("docker", ["rm", "-f", this.containerId]);
+    let containerId = this.state.get(this.containerIdKey).asStr();
+    log("stopping container {containerId}");
+    utils.shell("docker", ["rm", "-f", containerId]);
   }
 }
