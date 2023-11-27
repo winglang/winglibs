@@ -24,7 +24,10 @@ jobs:
         run: npm install --include=dev
         working-directory: checks
       - name: Test
-        run: wing test **/*.test.w
+        run: wing test *.test.w
+        working-directory: checks
+      - name: Test
+        run: "[ -d test ] && wing test test/*.test.w"
         working-directory: checks
       - name: Pack
         run: wing pack

@@ -50,7 +50,14 @@ pub class Library {
   
       steps.push({
         name: "Test",
-        run: "wing test **/*.test.w",
+        run: "wing test *.test.w",
+        "working-directory": dir,
+      });
+
+      // if there is a "test" directory, then run tests there are well
+      steps.push({
+        name: "Test",
+        run: "[ -d test ] && wing test test/*.test.w",
         "working-directory": dir,
       });
     };
