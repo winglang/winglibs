@@ -52,7 +52,6 @@ export const env = () => {
         "interface ImportMetaEnv {",
       ];
       try {
-        // const env = await readEnvFile(envExampleFilename);
         const env = process.env;
         for (const [key, value] of Object.entries(env ?? {})) {
           if (!startsWith(key, envPrefix)) {
