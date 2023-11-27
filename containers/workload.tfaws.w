@@ -8,9 +8,9 @@ bring "./utils.w" as utils;
 bring "@cdktf/provider-kubernetes" as k8s;
 bring "@cdktf/provider-helm" as helm;
 
-pub class Workload_tfaws impl api.IWorkload {
-  internalUrl: str?;
-  publicUrl: str?;
+pub class Workload_tfaws {
+  pub internalUrl: str?;
+  pub publicUrl: str?;
 
   new(props: api.WorkloadProps) {
     let cluster = eks.Cluster.getOrCreate(this);
@@ -146,14 +146,6 @@ pub class Workload_tfaws impl api.IWorkload {
       let hostname = ingress.status.get(0).loadBalancer.get(0).ingress.get(0).hostname;
       this.publicUrl = "http://{hostname}";
     }
-  }
-
-  pub getPublicUrl(): str? {
-    return this.publicUrl;
-  }
-
-  pub getInternalUrl(): str? {
-    return this.internalUrl;
   }
 }
 

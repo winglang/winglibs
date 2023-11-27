@@ -1,14 +1,9 @@
-pub interface IWorkload extends std.IResource {
-  /** internal url, `nil` if there is no exposed port */
-  getInternalUrl(): str?;
-
-  /** extern url, `nil` if there is no exposed port or if `public` is `false` */
-  getPublicUrl(): str?;
-}
 
 pub struct ContainerOpts {
   name: str;
   image: str;
+
+  /** Internal container port to expose */
   port: num?;
   env: Map<str?>?;
   readiness: str?;   // http get
