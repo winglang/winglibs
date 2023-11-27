@@ -5,10 +5,13 @@ bring sim;
 bring "./api.w" as api;
 bring "./utils.w" as utils;
 
-pub class Workload_sim impl api.IWorkload {
-  containerId: str;
+pub class Workload_sim {
   publicUrlKey: str?;
   internalUrlKey: str?;
+  containerIdKey: str;
+
+  pub publicUrl: str?;
+  pub internalUrl: str?;
 
   props: api.WorkloadProps;
   appDir: str;
@@ -20,14 +23,13 @@ pub class Workload_sim impl api.IWorkload {
     this.appDir = utils.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();
+    this.containerIdKey = "container_id";
 
     let hash = utils.resolveContentHash(this, props);
     if hash? {
       this.imageTag = "{props.name}:{hash}";
-      this.containerId = "{props.name}-{hash}";
     } else {
       this.imageTag = props.image;
-      this.containerId = props.name;
     }
 
     this.public = props.public ?? false;
@@ -37,11 +39,15 @@ pub class Workload_sim impl api.IWorkload {
         throw "'port' is required if 'public' is enabled";
       }
 
-      this.publicUrlKey = "public_url";
+      let key = "public_url";
+      this.publicUrl = this.state.token(key);
+      this.publicUrlKey = key;
     }
 
     if props.port? {
-      this.internalUrlKey = "internal_url";
+      let key = "internal_url";
+      this.internalUrl = this.state.token(key);
+      this.internalUrlKey = key;
     }
 
     let s = new cloud.Service(inflight () => {
@@ -51,18 +57,6 @@ pub class Workload_sim impl api.IWorkload {
 
     std.Node.of(s).hidden = true;
     std.Node.of(this.state).hidden = true;
-  }
-
-  pub getInternalUrl(): str? {
-    if let k = this.internalUrlKey {
-      return this.state.token(k);
-    }
-  }
-
-  pub getPublicUrl(): str? {
-    if let k = this.publicUrlKey {
-      return this.state.token(k);
-    }
   }
 
   inflight start(): void {
@@ -90,15 +84,10 @@ pub class Workload_sim impl api.IWorkload {
       }
     }
 
-    // remove old container
-    utils.shell("docker", ["rm", "-f", this.containerId]);
-    
     // start the new container
     let dockerRun = MutArray<str>[];
     dockerRun.push("run");
     dockerRun.push("--detach");
-    dockerRun.push("--name");
-    dockerRun.push(this.containerId);
 
     if let port = opts.port {
       dockerRun.push("-p");
@@ -122,11 +111,14 @@ pub class Workload_sim impl api.IWorkload {
       }
     }
 
-    log("starting container {this.containerId}");
+    log("starting container from image {this.imageTag}");
     log("docker {dockerRun.join(" ")}");
-    utils.shell("docker", dockerRun.copy());
+    let containerId = utils.shell("docker", dockerRun.copy()).trim();
+    this.state.set(this.containerIdKey, containerId);
 
-    let out = Json.parse(utils.shell("docker", ["inspect", this.containerId]));
+    log("containerId={containerId}");
+
+    let out = Json.parse(utils.shell("docker", ["inspect", containerId]));
 
     if let port = opts.port {
       let hostPort = out.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
@@ -159,7 +151,8 @@ pub class Workload_sim impl api.IWorkload {
   }
 
   inflight stop() {
-    log("stopping container");
-    utils.shell("docker", ["rm", "-f", this.containerId]);
+    let containerId = this.state.get(this.containerIdKey).asStr();
+    log("stopping container {containerId}");
+    utils.shell("docker", ["rm", "-f", containerId]);
   }
 }
