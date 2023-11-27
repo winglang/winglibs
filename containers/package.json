@@ -14,7 +14,7 @@
   "license": "MIT",
   "peerDependencies": {
     "winglang": "^0.44.3",
-    "cdktf": "^0.19.1"gs .
+    "cdktf": "^0.19.1"
   },
   "dependencies": {
     "@cdktf/provider-aws": "^18.0.5",
