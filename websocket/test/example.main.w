@@ -13,38 +13,55 @@ let tb = new ex.DynamodbTable(
 
 let wb = new websocket.WebSocket(name: "MyWebSocket") as "my-websocket";
 
-wb.onConnect(inflight(id: str): Json => {
-  log(id);
+wb.onConnect(inflight(id: str): void => {
   tb.putItem({
     item: {
       "connectionId": id
     }
   });
-  return { statusCode: 200 };
 });
 
-wb.onDisconnect(inflight(id: str): Json => {
-  log(id);
+wb.onDisconnect(inflight(id: str): void => {
   tb.deleteItem({
     key: {
       "connectionId": id
     }
   });
-  return { statusCode: 200 };
 });
 
-wb.onMessage(inflight (id: str, body: str): Json => {
+wb.onMessage(inflight (id: str, body: str): void => {
   let connections = tb.scan();
   for item in connections.items {
     wb.sendMessage(str.fromJson(item.get("connectionId")), body);
   }
-  
-  return { statusCode: 200 };
 });
 
 wb.initialize();
 
-test "print url" {
-  log(wb.url());
-  assert(true);  
+interface IWebSocketJS {
+  inflight on(cmd: str, handler: inflight(str):void);
+  inflight send(e: str): void;
+  inflight close(): void;
+}
+class Util {
+  extern "./util.mts" pub static inflight _ws(url: str): IWebSocketJS;
+  extern "./util.mts" pub static inflight _buffer_to_string(data: str): str;
+}
+
+test "simple websocket test" {
+  let ws = Util._ws(wb.url());
+    
+  ws.on("open", () => {
+    ws.send("Hello WebSocket!");
+  });
+
+  ws.on("message", (data: str) => {
+    let msg = Util._buffer_to_string(data);
+    assert(msg == "Hello WebSocket!");
+    ws.close();
+  });
+
+  ws.on("close", () => {
+    log("close socket");
+  });
 }
