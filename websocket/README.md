@@ -71,3 +71,7 @@ However, to run on `awscdk`, we need to import the `@winglang/platform-awscdk`.
 $ npm i @winglang/platform-awscdk
 $ CDK_STACK_NAME=MySocketStack wing compile -t @winglang/platform-awscdk websocket.main.w
 ```
+
+## Maintainers
+
+[@marciocadev](https://github.com/marciocadev)
