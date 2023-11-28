@@ -1,0 +1,26 @@
+name: bedrock-pull
+on:
+  pull_request:
+    paths:
+      - bedrock/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: bedrock
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: bedrock
+      - name: Test
+        run: wing test
+        working-directory: bedrock
