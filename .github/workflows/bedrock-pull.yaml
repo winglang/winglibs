@@ -24,3 +24,6 @@ jobs:
       - name: Test
         run: wing test
         working-directory: bedrock
+      - name: Pack
+        run: wing pack
+        working-directory: bedrock
