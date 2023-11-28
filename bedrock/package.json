@@ -1,0 +1,13 @@
+{
+  "name": "@winglibs/bedrock",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "bedrock"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.460.0"
+  }
+}
