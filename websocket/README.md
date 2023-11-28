@@ -4,7 +4,7 @@ This library allows you tu create WebSocket usiing Wing.
 
 ## Installation
 
-Use `npm` to iinstall this library:
+Use `npm` to install this library:
 
 ```sh
 npm i @winglibs/websocket
