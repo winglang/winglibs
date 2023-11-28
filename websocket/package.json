@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/websocket",
   "version": "0.0.1",
-  "description": "WebSocket support for Wing",
+  "description": "WebSocket library for Wing",
   "main": "index.js",
   "repository": {
     "type": "git",
