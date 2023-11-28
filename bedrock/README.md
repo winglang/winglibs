@@ -8,9 +8,9 @@ A Wing library for working with [Amazon Bedrock](https://aws.amazon.com/bedrock/
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/bedrock
-`
+```
 
 ## Usage
 
