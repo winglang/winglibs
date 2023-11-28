@@ -1,9 +1,9 @@
-bring "../workload.w" as containers;
+bring "./workload.w" as containers;
 bring http;
 
 let app = new containers.Workload(
   name: "my-app",
-  image: "./my_app",
+  image: "./test/my_app",
   port: 3000,
   public: true,
 );

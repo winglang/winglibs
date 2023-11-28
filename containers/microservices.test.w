@@ -1,17 +1,17 @@
-bring "../workload.w" as containers;
+bring "./workload.w" as containers;
 bring cloud;
 bring http;
 bring expect;
 
 let producer = new containers.Workload(
   name: "producer",
-  image: "./microservices_producer",
+  image: "./test/microservices_producer",
   port: 4000,
 ) as "producer";
 
 let consumer = new containers.Workload(
   name: "consumer",
-  image: "./microservices_consumer",
+  image: "./test/microservices_consumer",
   port: 3000,
   public: true,
   env: {
