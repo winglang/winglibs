@@ -6,21 +6,12 @@ let table = new host.Table();
 
 new cloud.Service(inflight () => {
   table.processStreamRecords();
-});
+}) as "Process Stream Records";
 
 new cloud.Function(inflight () => {
   table.putItem(
     item: {
-      id: { S: "1" },
-      name: { S: "John Doe"},
-      age: { N: "42" },
+      id: { S: util.nanoid() },
     },
   );
-
-  let item = table.getItem(
-    key: {
-      id: { S: "1" },
-    },
-  );
-  log(Json.stringify(unsafeCast(item)?.Item));
-});
+}) as "Create Random Item";
