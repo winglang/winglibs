@@ -151,7 +151,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
   }
 
   pub inflight url(): str {
-    return this.invokeUrl;    
+    return this.invokeUrl;
   }
 
   extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;

@@ -2,6 +2,9 @@ pub struct RouteOptions {
   routeKey: str;
 }
 
+/**
+ * A cloud WebSocket interface
+ */
 pub interface IWebSocket extends std.IResource {
   onConnect(handler: inflight(str): void): void;
   onDisconnect(handler: inflight(str): void): void;
@@ -14,6 +17,9 @@ pub interface IWebSocket extends std.IResource {
   inflight url(): str;
 }
 
+/**
+ * Options for `WebSocket`.
+ */
 pub struct WebSocketProps {
   name: str;
   stageName: str?;

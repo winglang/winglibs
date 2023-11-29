@@ -1,5 +1,6 @@
 bring cloud;
 bring util;
+bring sim;
 bring "../commons/api.w" as api;
 
 interface StartWebSocketApiResult {
@@ -11,13 +12,13 @@ pub class WebSocket_sim impl api.IWebSocket {
   var connectFn: inflight(str): void;
   var disconnectFn: inflight(str): void;
   var messageFn: inflight(str, str): void;
-  bucket: cloud.Bucket;
+  state: sim.State;
 
   new(props: api.WebSocketProps) {
     this.connectFn = inflight () => {};
     this.disconnectFn = inflight () => {};
     this.messageFn = inflight () => {};
-    this.bucket = new cloud.Bucket();
+    this.state = new sim.State();
   }
 
   pub onConnect(handler: inflight(str): void): void {
@@ -33,17 +34,15 @@ pub class WebSocket_sim impl api.IWebSocket {
   pub initialize() {
     new cloud.Service(inflight () => {
       let res = WebSocket_sim._startWebSocketApi(this.connectFn, this.disconnectFn, this.messageFn);
-      this.bucket.put("url.txt", res.url());
+      this.state.set("invokeUrl", res.url());
       return () => {
         res.close();
       };
     });
   }
+
   pub inflight url(): str {
-    util.waitUntil(inflight () => {
-      return this.bucket.exists("url.txt");
-    });
-    return this.bucket.get("url.txt");
+    return str.fromJson(this.state.get("invokeUrl"));
   }
 
   extern "./sim/wb.mts" static inflight _startWebSocketApi(
