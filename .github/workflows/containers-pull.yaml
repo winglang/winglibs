@@ -24,3 +24,6 @@ jobs:
       - name: Test
         run: wing test
         working-directory: containers
+      - name: Pack
+        run: wing pack
+        working-directory: containers

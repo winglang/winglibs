@@ -53,20 +53,20 @@ pub class Library {
         run: "wing test",
         "working-directory": dir,
       });
+
+      steps.push({
+        name: "Pack",
+        run: "wing pack",
+        "working-directory": dir,
+      });
+  
     };
 
     let releaseSteps = MutArray<Json>[];
     let pullSteps = MutArray<Json>[];
 
     addCommonSteps(pullSteps);
-
     addCommonSteps(releaseSteps);
-
-    releaseSteps.push({
-      name: "Pack",
-      run: "wing pack",
-      "working-directory": dir,
-    });
 
     releaseSteps.push({
       name: "Publish",
