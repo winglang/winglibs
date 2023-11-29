@@ -68,11 +68,10 @@ interface Client {
 }
 
 class Util {
-	extern "./host.mjs" pub static inflight getPort(): num;
-	extern "./host.mjs" pub static inflight spawn(options: SpawnOptions): Process;
-	extern "./host.mjs" pub static inflight createClient(endpoint: str): Client;
-	// extern "./host.mjs" pub static inflight createStreamsClient(endpoint: str): Client;
-	extern "./host.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str): void;
+	extern "./lib.mjs" pub static inflight getPort(): num;
+	extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
+	extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
+	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str): void;
 }
 
 class Host {

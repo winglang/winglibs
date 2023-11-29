@@ -1,8 +1,8 @@
 bring cloud;
 bring util;
-bring "./host.w" as host;
+bring "./lib.w" as lib;
 
-let table = new host.Table();
+let table = new lib.Table();
 
 new cloud.Service(inflight () => {
   table.processStreamRecords();
