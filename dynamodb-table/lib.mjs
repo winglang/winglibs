@@ -59,8 +59,9 @@ import * as streams from "@aws-sdk/client-dynamodb-streams";
 /**
  * @param {import("@aws-sdk/client-dynamodb-streams").DynamoDBStreams} client
  * @param {string} StreamArn
+ * @param {(record: any) => void} handler
  */
-const processStreamRecords = async (client, StreamArn) => {
+const processStreamRecords = async (client, StreamArn, handler) => {
   try {
     // Describe the stream to get the shards
     const { StreamDescription } = await client.describeStream({ StreamArn });
@@ -83,7 +84,8 @@ const processStreamRecords = async (client, StreamArn) => {
 
         // Process each record
         for (const record of recordsData.Records) {
-          console.log("Record:", record);
+          // console.log("Record:", record);
+          handler(record);
           // Here you would typically process the record
           // For example, you could invoke a Lambda function with the record data
         }
@@ -100,7 +102,7 @@ const processStreamRecords = async (client, StreamArn) => {
   }
 };
 
-const processRecords = async (endpoint, tableName) => {
+const processRecords = async (endpoint, tableName, handler) => {
   const client = new streams.DynamoDBStreams({
     region: "local",
     credentials: {
@@ -111,13 +113,13 @@ const processRecords = async (endpoint, tableName) => {
   });
 
   const { Streams } = await client.listStreams({ TableName: tableName });
-  console.log({ Streams });
+  // console.log({ Streams });
 
   for (const { StreamArn } of Streams) {
-    await processStreamRecords(client, StreamArn);
+    await processStreamRecords(client, StreamArn, handler);
   }
 };
 
-export const processRecordsAsync = async (endpoint, tableName) => {
-  processRecords(endpoint, tableName);
+export const processRecordsAsync = async (endpoint, tableName, handler) => {
+  processRecords(endpoint, tableName, handler);
 };

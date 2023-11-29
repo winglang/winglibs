@@ -4,9 +4,9 @@ bring "./lib.w" as lib;
 
 let table = new lib.Table();
 
-new cloud.Service(inflight () => {
-  table.processStreamRecords();
-}) as "Process Stream Records";
+table.onStream(inflight (record) => {
+  log("record processed = {Json.stringify(record)}");
+});
 
 new cloud.Function(inflight () => {
   table.putItem(

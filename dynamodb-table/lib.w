@@ -71,7 +71,7 @@ class Util {
 	extern "./lib.mjs" pub static inflight getPort(): num;
 	extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
 	extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
-	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str): void;
+	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (Json): void): void;
 }
 
 class Host {
@@ -181,6 +181,12 @@ pub class Table {
     });
   }
 
+  pub onStream(handler: inflight (Json): void) {
+    new cloud.Service(inflight () => {
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
+    }) as "OnStreamHandler";
+  }
+
   inflight client: Client;
 
   inflight new() {
@@ -199,9 +205,5 @@ pub class Table {
       TableName: this.tableName,
       Item: options.item,
     });
-  }
-
-  pub inflight processStreamRecords() {
-    Util.processRecordsAsync(this.host.endpoint, this.tableName);
   }
 }
