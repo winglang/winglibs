@@ -1,0 +1,29 @@
+name: dynamodb-table-pull
+on:
+  pull_request:
+    paths:
+      - dynamodb-table/**
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: dynamodb-table
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: dynamodb-table
+      - name: Test
+        run: wing test
+        working-directory: dynamodb-table
+      - name: Pack
+        run: wing pack
+        working-directory: dynamodb-table
