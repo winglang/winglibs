@@ -100,7 +100,6 @@ class Host {
         ],
         onData: (data) => {
           if data.contains("Initializing DynamoDB Local with the following configuration") {
-            log("DynamoDB Local is ready");
             state.set("endpoint", "http://0.0.0.0:{port}");
           }
         },
@@ -155,7 +154,6 @@ pub class Table {
         try {
           let client = Util.createClient(this.host.endpoint);
           client.createTable({
-            // TableName: this.tableName,
             TableName: tableName,
             AttributeDefinitions: [
               {
@@ -178,7 +176,6 @@ pub class Table {
           state.set("tableName", tableName);
           return true;
         } catch error {
-          log(error);
           return false;
         }
       });
@@ -189,7 +186,6 @@ pub class Table {
 
   inflight new() {
     this.client = Util.createClient(this.host.endpoint);
-    log("client created. table name = {this.tableName}");
   }
 
   pub inflight getItem(options: GetItemOptions): Json {
@@ -207,7 +203,6 @@ pub class Table {
   }
 
   pub inflight processStreamRecords() {
-    log("processStreamRecords");
     Util.processRecordsAsync(this.host.endpoint, this.tableName);
   }
 }
