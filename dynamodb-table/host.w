@@ -106,10 +106,6 @@ class Host {
         },
 			);
 
-      // util.waitUntil(() => {
-      //   return state.tryGet("endpoint")?;
-      // });
-
 			return () => {
 				docker.kill();
 			};
@@ -150,19 +146,12 @@ pub class Table {
   new() {
     this.host = Host.of(this);
 
-    // this.tableName = this.node.addr;
-
-    // new cloud.Service(inflight () => {
-    //   log(this.host.endpoint);
-    // });
-
     let tableName = this.node.addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
     new cloud.Service(inflight () => {
       util.waitUntil(() => {
-        log("creating table");
         try {
           let client = Util.createClient(this.host.endpoint);
           client.createTable({
@@ -186,9 +175,7 @@ pub class Table {
               StreamViewType: "NEW_IMAGE",
             },
           });
-          log("table created");
           state.set("tableName", tableName);
-          // state.set("tableName", this.node.addr);
           return true;
         } catch error {
           log(error);
@@ -196,12 +183,6 @@ pub class Table {
         }
       });
     });
-
-    // new cloud.Service(inflight () => {
-    //   util.waitUntil(() => {
-    //     return state.tryGet("tableName")?;
-    //   });
-    // }) as "Wait Until";
   }
 
   inflight client: Client;
