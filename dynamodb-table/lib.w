@@ -67,10 +67,27 @@ interface Client {
   inflight updateTimeToLive(options: Json): Json;
 }
 
+interface DocumentClient {
+  inflight batchExecuteStatement(input: Json): Json;
+  inflight batchGet(input: Json): Json;
+  inflight batchWrite(input: Json): Json;
+  inflight delete(input: Json): Json;
+  inflight executeStatement(input: Json): Json;
+  inflight executeTransaction(input: Json): Json;
+  inflight get(input: Json): Json;
+  inflight put(input: Json): Json;
+  inflight query(input: Json): Json;
+  inflight scan(input: Json): Json;
+  inflight transactGet(input: Json): Json;
+  inflight transactWrite(input: Json): Json;
+  inflight update(input: Json): Json;
+}
+
 class Util {
 	extern "./lib.mjs" pub static inflight getPort(): num;
 	extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
 	extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
+	extern "./lib.mjs" pub static inflight createDocumentClient(endpoint: str): DocumentClient;
 	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (Json): void): void;
 }
 
@@ -149,9 +166,10 @@ pub class Table {
     this.tableName = state.token("tableName");
 
     new cloud.Service(inflight () => {
+      let client = Util.createClient(this.host.endpoint);
+
       util.waitUntil(() => {
         try {
-          let client = Util.createClient(this.host.endpoint);
           client.createTable({
             TableName: tableName,
             AttributeDefinitions: [
@@ -178,6 +196,14 @@ pub class Table {
           return false;
         }
       });
+
+      return () => {
+        try {
+          client.deleteTable({
+            TableName: tableName,
+          });
+        } catch {}
+      };
     });
   }
 
@@ -187,21 +213,21 @@ pub class Table {
     }) as "OnStreamHandler";
   }
 
-  inflight client: Client;
+  inflight client: DocumentClient;
 
   inflight new() {
-    this.client = Util.createClient(this.host.endpoint);
+    this.client = Util.createDocumentClient(this.host.endpoint);
   }
 
   pub inflight getItem(options: GetItemOptions): Json {
-    return this.client.getItem({
+    return this.client.get({
       TableName: this.tableName,
       Key: options.key,
     });
   }
 
   pub inflight putItem(options: PutItemOptions): Json {
-    return this.client.putItem({
+    return this.client.put({
       TableName: this.tableName,
       Item: options.item,
     });

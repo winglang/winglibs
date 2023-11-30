@@ -11,7 +11,7 @@ table.onStream(inflight (record) => {
 new cloud.Function(inflight () => {
   table.putItem(
     item: {
-      id: { S: util.nanoid() },
+      id: util.nanoid(),
     },
   );
 }) as "Create Random Item";

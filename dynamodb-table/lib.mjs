@@ -27,6 +27,7 @@ export const spawn = async (options) => {
 };
 
 import * as dynamodb from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 
 // export interface CreateClientOptions {
 //   endpoint: string;
@@ -40,6 +41,19 @@ export const createClient = (endpoint) => {
       secretAccessKey: "local",
     },
     endpoint,
+  });
+};
+
+export const createDocumentClient = (endpoint) => {
+  const client = createClient(endpoint);
+  return DynamoDBDocument.from(client, {
+    marshallOptions: {
+      removeUndefinedValues: true,
+      convertEmptyValues: true,
+    },
+    unmarshallOptions: {
+      wrapNumbers: true,
+    },
   });
 };
 
