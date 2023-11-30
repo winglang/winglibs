@@ -1,6 +1,7 @@
 bring sim;
 bring util;
 bring cloud;
+bring ui;
 
 interface Process {
 	inflight kill(): void;
@@ -95,12 +96,70 @@ class Host {
   }
 }
 
-struct GetItemOptions {
+struct GetOptions {
   key: Json;
 }
 
-struct PutItemOptions {
+struct PutOptions {
   item: Json;
+}
+
+struct TransactWriteItemConditionCheck {
+  key: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Json?;
+  expressionAttributeValues: Json?;
+  returnValuesOnConditionCheckFailure: bool?;
+}
+
+struct TransactWriteItemPut {
+  item: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Json?;
+  expressionAttributeValues: Json?;
+  returnValuesOnConditionCheckFailure: bool?;
+}
+
+struct TransactWriteItemDelete {
+  key: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Json?;
+  expressionAttributeValues: Json?;
+  returnValuesOnConditionCheckFailure: bool?;
+}
+
+struct TransactWriteItemUpdate {
+  key: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Json?;
+  expressionAttributeValues: Json?;
+  returnValuesOnConditionCheckFailure: bool?;
+}
+
+struct TransactWriteItem {
+  conditionCheck: TransactWriteItemConditionCheck?;
+  put: TransactWriteItemPut?;
+  delete: TransactWriteItemDelete?;
+  update: TransactWriteItemUpdate?;
+}
+
+struct TransactWriteOptions {
+  transactItems: Array<TransactWriteItem>;
+}
+
+struct AttributeDefinition {
+  attributeName: str;
+  attributeType: str;
+}
+
+struct KeySchema {
+  attributeName: str;
+  keyType: str;
+}
+
+struct TableProps {
+  attributeDefinitions: Array<AttributeDefinition>;
+  keySchema: Array<KeySchema>;
 }
 
 pub class Table {
@@ -108,32 +167,45 @@ pub class Table {
 
   tableName: str;
 
-  new() {
+  new(props: TableProps) {
     this.host = Host.of(this);
 
     let tableName = this.node.addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
+    new ui.Field(
+      "Key Schema",
+      inflight () => {
+        return Json.stringify(props.keySchema, indent: 2);
+      },
+    );
+
     new cloud.Service(inflight () => {
       let client = Util.createClient(this.host.endpoint);
+
+      let attributeDefinitions = MutArray<Json> [];
+      for attributeDefinition in props.attributeDefinitions {
+        attributeDefinitions.push({
+          AttributeName: attributeDefinition.attributeName,
+          AttributeType: attributeDefinition.attributeType,
+        });
+      }
+
+      let keySchemas = MutArray<Json> [];
+      for keySchema in props.keySchema {
+        keySchemas.push({
+          AttributeName: keySchema.attributeName,
+          KeyType: keySchema.keyType,
+        });
+      }
 
       util.waitUntil(() => {
         try {
           client.createTable({
             TableName: tableName,
-            AttributeDefinitions: [
-              {
-                AttributeName: "id",
-                AttributeType: "S",
-              },
-            ],
-            KeySchema: [
-              {
-                AttributeName: "id",
-                KeyType: "HASH",
-              },
-            ],
+            AttributeDefinitions: attributeDefinitions.copy(),
+            KeySchema: keySchemas.copy(),
             BillingMode: "PAY_PER_REQUEST",
             StreamSpecification: {
               StreamEnabled: true,
@@ -169,17 +241,73 @@ pub class Table {
     this.client = Util.createDocumentClient(this.host.endpoint);
   }
 
-  pub inflight getItem(options: GetItemOptions): Json {
+  pub inflight get(options: GetOptions): Json {
     return this.client.get({
       TableName: this.tableName,
       Key: options.key,
     });
   }
 
-  pub inflight putItem(options: PutItemOptions): Json {
+  pub inflight put(options: PutOptions): Json {
     return this.client.put({
       TableName: this.tableName,
       Item: options.item,
+    });
+  }
+
+  pub inflight transactWrite(options: TransactWriteOptions): Json {
+    let transactItems = MutArray<Json> [];
+    for item in options.transactItems {
+      if let operation = item.conditionCheck {
+        transactItems.push({
+          ConditionCheck: {
+            TableName: this.tableName,
+            Key: operation.key,
+            ConditionExpression: operation.conditionExpression,
+            ExpressionAttributeNames: operation.expressionAttributeNames,
+            ExpressionAttributeValues: operation.expressionAttributeValues,
+            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
+          },
+        });
+      } elif let operation = item.delete {
+        transactItems.push({
+          Delete: {
+            TableName: this.tableName,
+            Key: operation.key,
+            ConditionExpression: operation.conditionExpression,
+            ExpressionAttributeNames: operation.expressionAttributeNames,
+            ExpressionAttributeValues: operation.expressionAttributeValues,
+            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
+          },
+        });
+      } elif let operation = item.put {
+        transactItems.push({
+          Put: {
+            TableName: this.tableName,
+            Item: operation.item,
+            ConditionExpression: operation.conditionExpression,
+            ExpressionAttributeNames: operation.expressionAttributeNames,
+            ExpressionAttributeValues: operation.expressionAttributeValues,
+            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
+          },
+        });
+      } elif let operation = item.update {
+        transactItems.push({
+          Update: {
+            TableName: this.tableName,
+            Key: operation.key,
+            ConditionExpression: operation.conditionExpression,
+            ExpressionAttributeNames: operation.expressionAttributeNames,
+            ExpressionAttributeValues: operation.expressionAttributeValues,
+            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
+          },
+        });
+      } else {
+        throw "Invalid transact item";
+      }
+    }
+    return this.client.transactWrite({
+      TransactItems: transactItems.copy(),
     });
   }
 }
