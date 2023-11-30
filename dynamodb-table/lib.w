@@ -13,58 +13,8 @@ struct SpawnOptions {
 }
 
 interface Client {
-  inflight batchExecuteStatement(options: Json): Json;
-  inflight batchGetItem(options: Json): Json;
-  inflight batchWriteItem(options: Json): Json;
-  inflight createBackup(options: Json): Json;
-  inflight createGlobalTable(options: Json): Json;
-  inflight createTable(options: Json): Json;
-  inflight deleteBackup(options: Json): Json;
-  inflight deleteItem(options: Json): Json;
-  inflight deleteTable(options: Json): Json;
-  inflight describeBackup(options: Json): Json;
-  inflight describeContinuousBackups(options: Json): Json;
-  inflight describeContributorInsights(options: Json): Json;
-  inflight describeExport(options: Json): Json;
-  inflight describeGlobalTable(options: Json): Json;
-  inflight describeGlobalTableSettings(options: Json): Json;
-  inflight describeImport(options: Json): Json;
-  inflight describeKinesisStreamingDestination(options: Json): Json;
-  inflight describeLimits(options: Json): Json;
-  inflight describeTable(options: Json): Json;
-  inflight describeTableReplicaAutoScaling(options: Json): Json;
-  inflight describeTimeToLive(options: Json): Json;
-  inflight disableKinesisStreamingDestination(options: Json): Json;
-  inflight enableKinesisStreamingDestination(options: Json): Json;
-  inflight executeStatement(options: Json): Json;
-  inflight executeTransaction(options: Json): Json;
-  inflight exportTableToPointInTime(options: Json): Json;
-  inflight getItem(options: Json): Json;
-  inflight importTable(options: Json): Json;
-  inflight listBackups(options: Json): Json;
-  inflight listContributorInsights(options: Json): Json;
-  inflight listExports(options: Json): Json;
-  inflight listGlobalTables(options: Json): Json;
-  inflight listImports(options: Json): Json;
-  inflight listTables(options: Json): Json;
-  inflight listTagsOfResource(options: Json): Json;
-  inflight putItem(options: Json): Json;
-  inflight query(options: Json): Json;
-  inflight restoreTableFromBackup(options: Json): Json;
-  inflight restoreTableToPointInTime(options: Json): Json;
-  inflight scan(options: Json): Json;
-  inflight tagResource(options: Json): Json;
-  inflight transactGetItems(options: Json): Json;
-  inflight transactWriteItems(options: Json): Json;
-  inflight untagResource(options: Json): Json;
-  inflight updateContinuousBackups(options: Json): Json;
-  inflight updateContributorInsights(options: Json): Json;
-  inflight updateGlobalTable(options: Json): Json;
-  inflight updateGlobalTableSettings(options: Json): Json;
-  inflight updateItem(options: Json): Json;
-  inflight updateTable(options: Json): Json;
-  inflight updateTableReplicaAutoScaling(options: Json): Json;
-  inflight updateTimeToLive(options: Json): Json;
+  inflight createTable(input: Json): Json;
+  inflight deleteTable(input: Json): Json;
 }
 
 interface DocumentClient {
