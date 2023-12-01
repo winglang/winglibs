@@ -16,6 +16,7 @@ struct SpawnOptions {
 interface Client {
   inflight createTable(input: Json): Json;
   inflight deleteTable(input: Json): Json;
+  inflight updateTimeToLive(input: Json): Json;
 }
 
 interface DocumentClient {
@@ -34,12 +35,28 @@ interface DocumentClient {
   inflight update(input: Json): Json;
 }
 
+struct StreamRecordDynamodb {
+  ApproximateCreationDateTime: str;
+  Keys: Json;
+  NewImage: Json?;
+  OldImage: Json?;
+  SequenceNumber: str;
+  SizeBytes: num;
+  StreamViewType: str;
+}
+
+struct StreamRecord {
+  dynamodb: StreamRecordDynamodb;
+  eventName: str;
+  eventID: str;
+}
+
 class Util {
 	extern "./lib.mjs" pub static inflight getPort(): num;
 	extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
 	extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
 	extern "./lib.mjs" pub static inflight createDocumentClient(endpoint: str): DocumentClient;
-	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (Json): void): void;
+	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (StreamRecord): void): void;
 }
 
 class Host {
@@ -83,6 +100,8 @@ class Host {
         return state.tryGet("endpoint")?;
       });
     }) as "Wait Until";
+
+    // std.Node.of(this).hidden = true;
   }
 
   pub static of(scope: std.IResource): Host {
@@ -102,37 +121,41 @@ struct GetOptions {
 
 struct PutOptions {
   item: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
 }
 
 struct TransactWriteItemConditionCheck {
   key: Json;
   conditionExpression: str?;
-  expressionAttributeNames: Json?;
-  expressionAttributeValues: Json?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
   returnValuesOnConditionCheckFailure: bool?;
 }
 
 struct TransactWriteItemPut {
   item: Json;
   conditionExpression: str?;
-  expressionAttributeNames: Json?;
-  expressionAttributeValues: Json?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
   returnValuesOnConditionCheckFailure: bool?;
 }
 
 struct TransactWriteItemDelete {
   key: Json;
   conditionExpression: str?;
-  expressionAttributeNames: Json?;
-  expressionAttributeValues: Json?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
   returnValuesOnConditionCheckFailure: bool?;
 }
 
 struct TransactWriteItemUpdate {
   key: Json;
   conditionExpression: str?;
-  expressionAttributeNames: Json?;
-  expressionAttributeValues: Json?;
+  updateExpression: str?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
   returnValuesOnConditionCheckFailure: bool?;
 }
 
@@ -160,6 +183,7 @@ struct KeySchema {
 struct TableProps {
   attributeDefinitions: Array<AttributeDefinition>;
   keySchema: Array<KeySchema>;
+  timeToLiveAttribute: str?;
 }
 
 pub class Table {
@@ -212,6 +236,17 @@ pub class Table {
               StreamViewType: "NEW_IMAGE",
             },
           });
+
+          if let timeToLiveAttribute = props.timeToLiveAttribute {
+            client.updateTimeToLive({
+              TableName: tableName,
+              TimeToLiveSpecification: {
+                AttributeName: timeToLiveAttribute,
+                Enabled: true,
+              },
+            });
+          }
+
           state.set("tableName", tableName);
           return true;
         } catch error {
@@ -229,7 +264,7 @@ pub class Table {
     });
   }
 
-  pub onStream(handler: inflight (Json): void) {
+  pub onStream(handler: inflight (StreamRecord): void) {
     new cloud.Service(inflight () => {
       Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
     }) as "OnStreamHandler";
@@ -252,6 +287,9 @@ pub class Table {
     return this.client.put({
       TableName: this.tableName,
       Item: options.item,
+      ConditionExpression: options.conditionExpression,
+      ExpressionAttributeNames: options.expressionAttributeNames,
+      ExpressionAttributeValues: options.expressionAttributeValues,
     });
   }
 

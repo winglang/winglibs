@@ -57,6 +57,15 @@ export const createDocumentClient = (endpoint) => {
   });
 };
 
+// const x =  DynamoDBDocument.from();
+// x.transactWrite({
+//   TransactItems: [
+//     {
+//       Put: {}
+//     }
+//   ]
+// })
+
 import * as streams from "@aws-sdk/client-dynamodb-streams";
 
 // export const createStreamsClient = (endpoint) => {
@@ -73,7 +82,7 @@ import * as streams from "@aws-sdk/client-dynamodb-streams";
 /**
  * @param {import("@aws-sdk/client-dynamodb-streams").DynamoDBStreams} client
  * @param {string} StreamArn
- * @param {(record: any) => void} handler
+ * @param {(record: any) => void|Promise<void>} handler
  */
 const processStreamRecords = async (client, StreamArn, handler) => {
   try {
@@ -99,7 +108,11 @@ const processStreamRecords = async (client, StreamArn, handler) => {
         // Process each record
         for (const record of recordsData.Records) {
           // console.log("Record:", record);
-          handler(record);
+          try {
+            await handler(record);
+          } catch (error) {
+            console.error("Error processing stream record:", error, record);
+          }
           // Here you would typically process the record
           // For example, you could invoke a Lambda function with the record data
         }
@@ -127,7 +140,6 @@ const processRecords = async (endpoint, tableName, handler) => {
   });
 
   const { Streams } = await client.listStreams({ TableName: tableName });
-  // console.log({ Streams });
 
   for (const { StreamArn } of Streams) {
     await processStreamRecords(client, StreamArn, handler);
