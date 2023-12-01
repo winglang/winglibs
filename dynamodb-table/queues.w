@@ -29,8 +29,8 @@ pub class FIFOQueue {
     );
   }
 
-  pub onMessage(handler: inflight (FIFOMessage): void) {
-    this.table.onStream(inflight (record) => {
+  pub setConsumer(handler: inflight (FIFOMessage): void) {
+    this.table.setStreamConsumer(inflight (record) => {
       if let item = record.dynamodb.NewImage {
         if item.get("pk").get("S").asStr().startsWith("GROUP_ID#") {
           handler(

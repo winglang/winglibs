@@ -18,7 +18,7 @@ let table = new lib.Table(
   ],
 );
 
-table.onStream(inflight (record) => {
+table.setStreamConsumer(inflight (record) => {
   log("record processed = {Json.stringify(record)}");
 });
 
@@ -32,7 +32,7 @@ table.onStream(inflight (record) => {
 
 let queue = new queues.FIFOQueue();
 
-queue.onMessage(inflight (message) => {
+queue.setConsumer(inflight (message) => {
   // log("message = {Json.stringify(message)}");
   table.put(
     item: {

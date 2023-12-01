@@ -188,13 +188,13 @@ struct TableProps {
 
 pub class Table {
   host: Host;
-  var usesStreams: bool;
+  // var usesStreams: bool;
 
   tableName: str;
 
   new(props: TableProps) {
     this.host = Host.of(this);
-    this.usesStreams = false;
+    // this.usesStreams = false;
 
     let tableName = this.node.addr;
     let state = new sim.State();
@@ -266,14 +266,14 @@ pub class Table {
     });
   }
 
-  pub onStream(handler: inflight (StreamRecord): void) {
-    if this.usesStreams {
-      throw "Table.onStream can only be called once";
-    }
-    this.usesStreams = true;
+  pub setStreamConsumer(handler: inflight (StreamRecord): void) {
+    // if this.usesStreams {
+    //   throw "Table.onStream can only be called once";
+    // }
+    // this.usesStreams = true;
     new cloud.Service(inflight () => {
       Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
-    }) as "OnStreamHandler";
+    }) as "StreamConsumer";
   }
 
   inflight client: DocumentClient;
