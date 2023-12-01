@@ -2,13 +2,13 @@ bring cloud;
 bring util;
 bring "./lib.w" as lib;
 
-pub struct Message {
+pub struct FIFOMessage {
   body: str;
   deduplicationId: str;
   groupId: str;
 }
 
-pub class Queue {
+pub class FIFOQueue {
   table: lib.Table;
 
   new() {
@@ -29,7 +29,7 @@ pub class Queue {
     );
   }
 
-  pub onMessage(handler: inflight (Message): void) {
+  pub onMessage(handler: inflight (FIFOMessage): void) {
     this.table.onStream(inflight (record) => {
       if let item = record.dynamodb.NewImage {
         if item.get("pk").get("S").asStr().startsWith("GROUP_ID#") {
@@ -43,7 +43,7 @@ pub class Queue {
     });
   }
 
-  pub inflight sendMessage(message: Message) {
+  pub inflight sendMessage(message: FIFOMessage) {
     let now = std.Datetime.utcNow();
     let timestamp = now.timestampMs;
     // Amazon SQS has a deduplication interval of 5 minutes.
