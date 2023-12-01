@@ -188,11 +188,13 @@ struct TableProps {
 
 pub class Table {
   host: Host;
+  var usesStreams: bool;
 
   tableName: str;
 
   new(props: TableProps) {
     this.host = Host.of(this);
+    this.usesStreams = false;
 
     let tableName = this.node.addr;
     let state = new sim.State();
@@ -233,7 +235,7 @@ pub class Table {
             BillingMode: "PAY_PER_REQUEST",
             StreamSpecification: {
               StreamEnabled: true,
-              StreamViewType: "NEW_IMAGE",
+              StreamViewType: "NEW_AND_OLD_IMAGES",
             },
           });
 
@@ -254,17 +256,21 @@ pub class Table {
         }
       });
 
-      return () => {
-        try {
-          client.deleteTable({
-            TableName: tableName,
-          });
-        } catch {}
-      };
+      // return () => {
+      //   try {
+      //     client.deleteTable({
+      //       TableName: tableName,
+      //     });
+      //   } catch {}
+      // };
     });
   }
 
   pub onStream(handler: inflight (StreamRecord): void) {
+    if this.usesStreams {
+      throw "Table.onStream can only be called once";
+    }
+    this.usesStreams = true;
     new cloud.Service(inflight () => {
       Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
     }) as "OnStreamHandler";

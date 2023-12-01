@@ -3,24 +3,24 @@ bring util;
 bring "./lib.w" as lib;
 bring "./queue.w" as queue;
 
-// let table = new lib.Table(
-//   attributeDefinitions: [
-//     {
-//       attributeName: "id",
-//       attributeType: "S",
-//     },
-//   ],
-//   keySchema: [
-//     {
-//       attributeName: "id",
-//       keyType: "HASH",
-//     },
-//   ],
-// );
+let table = new lib.Table(
+  attributeDefinitions: [
+    {
+      attributeName: "id",
+      attributeType: "S",
+    },
+  ],
+  keySchema: [
+    {
+      attributeName: "id",
+      keyType: "HASH",
+    },
+  ],
+);
 
-// table.onStream(inflight (record) => {
-//   log("record processed = {Json.stringify(record)}");
-// });
+table.onStream(inflight (record) => {
+  log("record processed = {Json.stringify(record)}");
+});
 
 // new cloud.Function(inflight () => {
 //   table.put(
@@ -33,13 +33,19 @@ bring "./queue.w" as queue;
 let bus = new queue.Queue();
 
 bus.onMessage(inflight (message) => {
-  log("message = {Json.stringify(message)}");
+  // log("message = {Json.stringify(message)}");
+  table.put(
+    item: {
+      id: message.deduplicationId,
+      body: message.body,
+    },
+  );
 });
 
 new cloud.Function(inflight () => {
   bus.sendMessage(
     body: "hello there",
     groupId: "group_1",
-    deduplicationId: "deduplication_1",
+    deduplicationId: util.nanoid(),
   );
 });
