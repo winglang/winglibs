@@ -21,7 +21,8 @@
     "@aws-sdk/client-apigatewaymanagementapi": "^3.451.0",
     "@cdktf/provider-aws": "^18.0.5",
     "@winglang/platform-awscdk": "^0.51.0",
-    "aws-cdk-lib": "^2.109.0"
+    "aws-cdk-lib": "^2.109.0",
+    "get-port": "^7.0.0"
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",

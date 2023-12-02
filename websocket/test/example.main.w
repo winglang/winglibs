@@ -48,20 +48,74 @@ class Util {
   extern "./util.mts" pub static inflight _buffer_to_string(data: str): str;
 }
 
-test "simple websocket test" {
-  let ws = Util._ws(wb.url());
-    
-  ws.on("open", () => {
-    ws.send("Hello WebSocket!");
-  });
+let counter = new cloud.Counter(initial: 1);
 
-  ws.on("message", (data: str) => {
-    let msg = Util._buffer_to_string(data);
-    assert(msg == "Hello WebSocket!");
-    ws.close();
+let receiveMsg = new cloud.Service(inflight () => {
+  let ws = Util._ws(wb.url());
+
+  ws.on("open", () => {
+    log("open socket (receiver)");
+    ws.on("message", (data: str) => {
+      let msg = Util._buffer_to_string(data);
+      
+      let n = num.fromStr(msg);
+      assert(n >= 1 && n < 10);
+      if msg == "1" {
+        log("first message received");
+      } elif msg == "9" {
+        log("last message received");
+        ws.close();
+      }
+    });
   });
 
   ws.on("close", () => {
-    log("close socket");
+    log("close socket (receiver)");
   });
+}, autoStart: false) as "receive message";
+
+let sendMsg = new cloud.Service(inflight () => {
+  let ws = Util._ws(wb.url());
+
+  ws.on("open", () => {
+    log("open socket (sender)");
+
+    ws.on("message", (data: str) => {
+      let msg = Util._buffer_to_string(data);
+      
+      let n = num.fromStr(msg);
+      assert(n >= 1 && n < 10);
+      if msg == "1" {
+        log("sender also receive the first message");
+      } elif msg == "9" {
+        log("sender also receive the last message");
+        ws.close();
+      }
+    });
+
+    for i in 1..10 {
+      ws.send("{counter.inc()}");
+    }
+  });
+
+  ws.on("close", () => {
+    log("close socket (sender)");
+  });
+}, autoStart: false) as "send message";
+
+test "simple websocket test" {
+  let ws = Util._ws(wb.url());
+
+  receiveMsg.start();
+  assert(receiveMsg.started());
+
+  sendMsg.start();
+  assert(sendMsg.started());
+
+  util.sleep(10s);
+
+  sendMsg.stop();
+  receiveMsg.stop();
+
+  assert(counter.peek() == 10);
 }

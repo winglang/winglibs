@@ -1,11 +1,13 @@
 import { WebSocketServer } from "ws";
+import getPort from "get-port";
 
-export const _startWebSocketApi = (
+export const _startWebSocketApi = async (
   onConnect: (connectionId: string) => void,
   onDisconnect: (connectionId: string) => void,
   onMessage: (connectionId: string, message: string) => void) => {
 
-  const port = Math.floor(Math.random() * 1000 + 3000);
+  const port = await getPort();
+  // const port = Math.floor(Math.random() * 1000 + 3000);
   const wss = new WebSocketServer({ port });
   global.wss = wss;
 
