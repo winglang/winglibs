@@ -1,6 +1,6 @@
 ## Wing WebSocket Support
 
-This library allows you tu create WebSocket usiing Wing.
+This library allows you to create WebSocket using Wing.
 
 ## Installation
 
@@ -52,6 +52,8 @@ wb.onMessage(inflight (id: str, body: str): void => {
   }
 });
 
+/* This method is temporarily required only for local execution (target sim) and will be deprecated in the future.
+*/
 wb.initialize();
 ```
 
@@ -76,3 +78,7 @@ $ CDK_STACK_NAME=MySocketStack wing compile -t @winglang/platform-awscdk websock
 ## Maintainers
 
 [@marciocadev](https://github.com/marciocadev)
+
+## License
+
+Licensed under the [MIT License](./LICENSE).

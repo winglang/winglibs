@@ -50,7 +50,7 @@ class Util {
 
 let counter = new cloud.Counter(initial: 1);
 
-let receiveMsg = new cloud.Service(inflight () => {
+let receiver = new cloud.Service(inflight () => {
   let ws = Util._ws(wb.url());
 
   ws.on("open", () => {
@@ -74,7 +74,7 @@ let receiveMsg = new cloud.Service(inflight () => {
   });
 }, autoStart: false) as "receive message";
 
-let sendMsg = new cloud.Service(inflight () => {
+let sender = new cloud.Service(inflight () => {
   let ws = Util._ws(wb.url());
 
   ws.on("open", () => {
@@ -106,16 +106,16 @@ let sendMsg = new cloud.Service(inflight () => {
 test "simple websocket test" {
   let ws = Util._ws(wb.url());
 
-  receiveMsg.start();
-  assert(receiveMsg.started());
+  receiver.start();
+  assert(receiver.started());
 
-  sendMsg.start();
-  assert(sendMsg.started());
+  sender.start();
+  assert(sender.started());
 
   util.sleep(10s);
 
-  sendMsg.stop();
-  receiveMsg.stop();
+  sender.stop();
+  receiver.stop();
 
   assert(counter.peek() == 10);
 }
