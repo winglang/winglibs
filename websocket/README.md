@@ -17,6 +17,7 @@ The example above shows us how we can broadcast a message to any connection assi
 ```js
 bring cloud;
 bring ex;
+bring websockets;
 
 let tb = new ex.DynamodbTable(
   name: "WebSocketTable",
