@@ -5,7 +5,7 @@ A Wing library for working with [Amazon Bedrock](https://aws.amazon.com/bedrock/
 ## Prerequisites
 
 * [winglang](https://winglang.io).
-* [Model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) to amazone bedrock
+* [Model access](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) to Amazon bedrock
 
 ## Installation
 
