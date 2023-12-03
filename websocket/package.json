@@ -1,5 +1,5 @@
 {
-  "name": "@winglibs/websocket",
+  "name": "@winglibs/websockets",
   "version": "0.0.1",
   "description": "WebSocket library for Wing",
   "main": "index.js",
