@@ -66,7 +66,7 @@ When running on AWS, the WebSocket utilizes the WebSocket API of API Gateway.
 ## `awscdk`
 
 When running on AWS, the WebSocket utilizes the WebSocket API of API Gateway.
-However, to run on `awscdk`, we need to import the `@winglang/platform-awscdk`.
+To compile to `awscdk`, we need to import the `@winglang/platform-awscdk`.
 
 ```bash
 $ npm i @winglang/platform-awscdk
