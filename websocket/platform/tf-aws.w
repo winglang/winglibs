@@ -69,9 +69,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
       "url": this.invokeUrl,
     }) as "on connect";
 
-    this.addRoute(onConnectFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onConnectFunction, routeKey);
   }
   pub onDisconnect(handler: inflight(str): void): void {
     let routeKey = "$disconnect";
@@ -88,9 +86,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
       "url": this.invokeUrl,
     }) as "on disconnect";
 
-    this.addRoute(onDisconnectFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onDisconnectFunction, routeKey);
   }
   pub onMessage(handler: inflight(str, str): void): void {
     let routeKey = "$default";
@@ -107,14 +103,12 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
       "url": this.invokeUrl,
     }) as "on message";
 
-    this.addRoute(onMessageFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onMessageFunction, routeKey);
   }
 
   pub initialize() {}
 
-  pub addRoute(handler: cloud.Function, props: commons.RouteOptions): void {
+  pub addRoute(handler: cloud.Function, routeKey: str): void {
     if let func = aws.Function.from(handler) {
       let functionArn = func.functionArn;
         
@@ -127,26 +121,26 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
             Resource: Json.stringify(functionArn)
           }]
         })
-      ) as "{props.routeKey}Policy";
+      ) as "{routeKey}Policy";
   
       new tfaws.iamRolePolicyAttachment.IamRolePolicyAttachment(
         role: this.role.name,
         policyArn: iamPolicy.arn,
-      ) as "{props.routeKey}PolicyAttachment";
+      ) as "{routeKey}PolicyAttachment";
   
       let integration = new tfaws.apigatewayv2Integration.Apigatewayv2Integration(
         apiId: cdktf.Token.asString(this.webSocketApi.id),
         integrationType: "AWS_PROXY",
         integrationUri: functionArn,
         credentialsArn: this.role.arn,
-      ) as "{props.routeKey}Integration";
+      ) as "{routeKey}Integration";
   
       let route = new tfaws.apigatewayv2Route.Apigatewayv2Route(
         apiId: this.webSocketApi.id,
-        routeKey: props.routeKey,
+        routeKey: routeKey,
         authorizationType: "NONE",
         target: "integrations/{integration.id}",
-      ) as "{props.routeKey}Route";
+      ) as "{routeKey}Route";
     }
   }
 

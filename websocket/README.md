@@ -27,7 +27,7 @@ let tb = new ex.DynamodbTable(
   },
 );
 
-let wb = new websocket.WebSocket(name: "MyWebSocket") as "my-websocket";
+let wb = new websockets.WebSocket(name: "MyWebSocket") as "my-websocket";
 
 wb.onConnect(inflight(id: str): void => {
   tb.putItem({

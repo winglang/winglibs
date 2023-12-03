@@ -9,7 +9,6 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
   role: awscdk.aws_iam.Role;
   deployment: awscdk.aws_apigatewayv2.CfnDeployment;
   region: str?;
-  callbackUrl: str;
   invokeUrl: str;
 
   new(props: commons.WebSocketProps) {
@@ -38,8 +37,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     this.region = awscdk.Stack.of(this).region;
     let urlSuffix = awscdk.Stack.of(this).urlSuffix;
 
-    this.invokeUrl = "wss://{this.api.attrApiId}.execute-api.{this.region}.amazonaws/{stageName}";
-    this.callbackUrl = "https://{this.api.attrApiId}.execute-api.{this.region}.{urlSuffix}/{stageName}";
+    this.invokeUrl = this.api.attrApiEndpoint;
 
     new awscdk.CfnOutput(
       value: this.invokeUrl,
@@ -47,7 +45,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     ) as "url";
 
     new awscdk.CfnOutput(
-      value: this.callbackUrl,
+      value: "https://{this.api.attrApiId}.execute-api.{this.region}.{urlSuffix}/{stageName}",
       exportName: "callbackUrl"
     ) as "callbackUrl";
   }
@@ -77,9 +75,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
       };
     })) as "on connect";
 
-    this.addRoute(onConnectFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onConnectFunction, routeKey);
   }
   pub onDisconnect(handler: inflight(str): void): void {
     let routeKey = "$disconnect";
@@ -94,9 +90,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
       };
     })) as "on disconnect";
 
-    this.addRoute(onDisconnectFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onDisconnectFunction, routeKey);
   }
   pub onMessage(handler: inflight(str, str): void): void {
     let routeKey = "$default";
@@ -111,14 +105,12 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
       };
     })) as "on message";
 
-    this.addRoute(onMessageFunction, {
-      routeKey: routeKey,
-    });
+    this.addRoute(onMessageFunction, routeKey);
   }
 
   pub initialize() {}
 
-  pub addRoute(handler: cloud.Function, props: commons.RouteOptions): void {
+  pub addRoute(handler: cloud.Function, routeKey: str): void {
     if let lambda = aws.Function.from(handler) {
       let functionArn = lambda.functionArn;
       
@@ -142,14 +134,14 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
         integrationType: "AWS_PROXY",
         integrationUri: integrationUri,
         credentialsArn: this.role.roleArn,
-      ) as "{props.routeKey}Integration";
+      ) as "{routeKey}Integration";
 
       let route = new awscdk.aws_apigatewayv2.CfnRoute(
         apiId: this.api.attrApiId,
-        routeKey: props.routeKey,
+        routeKey: routeKey,
         authorizationType: "NONE",
         target: "integrations/{integration.ref}",
-      ) as "{props.routeKey}Route";
+      ) as "{routeKey}Route";
 
       this.deployment.addDependency(route);
     }
@@ -161,6 +153,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
 
   extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
-    WebSocket_awscdk._postToConnection(this.callbackUrl, connectionId, message);
+    let url = this.url();
+    WebSocket_awscdk._postToConnection(url.replace("wss://", "https://"), connectionId, message);
   }
 }
