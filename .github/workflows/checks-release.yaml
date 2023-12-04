@@ -21,10 +21,10 @@ jobs:
       - name: Install winglang
         run: npm i -g winglang
       - name: Install dependencies
-        run: npm install
+        run: npm install --include=dev
         working-directory: checks
       - name: Test
-        run: wing test **/*.test.w
+        run: wing test
         working-directory: checks
       - name: Pack
         run: wing pack

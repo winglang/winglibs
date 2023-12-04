@@ -1,6 +1,6 @@
 bring cloud;
 bring http;
-bring "../workload.w" as containers;
+bring "./workload.w" as containers;
 
 let app = new containers.Workload(
   name: "http-echo",

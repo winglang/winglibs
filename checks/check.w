@@ -39,7 +39,7 @@ pub class Check impl ICheck {
     this.results = r.Results.of(this);
 
     let wrapper = inflight (): str => {
-      log("running check ${this.node.path} (${this.checkid})...");
+      log("running check {this.node.path} ({this.checkid})...");
       let ts = datetime.utcNow().toIso();
 
       let var result: r.CheckResult = {
@@ -52,7 +52,7 @@ pub class Check impl ICheck {
       try {
         handler();
       } catch e {
-        log("check failed: ${e}");
+        log("check failed: {e}");
         
         result = { 
           checkid: this.checkid,
@@ -64,6 +64,7 @@ pub class Check impl ICheck {
       }
 
       this.results.store(result);
+
       return Json.stringify(result);
     };
 

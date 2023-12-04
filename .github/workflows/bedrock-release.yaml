@@ -1,8 +1,10 @@
-name: postgres-pull
+name: bedrock-release
 on:
-  pull_request:
+  push:
+    branches:
+      - main
     paths:
-      - postgres/**
+      - bedrock/**
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: postgres
+          sparse-checkout: bedrock
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,10 +22,16 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: postgres
+        working-directory: bedrock
       - name: Test
         run: wing test
-        working-directory: postgres
+        working-directory: bedrock
       - name: Pack
         run: wing pack
-        working-directory: postgres
+        working-directory: bedrock
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: bedrock
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

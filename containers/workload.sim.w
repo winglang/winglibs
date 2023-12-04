@@ -5,10 +5,13 @@ bring sim;
 bring "./api.w" as api;
 bring "./utils.w" as utils;
 
-pub class Workload_sim impl api.IWorkload {
-  containerId: str;
+pub class Workload_sim {
   publicUrlKey: str?;
   internalUrlKey: str?;
+  containerIdKey: str;
+
+  pub publicUrl: str?;
+  pub internalUrl: str?;
 
   props: api.WorkloadProps;
   appDir: str;
@@ -20,14 +23,13 @@ pub class Workload_sim impl api.IWorkload {
     this.appDir = utils.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();
+    this.containerIdKey = "container_id";
 
     let hash = utils.resolveContentHash(this, props);
     if hash? {
-      this.imageTag = "${props.name}:${hash}";
-      this.containerId = "${props.name}-${hash}";
+      this.imageTag = "{props.name}:{hash}";
     } else {
       this.imageTag = props.image;
-      this.containerId = props.name;
     }
 
     this.public = props.public ?? false;
@@ -37,11 +39,15 @@ pub class Workload_sim impl api.IWorkload {
         throw "'port' is required if 'public' is enabled";
       }
 
-      this.publicUrlKey = "public_url";
+      let key = "public_url";
+      this.publicUrl = this.state.token(key);
+      this.publicUrlKey = key;
     }
 
     if props.port? {
-      this.internalUrlKey = "internal_url";
+      let key = "internal_url";
+      this.internalUrl = this.state.token(key);
+      this.internalUrlKey = key;
     }
 
     let s = new cloud.Service(inflight () => {
@@ -51,18 +57,6 @@ pub class Workload_sim impl api.IWorkload {
 
     std.Node.of(s).hidden = true;
     std.Node.of(this.state).hidden = true;
-  }
-
-  pub getInternalUrl(): str? {
-    if let k = this.internalUrlKey {
-      return this.state.token(k);
-    }
-  }
-
-  pub getPublicUrl(): str? {
-    if let k = this.publicUrlKey {
-      return this.state.token(k);
-    }
   }
 
   inflight start(): void {
@@ -75,36 +69,36 @@ pub class Workload_sim impl api.IWorkload {
       // check if the image is already built
       try {
         utils.shell("docker", ["inspect", this.imageTag]);
-        log("image ${this.imageTag} already exists");
+        log("image {this.imageTag} already exists");
       } catch {
-        log("building locally from ${opts.image} and tagging ${this.imageTag}...");
+        log("building locally from {opts.image} and tagging {this.imageTag}...");
         utils.shell("docker", ["build", "-t", this.imageTag, opts.image], this.appDir);
       }
     } else {
-      log("pulling ${opts.image}");
-      utils.shell("docker", ["pull", opts.image], this.appDir);
+      try {
+        utils.shell("docker", ["inspect", this.imageTag]);
+        log("image {this.imageTag} already exists");
+      } catch {
+        log("pulling {this.imageTag}");
+        utils.shell("docker", ["pull", this.imageTag]);
+      }
     }
 
-    // remove old container
-    utils.shell("docker", ["rm", "-f", this.containerId]);
-    
     // start the new container
     let dockerRun = MutArray<str>[];
     dockerRun.push("run");
     dockerRun.push("--detach");
-    dockerRun.push("--name");
-    dockerRun.push(this.containerId);
 
     if let port = opts.port {
       dockerRun.push("-p");
-      dockerRun.push("${port}");
+      dockerRun.push("{port}");
     }
 
     if let env = opts.env {
       if env.size() > 0 {
         dockerRun.push("-e");
         for k in env.keys() {
-          dockerRun.push("${k}=${env.get(k)}");
+          dockerRun.push("{k}={env.get(k)}");
         }
       }
     }
@@ -117,31 +111,34 @@ pub class Workload_sim impl api.IWorkload {
       }
     }
 
-    log("starting container ${this.containerId}");
-    log("docker ${dockerRun.join(" ")}");
-    utils.shell("docker", dockerRun.copy());
+    log("starting container from image {this.imageTag}");
+    log("docker {dockerRun.join(" ")}");
+    let containerId = utils.shell("docker", dockerRun.copy()).trim();
+    this.state.set(this.containerIdKey, containerId);
 
-    let out = Json.parse(utils.shell("docker", ["inspect", this.containerId]));
+    log("containerId={containerId}");
+
+    let out = Json.parse(utils.shell("docker", ["inspect", containerId]));
 
     if let port = opts.port {
-      let hostPort = out.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("${port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
+      let hostPort = out.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
       if !hostPort? {
-        throw "Container does not listen to port ${port}";
+        throw "Container does not listen to port {port}";
       }
 
-      let publicUrl = "http://localhost:${hostPort}";
+      let publicUrl = "http://localhost:{hostPort}";
 
       if let k = this.publicUrlKey {
         this.state.set(k, publicUrl);
       }
 
       if let k = this.internalUrlKey {
-        this.state.set(k, "http://host.docker.internal:${hostPort}");
+        this.state.set(k, "http://host.docker.internal:{hostPort}");
       }
 
       if let readiness = opts.readiness {
-        let readinessUrl = "${publicUrl}${readiness}";
-        log("waiting for container to be ready: ${readinessUrl}...");
+        let readinessUrl = "{publicUrl}{readiness}";
+        log("waiting for container to be ready: {readinessUrl}...");
         util.waitUntil(inflight () => {
           try {
             return http.get(readinessUrl).ok;
@@ -154,7 +151,8 @@ pub class Workload_sim impl api.IWorkload {
   }
 
   inflight stop() {
-    log("stopping container");
-    utils.shell("docker", ["rm", "-f", this.containerId]);
+    let containerId = this.state.get(this.containerIdKey).asStr();
+    log("stopping container {containerId}");
+    utils.shell("docker", ["rm", "-f", containerId]);
   }
 }
