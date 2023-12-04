@@ -2,6 +2,11 @@
 
 This library allows using postgres with Wing.
 
+## Prerequisites
+
+* [winglang](https://winglang.io)
+* [Neon](https://neon.tech/) free-tier account (for deploying on AWS)
+
 ## Installation
 
 Use `npm` to install this library:
