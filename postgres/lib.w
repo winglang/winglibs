@@ -45,7 +45,7 @@ pub class Database {
 class DatabaseSim impl IDatabase {
   url: str?;
   new(props: DatabaseProps) {
-    let image = "postgres:${props.pgVersion ?? 15}";
+    let image = "postgres:{props.pgVersion ?? 15}";
     let container = new containers.Workload(
       name: "postgres",
       image: image,
@@ -54,8 +54,9 @@ class DatabaseSim impl IDatabase {
       },
       port: 5432,
       public: true,
+      // TODO: implement readiness check?
     );
-    this.url = container.getPublicUrl();
+    this.url = container.publicUrl;
   }
 
   pub inflight query(query: str): Array<Map<Json>> {

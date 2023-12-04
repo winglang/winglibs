@@ -120,6 +120,7 @@ Slack](https://t.winglang.io).
 - [x] Nodes - what should we do there? Use Fargate profiles in EKS instead of managed node groups?
 - [ ] Open bugs
 - [ ] Restore microservice test (fails on GitHub).
+- [ ] Support command-based readiness checks
 
 ## License
 
