@@ -1,6 +1,10 @@
-## Wing WebSocket Support
+## Wing WebSockets Support
 
-This library allows you to create WebSocket using Wing.
+This library enables you to create WebSockets using Wing.
+
+WebSockets offer a persistent, bidirectional communication channel between a client and a server, facilitating real-time, low-latency communication.
+
+By incorporating WebSockets through the Wing library, developers can enhance the interactivity and responsiveness of their applications, delivering a more engaging user experience. Whether you're building a real-time chat application or a collaborative tool, understanding and implementing WebSockets with Wing can significantly elevate your web development projects.
 
 ## Installation
 
