@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@winglibs/containers": "^0.0.16",
+    "@winglibs/containers": "^0.0.17",
     "ioredis": "^5.3.2"
   }
 }
