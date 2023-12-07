@@ -1,4 +1,4 @@
-## Wing WebSockets Support
+# websockets
 
 This library enables you to create WebSockets using Wing.
 
@@ -6,15 +6,17 @@ WebSockets offer a persistent, bidirectional communication channel between a cli
 
 By incorporating WebSockets through the Wing library, developers can enhance the interactivity and responsiveness of their applications, delivering a more engaging user experience. Whether you're building a real-time chat application or a collaborative tool, understanding and implementing WebSockets with Wing can significantly elevate your web development projects.
 
-## Installation
+## Prerequisites
 
-Use `npm` to install this library:
+* [winglang](https://winglang.io).
+
+## Installation
 
 ```sh
 npm i @winglibs/websockets
 ```
 
-## Bring it
+## Usage
 
 The example above shows us how we can broadcast a message to any connection assigned to the WebSocket.
 
@@ -74,10 +76,6 @@ When running on AWS, the WebSocket utilizes the WebSocket API of API Gateway.
 When running on AWS, the WebSocket utilizes the WebSocket API of API Gateway.
 To compile to `awscdk`, we need to import the `@winglang/platform-awscdk`.
 
-```bash
-$ npm i @winglang/platform-awscdk
-$ CDK_STACK_NAME=MySocketStack wing compile -t @winglang/platform-awscdk websocket.main.w
-```
 
 ## Maintainers
 
@@ -85,4 +83,4 @@ $ CDK_STACK_NAME=MySocketStack wing compile -t @winglang/platform-awscdk websock
 
 ## License
 
-Licensed under the [MIT License](./LICENSE).
+This library is licensed under the [MIT License](./LICENSE).

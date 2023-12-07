@@ -1,18 +1,17 @@
 {
   "name": "@winglibs/websockets",
-  "version": "0.0.1",
   "description": "WebSocket library for Wing",
-  "main": "index.js",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
-    "directory": "websocket"
+    "directory": "websockets"
   },
+  "license": "MIT",
   "author": {
     "email": "marciocadev@gmail.com",
     "name": "Marcio Cruz de Almeida"
   },
-  "license": "MIT",
   "peerDependencies": {
     "cdktf": "^0.19.1",
     "winglang": "^0.51.0"
