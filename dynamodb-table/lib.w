@@ -108,10 +108,7 @@ class Host {
     let uid = "DynamodbHost-7JOQ92VWh6OavMXYpWx9O";
     let root = std.Node.of(scope).root;
     let rootNode = std.Node.of(root);
-    // return unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
-    let def = unsafeCast(rootNode.tryFindChild("Default"));
-    let defNode = std.Node.of(def);
-    return unsafeCast(defNode.tryFindChild(uid)) ?? new Host() as uid in def;
+    return unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
   }
 }
 

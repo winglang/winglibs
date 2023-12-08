@@ -156,6 +156,8 @@ const processRecords = async (endpoint, tableName, handler) => {
       } else if (error.name === "TrimmedDataAccessException") {
         // Ignore. This error seems to be a bug in DynamoDB Local.
         // The desired behavior is to retry processing the records.
+      } else if (error.name === "ExpiredIteratorException") {
+        // Ignore. This error happens after the computer wakes up from sleep.
       } else {
         throw error;
       }
