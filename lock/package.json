@@ -1,5 +1,6 @@
 {
   "name": "@winglibs/lock",
+  "description": "A Wing library for cloud Lock",
   "version": "0.0.1",
     "author": {
     "name": "Eyal Keren",
