@@ -1,0 +1,18 @@
+{
+  "name": "@winglibs/fifoqueue",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "fifoqueue"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^18.0.5",
+    "@aws-sdk/client-sqs": "^3.460.0"
+  },
+  "peerDependencies": {
+    "cdktf": "^0.19.1",
+    "winglang": "^0.44.3"
+  },
+  "license": "MIT"
+}
