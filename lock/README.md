@@ -12,11 +12,40 @@ npm i @winglibs/lock
 
 ## Usage
 
-`js
+```js
 bring lock;
+bring cloud;
+bring util;
 
-let adder = new lock.Adder();
-`
+let l = new lock.Lock();
+let q = new cloud.Queue();
+
+q.setConsumer(inflight (m: str) => {
+  let id = util.uuidv4();
+  l.acquire("my-lock", 20s);
+  log("{id}:start");
+  util.sleep(1s);
+  log("{id}:end");
+  l.release("my-lock");
+});
+
+/**
+Output without the lock
+     │ 158e4f79-56e7-48ea-9469-4838741a255f:start
+     │ e6a01372-4761-4365-b909-e32fa7dad605:start
+     │ 158e4f79-56e7-48ea-9469-4838741a255f:end
+     │ e6a01372-4761-4365-b909-e32fa7dad605:end
+Output with the lock:
+     │ 01da31df-4130-47f0-86f7-7173421a2676:start
+     │ 01da31df-4130-47f0-86f7-7173421a2676:end
+     │ a24e59d3-d088-4e4e-b134-d1c3a6dfe278:start
+     │ a24e59d3-d088-4e4e-b134-d1c3a6dfe278:end
+*/      
+test "count" {
+  q.push("1", "2");
+  util.sleep(5s);
+}
+```
 
 ## License
 
