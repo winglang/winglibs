@@ -144,13 +144,17 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub inflight url(): str {
+  pub url(): str {
+    return this.invokeUrl;
+  }
+
+  pub inflight inflightUrl(): str {
     return this.invokeUrl;
   }
 
   extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
-    let url = this.url();
+    let url = this.inflightUrl();
     WebSocket_tfaws._postToConnection(url.replace("wss://", "https://"), connectionId, message);
   }
 }

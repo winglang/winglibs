@@ -31,12 +31,16 @@ pub class WebSocket impl api.IWebSocket {
     this.inner.onMessage(handler);
   }
 
+  pub url(): str {
+    return this.inner.url();
+  }
+
   pub initialize() {
     this.inner.initialize();
   }
 
-  pub inflight url(): str {
-    return this.inner.url();
+  pub inflight inflightUrl(): str {
+    return this.inner.inflightUrl();
   }
 
   pub inflight sendMessage(connectionId: str, message: str) {
