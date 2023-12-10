@@ -13,17 +13,23 @@ pub class WebSocket_sim impl api.IWebSocket {
   var disconnectFn: inflight(str): void;
   var messageFn: inflight(str, str): void;
   state: sim.State;
-  inflight invokeUrl: str;
+  preflightUrlToken: str;
+  inflight inflighUrlToken: str;
 
   new(props: api.WebSocketProps) {
     this.connectFn = inflight () => {};
     this.disconnectFn = inflight () => {};
     this.messageFn = inflight () => {};
     this.state = new sim.State();
+    this.preflightUrlToken = "invokeUrl";
   }
 
   inflight new() {
-    this.invokeUrl = "invokeUrl";
+    this.inflighUrlToken = "invokeUrl";
+  }
+
+  pub url(): str {
+    return this.state.token(this.preflightUrlToken);
   }
 
   pub onConnect(handler: inflight(str): void): void {
@@ -39,15 +45,15 @@ pub class WebSocket_sim impl api.IWebSocket {
   pub initialize() {
     new cloud.Service(inflight () => {
       let res = WebSocket_sim._startWebSocketApi(this.connectFn, this.disconnectFn, this.messageFn);
-      this.state.set(this.invokeUrl, res.url());
+      this.state.set(this.inflighUrlToken, res.url());
       return () => {
         res.close();
       };
     });
   }
 
-  pub inflight url(): str {
-    return str.fromJson(this.state.get(this.invokeUrl));
+  pub inflight inflightUrl(): str {
+    return str.fromJson(this.state.get(this.inflighUrlToken));
   }
 
   extern "./sim/wb.mts" static inflight _startWebSocketApi(

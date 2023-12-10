@@ -50,6 +50,10 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     ) as "callbackUrl";
   }
 
+  pub url(): str {
+    return this.invokeUrl;
+  }
+
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
     if let host = aws.Function.from(host) {
       if ops.contains("sendMessage") {
@@ -147,13 +151,13 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub inflight url(): str {
+  pub inflight inflightUrl(): str {
     return this.invokeUrl;
   }
 
   extern "../inflight/websocket.aws.mts" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
-    let url = this.url();
+    let url = this.inflightUrl();
     WebSocket_awscdk._postToConnection(url.replace("wss://", "https://"), connectionId, message);
   }
 }
