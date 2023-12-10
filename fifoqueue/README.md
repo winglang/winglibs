@@ -24,7 +24,7 @@ queue.setConsumer(inflight (message: str) => {
 });
 
 test "will push to queue" {
-  queue.push("a new message");
+  queue.push("a new message", groupId: "myGroup");
 }
 `
 
