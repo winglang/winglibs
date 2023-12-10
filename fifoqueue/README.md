@@ -2,6 +2,8 @@
 
 A wing library to work with FIFO (first-in first-out) Queues.
 
+To use the queue, set `groupId` to group messages and process them in an ordered fashion.
+
 ## Prerequisites
 
 * [winglang](https://winglang.io).
