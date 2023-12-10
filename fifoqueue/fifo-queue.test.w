@@ -21,3 +21,10 @@ test "sequentially consume messages with the same group id " {
   util.sleep(15s);
   expect.equal(counter.peek(), 2);
 }
+
+test "parallelly consume messages with different group ids" {
+  queue.push("msg1", groupId: "123");
+  queue.push("msg2", groupId: "456");
+  util.sleep(15s);
+  expect.equal(counter.peek(), 2);
+}
