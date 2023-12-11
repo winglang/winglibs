@@ -41,10 +41,9 @@ pub class Lock {
         // util.sleep(duration.fromMilliseconds(100 * math.random()));
         return false;
       }, timeout: timeout);
-      if acquired {
-        return;
+      if !acquired {
+        throw "Failed to acquire lock, timeout {timeout.seconds} seconds reached";
       }
-      throw "Failed to acquire lock, timeout {timeout.seconds} seconds reached";
   }
 
   /** 
