@@ -44,8 +44,8 @@ interface IWebSocketJS {
   inflight close(): void;
 }
 class Util {
-  extern "./util.mts" pub static inflight _ws(url: str): IWebSocketJS;
-  extern "./util.mts" pub static inflight _buffer_to_string(data: str): str;
+  extern "./util.js" pub static inflight _ws(url: str): IWebSocketJS;
+  extern "./util.js" pub static inflight _buffer_to_string(data: str): str;
 }
 
 let counter = new cloud.Counter(initial: 1);

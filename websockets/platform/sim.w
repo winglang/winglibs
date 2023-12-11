@@ -56,13 +56,13 @@ pub class WebSocket_sim impl api.IWebSocket {
     return str.fromJson(this.state.get(this.inflightUrlToken));
   }
 
-  extern "./sim/wb.mts" static inflight _startWebSocketApi(
+  extern "./sim/wb.js" static inflight _startWebSocketApi(
     connectFn: inflight (str): void,
     disconnectFn: inflight (str): void,
     onmessageFn: inflight (str, str): void,
   ): StartWebSocketApiResult;
 
-  extern "../inflight/websocket.sim.mts" static inflight _sendMessage(
+  extern "../inflight/websocket.sim.js" static inflight _sendMessage(
     connectionId: str,
     message: str,
   ): inflight(): void;
