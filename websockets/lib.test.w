@@ -104,8 +104,6 @@ let sender = new cloud.Service(inflight () => {
 }, autoStart: false) as "send message";
 
 test "simple websocket test" {
-  let ws = Util._ws(wb.inflightUrl());
-
   receiver.start();
   assert(receiver.started());
 
