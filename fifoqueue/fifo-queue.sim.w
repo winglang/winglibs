@@ -17,26 +17,29 @@ pub class FifoQueue_sim impl api.IFifoQueue {
     this.counter = new cloud.Counter();
   }
 
-  pub setConsumer(fn: inflight (str): void, options: api.SetConsumerOptions?) {
+  pub setConsumer(handler: inflight (str): void, options: api.SetConsumerOptions?) {
     let counter = this.counter;
-    this.queue.setConsumer(inflight (m: str) => {
-      let j = FifoQueueMessage.parseJson(m);
+    this.queue.setConsumer(inflight (event: str) => {
+      let message = FifoQueueMessage.parseJson(event);
       util.waitUntil(inflight () => {
-        let value = counter.peek(j.groupId);
+        let value = counter.peek(message.groupId);
         if value == 0 {
-          let acquired = counter.inc(1, j.groupId);
+          let acquired = counter.inc(1, message.groupId);
           if acquired == 0 {
             return true;
           } else {
-            counter.dec(1, j.groupId);
+            counter.dec(1, message.groupId);
             return false;
           }
         }
         return false;
       }, timeout: 30m);
 
-      fn(j.message);
-      counter.dec(1, j.groupId);
+      try {
+        handler(message.message);
+      } finally {
+        counter.dec(1, message.groupId);
+      }
     });
 
   }

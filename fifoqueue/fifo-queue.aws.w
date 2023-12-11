@@ -29,12 +29,12 @@ pub class FifoQueue_aws impl api.IFifoQueue {
     this.arn = this.queue.arn;
   }
 
-  pub setConsumer(fn: inflight (str) : void, options: api.SetConsumerOptions?) {
+  pub setConsumer(handler: inflight (str) : void, options: api.SetConsumerOptions?) {
     let lambdaFn = new cloud.Function(inflight (event: str): void => {
       let json: Json = unsafeCast(event);
       let sqsEvent = SqsEvent.fromJson(event);
       for message in sqsEvent.Records {
-        fn(message.body);
+        handler(message.body);
       }
     },
       env: options?.env, 

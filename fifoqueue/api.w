@@ -9,6 +9,6 @@ pub struct PushOptions {
 pub struct SetConsumerOptions extends cloud.QueueSetConsumerOptions {}
 
 pub interface IFifoQueue {
-  setConsumer(fn: inflight (str): void, options: SetConsumerOptions?);
+  setConsumer(handler: inflight (str): void, options: SetConsumerOptions?);
   inflight push(message: str, options: PushOptions);
 }
