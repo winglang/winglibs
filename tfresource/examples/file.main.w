@@ -1,4 +1,4 @@
-bring "./custom-resource.w" as tfr;
+bring "../lib.w" as tfr;
 bring fs;
 bring util;
 
