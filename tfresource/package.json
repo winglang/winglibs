@@ -1,5 +1,10 @@
 {
   "name": "@winglibs/tfresource",
+  "description": "Wing library for building custom Terraform resources",
+  "author": {
+    "name": "Elad Ben-Israel",
+    "email": "eladb@wing.cloud"
+  },
   "version": "0.0.1",
   "repository": {
     "type": "git",
