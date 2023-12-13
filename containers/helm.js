@@ -3,21 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-function findWorkdir(scope) {
-  if (typeof(scope.workdir) == "string") {
-    return scope.workdir;
-  }
 
-  const parent = scope.node.scope;
-  if (!parent) {
-    throw new Error("cannot determine workdir");
-  }
-  return findWorkdir(parent);
-}
-
-exports.toHelmChart = function(chart) {
+exports.toHelmChart = function (wingdir, chart) {
   const app = cdk8s.App.of(chart);
-  const wingdir = findWorkdir(chart);
 
   app.resolvers = [new cdk8s.LazyResolver(), new cdk8s.ImplicitTokenResolver(), new cdk8s.NumberStringUnionResolver()];
   const docs = cdk8s.App._synthChart(chart);

@@ -1,6 +1,11 @@
 {
   "name": "@winglibs/bedrock",
-  "version": "0.0.1",
+  "description": "A Wing library for Amazon Bedrock",
+  "version": "0.0.2",
+  "author": {
+    "name": "Eyal Keren",
+    "email": "eyalk@wing.cloud"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",

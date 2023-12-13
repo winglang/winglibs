@@ -111,10 +111,11 @@ pub class Workload_tfaws {
       }
     
       pub toHelm(): str {
-        return _Chart.toHelmChart(this);
+        let wingdir = std.Node.of(this).app.workdir;
+        return _Chart.toHelmChart(wingdir, this);
       }
     
-      extern "./helm.js" pub static toHelmChart(chart: cdk8s.Chart): str;
+      extern "./helm.js" pub static toHelmChart(wingdir: str, chart: cdk8s.Chart): str;
     }
     
 
