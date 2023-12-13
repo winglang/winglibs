@@ -51,8 +51,17 @@ pub class TerraformResource {
 
   toExecutable(name: str, handler: inflight (Json): Json?): str {
     let workdir = std.Node.of(this).app.workdir;
+
+    // TODO: this is a hack calling the internal API. I am wondering if we should expose this
+    // capability through some other utility API (`std.toInflightJavaScript(handler)`?). eventually
+    // this returns some leaky JavaScript code (for inflight closures it's a class that has a
+    // `handle` method), so I am not sure how nice we can make this.
     let code: str = unsafeCast(handler)?._toInflight();
 
+    // TODO: wondering if we can generalize this...
+    //
+    // package the handle as a node.js executable. input is read from STDIN as JSON and return value
+    // is printed to STDOUT as JSON.
     let path = fs.join(workdir, "{name}-{this.node.addr}.js");
     let wrapper = "
       const fs = require('fs');
