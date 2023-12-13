@@ -9,24 +9,23 @@ pub class TerraformResource {
   new() {
     this.setupProvider();
 
-    this.commands = {};
+    let commands = MutJson {};
+
+    this.commands = commands;
 
     class Shell extends cdktf.TerraformResource {
-      c: MutJson;
-
-      new(commands: MutJson) {
+      new() {
         super(terraformResourceType: "shell_script");
-        this.c = commands;
       }
 
       pub synthesizeAttributes(): Json {
         return {
-          lifecycle_commands: Json.deepCopy(this.c),
+          lifecycle_commands: Json.deepCopy(commands),
         };
       }
     }
 
-    new Shell(this.commands);
+    new Shell();
   }
 
   pub onCreate(handler: inflight (): Json) {
