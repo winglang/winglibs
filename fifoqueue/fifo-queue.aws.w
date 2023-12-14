@@ -36,12 +36,7 @@ pub class FifoQueue_aws impl api.IFifoQueue {
       for message in sqsEvent.Records {
         handler(message.body);
       }
-    },
-      env: options?.env, 
-      logRetentionDays: options?.logRetentionDays, 
-      memory: options?.memory, 
-      timeout: options?.timeout
-    );
+    }, env: options?.env, logRetentionDays: options?.logRetentionDays, memory: options?.memory, timeout: options?.timeout);
 
     let lambda = awsUtil.Function.from(lambdaFn);
     lambda?.addPolicyStatements({
