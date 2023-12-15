@@ -1,6 +1,7 @@
-const IoRedis = require("ioredis")
+const {createClient} = require("redis");
 
-exports.newClient = (url) => {
+exports.newClient = async (url) => {
   let port = url.split(":")[2];
-  return new IoRedis(port)
+  let redisUrl = `redis://:PASSWORD@localhost:${port}`;
+  return await createClient({url: redisUrl});
 };

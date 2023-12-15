@@ -7,61 +7,67 @@ bring containers;
 
 pub class Redis_sim impl api.IRedis {
   connectionUrl: str;
+  inflight redis: api.IRedisClient;
 
-  new(){
+  new() {
     let image = "redis:latest";
     let container = new containers.Workload(
       name: "redis",
       image: image,
       port: 6379,
       public: true,
+      args: ["--requirepass", "PASSWORD"]
     );
     this.connectionUrl = container.publicUrl ?? "error";
   }
 
+  inflight new() {
+    this.redis = utils.newClient(this.connectionUrl);
+  }
+
   pub inflight get(key: str): str? {
-    let redis = utils.newClient(this.connectionUrl);
-    let val = redis.get(key);
-    redis.disconnect();
+    this.redis.connect();
+    let val = this.redis.get(key);
+    this.redis.disconnect();
     return val;
   }
 
   pub inflight set(key: str, value: str): void {
-    let redis = utils.newClient(this.connectionUrl);
-    redis.set(key, value);
-    redis.disconnect();
+    this.redis.connect();
+    this.redis.set(key, value);
+    this.redis.disconnect();
   }
 
   pub inflight del(key: str): void{
-    let redis = utils.newClient(this.connectionUrl);
-    redis.del(key);
-    redis.disconnect();
+    this.redis.connect();
+    this.redis.del(key);
+    this.redis.disconnect();
   }
 
-  pub inflight smembers(key: str): Array<str>? {
-    let redis = utils.newClient(this.connectionUrl);
-    let val = redis.smembers(key);
-    redis.disconnect();
+  pub inflight sMembers(key: str): Array<str>? {
+    this.redis.connect();
+    let val = this.redis.sMembers(key);
+    this.redis.disconnect();
     return val;
   }
 
-  pub inflight sadd(key: str, value: str): void {
-    let redis = utils.newClient(this.connectionUrl);
-    redis.sadd(key, value);
-    redis.disconnect();
+  pub inflight sAdd(key: str, value: str): void {
+    this.redis.connect();
+    this.redis.sAdd(key, value);
+    this.redis.disconnect();
   }
 
-  pub inflight hget(key: str, field: str): str? {
-    let redis = utils.newClient(this.connectionUrl);
-    let val = redis.hget(key, field);
-    redis.disconnect();
+  pub inflight hGet(key: str, field: str): str? {
+    this.redis.connect();
+    let val = this.redis.hGet(key, field);
+    this.redis.disconnect();
     return val;
   }
 
-  pub inflight hset(key: str, field: str, value: str): void {
-    let redis = utils.newClient(this.connectionUrl);
-    redis.hset(key, field, value);
-    redis.disconnect();
+  pub inflight hSet(key: str, field: str, value: str): void {
+    this.redis.connect();
+    this.redis.hSet(key, field, value);
+    this.redis.disconnect();
   }
 
   pub inflight url(): str {

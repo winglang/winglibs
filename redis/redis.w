@@ -30,21 +30,19 @@ pub class Redis impl api.IRedis {
     return this.inner.url();
   }
 
-  pub inflight hget(key: str, field: str): str? {
-    return this.inner.hget(key, field);
+  pub inflight hGet(key: str, field: str): str? {
+    return this.inner.hGet(key, field);
   }
 
-  pub inflight hset(key: str, field: str, value: str): void? {
-    return this.inner.hset(key, field, value);
+  pub inflight hSet(key: str, field: str, value: str): void? {
+    return this.inner.hSet(key, field, value);
   }
 
-  pub inflight smembers(key: str): Array<str>? {
-    return this.inner.smembers(key);
+  pub inflight sMembers(key: str): Array<str>? {
+    return this.inner.sMembers(key);
   }
 
-  pub inflight sadd(key: str, value: str): void? {
-    return this.inner.sadd(key, value);
+  pub inflight sAdd(key: str, value: str): void? {
+    return this.inner.sAdd(key, value);
   }
 }
-
-

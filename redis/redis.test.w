@@ -16,6 +16,6 @@ test "set, get and del" {
 }
 
 test "hset and hget" {
-  redis.hset("foo", "bar", "baz");
-  expect.equal(redis.hget("foo", "bar"), "baz");
+  redis.hSet("foo", "bar", "baz");
+  expect.equal(redis.hGet("foo", "bar"), "baz");
 }
