@@ -7,22 +7,24 @@ bring containers;
 
 pub class Redis_sim impl api.IRedis {
   connectionUrl: str;
+  redisPassword: str;
   inflight redis: api.IRedisClient;
 
   new() {
     let image = "redis:latest";
+    this.redisPassword = "PASSWORD";
     let container = new containers.Workload(
       name: "redis",
       image: image,
       port: 6379,
       public: true,
-      args: ["--requirepass", "PASSWORD"]
+      args: ["--requirepass", this.redisPassword]
     );
     this.connectionUrl = container.publicUrl ?? "error";
   }
 
   inflight new() {
-    this.redis = utils.newClient(this.connectionUrl);
+    this.redis = utils.newRedisClient(this.connectionUrl, this.redisPassword);
   }
 
   pub inflight get(key: str): str? {
@@ -38,7 +40,7 @@ pub class Redis_sim impl api.IRedis {
     this.redis.disconnect();
   }
 
-  pub inflight del(key: str): void{
+  pub inflight del(key: str): void {
     this.redis.connect();
     this.redis.del(key);
     this.redis.disconnect();
