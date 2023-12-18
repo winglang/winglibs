@@ -31,10 +31,10 @@ The `redis.Redis` resource provides the following inflight methods:
 * `get` - Gets a value from the Redis server.
 * `set` - Sets a value on the Redis server.
 * `del` - Deletes a value from the Redis server.
-* `hget` - Gets a value from a hash on the Redis server.
-* `hset` - Sets a value on a hash on the Redis server.
-* `sadd` - Adds a value to a set on the Redis server.
-* `smembers` - Gets all members of a set on the Redis server.
+* `hGet` - Gets a value from a hash on the Redis server.
+* `hSet` - Sets a value on a hash on the Redis server.
+* `sAdd` - Adds a value to a set on the Redis server.
+* `sMembers` - Gets all members of a set on the Redis server.
 
 
 ## `sim`
@@ -51,6 +51,10 @@ Coming soon.
 * [ ] Support for AWS
 * [ ] Support for GCP
 * [ ] Support for Azure
+
+## Maintainers
+
+* [Subhodip Roy](https://github.com/subh-cs)
 
 ## License
 
