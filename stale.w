@@ -1,6 +1,6 @@
 bring fs;
 
-pub class StaleBot {
+pub class StaleWorkflow {
   new(workflowdir: str) {
     let staleSteps = [
       {

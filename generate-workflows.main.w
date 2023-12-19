@@ -16,4 +16,4 @@ for file in fs.readdir(".") {
   new l.Library(workflowdir, file) as file;
 }
 
-new stale.StaleBot(workflowdir);
+new stale.StaleWorkflow(workflowdir);
