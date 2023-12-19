@@ -25,9 +25,13 @@ pub interface IWebSocket extends std.IResource {
    */
   inflight sendMessage(connectionId: str, message: str);
   /**
-   * Retrieves the URL associated with the WebSocket.
+   * Retrieves the URL associated with the WebSocket on inflight.
    */
-  inflight url(): str;
+   inflight inflightUrl(): str;
+  /**
+   * Retrieves the URL associated with the WebSocket on preflight.
+   */
+  url(): str;
 }
 
 /**
