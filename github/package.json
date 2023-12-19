@@ -1,0 +1,15 @@
+{
+  "name": "@winglibs/github",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "github"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@probot/adapter-aws-lambda-serverless": "^3.0.4",
+    "get-port": "^7.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
