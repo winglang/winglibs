@@ -24,3 +24,6 @@ jobs:
       - name: Test
         run: wing test
         working-directory: redis
+      - name: Pack
+        run: wing pack
+        working-directory: redis

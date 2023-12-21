@@ -1,6 +1,8 @@
 bring fs;
 bring "./library.w" as l;
 bring "./stale.w" as stale;
+bring "./mergify.w" as mergify;
+bring "./pr-lint.w" as prlint;
 
 // clean up
 let workflowdir = ".github/workflows";
@@ -17,3 +19,5 @@ for file in fs.readdir(".") {
 }
 
 new stale.StaleWorkflow(workflowdir);
+new mergify.MergifyWorkflow();
+new prlint.PullRequestLintWorkflow(workflowdir);
