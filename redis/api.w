@@ -13,4 +13,3 @@ pub interface IRedisClient extends IRedis {
   inflight connect(): void;
   inflight disconnect(): void;
 }
-
