@@ -2,9 +2,9 @@ import { WebSocketServer } from "ws";
 import getPort from "get-port";
 
 export const _startWebSocketApi = async (
-  onConnect: (connectionId: string) => void,
-  onDisconnect: (connectionId: string) => void,
-  onMessage: (connectionId: string, message: string) => void) => {
+  onConnect,
+  onDisconnect,
+  onMessage) => {
 
   const port = await getPort();
   // const port = Math.floor(Math.random() * 1000 + 3000);
@@ -12,18 +12,18 @@ export const _startWebSocketApi = async (
   global.wss = wss;
 
   wss.on('connection', function connection(ws) {
-    (ws as any).id = Date.now().toString().slice(-6);
+    ws.id = Date.now().toString().slice(-6);
     ws.on('error', console.error);
 
     ws.on('message', function message(data) {
-      onMessage((ws as any).id, data.toString("utf8"));
+      onMessage(ws.id, data.toString("utf8"));
     });
 
     ws.on('close', function () {
-      onDisconnect((ws as any).id);
+      onDisconnect(ws.id);
     });
 
-    onConnect((ws as any).id);
+    onConnect(ws.id);
   });
 
   return {
