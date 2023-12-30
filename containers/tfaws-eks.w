@@ -21,7 +21,7 @@ interface ICluster extends std.IResource {
 }
 
 pub class ClusterBase impl ICluster {
-  pub attributes(): ClusterAttributes { throw "Not implemented"; }
+  pub attributes(): ClusterAttributes { throw "Not implemented"; return { certificate: "", endpoint: "", name: "" }; }
 
   pub kubernetesProvider(): cdktf.TerraformProvider {
     let stack = cdktf.TerraformStack.of(this);
