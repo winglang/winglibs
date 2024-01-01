@@ -9,7 +9,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
   role: awscdk.aws_iam.Role;
   deployment: awscdk.aws_apigatewayv2.CfnDeployment;
   region: str?;
-  invokeUrl: str;
+  pub url: str;
 
   new(props: commons.WebSocketProps) {
     
@@ -37,10 +37,10 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     this.region = awscdk.Stack.of(this).region;
     let urlSuffix = awscdk.Stack.of(this).urlSuffix;
 
-    this.invokeUrl = this.api.attrApiEndpoint;
+    this.url = this.api.attrApiEndpoint;
 
     new awscdk.CfnOutput(
-      value: this.invokeUrl,
+      value: this.url,
       exportName: "url"
     ) as "url";
 
@@ -147,17 +147,8 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub url(): str {
-    return this.invokeUrl;
-  }
-
-  pub inflight inflightUrl(): str {
-    return this.invokeUrl;
-  }
-
   extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
   pub inflight sendMessage(connectionId: str, message: str) {
-    let url = this.inflightUrl();
-    WebSocket_awscdk._postToConnection(url.replace("wss://", "https://"), connectionId, message);
+    WebSocket_awscdk._postToConnection(this.url.replace("wss://", "https://"), connectionId, message);
   }
 }

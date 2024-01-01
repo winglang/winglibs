@@ -51,7 +51,7 @@ class Util {
 let counter = new cloud.Counter(initial: 1);
 
 let receiver = new cloud.Service(inflight () => {
-  let ws = Util._ws(wb.inflightUrl());
+  let ws = Util._ws(wb.url);
 
   ws.on("open", () => {
     log("open socket (receiver)");
@@ -75,7 +75,7 @@ let receiver = new cloud.Service(inflight () => {
 }, autoStart: false) as "receive message";
 
 let sender = new cloud.Service(inflight () => {
-  let ws = Util._ws(wb.inflightUrl());
+  let ws = Util._ws(wb.url);
 
   ws.on("open", () => {
     log("open socket (sender)");
