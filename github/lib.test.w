@@ -15,7 +15,6 @@ let handler = inflight (ctx) => {
     head: ctx.payload.pull_request.head.sha,
   );
 
-  fs.writeFile("/tmp/112", "{Json.stringify(compare.data.commits)}");
 
   
   let mdFiles = MutMap<str>{};
