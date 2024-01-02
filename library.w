@@ -5,26 +5,23 @@ struct PackageManifest {
 }
 
 pub class Library {
-  new(dir: str) {
-    let pkgjsonpath = "{dir}/package.json";
+  new(workflowdir: str, libdir: str) {
+    let pkgjsonpath = "{libdir}/package.json";
     let pkgjson = fs.readJson(pkgjsonpath);
     let manifest = PackageManifest.fromJson(pkgjson);
     log(manifest.name);
-    let base = fs.basename(dir);
+    let base = fs.basename(libdir);
     let expected = "@winglibs/{base}";
     if manifest.name != expected {
       throw "'name' in {pkgjsonpath} is expected to be {expected}";
     }
-
-    let workflowdir = ".github/workflows";
-    fs.mkdir(workflowdir);
 
     let addCommonSteps = (steps: MutArray<Json>) => {
       steps.push({
         name: "Checkout",
         uses: "actions/checkout@v3",
         with: {
-          "sparse-checkout": dir
+          "sparse-checkout": libdir
         }
       });
   
@@ -45,19 +42,19 @@ pub class Library {
       steps.push({
         name: "Install dependencies",
         run: "npm install --include=dev",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
   
       steps.push({
         name: "Test",
         run: "wing test",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
 
       steps.push({
         name: "Pack",
         run: "wing pack",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
   
     };
@@ -71,7 +68,7 @@ pub class Library {
     releaseSteps.push({
       name: "Publish",
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
-      "working-directory": dir,
+      "working-directory": libdir,
       env: {
         NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
       } 
@@ -82,7 +79,7 @@ pub class Library {
       on: {
         push: {
           branches: ["main"],
-          paths: ["{dir}/**"]
+          paths: ["{libdir}/**"]
         }
       },
       jobs: {
@@ -97,7 +94,7 @@ pub class Library {
       name: "{base}-pull",
       on: {
         pull_request: {
-          paths: ["{dir}/**"]
+          paths: ["{libdir}/**"]
         }
       },
       jobs: {
