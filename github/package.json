@@ -1,0 +1,20 @@
+{
+  "name": "@winglibs/github",
+  "description": "A Wing library for GitHub Probot",
+  "version": "0.0.1",
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "github"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@probot/adapter-aws-lambda-serverless": "^3.0.4",
+    "get-port": "^7.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
