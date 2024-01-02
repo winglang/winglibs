@@ -1,67 +1,67 @@
 bring "../octokit/types.w" as octokit;
 
-struct IProbotRepositoryOwner {
+struct ProbotRepositoryOwner {
   name: str;
   login: str;
 }
 
-struct IProbotRepository {
+struct ProbotRepository {
   id: str;
   name: str;
-  owner: IProbotRepositoryOwner;
+  owner: ProbotRepositoryOwner;
   full_name: str;
 }
 
-struct IPullRequestRef {
+struct PullRequestRef {
   sha: str;
   ref: str;
 }
-struct IPullRequestUser {
+struct PullRequestUser {
   login: str;
 }
-struct IPullRequestPR {
-  head: IPullRequestRef;
-  base: IPullRequestRef;
-  user: IPullRequestUser;
+struct PullRequestPR {
+  head: PullRequestRef;
+  base: PullRequestRef;
+  user: PullRequestUser;
   number: num;
   title: str;
 }
 
-struct IPullRequestInstallation {
+struct PullRequestInstallation {
   id: num;
 }
 
-struct IPullRequestPayload {
+struct PullRequestPayload {
   number: num;
-  repository: IProbotRepository;
-  pull_request: IPullRequestPR;
-  installation: IPullRequestInstallation?;
+  repository: ProbotRepository;
+  pull_request: PullRequestPR;
+  installation: PullRequestInstallation?;
 }
 
-pub struct IContext {
+pub struct Context {
   id: str;
   octokit: octokit.OctoKit;
 }
 
-pub struct IPullRequestContext extends IContext {
-  payload: IPullRequestPayload;
+pub struct PullRequestContext extends Context {
+  payload: PullRequestPayload;
 }
 
-pub struct IPullRequestSyncContext extends IPullRequestContext {}
+pub struct PullRequestSyncContext extends PullRequestContext {}
 
-pub struct IPullRequestOpenedContext extends IPullRequestContext {}
+pub struct PullRequestOpenedContext extends PullRequestContext {}
 
-pub struct IPullRequestClosedContext extends IPullRequestContext {}
+pub struct PullRequestClosedContext extends PullRequestContext {}
 
-struct IPushPayload {
-  repository: IProbotRepository;
-  installation: IPullRequestInstallation?;
+struct PushPayload {
+  repository: ProbotRepository;
+  installation: PullRequestInstallation?;
   after: str;
   ref: str;
 }
 
-pub struct IPushContext extends IContext {
-  payload: IPushPayload;
+pub struct PushContext extends Context {
+  payload: PushPayload;
 }
 
 pub struct VerifyAndReceieveProps {

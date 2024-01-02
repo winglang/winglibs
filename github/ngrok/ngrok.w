@@ -29,6 +29,7 @@ pub class Ngrok {
 		);
 		let state = new sim.State();
 		this.url = state.token("url");
+   
 		let urlRetriever = new cloud.Service(inflight () => {
       let var ngrokAPIPort = 4040;
       while ngrokAPIPort <= 4140 {

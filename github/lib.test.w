@@ -1,8 +1,7 @@
-bring fs;
 bring expect;
 bring util;
+bring cloud;
 bring "./probot/probot.w" as probot;
-let key = fs.readFile("/path/to/private-key.pem");
 
 let handler = inflight (ctx) => {
   let repo = ctx.payload.repository;
@@ -15,8 +14,6 @@ let handler = inflight (ctx) => {
     head: ctx.payload.pull_request.head.sha,
   );
 
-
-  
   let mdFiles = MutMap<str>{};
   for commit in compare.data.commits {
     let commitContent = ctx.octokit.repos.getCommit(
@@ -24,17 +21,15 @@ let handler = inflight (ctx) => {
       repo: repo.name,
       ref: ctx.payload.pull_request.head.ref,
     );
-    fs.writeFile("/tmp/113", "{Json.stringify(commitContent)}");
     if let files = commitContent.data.files {
       for file in files {
-        fs.writeFile("/tmp/114", "{Json.stringify(file)}");
-        if file.filename.endsWith(".md") && (file.status == "modified" || file.status == "added" || file.status == "changed") {
+        if file.filename.endsWith(".md") &&
+         (file.status == "modified" || file.status == "added" || file.status == "changed") {
           mdFiles.set(file.filename, file.sha);
         }
       }
     }
   }
-  fs.writeFile("/tmp/115", "{Json.stringify(mdFiles)}");
 
   // list over mdfiles and update them
   for filename in mdFiles.keys() {
@@ -42,10 +37,10 @@ let handler = inflight (ctx) => {
       owner: repo.owner.login,
       repo: repo.name,
       path: filename,
-      ref: ctx.payload.pull_request.head.sha);
+      ref: ctx.payload.pull_request.head.sha
+    );
     
     let fileContents = util.base64Decode("{contents.data.content}");
-      
       
     ctx.octokit.repos.createOrUpdateFileContents(
       owner: repo.owner.login,
@@ -54,21 +49,21 @@ let handler = inflight (ctx) => {
       sha: contents.data.sha,
       path: filename,
       message: "uppercase {filename}",
-      content: util.base64Encode(fileContents.lowercase())
-    );
-    fs.writeFile("/tmp/1115", fileContents.uppercase());
-    
+      content: util.base64Encode(fileContents.uppercase())
+    );    
   }
 };
+let appId = new cloud.Secret(name:"github.app_id") as "appId";
+let privateKey = new cloud.Secret(name:"gitub.app_key") as "privateKey";
+let webhookSecret = new cloud.Secret(name:"github.webhook_secret") as "webhookSecret";
+
 
 let markdown = new probot.ProbotApp(
-  appId: "<app-id>",
-  privateKey: key,
-  webhookSecret: "webhook-secret",
+  appId: appId,
+  privateKey: privateKey,
+  webhookSecret: webhookSecret,
   onPullRequestOpened: handler,
   onPullRequestReopened: handler
 );
 
-test "add() adds two numbers" {
-  
-}
+

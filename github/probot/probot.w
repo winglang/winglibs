@@ -2,7 +2,6 @@ bring cloud;
 bring http;
 bring ex;
 bring util;
-bring fs;
 bring "./types.w" as probot;
 bring "../octokit/types.w" as octokit;
 bring "./adapter.w" as adapter;
@@ -10,23 +9,23 @@ bring "../utils/lowkeys.w" as lowkeys;
 bring "../ngrok/ngrok.w" as ngrok;
 
 pub struct ProbotAppProps {
-  appId: str;
-  privateKey: str;
-  webhookSecret: str;
-
-  onPullRequestOpened: inflight (probot.IPullRequestOpenedContext): void;
-  onPullRequestReopened: inflight (probot.IPullRequestOpenedContext): void;
+  appId: cloud.Secret;
+  privateKey: cloud.Secret;
+  webhookSecret: cloud.Secret;
+  // currently we have to provide these handlers on construction - see https://github.com/winglang/wing/issues/4324
+  onPullRequestOpened: inflight (probot.PullRequestOpenedContext): void;
+  onPullRequestReopened: inflight (probot.PullRequestOpenedContext): void;
 }
 
 pub class ProbotApp {
-  pub appId: str;
-  pub privateKey: str;
-  pub webhookSecret: str;
+  pub appId: cloud.Secret;
+  pub privateKey: cloud.Secret;
+  pub webhookSecret: cloud.Secret;
   adapter: adapter.ProbotAdapter;
   api: cloud.Api;
 
-  var onPullRequestOpenedHandler: inflight (probot.IPullRequestOpenedContext): void;
-  var onPullRequestReopenedHandler: inflight (probot.IPullRequestOpenedContext): void;
+  var onPullRequestOpenedHandler: inflight (probot.PullRequestOpenedContext): void;
+  var onPullRequestReopenedHandler: inflight (probot.PullRequestOpenedContext): void;
 
   extern "./probot.mts" pub static inflight createGithubAppJwt(appId: str, privateKey: str): str;
 
@@ -34,43 +33,45 @@ pub class ProbotApp {
     this.appId =  props.appId;
     this.privateKey = props.privateKey;
     this.webhookSecret = props.webhookSecret;
-    this.adapter = new adapter.ProbotAdapter(appId: props.appId, privateKey: props.privateKey, webhookSecret: props.webhookSecret);
+    this.adapter = new adapter.ProbotAdapter(
+      appId: props.appId, 
+      privateKey: props.privateKey, 
+      webhookSecret: props.webhookSecret
+    );
 
     this.onPullRequestOpenedHandler = props.onPullRequestOpened;
     this.onPullRequestReopenedHandler = props.onPullRequestReopened;
 
     this.api = new cloud.Api();
     this.api.post("/webhook", inflight (req) => {
-      fs.writeFile("/tmp/112", "sdsds {this.onPullRequestReopenedHandler}");
       this.listen(this.getVerifyAndReceievePropsProps(req));
-
       return {
         status: 200
       };
     });
 
-    let devNgrok = new ngrok.Ngrok(
-      url: this.api.url,
-    );
-
-    new cloud.OnDeploy(inflight () => {
-      this.updateWebhookUrl("{devNgrok.url}/webhook");
-    });
-
-    
+    if !std.Node.of(this).app.isTestEnvironment {
+      let devNgrok = new ngrok.Ngrok(
+        url: this.api.url,
+      );
+        
+      new cloud.OnDeploy(inflight () => {
+        this.updateWebhookUrl("{devNgrok.url}/webhook");
+      });
+    }
   }
 
-  pub onPullRequestOpened(handler: inflight (probot.IPullRequestOpenedContext): void) {
+  pub onPullRequestOpened(handler: inflight (probot.PullRequestOpenedContext): void) {
     this.onPullRequestOpenedHandler = handler;
   }
 
-  pub onPullRequestReopened(handler: inflight (probot.IPullRequestOpenedContext): void) {
+  pub onPullRequestReopened(handler: inflight (probot.PullRequestOpenedContext): void) {
     this.onPullRequestReopenedHandler = handler;
-    log("aaaa {this.onPullRequestReopenedHandler}");
   }
 
   pub inflight updateWebhookUrl(url: str) {
-    let jwt = ProbotApp.createGithubAppJwt(this.appId, this.privateKey);
+    let jwt = ProbotApp.createGithubAppJwt(this.appId.value(), this.privateKey.value());
+
 
     let res = http.patch(
       "https://api.github.com/app/hook/config",
@@ -122,29 +123,24 @@ pub class ProbotApp {
   }
 
   inflight listen(props: probot.VerifyAndReceieveProps) {
-    let xxxx = this.onPullRequestReopenedHandler;
-    this.adapter.handlePullRequstOpened(inflight (context: probot.IPullRequestOpenedContext): void => {
-      
-      log("22222 {xxxx}");
+    this.adapter.handlePullRequstOpened(inflight (context: probot.PullRequestOpenedContext): void => {
       this.onPullRequestOpenedHandler(context);
     });
 
-    this.adapter.handlePullRequstReopened(inflight (context: probot.IPullRequestOpenedContext): void => {
-      fs.writeFile("/tmp/111", "sadsad1 {xxxx}");
-      log("11111 {xxxx}");
+    this.adapter.handlePullRequstReopened(inflight (context: probot.PullRequestOpenedContext): void => {
       this.onPullRequestReopenedHandler(context);
     });
 
-    this.adapter.handlePullRequstClosed(inflight (context: probot.IPullRequestClosedContext): void => {
-      
+    this.adapter.handlePullRequstClosed(inflight (context: probot.PullRequestClosedContext): void => {
+      // TODO implement 
     });
 
-    this.adapter.handlePullRequstSync(inflight (context: probot.IPullRequestSyncContext): void => {
-      
+    this.adapter.handlePullRequstSync(inflight (context: probot.PullRequestSyncContext): void => {
+      // TODO implement 
     });
 
-    this.adapter.handlePush(inflight (context: probot.IPushContext) => {
-      
+    this.adapter.handlePush(inflight (context: probot.PushContext) => {
+      // TODO implement 
     });
 
     this.adapter.verifyAndReceive(props);

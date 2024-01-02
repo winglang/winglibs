@@ -37,4 +37,3 @@ export const createGithubAppJwt = async (appId: string, privateKey: string) => {
     algorithm: "RS256",
   });
 };
-
