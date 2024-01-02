@@ -2,6 +2,10 @@
   "name": "@winglibs/github",
   "description": "A Wing library for GitHub Probot",
   "version": "0.0.1",
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
