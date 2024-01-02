@@ -1,7 +1,7 @@
 bring expect;
 bring util;
 bring cloud;
-bring "./probot/probot.w" as probot;
+bring "./lib.w" as probot;
 
 let handler = inflight (ctx) => {
   let repo = ctx.payload.repository;
