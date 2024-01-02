@@ -5,7 +5,6 @@ bring "./probot/probot.w" as probot;
 let key = fs.readFile("/path/to/private-key.pem");
 
 let handler = inflight (ctx) => {
-  fs.writeFile("/tmp/111", "pull requesdt opened");
   let repo = ctx.payload.repository;
 
   // find all changed mdfiles by comparing the commits of the PR
