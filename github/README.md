@@ -46,28 +46,15 @@ In order to start you need to create a GitHub application:
 9. Notice the app id and save it 
 10. Generate & download a private key for the app 
 
-### Create Local Secret File 
-
-`github.ProbotApp` class expects three secrets on construction, the application id, private key (AKA `pem` file) and webhook secret.
-
-Storing the `pem` file in a json format is a bit tricky, because of the sensitivity to any white space chars and its structure.
-
-You can use `jq`` ([Install jq](https://jqlang.github.io/jq/)) to generate your `~/.wing/secret.json` with the following command:
-
-```sh
-jq --null-input \
-  --arg secret "this-is-a-bad-secret" \
-  --arg app_id "some-app-id" \
-  --arg private_key "$(cat '/path/to/private-key.pem')" \
-  '{"github.webhook_secret": $secret, "github.app_id": $app_id, "gitub.app_key": $private_key}' > ~/.wing/secrets.json
-```
-
 ### `main.w`
+
+When running on the simulator, the Webhook URL will automatically update on every simulator run.
 
 ```js
 bring util;
 bring cloud;
 bring github;
+bring fs;
 
 let uppercaseAllMarkdownFiles = inflight (ctx) => {
   let repo = ctx.payload.repository;
@@ -120,19 +107,27 @@ let uppercaseAllMarkdownFiles = inflight (ctx) => {
   }
 };
 
-let appId = new cloud.Secret(name:"github.app_id") as "appId";
-let privateKey = new cloud.Secret(name:"gitub.app_key") as "privateKey";
-let webhookSecret = new cloud.Secret(name:"github.webhook_secret") as "webhookSecret";
+class SimpleCredentialsSupplier impl github.IProbotAppCredentialsSupplier {
+   
+   pub inflight getId(): str {
+    return "app id";
+   }
 
+   pub inflight getWebhookSecret(): str {
+    return "this-is-a-bad-secret";
+   }
 
+   pub inflight getPrivateKey(): str {
+    return fs.readFile("/path/to/private-key.pem");
+   }
+}
+
+let credentialsSupplier = new SimpleCredentialsSupplier();
 let markdown = new github.ProbotApp(
-  appId: appId,
-  privateKey: privateKey,
-  webhookSecret: webhookSecret,
-  onPullRequestOpened: uppercaseAllMarkdownFiles,
-  onPullRequestReopened: uppercaseAllMarkdownFiles
+  credentialsSupplier: credentialsSupplier,
+  onPullRequestOpened: handler,
+  onPullRequestReopened: handler
 );
-
 ```
 
 ## License

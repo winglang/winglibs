@@ -1,11 +1,15 @@
 bring "../octokit/types.w" as octokit;
 bring "./types.w" as probot;
-bring cloud;
+
+pub interface IProbotAppCredentialsSupplier {
+  inflight getId(): str;
+  inflight getWebhookSecret(): str;
+  inflight getPrivateKey(): str;
+}
+
 
 pub struct ProbotAdapterProps {
-  appId: cloud.Secret;
-  privateKey: cloud.Secret;
-  webhookSecret: cloud.Secret;
+  credentialsSupplier: IProbotAppCredentialsSupplier;
 }
 
 pub struct CreateAdapterOptions {
@@ -17,22 +21,18 @@ pub struct CreateAdapterOptions {
 pub class ProbotAdapter {
   extern "./probot.js" pub static inflight createProbotAdapter(options: CreateAdapterOptions): probot.ProbotInstance;
 
-  pub appId: cloud.Secret;
-  pub privateKey: cloud.Secret;
-  pub webhookSecret: cloud.Secret;
+  credentialsSupplier: IProbotAppCredentialsSupplier;
   inflight var instance: probot.ProbotInstance?;
 
   new(props: ProbotAdapterProps) {
-    this.appId =  props.appId;
-    this.privateKey = props.privateKey;
-    this.webhookSecret = props.webhookSecret;
+    this.credentialsSupplier =  props.credentialsSupplier;
   }
 
   inflight new() {
     this.instance = ProbotAdapter.createProbotAdapter(
-      appId: this.appId.value(), 
-      privateKey: this.privateKey.value(), 
-      webhookSecret: this.webhookSecret.value()
+      appId: this.credentialsSupplier.getId(),
+      privateKey: this.credentialsSupplier.getPrivateKey(), 
+      webhookSecret: this.credentialsSupplier.getWebhookSecret()
     );
   }
 
