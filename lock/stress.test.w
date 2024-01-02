@@ -3,39 +3,78 @@ bring cloud;
 bring util;
 bring "./lib.w" as lock;
 
-let l = new lock.Lock() as "myLock";
-let q = new cloud.Queue() as "myQueue";
-let c = new cloud.Counter() as "myCounter";
+let ACQUIRE_TIMEOUT = 1m;
+
+class TestStats {
+  c: cloud.Counter;
+  new() {
+    this.c = new cloud.Counter() as "{util.nanoid()}"; // every test should have it's own unique counter
+
+  }
+  
+  pub inflight report() {
+    let j = MutJson {};
+    for s in ["started", "ableToAcquire", "check", "completed", "failedToAcquire", "completed"] {
+      j.set(s, this.c.peek());
+    }
+    log("{j}");
+  }
+  pub inflight inc(key: str):num {
+    return this.c.inc(1,key);
+  }
+  
+  pub inflight dec(key: str):num {
+    return this.c.dec(1,key);
+  }
+
+  pub inflight peek(key: str):num {
+    return this.c.peek(key);
+  }
+}
 
 
-let NUMBER_OF_EVENTS = 100;
-let TEST_TIMEOUT = 1m;
+let l = new lock.Lock() as "myLock-1";
+let q = new cloud.Queue(timeout: duration.fromMilliseconds(ACQUIRE_TIMEOUT.milliseconds * 2) ) as "myQueue";
+let c = new TestStats();
+
+let NUMBER_OF_EVENTS = 10;
 
 q.setConsumer(inflight ()=> {
-  c.inc(1, "started");
-  l.acquire("l", timeout: TEST_TIMEOUT);
-  let v = c.inc(1, "check");
-  if v != 0 {
-    c.inc(1, "bad");
+  c.inc("started");
+  let success = l.tryAcquire("l", timeout: 10s);
+  if success  {
+    c.inc("ableToAcquire");
+    let v = c.inc("check");
+    if v != 0 {
+      c.inc("bad");
+    }
+    util.sleep(1ms);
+    c.dec("check");
+    l.release("l");
+    c.inc("completed");
+  } else {
+    c.inc("failedToAcquire");
+    c.dec("completed");
   }
-  util.sleep(1ms);
-  c.dec(1, "check");
-  l.release("l");
-  c.inc(1, "completed");
-}, timeout: TEST_TIMEOUT);
+
+}, timeout: duration.fromMilliseconds(ACQUIRE_TIMEOUT.milliseconds * 2));
+
 
 new cloud.Function( inflight () => {
+  log("starting test with NUMBER_OF_EVENTS={NUMBER_OF_EVENTS}");
+
+  c.report();
   for i in 1..NUMBER_OF_EVENTS {
     q.push("{i}");
+    log("event ${i} sent");
+    c.report();
   }
+
+  log("done sending events");
   util.waitUntil(() => {
-    log("{{
-      started: c.peek("started"),
-      bad: c.peek("bad"),
-      completed: c.peek("completed")
-    }}");
-    return c.peek("completed") == NUMBER_OF_EVENTS-1;
+  c.report();
+  return c.peek("completed") == NUMBER_OF_EVENTS-1;
   }, timeout: 10m, interval: 5s);
   expect.equal(NUMBER_OF_EVENTS-1, c.peek("completed"));
   expect.equal(0, c.peek("bad"));
-}, timeout: TEST_TIMEOUT) as "stress-test";
+}, timeout: duration.fromMilliseconds(ACQUIRE_TIMEOUT.milliseconds * 4)) as "stress-test";

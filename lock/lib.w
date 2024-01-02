@@ -4,7 +4,13 @@ bring cloud;
 bring math;
 
 pub struct LockAcquireOptions {
+  /**
+    Keeps trying to acquire lock until timeout has reached
+  */
   timeout: duration;
+  /**
+    Expire lock after expiry
+  */
   expiry: duration?;
 }
 
@@ -60,10 +66,11 @@ pub class Lock {
   pub inflight acquire(id: str, options: LockAcquireOptions){
     let acquired = util.waitUntil(inflight () => {
         this.releaseIfExpired(id);
-        let peeked = this.counter.peek(id);
-        if (peeked != 0) {
-          return false;
-        }
+        // // performance improvement to not acquire the lock and cause live locks
+        // let peeked = this.counter.peek(id);
+        // if (peeked != 0) {
+        //   return false;
+        // }
         let value = this.counter.inc(1, id);
         
         if value == 0 {
