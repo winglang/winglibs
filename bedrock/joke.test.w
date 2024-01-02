@@ -5,7 +5,7 @@ bring util;
 let joke = new j.JokeMaker();
 
 // an experimental pattern for mocking responses
-// this will only kick in if is in sim and test modet
+// this will only kick in if is in sim and test mode
 if util.env("WING_TARGET") == "sim" && std.Node.of(joke).app.isTestEnvironment {
   let model = std.Node.of(joke).findChild("claude").node.findChild("sim");
   let sim: s.Model_sim = unsafeCast(model);
