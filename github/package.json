@@ -1,5 +1,6 @@
 {
   "name": "@winglibs/github",
+  "description": "A Wing library for GitHub Probot",
   "version": "0.0.1",
   "repository": {
     "type": "git",
