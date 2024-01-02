@@ -43,10 +43,11 @@ pub class JokeMaker {
 }
 ```
 
-## Development
+## Development & Testing 
 
-When running in the simulator, set `BEDROCK_DEV=1` to send requests to Amazon Bedrock instead of
-replying with a mock response.
+When running in simulator using `wing run`, request are sent to Amazon Bedrock.
+When running tests using `wing test` or by running tests from withing Wing Console, requests are 
+handled by the mocked service. 
 
 ## Maintainers
 

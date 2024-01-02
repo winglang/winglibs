@@ -5,8 +5,8 @@ bring util;
 let joke = new j.JokeMaker();
 
 // an experimental pattern for mocking responses
-// this will only kick in if `DEV=1` is not set
-if util.env("WING_TARGET") == "sim" && !util.tryEnv("BEDROCK_DEV")? {
+// this will only kick in if is in sim and test modet
+if util.env("WING_TARGET") == "sim" && std.Node.of(joke).app.isTestEnvironment {
   let model = std.Node.of(joke).findChild("claude").node.findChild("sim");
   let sim: s.Model_sim = unsafeCast(model);
   sim.setMockResponse(inflight (body) => {
