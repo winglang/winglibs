@@ -15,7 +15,7 @@ pub struct CreateAdapterOptions {
 }
 
 pub class ProbotAdapter {
-  extern "./probot.mts" pub static inflight createProbotAdapter(options: CreateAdapterOptions): probot.ProbotInstance;
+  extern "./probot.js" pub static inflight createProbotAdapter(options: CreateAdapterOptions): probot.ProbotInstance;
 
   pub appId: cloud.Secret;
   pub privateKey: cloud.Secret;

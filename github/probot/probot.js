@@ -1,14 +1,9 @@
 import { createProbot } from "@probot/adapter-aws-lambda-serverless";
 import jwt from "jsonwebtoken";
 
-export interface CreateProbotAdapterOptions {
-  appId: number;
-  privateKey: string;
-  webhookSecret: string;
-}
 
 export const createProbotAdapter = async (
-  options: CreateProbotAdapterOptions,
+  options,
 ) => {
   const probot = createProbot({
     overrides: {
@@ -23,7 +18,7 @@ export const createProbotAdapter = async (
   return probot;
 };
 
-export const createGithubAppJwt = async (appId: string, privateKey: string) => {
+export const createGithubAppJwt = async (appId, privateKey) => {
   const now = Math.floor(Date.now() / 1000) - 30;
   const expiration = now + 60 * 10; // JWT expiration time (10 minute maximum)
 
