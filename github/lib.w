@@ -27,7 +27,7 @@ pub class ProbotApp {
   var onPullRequestOpenedHandler: inflight (probot.PullRequestOpenedContext): void;
   var onPullRequestReopenedHandler: inflight (probot.PullRequestOpenedContext): void;
 
-  extern "./probot/probot.mts" pub static inflight createGithubAppJwt(appId: str, privateKey: str): str;
+  extern "./probot/probot.js" pub static inflight createGithubAppJwt(appId: str, privateKey: str): str;
 
   new(props: ProbotAppProps) {
     this.appId =  props.appId;
