@@ -46,7 +46,7 @@ pub class JokeMaker {
 ## Development & Testing 
 
 When running in simulator using `wing run`, request are sent to Amazon Bedrock.
-When running tests using `wing test` or by running tests from withing Wing Console, requests are 
+When running tests using `wing test` or by running tests from within Wing Console, requests are 
 handled by the mocked service. 
 
 ## Maintainers
