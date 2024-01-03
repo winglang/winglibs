@@ -8,19 +8,20 @@ bring "./probot/adapter.w" as adapter;
 bring "./utils/lowkeys.w" as lowkeys;
 bring "./ngrok/ngrok.w" as ngrok;
 
+pub interface IProbotAppCredentialsSupplier extends adapter.IProbotAppCredentialsSupplier {
+
+}
+
 pub struct ProbotAppProps {
-  appId: cloud.Secret;
-  privateKey: cloud.Secret;
-  webhookSecret: cloud.Secret;
+  credentialsSupplier: IProbotAppCredentialsSupplier;
   // currently we have to provide these handlers on construction - see https://github.com/winglang/wing/issues/4324
   onPullRequestOpened: inflight (probot.PullRequestOpenedContext): void;
   onPullRequestReopened: inflight (probot.PullRequestOpenedContext): void;
 }
 
+
 pub class ProbotApp {
-  pub appId: cloud.Secret;
-  pub privateKey: cloud.Secret;
-  pub webhookSecret: cloud.Secret;
+  credentialsSupplier: IProbotAppCredentialsSupplier;
   adapter: adapter.ProbotAdapter;
   api: cloud.Api;
 
@@ -30,14 +31,8 @@ pub class ProbotApp {
   extern "./probot/probot.js" pub static inflight createGithubAppJwt(appId: str, privateKey: str): str;
 
   new(props: ProbotAppProps) {
-    this.appId =  props.appId;
-    this.privateKey = props.privateKey;
-    this.webhookSecret = props.webhookSecret;
-    this.adapter = new adapter.ProbotAdapter(
-      appId: props.appId, 
-      privateKey: props.privateKey, 
-      webhookSecret: props.webhookSecret
-    );
+    this.credentialsSupplier =  props.credentialsSupplier;
+    this.adapter = new adapter.ProbotAdapter(credentialsSupplier: props.credentialsSupplier);
 
     this.onPullRequestOpenedHandler = props.onPullRequestOpened;
     this.onPullRequestReopenedHandler = props.onPullRequestReopened;
@@ -49,15 +44,21 @@ pub class ProbotApp {
         status: 200
       };
     });
-
     if !std.Node.of(this).app.isTestEnvironment {
-      let devNgrok = new ngrok.Ngrok(
-        url: this.api.url,
-      );
-        
-      new cloud.OnDeploy(inflight () => {
-        this.updateWebhookUrl("{devNgrok.url}/webhook");
-      });
+      let target = util.env("WING_TARGET");
+      if target == "sim" {
+        let devNgrok = new ngrok.Ngrok(
+          url: this.api.url,
+        );
+          
+        new cloud.OnDeploy(inflight () => {
+          this.updateWebhookUrl("{devNgrok.url}/webhook");
+        });
+      } else {
+        new cloud.OnDeploy(inflight () => {
+          this.updateWebhookUrl("{this.api.url}/webhook");
+        });
+      }
     }
   }
 
@@ -70,7 +71,7 @@ pub class ProbotApp {
   }
 
   pub inflight updateWebhookUrl(url: str) {
-    let jwt = ProbotApp.createGithubAppJwt(this.appId.value(), this.privateKey.value());
+    let jwt = ProbotApp.createGithubAppJwt(this.credentialsSupplier.getId(), this.credentialsSupplier.getPrivateKey());
 
 
     let res = http.patch(
