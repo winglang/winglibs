@@ -44,15 +44,21 @@ pub class ProbotApp {
         status: 200
       };
     });
-
     if !std.Node.of(this).app.isTestEnvironment {
-      let devNgrok = new ngrok.Ngrok(
-        url: this.api.url,
-      );
-        
-      new cloud.OnDeploy(inflight () => {
-        this.updateWebhookUrl("{devNgrok.url}/webhook");
-      });
+      let target = util.env("WING_TARGET");
+      if target == "sim" {
+        let devNgrok = new ngrok.Ngrok(
+          url: this.api.url,
+        );
+          
+        new cloud.OnDeploy(inflight () => {
+          this.updateWebhookUrl("{devNgrok.url}/webhook");
+        });
+      } else {
+        new cloud.OnDeploy(inflight () => {
+          this.updateWebhookUrl("{this.api.url}/webhook");
+        });
+      }
     }
   }
 
