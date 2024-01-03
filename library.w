@@ -66,12 +66,38 @@ pub class Library {
     addCommonSteps(releaseSteps);
 
     releaseSteps.push({
+      name: "Get package version",
+      run: "echo WINGLIB_VERSION=\$(node -p \"require('./package.json').version\") >> \"$GITHUB_ENV\"",
+      "working-directory": libdir,
+    });
+
+    releaseSteps.push({
       name: "Publish",
       run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
       "working-directory": libdir,
       env: {
         NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
-      } 
+      }
+    });
+
+    releaseSteps.push({
+      name: "Tag commit",
+      uses: "tvdias/github-tagger@v0.0.1",
+      with: {
+        "repo-token": "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}",
+        tag: "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}",
+      }
+    });
+
+    releaseSteps.push({
+      name: "GitHub release",
+      uses: "softprops/action-gh-release@v1",
+      with: {
+        name: "Winglib {base} v\$\{\{ env.WINGLIB_VERSION \}\}",
+        tag_name: "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}",
+        files: "*.tgz",
+        token: "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}"
+      },
     });
 
     fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
