@@ -80,12 +80,15 @@ pub class Library {
       }
     });
 
+    let tagName = "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}";
+    let githubTokenWithAuth = "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}";
+
     releaseSteps.push({
       name: "Tag commit",
       uses: "tvdias/github-tagger@v0.0.1",
       with: {
-        "repo-token": "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}",
-        tag: "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}",
+        "repo-token": githubTokenWithAuth,
+        tag: tagName,
       }
     });
 
@@ -94,9 +97,9 @@ pub class Library {
       uses: "softprops/action-gh-release@v1",
       with: {
         name: "Winglib {base} v\$\{\{ env.WINGLIB_VERSION \}\}",
-        tag_name: "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}",
+        tag_name: tagName,
         files: "*.tgz",
-        token: "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}"
+        token: githubTokenWithAuth,
       },
     });
 
