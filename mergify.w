@@ -6,9 +6,10 @@ pub class MergifyWorkflow {
     buildChecks.push("check-success=Validate PR title");
     for lib in libs {
       buildChecks.push(Json {
-        "or": [
-          "check-success=build-{lib}",
-          "check-skipped=build-{lib}",
+        "and": [
+          "-check-failure=build-{lib}",
+          "-check-pending=build-{lib}",
+          "-check-stale=build-{lib}",
         ]
       });
     }
