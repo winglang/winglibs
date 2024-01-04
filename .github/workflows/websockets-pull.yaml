@@ -4,7 +4,7 @@ on:
     paths:
       - websockets/**
 jobs:
-  build:
+  build-websockets:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -6,7 +6,7 @@ on:
     paths:
       - postgres/**
 jobs:
-  build:
+  build-postgres:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

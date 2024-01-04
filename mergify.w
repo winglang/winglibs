@@ -7,8 +7,8 @@ pub class MergifyWorkflow {
     for lib in libs {
       buildChecks.push(Json {
         "or": [
-          "check-success={lib}-pull / build",
-          "check-skipped={lib}-pull / build",
+          "check-success=build-{lib}",
+          "check-skipped=build-{lib}",
         ]
       });
     }

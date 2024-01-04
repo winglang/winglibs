@@ -103,6 +103,11 @@ pub class Library {
       },
     });
 
+    let releaseJobs = MutJson {};
+    releaseJobs.set("build-{base}", {
+      "runs-on": "ubuntu-latest",
+      steps: releaseSteps.copy(),
+    });
     fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
       name: "{base}-release",
       on: {
@@ -111,27 +116,22 @@ pub class Library {
           paths: ["{libdir}/**"]
         }
       },
-      jobs: {
-        build: {
-          "runs-on": "ubuntu-latest",
-          steps: releaseSteps.copy()
-        }
-      }
+      jobs: Json.deepCopy(releaseJobs),
     });
 
-    fs.writeYaml("{workflowdir}/{base}-pull.yaml", { 
+    let pullJobs = MutJson {};
+    pullJobs.set("build-{base}", {
+      "runs-on": "ubuntu-latest",
+      steps: pullSteps.copy(),
+    });
+    fs.writeYaml("{workflowdir}/{base}-pull.yaml", {
       name: "{base}-pull",
       on: {
         pull_request: {
           paths: ["{libdir}/**"]
         }
       },
-      jobs: {
-        build: {
-          "runs-on": "ubuntu-latest",
-          steps: pullSteps.copy()
-        }
-      }
+      jobs: Json.deepCopy(pullJobs),
     });
   }
 }

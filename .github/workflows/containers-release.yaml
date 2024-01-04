@@ -6,7 +6,7 @@ on:
     paths:
       - containers/**
 jobs:
-  build:
+  build-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

@@ -6,7 +6,7 @@ on:
     paths:
       - github/**
 jobs:
-  build:
+  build-github:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
