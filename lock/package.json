@@ -1,0 +1,15 @@
+{
+  "name": "@winglibs/lock",
+  "description": "A Wing library for cloud Lock",
+  "version": "0.0.1",
+    "author": {
+    "name": "Eyal Keren",
+    "email": "eyalk@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "lock"
+  },
+  "license": "MIT"
+}
