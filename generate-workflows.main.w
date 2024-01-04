@@ -9,6 +9,8 @@ let workflowdir = ".github/workflows";
 fs.remove(".github/workflows");
 fs.mkdir(".github/workflows");
 
+let libs = MutArray<str>[];
+
 for file in fs.readdir(".") {
   if !fs.exists("{file}/package.json") {
     log("skipping {file}");
@@ -16,8 +18,9 @@ for file in fs.readdir(".") {
   }
 
   new l.Library(workflowdir, file) as file;
+  libs.push(file);
 }
 
 new stale.StaleWorkflow(workflowdir);
-new mergify.MergifyWorkflow();
+new mergify.MergifyWorkflow(libs.copy());
 new prlint.PullRequestLintWorkflow(workflowdir);
