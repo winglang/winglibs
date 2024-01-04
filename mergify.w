@@ -1,7 +1,15 @@
 bring fs;
 
 pub class MergifyWorkflow {
-  new() {
+  new(libs: Array<str>) {
+    let buildChecks = MutArray<Json>[];
+    buildChecks.push("check-success=Validate PR title");
+    for lib in libs {
+      buildChecks.push("-check-failure=build-{lib}");
+      buildChecks.push("-check-pending=build-{lib}");
+      buildChecks.push("-check-stale=build-{lib}");
+    }
+
     fs.writeYaml(".mergify.yml", {
       "queue_rules": [
         {
@@ -25,7 +33,7 @@ pub class MergifyWorkflow {
               "commit_message_template": "\{\{ title \}\} (#\{\{ number \}\})\n\{\{ body \}\}"
             }
           },
-          "conditions": [
+          "conditions": Array<Json>[
             "-files=.mergify.yml",
             "-title~=(?i)wip",
             "-label~=(🚧 pr/do-not-merge|⚠️ pr/review-mutation)",
@@ -38,11 +46,11 @@ pub class MergifyWorkflow {
             "-approved-reviews-by~=author",
             "check-success=Validate PR title",
             "base=main",
-          ]
+          ].concat(buildChecks.copy())
         },
         {
           "name": "requires manual merge",
-          "conditions": [
+          "conditions": Array<Json>[
             "files=.mergify.yml",
             "-title~=(?i)wip",
             "-label~=(🚧 pr/do-not-merge|⚠️ pr/review-mutation|⚠️ mergify/review-config)",
@@ -52,9 +60,8 @@ pub class MergifyWorkflow {
             "#changes-requested-reviews-by=0",
             "#review-threads-unresolved=0",
             "-approved-reviews-by~=author",
-            "check-success=Validate PR title",
             "base=main"
-          ],
+          ].concat(buildChecks.copy()),
           "actions": {
             "comment": {
               "message": "Thank you for contributing! Your pull request contains mergify configuration changes and needs manual merge from a maintainer (be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork))."

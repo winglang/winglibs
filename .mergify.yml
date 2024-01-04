@@ -30,6 +30,31 @@ pull_request_rules:
       - -approved-reviews-by~=author
       - check-success=Validate PR title
       - base=main
+      - check-success=Validate PR title
+      - -check-failure=build-bedrock
+      - -check-pending=build-bedrock
+      - -check-stale=build-bedrock
+      - -check-failure=build-checks
+      - -check-pending=build-checks
+      - -check-stale=build-checks
+      - -check-failure=build-containers
+      - -check-pending=build-containers
+      - -check-stale=build-containers
+      - -check-failure=build-fifoqueue
+      - -check-pending=build-fifoqueue
+      - -check-stale=build-fifoqueue
+      - -check-failure=build-github
+      - -check-pending=build-github
+      - -check-stale=build-github
+      - -check-failure=build-postgres
+      - -check-pending=build-postgres
+      - -check-stale=build-postgres
+      - -check-failure=build-redis
+      - -check-pending=build-redis
+      - -check-stale=build-redis
+      - -check-failure=build-websockets
+      - -check-pending=build-websockets
+      - -check-stale=build-websockets
   - name: requires manual merge
     conditions:
       - files=.mergify.yml
@@ -42,8 +67,32 @@ pull_request_rules:
       - "#changes-requested-reviews-by=0"
       - "#review-threads-unresolved=0"
       - -approved-reviews-by~=author
-      - check-success=Validate PR title
       - base=main
+      - check-success=Validate PR title
+      - -check-failure=build-bedrock
+      - -check-pending=build-bedrock
+      - -check-stale=build-bedrock
+      - -check-failure=build-checks
+      - -check-pending=build-checks
+      - -check-stale=build-checks
+      - -check-failure=build-containers
+      - -check-pending=build-containers
+      - -check-stale=build-containers
+      - -check-failure=build-fifoqueue
+      - -check-pending=build-fifoqueue
+      - -check-stale=build-fifoqueue
+      - -check-failure=build-github
+      - -check-pending=build-github
+      - -check-stale=build-github
+      - -check-failure=build-postgres
+      - -check-pending=build-postgres
+      - -check-stale=build-postgres
+      - -check-failure=build-redis
+      - -check-pending=build-redis
+      - -check-stale=build-redis
+      - -check-failure=build-websockets
+      - -check-pending=build-websockets
+      - -check-stale=build-websockets
     actions:
       comment:
         message: Thank you for contributing! Your pull request contains mergify

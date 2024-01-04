@@ -4,7 +4,7 @@ on:
     paths:
       - fifoqueue/**
 jobs:
-  build:
+  build-fifoqueue:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

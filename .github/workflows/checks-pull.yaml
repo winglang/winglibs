@@ -4,7 +4,7 @@ on:
     paths:
       - checks/**
 jobs:
-  build:
+  build-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
