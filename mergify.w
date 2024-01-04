@@ -45,7 +45,6 @@ pub class MergifyWorkflow {
             "#review-threads-unresolved=0",
             "-approved-reviews-by~=author",
             "check-success=Validate PR title",
-            "check-success=build",
             "base=main",
           ].concat(buildChecks.copy())
         },
