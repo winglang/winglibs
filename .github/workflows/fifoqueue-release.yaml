@@ -47,7 +47,7 @@ jobs:
       - name: GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          name: Winglib fifoqueue v${{ env.WINGLIB_VERSION }}
+          name: fifoqueue v${{ env.WINGLIB_VERSION }}
           tag_name: fifoqueue-v${{ env.WINGLIB_VERSION }}
           files: "*.tgz"
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}

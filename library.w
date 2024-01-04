@@ -96,7 +96,7 @@ pub class Library {
       name: "GitHub release",
       uses: "softprops/action-gh-release@v1",
       with: {
-        name: "Winglib {base} v\$\{\{ env.WINGLIB_VERSION \}\}",
+        name: "{base} v\$\{\{ env.WINGLIB_VERSION \}\}",
         tag_name: tagName,
         files: "*.tgz",
         token: githubTokenWithAuth,

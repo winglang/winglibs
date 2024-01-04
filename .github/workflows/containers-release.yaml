@@ -47,7 +47,7 @@ jobs:
       - name: GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          name: Winglib containers v${{ env.WINGLIB_VERSION }}
+          name: containers v${{ env.WINGLIB_VERSION }}
           tag_name: containers-v${{ env.WINGLIB_VERSION }}
           files: "*.tgz"
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
