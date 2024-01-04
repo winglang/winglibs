@@ -1,0 +1,20 @@
+{
+  "name": "@winglibs/eventbridge",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "eventbridge"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@cdktf/provider-aws": "^18.2.0",
+    "cdktf": "^0.19.2",
+    "constructs": "^10.3.0"
+  },
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^18",
+    "cdktf": "^0.19",
+    "constructs": "^10.3"
+  }
+}
