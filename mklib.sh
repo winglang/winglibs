@@ -47,21 +47,25 @@ cat > $1/README.md <<HERE
 
 ## Prerequisites
 
-* [winglang](https://winglang.io).
+* [winglang](https://winglang.io)
 
 ## Installation
 
-``\`sh
+\`\`\`sh
 npm i @winglibs/$1
-``\`
+\`\`\`
 
 ## Usage
 
-``\`js
+\`\`\`js
 bring $1;
 
 let adder = new $1.Adder();
-``\`
+\`\`\`
+
+## Maintainers
+
+* [@name](https://github.com/name)
 
 ## License
 
