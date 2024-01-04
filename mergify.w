@@ -5,13 +5,9 @@ pub class MergifyWorkflow {
     let buildChecks = MutArray<Json>[];
     buildChecks.push("check-success=Validate PR title");
     for lib in libs {
-      buildChecks.push(Json {
-        "and": [
-          "-check-failure=build-{lib}",
-          "-check-pending=build-{lib}",
-          "-check-stale=build-{lib}",
-        ]
-      });
+      buildChecks.push("-check-failure=build-{lib}");
+      buildChecks.push("-check-pending=build-{lib}");
+      buildChecks.push("-check-stale=build-{lib}");
     }
 
     fs.writeYaml(".mergify.yml", {
