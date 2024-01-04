@@ -33,29 +33,29 @@ pull_request_rules:
       - base=main
       - check-success=Validate PR title
       - or:
-          - check-success=bedrock-pull / build
-          - check-skipped=bedrock-pull / build
+          - check-success=build-bedrock
+          - check-skipped=build-bedrock
       - or:
-          - check-success=checks-pull / build
-          - check-skipped=checks-pull / build
+          - check-success=build-checks
+          - check-skipped=build-checks
       - or:
-          - check-success=containers-pull / build
-          - check-skipped=containers-pull / build
+          - check-success=build-containers
+          - check-skipped=build-containers
       - or:
-          - check-success=fifoqueue-pull / build
-          - check-skipped=fifoqueue-pull / build
+          - check-success=build-fifoqueue
+          - check-skipped=build-fifoqueue
       - or:
-          - check-success=github-pull / build
-          - check-skipped=github-pull / build
+          - check-success=build-github
+          - check-skipped=build-github
       - or:
-          - check-success=postgres-pull / build
-          - check-skipped=postgres-pull / build
+          - check-success=build-postgres
+          - check-skipped=build-postgres
       - or:
-          - check-success=redis-pull / build
-          - check-skipped=redis-pull / build
+          - check-success=build-redis
+          - check-skipped=build-redis
       - or:
-          - check-success=websockets-pull / build
-          - check-skipped=websockets-pull / build
+          - check-success=build-websockets
+          - check-skipped=build-websockets
   - name: requires manual merge
     conditions:
       - files=.mergify.yml
@@ -71,29 +71,29 @@ pull_request_rules:
       - base=main
       - check-success=Validate PR title
       - or:
-          - check-success=bedrock-pull / build
-          - check-skipped=bedrock-pull / build
+          - check-success=build-bedrock
+          - check-skipped=build-bedrock
       - or:
-          - check-success=checks-pull / build
-          - check-skipped=checks-pull / build
+          - check-success=build-checks
+          - check-skipped=build-checks
       - or:
-          - check-success=containers-pull / build
-          - check-skipped=containers-pull / build
+          - check-success=build-containers
+          - check-skipped=build-containers
       - or:
-          - check-success=fifoqueue-pull / build
-          - check-skipped=fifoqueue-pull / build
+          - check-success=build-fifoqueue
+          - check-skipped=build-fifoqueue
       - or:
-          - check-success=github-pull / build
-          - check-skipped=github-pull / build
+          - check-success=build-github
+          - check-skipped=build-github
       - or:
-          - check-success=postgres-pull / build
-          - check-skipped=postgres-pull / build
+          - check-success=build-postgres
+          - check-skipped=build-postgres
       - or:
-          - check-success=redis-pull / build
-          - check-skipped=redis-pull / build
+          - check-success=build-redis
+          - check-skipped=build-redis
       - or:
-          - check-success=websockets-pull / build
-          - check-skipped=websockets-pull / build
+          - check-success=build-websockets
+          - check-skipped=build-websockets
     actions:
       comment:
         message: Thank you for contributing! Your pull request contains mergify
