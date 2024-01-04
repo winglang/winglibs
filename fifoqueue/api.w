@@ -1,6 +1,6 @@
 bring cloud;
 
-pub struct FifoQueueProps extends cloud.QueueProps {}
+pub struct FifoQueueProps extends cloud.QueueProps{}
 
 pub struct PushOptions {
   groupId: str;
