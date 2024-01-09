@@ -1,0 +1,13 @@
+{
+  "name": "@winglibs/ngrok",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "ngrok"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@ngrok/ngrok": "^0.9.1"
+  }
+}
