@@ -8,8 +8,13 @@ interface ChildProcess {
   inflight url(): str;
 }
 
+pub interface OnConnectHandler {
+  inflight handle(url: str): void;
+}
+
 pub struct NgrokProps {
   domain: str?;
+  onConnect: OnConnectHandler?;
 }
 
 pub class Tunnel {
@@ -29,14 +34,17 @@ pub class Tunnel {
         try {
           let child = Tunnel.spawn("node", Array<str?>["./ngrok.js", url, props?.domain]);
           log("ngrok: {child.url()} => {url}");
-          this.state.set("url", child.url());
+          let url = child.url();
+          this.state.set("url", url);
+          props?.onConnect?.handle(url);
           return () => {
             child.kill();
           };
         } catch e {
           log("error: {e}");
 
-          // this is needed, the exception will cause any dependents to never be initialized
+          // ugly: without this an exception will cause dependents to 
+          // never be initialized and the app will fail to start
           this.state.set("url", "<error>");
         }        
       });
@@ -44,6 +52,12 @@ pub class Tunnel {
       // no need to show the ugly details
       nodeof(s).hidden = true;
       nodeof(this.state).hidden = true;
+    } else {
+      // ugly: without this an exception will cause dependents to 
+      // never be initialized and the app will fail to start
+      new cloud.Service(inflight () => {
+        this.state.set("url", "<test>");
+      });
     }
   }
 
