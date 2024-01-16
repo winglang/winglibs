@@ -33,17 +33,23 @@ api.get("/", inflight () => {
   };
 });
 
-let t = new ngrok.Tunnel(api.url, domain: "eladb.ngrok.dev");
+let t = new ngrok.Tunnel(api.url, 
+  domain: "eladb.ngrok.dev",
+
+  // optional callback
+  onConnect: inflight (url: str) => {
+    log("connected to {url}");
+  },
+);
 
 new cloud.Function(inflight () => {
   log("tunnel connected to {t.url}");
 });
 ```
 
-## Roadmap
-
-- [ ] Do not require the domain
-- [ ] `onConnect()`
+Once a tunnel is initialized, if an `onConnect` callback is set, it will be called with the external
+URL of the tunnel. You can use this hook, for example, to update a webhook URL with a dynamic ngrok
+endpoint.
 
 ## Maintainers
 

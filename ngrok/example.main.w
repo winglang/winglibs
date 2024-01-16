@@ -12,7 +12,12 @@ api.get("/", inflight () => {
 
 let web = new cloud.Website(path: "./public");
 
-let t = new ngrok.Tunnel(api.url, domain: "eladb.ngrok.dev");
+let t = new ngrok.Tunnel(api.url, 
+  domain: "eladb.ngrok.dev",
+  onConnect: inflight (url: str) => {
+    log("connected to {url}");
+  }
+);
 
 new cloud.Function(inflight () => {
   log(t.url);
