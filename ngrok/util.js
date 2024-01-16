@@ -1,7 +1,8 @@
 const { spawn } = require("child_process");
+const { dirname } = require("fs");
 
 exports.spawn = async (cmd, args, opts) => {
-  const child = spawn(cmd, args, { stdio: "pipe", ...opts });
+  const child = spawn(cmd, args, { stdio: "pipe", cwd: __dirname, ...opts });
   return new Promise((resolve, reject) => {
 
     // route to `console.xxx` so it shows in wing console
