@@ -14,7 +14,7 @@
   },
   "peerDependencies": {
     "cdktf": "^0.19.1",
-    "winglang": "^0.51.0"
+    "winglang": "^0.54.0"
   },
   "dependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3.451.0",
