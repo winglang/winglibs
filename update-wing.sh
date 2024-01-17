@@ -7,7 +7,7 @@ for dir in */ ; do
             echo "Updating winglang in '$dir'..."
             npm update winglang
         else
-            echo "winglang not found in '$dir'."
+            echo "winglang not found in '$dir'.\n"
         fi        
         cd -
     fi
