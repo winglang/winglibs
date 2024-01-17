@@ -13,8 +13,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "winglang": "^0.54.13",
-    "cdktf": "^0.19.1"
+    "cdktf": "^0.19.1",
+    "winglang": "^0.54.39"
   },
   "dependencies": {
     "@cdktf/provider-aws": "^18.0.5",
