@@ -6,6 +6,7 @@ for dir in */ ; do
         if grep -q "\"winglang\"" package.json; then
             echo "Updating winglang in '$dir'..."
             npm update winglang
+            npm version patch
         else
             echo "winglang not found in '$dir'.\n"
         fi        
