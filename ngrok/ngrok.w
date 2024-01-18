@@ -13,7 +13,6 @@ pub interface OnConnectHandler {
 }
 
 pub struct NgrokProps {
-  domain: str?;
   onConnect: OnConnectHandler?;
 }
 
@@ -25,40 +24,28 @@ pub class Tunnel {
     this.state = new sim.State();
     this.url = this.state.token("url");
 
-    if !nodeof(this).app.isTestEnvironment {
-      if !util.tryEnv("NGROK_AUTHTOKEN")? {
-        throw "NGROK_AUTHTOKEN is not defined";
-      }
+    let s = new cloud.Service(inflight () => {
+      try {
+        let child = Tunnel.spawn("node", Array<str?>["./ngrok.js", url]);
+        log("ngrok: {child.url()} => {url}");
+        let url = child.url();
+        this.state.set("url", url);
+        props?.onConnect?.handle(url);
+        return () => {
+          child.kill();
+        };
+      } catch e {
+        log("error: {e}");
 
-      let s = new cloud.Service(inflight () => {
-        try {
-          let child = Tunnel.spawn("node", Array<str?>["./ngrok.js", url, props?.domain]);
-          log("ngrok: {child.url()} => {url}");
-          let url = child.url();
-          this.state.set("url", url);
-          props?.onConnect?.handle(url);
-          return () => {
-            child.kill();
-          };
-        } catch e {
-          log("error: {e}");
+        // ugly: without this an exception will cause dependents to 
+        // never be initialized and the app will fail to start
+        this.state.set("url", "<error>");
+      }        
+    });
 
-          // ugly: without this an exception will cause dependents to 
-          // never be initialized and the app will fail to start
-          this.state.set("url", "<error>");
-        }        
-      });
- 
-      // no need to show the ugly details
-      nodeof(s).hidden = true;
-      nodeof(this.state).hidden = true;
-    } else {
-      // ugly: without this an exception will cause dependents to 
-      // never be initialized and the app will fail to start
-      new cloud.Service(inflight () => {
-        this.state.set("url", "<test>");
-      });
-    }
+    // no need to show the ugly details
+    nodeof(s).hidden = true;
+    nodeof(this.state).hidden = true;
   }
 
   extern "./util.js"

@@ -13,6 +13,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@ngrok/ngrok": "^0.9.1"
+    "untun": "^0.1.3"
   }
 }

@@ -26,8 +26,8 @@ api.get("/uri", inflight () => {
 
 let w = new cloud.Website(path: "./public");
 
-let external = new ngrok.Tunnel(api.url, domain: "eladbgithub.ngrok.dev");
+let external = new ngrok.Tunnel(api.url);
 
-new cloud.Function(inflight () => {
+test "ngrok" {
   log("ready {external.url}");
-});
+}
