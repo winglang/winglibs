@@ -1,0 +1,15 @@
+{
+  "name": "@winglibs/typescript",
+  "description": "TypeScript support for Winglang",
+  "version": "0.0.1",
+  "author": {
+    "name": "Elad Ben-Israel",
+    "email": "eladb@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "typescript"
+  },
+  "license": "MIT"
+}

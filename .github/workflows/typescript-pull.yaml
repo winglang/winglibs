@@ -1,16 +1,16 @@
-name: ngrok-pull
+name: typescript-pull
 on:
   pull_request:
     paths:
-      - ngrok/**
+      - typescript/**
 jobs:
-  build-ngrok:
+  build-typescript:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: ngrok
+          sparse-checkout: typescript
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,10 +20,10 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: ngrok
+        working-directory: typescript
       - name: Test
         run: wing test
-        working-directory: ngrok
+        working-directory: typescript
       - name: Pack
         run: wing pack
-        working-directory: ngrok
+        working-directory: typescript
