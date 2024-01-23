@@ -11,5 +11,8 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "typescript"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@winglang/sdk": "^0.54.46"
+  }
 }
