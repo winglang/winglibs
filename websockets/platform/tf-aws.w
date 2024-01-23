@@ -60,7 +60,7 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
       unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
         if event.requestContext.routeKey == routeKey {
           handler(event.requestContext.connectionId, {
-            headers: event.headers,
+            headers: event.requestContext.headers,
           });
         }
         return {
@@ -79,12 +79,9 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     let onDisconnectFunction = new cloud.Function(
       unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
         if event.requestContext.routeKey == routeKey {
-          handler(
-            event.requestContext.connectionId,
-            {
-              headers: event.headers,
-            }
-          );
+          handler(event.requestContext.connectionId, {
+            headers: event.requestContext.headers,
+          });
         }
 
         return {
