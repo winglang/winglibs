@@ -42,13 +42,12 @@ new cloud.Function(new typescript.FunctionHandler("./src"));
 - [ ] README
 - [ ] Tests
 - [ ] Hot reloading
+- [ ] Bundling configuration
 - [ ] Interact with cloud resources from the typescript side
 
 Workarounds:
 
 * https://github.com/winglang/wing/issues/5476
-* `queue.setConsumerFunction`
-* `cloud.Api()` with `TypeScriptFunction`
 * `__dirname` to reference `src`
 * `patchToInflight`
 
