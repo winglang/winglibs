@@ -46,6 +46,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
+      - -check-failure=build-ngrok
+      - -check-pending=build-ngrok
+      - -check-stale=build-ngrok
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
@@ -84,6 +87,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
+      - -check-failure=build-ngrok
+      - -check-pending=build-ngrok
+      - -check-stale=build-ngrok
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
