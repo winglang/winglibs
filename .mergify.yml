@@ -23,6 +23,7 @@ pull_request_rules:
       - -label~=(🚧 pr/do-not-merge|⚠️ pr/review-mutation)
       - -merged
       - -closed
+      - -draft
       - branch-protection-review-decision=APPROVED
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by=0"
@@ -66,6 +67,7 @@ pull_request_rules:
         mergify/review-config)
       - -merged
       - -closed
+      - -draft
       - "#approved-reviews-by>=1"
       - "#changes-requested-reviews-by=0"
       - "#review-threads-unresolved=0"
