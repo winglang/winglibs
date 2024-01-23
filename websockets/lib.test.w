@@ -2,7 +2,6 @@ bring cloud;
 bring ex;
 bring util;
 bring "./lib.w" as websockets;
-bring "./platform/sim.w" as sim;
 bring "./commons/api.w" as api;
 
 let tb = new ex.DynamodbTable(
