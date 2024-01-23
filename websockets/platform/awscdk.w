@@ -62,11 +62,13 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub onConnect(handler: inflight(str): void): void {
+  pub onConnect(handler: inflight(str, commons.Request): void): void {
     let routeKey = "$connect";
     let onConnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
       if event.requestContext.routeKey == routeKey {
-        handler(event.requestContext.connectionId);
+        handler(event.requestContext.connectionId, {
+          headers: event.requestContext.headers,
+        });
       }
 
       return {
@@ -77,11 +79,13 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
 
     this.addRoute(onConnectFunction, routeKey);
   }
-  pub onDisconnect(handler: inflight(str): void): void {
+  pub onDisconnect(handler: inflight(str, commons.Request): void): void {
     let routeKey = "$disconnect";
     let onDisconnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
       if event.requestContext.routeKey == routeKey {
-        handler(event.requestContext.connectionId);
+        handler(event.requestContext.connectionId, {
+          headers: event.requestContext.headers,
+        });
       }
 
       return {

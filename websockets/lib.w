@@ -29,13 +29,13 @@ pub class WebSocket impl api.IWebSocket {
     }
   }
 
-  pub onConnect(handler: inflight(str): void): void {
+  pub onConnect(handler: inflight(str, api.Request): void): void {
     this.inner.onConnect(handler);
   }
-  pub onDisconnect(handler: inflight(str): void): void {
+  pub onDisconnect(handler: inflight(str, api.Request): void): void {
     this.inner.onDisconnect(handler);
   }
-  pub onMessage(handler: inflight(str, str): void): void {
+  pub onMessage(handler: inflight(str, str, api.Request): void): void {
     this.inner.onMessage(handler);
   }
 

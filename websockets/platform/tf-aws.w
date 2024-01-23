@@ -54,38 +54,48 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     }
   }
 
-  pub onConnect(handler: inflight(str): void): void {
+  pub onConnect(handler: inflight(str, commons.Request): void): void {
     let routeKey = "$connect";
-    let onConnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
-      if event.requestContext.routeKey == routeKey {
-        handler(event.requestContext.connectionId);
+    let onConnectFunction = new cloud.Function(
+      unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+        if event.requestContext.routeKey == routeKey {
+          handler(event.requestContext.connectionId, {
+            headers: event.headers,
+          });
+        }
+        return {
+          statusCode: 200,
+          body: "ack"
+        };
+      }),
+      env: {
+        "url": this.url,
       }
-
-      return {
-        statusCode: 200,
-        body: "ack"
-      };
-    }), env: {
-      "url": this.url,
-    }) as "on connect";
-
+    ) as "on connect";
     this.addRoute(onConnectFunction, routeKey);
   }
-  pub onDisconnect(handler: inflight(str): void): void {
+  pub onDisconnect(handler: inflight(str, commons.Request): void): void {
     let routeKey = "$disconnect";
-    let onDisconnectFunction = new cloud.Function(unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
-      if event.requestContext.routeKey == routeKey {
-        handler(event.requestContext.connectionId);
+    let onDisconnectFunction = new cloud.Function(
+      unsafeCast(inflight (event: awsapi.WebSocketAwsRequest): awsapi.WebSocketAwsResponse => {
+        if event.requestContext.routeKey == routeKey {
+          handler(
+            event.requestContext.connectionId,
+            {
+              headers: event.headers,
+            }
+          );
+        }
+
+        return {
+          statusCode: 200,
+          body: "ack"
+        };
+      }),
+      env: {
+        "url": this.url,
       }
-
-      return {
-        statusCode: 200,
-        body: "ack"
-      };
-    }), env: {
-      "url": this.url,
-    }) as "on disconnect";
-
+    ) as "on disconnect";
     this.addRoute(onDisconnectFunction, routeKey);
   }
   pub onMessage(handler: inflight(str, str): void): void {

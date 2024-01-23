@@ -9,8 +9,8 @@ interface StartWebSocketApiResult {
 }
 
 pub class WebSocket_sim impl api.IWebSocket {
-  var connectFn: inflight(str): void;
-  var disconnectFn: inflight(str): void;
+  var connectFn: inflight(str, api.Request): void;
+  var disconnectFn: inflight(str, api.Request): void;
   var messageFn: inflight(str, str): void;
   state: sim.State;
   urlStateKey: str;
@@ -26,10 +26,10 @@ pub class WebSocket_sim impl api.IWebSocket {
     this.url = this.state.token(this.urlStateKey);
   }
 
-  pub onConnect(handler: inflight(str): void): void {
+  pub onConnect(handler: inflight(str, api.Request): void): void {
     this.connectFn = handler;
   }
-  pub onDisconnect(handler: inflight(str): void): void {
+  pub onDisconnect(handler: inflight(str, api.Request): void): void {
     this.disconnectFn = handler;
   }
   pub onMessage(handler: inflight(str, str): void): void {
@@ -47,8 +47,8 @@ pub class WebSocket_sim impl api.IWebSocket {
   }
 
   extern "./sim/wb.js" static inflight _startWebSocketApi(
-    connectFn: inflight (str): void,
-    disconnectFn: inflight (str): void,
+    connectFn: inflight (str, api.Request): void,
+    disconnectFn: inflight (str, api.Request): void,
     onmessageFn: inflight (str, str): void,
   ): StartWebSocketApiResult;
 

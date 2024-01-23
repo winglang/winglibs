@@ -2,6 +2,8 @@ bring cloud;
 bring ex;
 bring util;
 bring "./lib.w" as websockets;
+bring "./platform/sim.w" as sim;
+bring "./commons/api.w" as api;
 
 let tb = new ex.DynamodbTable(
   name: "WebSocketTable",
@@ -13,7 +15,7 @@ let tb = new ex.DynamodbTable(
 
 let wb = new websockets.WebSocket(name: "MyWebSocket") as "my-websocket";
 
-wb.onConnect(inflight(id: str): void => {
+wb.onConnect(inflight(id: str, req: api.Request): void => {
   tb.putItem({
     item: {
       "connectionId": id
@@ -21,7 +23,7 @@ wb.onConnect(inflight(id: str): void => {
   });
 });
 
-wb.onDisconnect(inflight(id: str): void => {
+wb.onDisconnect(inflight(id: str, req: api.Request): void => {
   tb.deleteItem({
     key: {
       "connectionId": id

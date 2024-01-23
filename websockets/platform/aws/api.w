@@ -13,6 +13,10 @@ pub struct WebSocketAwsRequestContext {
    * The connection ID associated with the WebSocket request.
    */
   connectionId: str;
+  /**
+   * The headers associated with the WebSocket request.
+   */
+  headers: Map<str>;
 }
 
 /**

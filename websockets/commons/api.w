@@ -1,15 +1,25 @@
 /**
+ * A WebSocket request object
+ */
+pub struct Request {
+  /**
+  * the headers sent with the request
+  */
+  headers: Map<str>;
+}
+
+/**
  * A cloud WebSocket interface
  */
 pub interface IWebSocket extends std.IResource {
   /**
    * Adds an inflight handler to the WebSocket for connection requests.
    */
-  onConnect(handler: inflight(str): void): void;
+  onConnect(handler: inflight(str, Request): void): void;
   /**
    * Adds an inflight handler to the WebSocket for disconnection requests.
    */
-  onDisconnect(handler: inflight(str): void): void;
+  onDisconnect(handler: inflight(str, Request): void): void;
   /**
    * Adds an inflight handler to the WebSocket for processing message requests.
    */

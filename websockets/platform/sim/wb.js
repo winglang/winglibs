@@ -4,26 +4,32 @@ import getPort from "get-port";
 export const _startWebSocketApi = async (
   onConnect,
   onDisconnect,
-  onMessage) => {
-
+  onMessage
+) => {
   const port = await getPort();
   // const port = Math.floor(Math.random() * 1000 + 3000);
   const wss = new WebSocketServer({ port });
   global.wss = wss;
 
-  wss.on('connection', function connection(ws) {
+  wss.on("connection", function connection(ws, req) {
     ws.id = Date.now().toString().slice(-6);
-    ws.on('error', console.error);
+    ws.on("error", console.error);
 
-    ws.on('message', function message(data) {
+    ws.on("message", function message(data) {
       onMessage(ws.id, data.toString("utf8"));
     });
 
-    ws.on('close', function () {
-      onDisconnect(ws.id);
+    ws.on("close", function () {
+      onDisconnect(ws.id, {
+        headers: req.headers,
+        url: req.url,
+      });
     });
 
-    onConnect(ws.id);
+    onConnect(ws.id, {
+      headers: req.headers,
+      url: req.url,
+    });
   });
 
   return {
@@ -31,6 +37,6 @@ export const _startWebSocketApi = async (
       console.log("closing...");
       wss.close();
     },
-    url: () => `ws://127.0.0.1:${port}`
-  }
+    url: () => `ws://127.0.0.1:${port}`,
+  };
 };
