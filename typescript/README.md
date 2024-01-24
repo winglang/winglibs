@@ -39,11 +39,12 @@ new cloud.Function(new typescript.FunctionHandler("./src"));
 
 ## TODO
 
-- [ ] README
+- [x] Lift cloud resources into TypeScript
+- [ ] Generate .d.ts file with type information for handler (and lifts)
 - [ ] Tests
 - [ ] Hot reloading
 - [ ] Bundling configuration
-- [ ] Interact with cloud resources from the typescript side
+- [ ] README
 
 Workarounds:
 
