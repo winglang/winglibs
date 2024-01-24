@@ -1,17 +1,23 @@
 bring cloud;
 bring fs;
 
+pub struct Lift {
+  obj: std.IResource;
+  ops: Array<str>;
+}
+
 pub struct InflightProps {
   src: str;
-  lift: Map<std.IResource>?;
+  lift: Map<Lift>?;
 }
+
 
 pub class Inflight {
   code: str;
+  lift: Map<Lift>;
 
   new(props: InflightProps) {
     let var src = props.src;
-    let lift = props?.lift ?? {};
 
     let postfix = "/index";
     if !src.endsWith(postfix) {
@@ -19,6 +25,8 @@ pub class Inflight {
     }
 
     src = src.substring(0, src.length - postfix.length);
+
+    this.lift = props?.lift ?? {};
 
     let tmpdir = fs.mkdtemp();
     let bundle = Util.createBundle(src, [], tmpdir);
@@ -29,13 +37,13 @@ pub class Inflight {
 
   pub forFunction(): cloud.IFunctionHandler {
     let h: cloud.IFunctionHandler = inflight (event: str): str? => { };
-    Util.patchToInflight(h, this.code);
+    Util.patchToInflight(h, this.lift, this.code);
     return h;
   }
 
   pub forQueueConsumer(): cloud.IQueueSetConsumerHandler {
     let h: cloud.IQueueSetConsumerHandler = inflight (event: str): str? => { };
-    Util.patchToInflight(h, this.code);
+    Util.patchToInflight(h, this.lift, this.code);
     return h;
   }
 
@@ -43,7 +51,7 @@ pub class Inflight {
     let h: cloud.IApiEndpointHandler = inflight (req: cloud.ApiRequest): cloud.ApiResponse => {
       return { status: 500 };
     };
-    Util.patchToInflight(h, this.code);
+    Util.patchToInflight(h, this.lift, this.code);
     return h;
   }
 }
@@ -58,7 +66,7 @@ struct Bundle {
 
 class Util {
   extern "./util.js"
-  pub static patchToInflight(h: std.IInflight, code: str): void;
+  pub static patchToInflight(h: std.IInflight, lift: Map<Lift>, code: str): void;
 
   extern "./util.js"
   pub static createBundle(entrypoint: str, external: Array<str>?, outputDir: str?): Bundle;

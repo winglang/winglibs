@@ -7,17 +7,23 @@ bring "./inflight.w" as typescript;
 let myBucket = new cloud.Bucket();
 let myQueue = new cloud.Queue();
 
+new cloud.Function(inflight () => {
+  myBucket.put("bing.txt", "123");
+}) as "write";
+
 let handler = new typescript.Inflight(
   src: "./example/index",
   lift: {
-    myBucket: myBucket,
-    myQueue: myQueue
+    myBucket: { obj: myBucket, ops: ["put"] },
+    myQueue: { obj: myQueue, ops: ["push"] },
   }
 );
 
-let fn = new cloud.Function(handler.forFunction());
+myQueue.setConsumer(inflight (msg) => {
+  log("queue received {msg}");
+});
 
-myQueue.setConsumer(handler.forQueueConsumer());
+let fn = new cloud.Function(handler.forFunction()) as "typescript function";
 
 let api = new cloud.Api();
 api.get("/foo", handler.forApiEndpoint());
@@ -49,5 +55,8 @@ test "function" {
   let body = Json.parse(bodyStr);
   expect.equal(body.get("event").asStr(), "18993487");
   expect.equal(body.get("message").asStr(), "Hello, TypeScript");
+
+  // expect the bucket to have an object
+  expect.equal(myBucket.get("hello.txt"), "from typescript");
 
 }
