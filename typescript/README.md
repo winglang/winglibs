@@ -42,6 +42,7 @@ new cloud.Function(new typescript.FunctionHandler("./src"));
 - [x] Lift cloud resources into TypeScript
 - [ ] Generate .d.ts file with type information for handler (and lifts)
 - [ ] Tests
+- [ ] Typechecking
 - [ ] Hot reloading
 - [ ] Bundling configuration
 - [ ] README
