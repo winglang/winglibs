@@ -43,7 +43,7 @@ pub class WebSocket impl api.IWebSocket {
     this.inner.initialize();
   }
 
-  pub inflight sendMessage(connectionId: str, message: str) {
+  pub inflight sendMessage(connectionId: str, message: str): void {
     this.inner.sendMessage(connectionId, message);
   }
 }
