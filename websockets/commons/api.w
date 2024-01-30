@@ -23,7 +23,7 @@ pub interface IWebSocket extends std.IResource {
   /**
    * Sends a message through the WebSocket with inflight handling.
    */
-  inflight sendMessage(connectionId: str, message: str);
+  inflight sendMessage(connectionId: str, message: str): void;
 }
 
 /**
