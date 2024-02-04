@@ -28,10 +28,10 @@ pub class ClusterBase impl ICluster {
   }
 
   pub kubernetesProvider(): cdktf.TerraformProvider {
-    let stack = cdktf.TerraformStack.of(this);
+    let root = nodeof(this).root;
     let singletonKey = "WingKubernetesProvider";
     let attributes = this.attributes();
-    let existing = stack.node.tryFindChild(singletonKey);
+    let existing = root.node.tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
     }
@@ -45,14 +45,14 @@ pub class ClusterBase impl ICluster {
         args: ["eks", "get-token", "--cluster-name", attributes.name],
         command: "aws",
       }
-    ) as singletonKey in stack;
+    ) as singletonKey in root;
   }
 
   pub helmProvider(): cdktf.TerraformProvider {
-    let stack = cdktf.TerraformStack.of(this);
+    let root = nodeof(this).root;
     let singletonKey = "WingHelmProvider";
     let attributes = this.attributes();
-    let existing = stack.node.tryFindChild(singletonKey);
+    let existing = root.node.tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
     }
@@ -65,7 +65,7 @@ pub class ClusterBase impl ICluster {
         args: ["eks", "get-token", "--cluster-name", attributes.name],
         command: "aws",
       }
-    }) as singletonKey in stack;
+    }) as singletonKey in root;
   }
 }
 
@@ -85,15 +85,15 @@ pub class Cluster extends ClusterBase impl ICluster {
 
   /** singleton */
   pub static getOrCreate(scope: std.IResource): ICluster {
-    let stack = cdktf.TerraformStack.of(scope);
+    let root = nodeof(scope).root;
     let uid = "WingEksCluster";
-    let existing: ICluster? = unsafeCast(stack.node.tryFindChild(uid));
+    let existing: ICluster? = unsafeCast(root.node.tryFindChild(uid));
     let newCluster = (): ICluster => {
       if let attrs = Cluster.tryGetClusterAttributes() {
-        return new ClusterRef(attrs) as uid in stack;
+        return new ClusterRef(attrs) as uid in root;
       } else {
         let clusterName = "wing-eks-{std.Node.of(scope).addr.substring(0, 6)}";
-        return new Cluster(clusterName) as uid in stack;
+        return new Cluster(clusterName) as uid in root;
       }
     };
 

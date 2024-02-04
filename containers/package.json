@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/containers",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Container support for Wing",
   "repository": {
     "type": "git",
@@ -13,8 +13,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "cdktf": "^0.19.1",
-    "winglang": "^0.54.39"
+    "cdktf": "*",
+    "winglang": "*"
   },
   "dependencies": {
     "@cdktf/provider-aws": "^18.0.5",

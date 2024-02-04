@@ -55,13 +55,12 @@ pub class Repository {
     let image = "{r.repositoryUrl}:{props.tag}";
     let arch = "linux/amd64";
 
-
     // null provider singleton
-    let stack = cdktf.TerraformStack.of(this);
+    let root = nodeof(this).root;
     let nullProviderId = "NullProvider";
-    if !stack.node.tryFindChild(nullProviderId)? {
-      new null_provider.provider.NullProvider() as nullProviderId in stack;
-    }    
+    if !root.node.tryFindChild(nullProviderId)? {
+      new null_provider.provider.NullProvider() as nullProviderId in root;
+    }
     
     let publish = new null_provider.resource.Resource(
       dependsOn: [r],
