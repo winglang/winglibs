@@ -1,6 +1,7 @@
 {
   "name": "@winglibs/sagemaker",
   "version": "0.0.1",
+  "description": "The library enables owners of a trained sagemaker model, to access its Endpoints from a winglang inflight code.",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
