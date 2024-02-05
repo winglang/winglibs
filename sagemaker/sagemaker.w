@@ -30,7 +30,7 @@ pub class Endpoint impl types.ISageMaker {
     }
   }
 
-  pub inflight invoke(body: Json, options: types.invocationOptions?): types.invocationOutput {
+  pub inflight invoke(body: Json, options: types.InvocationOptions?): types.InvocationOutput {
     return this.inner.invoke(body, options);
   }
 }

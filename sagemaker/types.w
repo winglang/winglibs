@@ -1,4 +1,4 @@
-pub struct invocationOptions {
+pub struct InvocationOptions {
   ContentType: str?;
   Accept: str?;
   CustomAttributes: str?;
@@ -10,7 +10,7 @@ pub struct invocationOptions {
   InferenceComponentName: str?;
 }
 
-pub struct invocationOutput {
+pub struct InvocationOutput {
   Body: str;
   ContentType: str?;
   InvokedProductionVariant: str?;
@@ -18,5 +18,5 @@ pub struct invocationOutput {
 }
 
 pub interface ISageMaker {
-  inflight invoke(body: Json, invocationOptions: invocationOptions?): invocationOutput;  
+  inflight invoke(body: Json, InvocationOptions: InvocationOptions?): InvocationOutput;  
 }

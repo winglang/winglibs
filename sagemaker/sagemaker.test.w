@@ -2,7 +2,7 @@ bring expect;
 bring "./sagemaker.w" as sageMaker;
 bring util;
 
-let sm = new sageMaker.Endpoint(util.env("ENDPOINT_NAME"), util.env("INFERENCE_NAME"));
+let sm = new sageMaker.Endpoint(util.tryEnv("ENDPOINT_NAME") ?? "Example-endopint", util.tryEnv("INFERENCE_NAME") ?? "Example-inference");
 
 
 test "testing endpoint" {

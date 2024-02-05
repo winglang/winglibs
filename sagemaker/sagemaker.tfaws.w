@@ -10,7 +10,7 @@ pub class SageMaker_tfaws impl types.ISageMaker {
     this.inferenceComponentName = inferenceComponentName;
   }
 
-  pub inflight invoke(body: Json, options: types.invocationOptions?): types.invocationOutput{
+  pub inflight invoke(body: Json, options: types.InvocationOptions?): types.InvocationOutput{
     return SageMaker_tfaws._invoke(this.endpointName, body, this.inferenceComponentName, options);
   }
 
@@ -24,9 +24,9 @@ pub class SageMaker_tfaws impl types.ISageMaker {
           "arn:aws:sagemaker:*:*:inference-component/{this.inferenceComponentName.lowercase()}"
         ]
       });
-    }
+    } 
   }
 
   extern "./sagemaker.js"
-  static inflight _invoke(endpointName: str, body: Json, inferenceComponentName: str, options: types.invocationOptions?): types.invocationOutput; 
+  static inflight _invoke(endpointName: str, body: Json, inferenceComponentName: str, options: types.InvocationOptions?): types.InvocationOutput; 
 }
