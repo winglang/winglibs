@@ -7,5 +7,8 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "sagemaker"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-sagemaker-runtime": "^3.507.0"
+  }
 }
