@@ -7,6 +7,10 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "sagemaker"
   },
+  "author": {
+    "name": "Tsuf Cohen",
+    "email": "tsufc@wing.cloud"
+  },
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-sagemaker-runtime": "^3.507.0"
