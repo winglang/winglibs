@@ -8,6 +8,10 @@ exports._invoke = async (endpointName, body, inferenceComponentName, options = {
     EndpointName: endpointName,
     Body: JSON.stringify(body),
   });
-
-  return client.send(command);
+  let res = await client.send(command);
+  
+  return {
+    ...res, 
+    Body: Buffer.from(res.Body).toString('utf8')
+  };
 };
