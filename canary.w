@@ -51,6 +51,7 @@ pub class CanaryWorkflow {
         schedule: [{
           cron: "0 * * * *"
         }],
+        workflow_dispatch: {},
       },
       jobs: Json.deepCopy(jobs),
     });
