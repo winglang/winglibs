@@ -72,8 +72,8 @@ pub struct VerifyAndReceieveProps {
 }
 
 pub interface IProbotWebhooks {
-  inflight on(name: str, handler: inflight (): void);
-  inflight verifyAndReceive(props: VerifyAndReceieveProps);
+  inflight on(name: str, handler: inflight (): void): void;
+  inflight verifyAndReceive(props: VerifyAndReceieveProps): void;
 }
 
 pub interface IProbotAuth {
