@@ -16,13 +16,18 @@ The library enables owners of a trained sagemaker model, to access its Endpoints
 
 ```js
 bring sagemaker;
+bring cloud;
 
 let sm = new sagemaker.Endpoint("my-endpoint-name", "my-inference-name");
 
 let handler = inflight () => {
-let res = sm.invoke({inputs: "do AI stuff"});
-log(res.Body);
-}
+  let res = sm.invoke({inputs: "do AI stuff"}, sagemaker.InvocationOptions {
+    ContentType: "application/json"
+  });
+  log(res.Body);
+};
+
+new cloud.Function(handler);
 ```
 
 ## License
