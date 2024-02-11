@@ -21,9 +21,11 @@ bring cloud;
 let sm = new sagemaker.Endpoint("my-endpoint-name", "my-inference-name");
 
 let handler = inflight () => {
-  let res = sm.invoke({inputs: "do AI stuff"}, sagemaker.InvocationOptions {
+  let res = sm.invoke({
+    inputs: "do AI stuff"
+    },
     ContentType: "application/json"
-  });
+  );
   log(res.Body);
 };
 
