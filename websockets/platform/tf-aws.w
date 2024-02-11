@@ -145,7 +145,10 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
   }
 
   extern "../inflight/websocket.aws.js" static inflight _postToConnection(endpointUrl: str, connectionId: str, message: str): void;
-  pub inflight sendMessage(connectionId: str, message: str) {
-    WebSocket_tfaws._postToConnection(this.url.replace("wss://", "https://"), connectionId, message);
+  pub inflight sendMessage(connectionId: str, message: str): void {
+    // TODO: str.replace does not work when applied to the class property `this.url`, so we need to use a local var for now.
+    let var url = this.url;
+    url = url.replace("wss://", "https://");
+    WebSocket_tfaws._postToConnection(url, connectionId, message);
   }
 }

@@ -1,13 +1,15 @@
 bring fs;
+bring "./canary.w" as canary;
 bring "./library.w" as l;
-bring "./stale.w" as stale;
 bring "./mergify.w" as mergify;
 bring "./pr-lint.w" as prlint;
+bring "./stale.w" as stale;
+
+let workflowdir = ".github/workflows";
 
 // clean up
-let workflowdir = ".github/workflows";
-fs.remove(".github/workflows");
-fs.mkdir(".github/workflows");
+fs.remove(workflowdir);
+fs.mkdir(workflowdir);
 
 let libs = MutArray<str>[];
 
@@ -24,3 +26,4 @@ for file in fs.readdir(".") {
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
 new prlint.PullRequestLintWorkflow(workflowdir);
+new canary.CanaryWorkflow(workflowdir, libs.copy());
