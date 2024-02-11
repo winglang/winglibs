@@ -6,9 +6,9 @@
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/sagemaker
-`
+```
 
 ## Usage
 
