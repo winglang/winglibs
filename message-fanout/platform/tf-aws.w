@@ -26,25 +26,27 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
     this.queueList = MutArray<tfaws.sqsQueue.SqsQueue>[]; 
   }
 
-  pub addConsumer(name: str, handler: inflight(str): void): void {
+  pub addConsumer(handler: inflight(str): void, props: api.MessageFanoutProps): void {
     let my_function = new cloud.Function(inflight(event: str): str? => {
       let json: Json = unsafeCast(event);
       let sqsEvent = SqsEvent.fromJson(event);
       for message in sqsEvent.Records {
         handler(message.body);
       }
-    }) as name;
+    }) as props.name;
 
     let queue = new tfaws.sqsQueue.SqsQueue(
-      visibilityTimeoutSeconds: duration.fromSeconds(120).seconds,
-      messageRetentionSeconds: duration.fromHours(1).seconds,
-    ) as "queue_" + name;
+      visibilityTimeoutSeconds: props?.timeout?.seconds
+        ?? duration.fromSeconds(120).seconds,
+      messageRetentionSeconds: props?.retentionPeriod?.seconds
+        ?? duration.fromHours(1).seconds,
+    ) as "queue_" + props.name;
 
     let subscription = new tfaws.snsTopicSubscription.SnsTopicSubscription(
       topicArn: this.topicArn,
       endpoint: queue.arn,
       protocol: "sqs",
-    ) as "subscription_" + name;
+    ) as "subscription_" + props.name;
       
     let queue_policy = new tfaws.dataAwsIamPolicyDocument.DataAwsIamPolicyDocument(
       statement: [
@@ -65,12 +67,12 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
           ]
         }
       ]
-    ) as "policy_" + name;
+    ) as "policy_" + props.name;
 
     new tfaws.sqsQueuePolicy.SqsQueuePolicy(
       queueUrl: queue.id,
       policy: cdktf.Token.asString(queue_policy.json),
-    ) as "queue_policy_" + name;
+    ) as "queue_policy_" + props.name;
 
     let lambda = aws.Function.from(my_function);
     lambda?.addPolicyStatements({
@@ -88,9 +90,8 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
       eventSourceArn: queue.arn,
       functionName: "{lambda?.functionName}",
       batchSize: 1,
-    ) as "event_source_mapping_" + name;
+    ) as "event_source_mapping_" + props.name;
     
-
     this.queueList.push(queue);
   }
 

@@ -13,17 +13,17 @@ let table = new ex.Table(
   }
 );
 
-fanout.addConsumer("first", inflight (event: str) => {
+fanout.addConsumer(inflight (event: str) => {
   let obj = Json.parse(event);
   let msg = "first_publisher_" + obj.get("Message").asStr();
   table.insert("first", { message: msg });
-});
+}, name: "first");
 
-fanout.addConsumer("second", inflight (event: str) => {
+fanout.addConsumer(inflight (event: str) => {
   let obj = Json.parse(event);
   let msg = "second_publisher_" + obj.get("Message").asStr();
   table.insert("second", { message: msg });
-});
+}, name: "second");
 
 let target = util.env("WING_TARGET");
 if target == "tf-aws" {

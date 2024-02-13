@@ -13,8 +13,8 @@ pub class MessageFanout impl api.IMessageFanout {
     }
   }
 
-  pub addConsumer(name: str, handler: inflight(str): void): void {
-    this.inner.addConsumer(name, handler);
+  pub addConsumer(handler: inflight(str): void, props: api.MessageFanoutProps): void {
+    this.inner.addConsumer(handler, props);
   }
 
   pub inflight publish(message: str): void {

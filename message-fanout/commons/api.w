@@ -1,3 +1,9 @@
+bring cloud;
+
+pub struct MessageFanoutProps extends cloud.QueueProps {
+  name: str;
+}
+
 /**
  * A cloud message fanout interface
  */
@@ -10,5 +16,5 @@ pub interface IMessageFanout extends std.IResource {
   /**
    * Create a new consumer for the fanout
    */
-  addConsumer(name: str, handler: inflight(str): void): void;
+  addConsumer(handler: inflight(str): void, props: MessageFanoutProps): void;
 }
