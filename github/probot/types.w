@@ -77,7 +77,7 @@ pub interface IProbotWebhooks {
 }
 
 pub interface IProbotAuth {
-  inflight call(ProbotInstance, installationId: num): octokit.OctoKit;
+  inflight call(instance: ProbotInstance, installationId: num): octokit.OctoKit;
 }
 
 pub struct ProbotInstance {

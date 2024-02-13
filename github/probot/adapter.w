@@ -22,7 +22,7 @@ pub class ProbotAdapter {
   extern "./probot.js" pub static inflight createProbotAdapter(options: CreateAdapterOptions): probot.ProbotInstance;
 
   credentialsSupplier: IProbotAppCredentialsSupplier;
-  inflight var instance: probot.ProbotInstance?;
+  inflight var instance: probot.ProbotInstance;
 
   new(props: ProbotAdapterProps) {
     this.credentialsSupplier =  props.credentialsSupplier;
@@ -37,31 +37,31 @@ pub class ProbotAdapter {
   }
 
   pub inflight handlePullRequstOpened(handler: inflight (probot.PullRequestOpenedContext): void) {
-    this.instance?.webhooks?.on("pull_request.opened", handler);
+    this.instance.webhooks?.on("pull_request.opened", handler);
   }
 
   pub inflight handlePullRequstReopened(handler: inflight (probot.PullRequestOpenedContext): void) {
-    this.instance?.webhooks?.on("pull_request.reopened", handler);
+    this.instance.webhooks?.on("pull_request.reopened", handler);
   }
 
   pub inflight handlePullRequstSync(handler: inflight (probot.PullRequestSyncContext): void) {
-    this.instance?.webhooks?.on("pull_request.synchronize", handler);
+    this.instance.webhooks?.on("pull_request.synchronize", handler);
   }
 
   pub inflight handlePullRequstClosed(handler: inflight (probot.PullRequestClosedContext): void) {
-    this.instance?.webhooks?.on("pull_request.closed", handler);
+    this.instance.webhooks?.on("pull_request.closed", handler);
   }
 
   pub inflight handlePush(handler: inflight (probot.PushContext): void) {
-    this.instance?.webhooks?.on("push", handler);
+    this.instance.webhooks?.on("push", handler);
   }
 
   pub inflight verifyAndReceive(props: probot.VerifyAndReceieveProps) {
-    this.instance?.webhooks?.verifyAndReceive(props);
+    this.instance.webhooks?.verifyAndReceive(props);
   }
 
   pub inflight auth(installationId: num): octokit.OctoKit {
-    if let kit = this.instance?.auth?.call(this.instance, installationId) {
+    if let kit = this.instance.auth?.call(this.instance, installationId) {
       return kit;
     } else {
       throw "auth: fail to get octokit";
