@@ -1,0 +1,22 @@
+{
+  "name": "@winglibs/message-fanout",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "message-fanout"
+  },
+  "license": "MIT",
+  "author": {
+    "email": "marciocadev@gmail.com",
+    "name": "Marcio Cruz de Almeida"
+  },
+  "peerDependencies": {
+    "cdktf": "^0.20.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sns": "^3.511.0",
+    "@aws-sdk/client-sqs": "^3.511.0",
+    "@cdktf/provider-aws": "^19.5.0"
+  }
+}
