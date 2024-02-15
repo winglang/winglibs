@@ -1,5 +1,7 @@
 const { spawn } = require("child_process");
 
+exports.dirname = () => __dirname;
+
 exports.spawn = async (cmd, args, opts) => {
   const child = spawn(cmd, args, { stdio: "pipe", ...opts });
   return new Promise((resolve, reject) => {
