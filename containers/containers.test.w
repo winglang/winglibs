@@ -35,6 +35,7 @@ let httpGet = inflight (url: str?): str => {
 
 test "access public url" {
   let helloBody = httpGet(hello.publicUrl);
+  log(helloBody);
   assert(helloBody.contains(message));
 
   let echoBody = httpGet(echo.publicUrl);
