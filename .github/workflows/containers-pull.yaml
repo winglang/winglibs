@@ -4,7 +4,7 @@ on:
     paths:
       - containers/**
 jobs:
-  build:
+  build-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,4 +23,7 @@ jobs:
         working-directory: containers
       - name: Test
         run: wing test
+        working-directory: containers
+      - name: Pack
+        run: wing pack
         working-directory: containers

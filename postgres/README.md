@@ -2,6 +2,11 @@
 
 This library allows using postgres with Wing.
 
+## Prerequisites
+
+* [winglang](https://winglang.io)
+* [Neon](https://neon.tech/) free-tier account (for deploying on AWS)
+
 ## Installation
 
 Use `npm` to install this library:
@@ -50,7 +55,8 @@ When you deploy Terraform that uses the `Database` class, you will need to have 
 - [x] Support `tf-aws` platform using Neon
 - [ ] Support `sim` platform
 - [ ] Make all Neon databases share a Neon project to stay within the free tier
-- [ ] Initialize secret value only `cloud.Secret` APIs
+- [ ] Reuse postgres client across multiple queries by requiring users to call `connect()` / `end()` methods
+- [ ] Initialize secret value through `cloud.Secret` APIs - https://github.com/winglang/wing/issues/2726
 - [ ] Support [parameterized queries](https://node-postgres.com/features/queries#parameterized-query) for preventing SQL injection
 - [ ] Customize [type parser](https://node-postgres.com/features/queries#types) for most popular postgres types / conversions to Wing types
 - [ ] Have `query()` return both rows and a list of field names

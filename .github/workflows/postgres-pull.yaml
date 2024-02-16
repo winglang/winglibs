@@ -4,7 +4,7 @@ on:
     paths:
       - postgres/**
 jobs:
-  build:
+  build-postgres:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,4 +23,7 @@ jobs:
         working-directory: postgres
       - name: Test
         run: wing test
+        working-directory: postgres
+      - name: Pack
+        run: wing pack
         working-directory: postgres

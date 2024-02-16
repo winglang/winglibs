@@ -4,7 +4,7 @@ on:
     paths:
       - checks/**
 jobs:
-  build:
+  build-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,4 +23,7 @@ jobs:
         working-directory: checks
       - name: Test
         run: wing test
+        working-directory: checks
+      - name: Pack
+        run: wing pack
         working-directory: checks
