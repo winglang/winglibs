@@ -26,8 +26,8 @@ const args = parseArgs({
 const config = {
   plugins: [
     plugin({
-      env: args.values.wingEnv,
-      envName: args.values.wingEnvName,
+      env: args.values.wingEnv ?? "{}",
+      envName: args.values.wingEnvName ?? "wing",
       generateTypeDefinitions: args.values.generateTypeDefinitions,
     }),
   ],

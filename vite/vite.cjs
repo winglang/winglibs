@@ -17,30 +17,13 @@ exports.build = (options) => {
     args.push("--generateTypeDefinitions");
   }
 
-  // const buffer = execSync(
-  //   `node ${options.cli} build --wingEnvName ${
-  //     options.envName ?? "wing"
-  //   } --wingEnv ${JSON.stringify(options.env)}`,
-  //   {
-  //     cwd: options.root,
-  //     env: {
-  //       HOME: options.homeEnv,
-  //       PATH: options.pathEnv,
-  //       // VITE_WING_ENV: JSON.stringify(options.env),
-  //     },
-  //   }
-  // );
-  // console.log(args);
   const buffer = spawnSync("node", args, {
     cwd: options.root,
-    // stdio: "inherit",
     env: {
       HOME: options.homeEnv,
       PATH: options.pathEnv,
-      // VITE_WING_ENV: JSON.stringify(options.env),
     },
   });
-  // console.log(buffer.output.toString());
   const output = buffer.stdout.toString().split("\n");
   console.log(output.slice(1).join("\n"));
   return parsePayload(output[0]).outDir;

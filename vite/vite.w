@@ -43,6 +43,7 @@ class Vite_tfaws {
 
   new(props: Vite_tfawsProps) {
     let outDir = Vite_tfaws.build(props);
+    let distDir = "{props.root}/{outDir}";
 
     let website = new cloud.Website(
       path: "{props.root}/{outDir}",
