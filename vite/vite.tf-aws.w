@@ -6,7 +6,7 @@ bring "@cdktf/provider-aws" as aws;
 bring "./vite-types.w" as vite_types;
 
 class Util {
-	extern "./util.cjs" pub static contentType(filename: str): str;
+  extern "./util.cjs" pub static contentType(filename: str): str;
   pub static listAllFiles(directory: str, handler: (str): void, cwd: str?): void {
     let files = fs.readdir(directory);
     let cwdLength = (cwd ?? directory).length + 1;
