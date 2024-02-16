@@ -1,15 +1,9 @@
 import { mkdir, writeFile } from "node:fs/promises";
+import { dirname } from "node:path";
 
 const PLUGIN_NAME = "@winglibs/vite";
-const DEFAULT_TYPES_DIRECTORY = ".winglibs";
 
 /**
- * @param {{
- *  env: string;
- *  envName: string;
- *  generateTypeDefinitions: boolean;
- *  typeDefinitionsDirectory: string;
- * }} options
  * @return {import("vite").Plugin}
  */
 export const plugin = (options) => {
@@ -27,7 +21,11 @@ export const plugin = (options) => {
     transformIndexHtml(html) {
       return html.replace(
         "<head>",
-        `<head>\n    <script>window.${options.envName}=Object.freeze({meta:Object.freeze({env:${options.env}})});</script>`
+        `<head>\n    <script>window.${
+          options.publicEnvName
+        }=Object.freeze({meta:Object.freeze({env:${JSON.stringify(
+          options.publicEnv
+        )}})});</script>`
       );
     },
     async buildStart() {
@@ -48,8 +46,7 @@ export const plugin = (options) => {
         "interface WingEnv {",
       ];
       try {
-        const env = options.env ? JSON.parse(options.env) : {};
-        for (const [key, value] of Object.entries(env)) {
+        for (const [key, value] of Object.entries(options.publicEnv)) {
           const type = typeof value === "string" ? "string" : "unknown";
           dts.push(`\treadonly ${key}: ${type};`);
         }
@@ -61,23 +58,18 @@ export const plugin = (options) => {
         );
       }
       dts.push(
-        // "\t};",
         "}",
         "interface Wing { env: WingEnv; }",
-        `declare var ${options.envName}: Wing;`,
+        `declare var ${options.publicEnvName}: Wing;`,
         "interface Window {",
-        `\treadonly ${options.envName}: Wing;`,
+        `\treadonly ${options.publicEnvName}: Wing;`,
         "}",
         ""
       );
-      console.log(dts);
 
-      const dir = new URL(
-        `${options.typeDefinitionsDirectory ?? DEFAULT_TYPES_DIRECTORY}/`,
-        root
-      );
-      await mkdir(dir, { recursive: true });
-      await writeFile(new URL("env.d.ts", dir), dts.join("\n"));
+      const dtsFilename = new URL(options.typeDefinitionsFilename, root);
+      await mkdir(dirname(dtsFilename.pathname), { recursive: true });
+      await writeFile(dtsFilename, dts.join("\n"));
     },
   };
 };

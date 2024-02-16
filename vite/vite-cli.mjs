@@ -7,30 +7,17 @@ const { stringifyPayload } = createRequire(import.meta.url)("./util.cjs");
 const args = parseArgs({
   allowPositionals: true,
   options: {
-    open: {
-      type: "boolean",
-    },
-    generateTypeDefinitions: {
-      type: "boolean",
-    },
-    wingEnvName: {
-      type: "string",
-    },
-    wingEnv: {
+    options: {
       type: "string",
     },
   },
 });
 
+const options = JSON.parse(args.values.options);
+
 /** @type {import("vite").InlineConfig} */
 const config = {
-  plugins: [
-    plugin({
-      env: args.values.wingEnv ?? "{}",
-      envName: args.values.wingEnvName ?? "wing",
-      generateTypeDefinitions: args.values.generateTypeDefinitions,
-    }),
-  ],
+  plugins: [plugin(options)],
   clearScreen: false,
 };
 
@@ -50,9 +37,7 @@ if (command === "dev") {
     })
   );
 
-  if (args.values.open) {
-    server.openBrowser();
-  }
+  server.openBrowser();
 } else if (command === "build") {
   const resolvedConfig = await resolveConfig(config);
   console.log(

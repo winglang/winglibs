@@ -11,3 +11,9 @@ exports.parsePayload = (payload) => {
 
   return JSON.parse(payload.substring(PAYLOAD_PREFIX.length));
 };
+
+const { contentType } = require("mime-types");
+const { extname } = require("node:path");
+exports.contentType = (filename) => {
+  return contentType(extname(filename));
+};

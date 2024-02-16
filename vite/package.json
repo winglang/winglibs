@@ -8,6 +8,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@cdktf/provider-aws": "^19.6.0",
+    "cdktf": "^0.20.3",
+    "mime-types": "^2.1.35",
     "vite": "^5.1.3"
   }
 }

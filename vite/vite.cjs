@@ -1,21 +1,15 @@
-const { execSync, spawnSync, spawn } = require("node:child_process");
+const { spawnSync, spawn } = require("node:child_process");
 const { parsePayload } = require("./util.cjs");
 
-exports.cli = () => `${__dirname}/cli.mjs`;
+exports.cliFilename = () => `${__dirname}/vite-cli.mjs`;
 
 exports.build = (options) => {
   const args = [
-    options.cli,
+    options.cliFilename,
     "build",
-    "--wingEnvName",
-    options.envName ?? "wing",
-    "--wingEnv",
-    JSON.stringify(options.env),
+    "--options",
+    JSON.stringify(options),
   ];
-
-  if (options.generateTypeDefinitions) {
-    args.push("--generateTypeDefinitions");
-  }
 
   const buffer = spawnSync("node", args, {
     cwd: options.root,
@@ -31,24 +25,17 @@ exports.build = (options) => {
 
 exports.dev = async (options) => {
   const args = [
-    options.cli,
+    options.cliFilename,
     "dev",
-    "--wingEnvName",
-    options.envName ?? "wing",
-    "--wingEnv",
-    JSON.stringify(options.env),
+    "--options",
+    JSON.stringify(options),
   ];
-
-  if (options.generateTypeDefinitions) {
-    args.push("--generateTypeDefinitions");
-  }
 
   const child = spawn("node", args, {
     cwd: options.root,
     env: {
       HOME: options.homeEnv,
       PATH: options.pathEnv,
-      // VITE_WING_ENV: JSON.stringify(options.env),
     },
   });
 
