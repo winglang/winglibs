@@ -8,7 +8,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "get-port": "^7.0.0",
-    "vite": "^5.0.2"
+    "vite": "^5.1.3"
   }
 }

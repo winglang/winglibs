@@ -1,29 +1,36 @@
 import { parseArgs } from "node:util";
-import { createServer, build } from "vite";
-import { env } from "./env-plugin.mjs";
+import { createServer, build, resolveConfig } from "vite";
+import { createRequire } from "node:module";
+import { plugin } from "./vite-plugin.mjs";
+const { stringifyPayload } = createRequire(import.meta.url)("./util.cjs");
 
 const args = parseArgs({
   allowPositionals: true,
   options: {
-    port: {
-      type: "string",
-    },
     open: {
       type: "boolean",
     },
     generateTypeDefinitions: {
       type: "boolean",
     },
+    wingEnvName: {
+      type: "string",
+    },
+    wingEnv: {
+      type: "string",
+    },
   },
 });
 
 /** @type {import("vite").InlineConfig} */
 const config = {
-  plugins: [args.values.generateTypeDefinitions ? env() : undefined],
-  server: {
-    port: Number(args.values.port),
-    strictPort: true,
-  },
+  plugins: [
+    plugin({
+      env: args.values.wingEnv,
+      envName: args.values.wingEnvName,
+      generateTypeDefinitions: args.values.generateTypeDefinitions,
+    }),
+  ],
   clearScreen: false,
 };
 
@@ -37,13 +44,25 @@ if (command === "dev") {
 
   await server.listen();
 
-  server.printUrls();
+  console.log(
+    stringifyPayload({
+      url: server.resolvedUrls.local[0],
+    })
+  );
 
   if (args.values.open) {
     server.openBrowser();
   }
 } else if (command === "build") {
+  const resolvedConfig = await resolveConfig(config);
+  console.log(
+    stringifyPayload({
+      outDir: resolvedConfig.build.outDir,
+    })
+  );
+  console.log("build start");
   await build(config);
+  console.log("build finished");
 } else {
   throw new Error(`Unknown command: ${command}`);
 }

@@ -13,7 +13,7 @@ if util.env("WING_TARGET") == "tf-aws" {
   );
 
   new cloud.Service(inflight () => {
-    log("url = ${website.url}");
+    log("url = {website.url}");
   });
 
   test "build() generates an index.html file" {
