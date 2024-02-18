@@ -3,8 +3,6 @@ on:
   pull_request:
     paths:
       - postgres/**
-    paths-ignore:
-      - postgres/package-lock.json
 jobs:
   build-postgres:
     runs-on: ubuntu-latest

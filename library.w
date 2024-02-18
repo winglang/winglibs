@@ -130,7 +130,6 @@ pub class Library {
       on: {
         pull_request: {
           paths: ["{libdir}/**"],
-          "paths-ignore": ["{libdir}/package-lock.json"],
         }
       },
       jobs: Json.deepCopy(pullJobs),

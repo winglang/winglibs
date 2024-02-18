@@ -3,8 +3,6 @@ on:
   pull_request:
     paths:
       - websockets/**
-    paths-ignore:
-      - websockets/package-lock.json
 jobs:
   build-websockets:
     runs-on: ubuntu-latest

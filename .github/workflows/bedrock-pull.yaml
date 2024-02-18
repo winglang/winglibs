@@ -3,8 +3,6 @@ on:
   pull_request:
     paths:
       - bedrock/**
-    paths-ignore:
-      - bedrock/package-lock.json
 jobs:
   build-bedrock:
     runs-on: ubuntu-latest

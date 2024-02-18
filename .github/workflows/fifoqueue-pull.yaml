@@ -3,8 +3,6 @@ on:
   pull_request:
     paths:
       - fifoqueue/**
-    paths-ignore:
-      - fifoqueue/package-lock.json
 jobs:
   build-fifoqueue:
     runs-on: ubuntu-latest
