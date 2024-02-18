@@ -27,8 +27,8 @@ new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
 new prlint.PullRequestLintWorkflow(workflowdir);
 
-let skipTesting = [
+let skipCanaryTests = [
   "containers" // https://github.com/winglang/wing/issues/5716
 ];
 
-new canary.CanaryWorkflow(workflowdir, libs.copy(), skipTesting);
+new canary.CanaryWorkflow(workflowdir, libs.copy(), skipCanaryTests);
