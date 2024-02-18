@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - redis/**
+    paths-ignore:
+      - redis/package-lock.json
 jobs:
   build-redis:
     runs-on: ubuntu-latest

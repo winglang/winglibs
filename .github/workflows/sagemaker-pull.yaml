@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - sagemaker/**
+    paths-ignore:
+      - sagemaker/package-lock.json
 jobs:
   build-sagemaker:
     runs-on: ubuntu-latest

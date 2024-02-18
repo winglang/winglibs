@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - ngrok/**
+    paths-ignore:
+      - ngrok/package-lock.json
 jobs:
   build-ngrok:
     runs-on: ubuntu-latest
