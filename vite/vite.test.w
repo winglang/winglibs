@@ -4,6 +4,10 @@ bring util;
 bring fs;
 bring "./vite.w" as vite;
 
+test "noop" {
+
+}
+
 if util.env("WING_TARGET") == "tf-aws" {
   let api = new cloud.Api();
 
@@ -16,7 +20,7 @@ if util.env("WING_TARGET") == "tf-aws" {
   );
 
   test "build() generates an index.html file" {
-    let html = fs.exists("./example/dist/index.html");
+    expect.equal(fs.exists("./example/dist/index.html"), true);
   }
 
   test "build() exposes environment variables to the index.html file" {
