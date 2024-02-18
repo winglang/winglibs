@@ -5,6 +5,8 @@ on:
       - main
     paths:
       - websockets/**
+    paths-ignore:
+      - websockets/package-lock.json
 jobs:
   build-websockets:
     runs-on: ubuntu-latest

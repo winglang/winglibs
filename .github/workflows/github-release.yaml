@@ -5,6 +5,8 @@ on:
       - main
     paths:
       - github/**
+    paths-ignore:
+      - github/package-lock.json
 jobs:
   build-github:
     runs-on: ubuntu-latest

@@ -5,6 +5,8 @@ on:
       - main
     paths:
       - sagemaker/**
+    paths-ignore:
+      - sagemaker/package-lock.json
 jobs:
   build-sagemaker:
     runs-on: ubuntu-latest
