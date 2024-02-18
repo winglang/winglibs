@@ -9,7 +9,7 @@ for i in $(ls -F); do
     (
       cd $i
       npm i
-      wing test **/*.test.w
+      wing test
     )
   fi
 done
