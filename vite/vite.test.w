@@ -5,7 +5,7 @@ bring fs;
 bring "./vite.w" as vite;
 
 test "noop" {
-
+  assert(true);
 }
 
 if util.env("WING_TARGET") == "tf-aws" {
