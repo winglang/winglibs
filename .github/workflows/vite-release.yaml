@@ -24,7 +24,7 @@ jobs:
         run: npm install
         working-directory: vite
       - name: Test
-        run: wing test **/*.test.w
+        run: wing test
         working-directory: vite
       - name: Pack
         run: wing pack
