@@ -40,10 +40,10 @@ pub class Vite_tf_aws {
     });
     let distDir = "{props.root}/{outDir}";
 
-		let bucket = new cloud.Bucket();
+    let bucket = new cloud.Bucket();
 
-		let terraformBucket: aws.s3Bucket.S3Bucket = unsafeCast(bucket.node.defaultChild);
-		Util.listAllFiles(distDir, (file) => {
+    let terraformBucket: aws.s3Bucket.S3Bucket = unsafeCast(bucket.node.defaultChild);
+    Util.listAllFiles(distDir, (file) => {
       let key = "/{file}";
       let filename = fs.absolute("{distDir}/{file}");
       let var cacheControl = "public, max-age={1m.seconds}";
@@ -70,71 +70,71 @@ pub class Vite_tf_aws {
           cacheControl: cacheControl,
         ) as "File{key.replace("/", "--")}";
       }
-		});
+    });
 
-		new aws.s3BucketWebsiteConfiguration.S3BucketWebsiteConfiguration(
-			bucket: terraformBucket.bucket,
-			indexDocument: {
-				suffix: "index.html",
-			},
-			errorDocument: {
-				key: "index.html",
-			},
-		);
+    new aws.s3BucketWebsiteConfiguration.S3BucketWebsiteConfiguration(
+      bucket: terraformBucket.bucket,
+      indexDocument: {
+        suffix: "index.html",
+      },
+      errorDocument: {
+        key: "index.html",
+      },
+    );
 
-		let originAccessControl = new aws.cloudfrontOriginAccessControl.CloudfrontOriginAccessControl(
-			name: "{this.node.path}-cloudfront-oac",
-			originAccessControlOriginType: "s3",
-			signingBehavior: "always",
-			signingProtocol: "sigv4",
-		);
+    let originAccessControl = new aws.cloudfrontOriginAccessControl.CloudfrontOriginAccessControl(
+      name: "{this.node.path.substring(0, 64 - 4)}-oac",
+      originAccessControlOriginType: "s3",
+      signingBehavior: "always",
+      signingProtocol: "sigv4",
+    );
 
-		let distribution = new aws.cloudfrontDistribution.CloudfrontDistribution(
-			enabled: true,
-			defaultRootObject: "index.html",
-			customErrorResponse: [
-				{
-					errorCode: 403,
-					responseCode: 200,
-					responsePagePath: "/index.html",
-				},
-				{
-					errorCode: 404,
-					responseCode: 200,
-					responsePagePath: "/index.html",
-				},
-			],
-			origin: [
-				{
-					domainName: terraformBucket.bucketRegionalDomainName,
-					originId: "s3Origin",
-					originAccessControlId: originAccessControl.id,
-				},
-			],
-			defaultCacheBehavior: {
-				allowedMethods: ["GET", "HEAD"],
-				cachedMethods: ["GET", "HEAD"],
-				targetOriginId: "s3Origin",
-				forwardedValues: {
-					queryString: false,
-					cookies: { forward: "none" },
-				},
-				viewerProtocolPolicy: "redirect-to-https",
-				compress: true,
-				minTtl: 5m.seconds,
-				defaultTtl: 5m.seconds,
-				maxTtl: 1y.seconds,
-			},
-			priceClass: "PriceClass_100",
-			restrictions: {
-				geoRestriction: {
-				restrictionType: "none",
-				},
-			},
-			viewerCertificate: {
-				cloudfrontDefaultCertificate: true,
-			},
-			orderedCacheBehavior: [
+    let distribution = new aws.cloudfrontDistribution.CloudfrontDistribution(
+      enabled: true,
+      defaultRootObject: "index.html",
+      customErrorResponse: [
+        {
+          errorCode: 403,
+          responseCode: 200,
+          responsePagePath: "/index.html",
+        },
+        {
+          errorCode: 404,
+          responseCode: 200,
+          responsePagePath: "/index.html",
+        },
+      ],
+      origin: [
+        {
+          domainName: terraformBucket.bucketRegionalDomainName,
+          originId: "s3Origin",
+          originAccessControlId: originAccessControl.id,
+        },
+      ],
+      defaultCacheBehavior: {
+        allowedMethods: ["GET", "HEAD"],
+        cachedMethods: ["GET", "HEAD"],
+        targetOriginId: "s3Origin",
+        forwardedValues: {
+          queryString: false,
+          cookies: { forward: "none" },
+        },
+        viewerProtocolPolicy: "redirect-to-https",
+        compress: true,
+        minTtl: 5m.seconds,
+        defaultTtl: 5m.seconds,
+        maxTtl: 1y.seconds,
+      },
+      priceClass: "PriceClass_100",
+      restrictions: {
+        geoRestriction: {
+        restrictionType: "none",
+        },
+      },
+      viewerCertificate: {
+        cloudfrontDefaultCertificate: true,
+      },
+      orderedCacheBehavior: [
         {
           pathPattern: "/assets/*",
           allowedMethods: ["GET", "HEAD"],
@@ -146,34 +146,34 @@ pub class Vite_tf_aws {
           viewerProtocolPolicy: "redirect-to-https",
         },
       ],
-		);
+    );
 
-		let allowDistributionReadOnly = new aws.dataAwsIamPolicyDocument.DataAwsIamPolicyDocument(
-			statement: [
-				{
-					actions: ["s3:GetObject"],
-					condition: [
-					{
-						test: "StringEquals",
-						values: [distribution.arn],
-						variable: "AWS:SourceArn",
-					},
-					],
-					principals: [
-					{
-						identifiers: ["cloudfront.amazonaws.com"],
-						type: "Service",
-					},
-					],
-					resources: ["{terraformBucket.arn}/*"],
-				},
-			],
-		);
+    let allowDistributionReadOnly = new aws.dataAwsIamPolicyDocument.DataAwsIamPolicyDocument(
+      statement: [
+        {
+          actions: ["s3:GetObject"],
+          condition: [
+          {
+            test: "StringEquals",
+            values: [distribution.arn],
+            variable: "AWS:SourceArn",
+          },
+          ],
+          principals: [
+          {
+            identifiers: ["cloudfront.amazonaws.com"],
+            type: "Service",
+          },
+          ],
+          resources: ["{terraformBucket.arn}/*"],
+        },
+      ],
+    );
 
-		new aws.s3BucketPolicy.S3BucketPolicy({
-			bucket: terraformBucket.id,
-			policy: allowDistributionReadOnly.json,
-		});
+    new aws.s3BucketPolicy.S3BucketPolicy({
+      bucket: terraformBucket.id,
+      policy: allowDistributionReadOnly.json,
+    });
 
     this.url = "https://{distribution.domainName}";
   }
