@@ -16,6 +16,7 @@ exports.build = (options) => {
     env: {
       HOME: options.homeEnv,
       PATH: options.pathEnv,
+      NODE_ENV: "production",
     },
   });
   const output = buffer.stdout.toString().split("\n");
