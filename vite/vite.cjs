@@ -45,8 +45,6 @@ exports.dev = async (options) => {
       if (payload) {
         resolve(payload.url);
         child.stdout.removeAllListeners("data");
-      } else {
-        // console.log(chunk.toString());
       }
     });
   });
