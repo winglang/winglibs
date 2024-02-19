@@ -12,6 +12,11 @@
     "email": "cristianp@wing.cloud"
   },
   "license": "MIT",
+  "files": [
+    "./*.cjs",
+    "./*.mjs",
+    "./*.w"
+  ],
   "dependencies": {
     "@cdktf/provider-aws": "^19.6.0",
     "cdktf": "^0.20.3",
