@@ -7,6 +7,10 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "vite"
   },
+  "author": {
+    "name": "Cristian Pallarés",
+    "email": "cristianp@wing.cloud"
+  },
   "license": "MIT",
   "dependencies": {
     "@cdktf/provider-aws": "^19.6.0",
