@@ -1,7 +1,7 @@
 bring fs;
 
 pub class CanaryWorkflow {
-  new(workflowdir: str, libs: Array<str>) {
+  new(workflowdir: str, libs: Array<str>, skipLibs: Array<str>?) {
     let testLibSteps = (lib: str): Array<Json> => {
       return [
         {
@@ -15,7 +15,7 @@ pub class CanaryWorkflow {
           name: "Setup Node.js",
           uses: "actions/setup-node@v3",
           with: {
-            "node-version": "18.x",
+            "node-version": "20.x",
             "registry-url": "https://registry.npmjs.org",
           },
         },
@@ -38,6 +38,9 @@ pub class CanaryWorkflow {
 
     let jobs = MutJson {};
     for lib in libs {
+      if (skipLibs ?? []).contains(lib) {
+        continue;
+      }
       jobs.set("canary-{lib}", {
         name: "Test {lib}",
         "runs-on": "ubuntu-latest",
