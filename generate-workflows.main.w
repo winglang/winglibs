@@ -26,4 +26,9 @@ for file in fs.readdir(".") {
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
 new prlint.PullRequestLintWorkflow(workflowdir);
-new canary.CanaryWorkflow(workflowdir, libs.copy());
+
+let skipCanaryTests = [
+  "containers" // https://github.com/winglang/wing/issues/5716
+];
+
+new canary.CanaryWorkflow(workflowdir, libs.copy(), skipCanaryTests);

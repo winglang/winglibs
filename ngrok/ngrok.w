@@ -30,9 +30,10 @@ pub class Tunnel {
         throw "NGROK_AUTHTOKEN is not defined";
       }
 
+      let dirname = Tunnel.dirname();
       let s = new cloud.Service(inflight () => {
         try {
-          let child = Tunnel.spawn("node", Array<str?>["./ngrok.js", url, props?.domain]);
+          let child = Tunnel.spawn("node", Array<str?>["{dirname}/ngrok.js", url, props?.domain]);
           log("ngrok: {child.url()} => {url}");
           let url = child.url();
           this.state.set("url", url);
@@ -63,4 +64,7 @@ pub class Tunnel {
 
   extern "./util.js"
   static inflight spawn(cmd: str, args: Array<str?>, opts: Json?): ChildProcess;
+
+  extern "./util.js"
+  static dirname(): str;
 }

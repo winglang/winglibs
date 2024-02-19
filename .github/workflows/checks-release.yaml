@@ -5,6 +5,8 @@ on:
       - main
     paths:
       - checks/**
+    paths-ignore:
+      - checks/package-lock.json
 jobs:
   build-checks:
     runs-on: ubuntu-latest

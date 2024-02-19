@@ -1,0 +1,26 @@
+{
+  "name": "@winglibs/vite",
+  "version": "0.0.4",
+  "description": "Wing resource that allows deploying a Vite application to the cloud",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "vite"
+  },
+  "author": {
+    "name": "Cristian Pallarés",
+    "email": "cristianp@wing.cloud"
+  },
+  "license": "MIT",
+  "files": [
+    "./*.cjs",
+    "./*.mjs",
+    "./*.w"
+  ],
+  "dependencies": {
+    "@cdktf/provider-aws": "^19.6.0",
+    "cdktf": "^0.20.3",
+    "mime-types": "^2.1.35",
+    "vite": "^5.1.3"
+  }
+}
