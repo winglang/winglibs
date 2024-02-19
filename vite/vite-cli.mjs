@@ -37,7 +37,9 @@ if (command === "dev") {
     })
   );
 
-  server.openBrowser();
+  if (options.openBrowser) {
+    server.openBrowser();
+  }
 } else if (command === "build") {
   const resolvedConfig = await resolveConfig(config);
   console.log(
