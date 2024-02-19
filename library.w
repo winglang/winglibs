@@ -113,7 +113,8 @@ pub class Library {
       on: {
         push: {
           branches: ["main"],
-          paths: ["{libdir}/**"]
+          paths: ["{libdir}/**"],
+          "paths-ignore": ["{libdir}/package-lock.json"],
         }
       },
       jobs: Json.deepCopy(releaseJobs),
@@ -128,7 +129,7 @@ pub class Library {
       name: "{base}-pull",
       on: {
         pull_request: {
-          paths: ["{libdir}/**"]
+          paths: ["{libdir}/**"],
         }
       },
       jobs: Json.deepCopy(pullJobs),
