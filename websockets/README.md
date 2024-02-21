@@ -1,4 +1,4 @@
-# websockets
+# Websockets
 
 This library enables you to create WebSockets using Wing.
 
