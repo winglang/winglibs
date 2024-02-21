@@ -62,6 +62,9 @@ pull_request_rules:
       - -check-failure=build-sagemaker
       - -check-pending=build-sagemaker
       - -check-stale=build-sagemaker
+      - -check-failure=build-vite
+      - -check-pending=build-vite
+      - -check-stale=build-vite
       - -check-failure=build-websockets
       - -check-pending=build-websockets
       - -check-stale=build-websockets
@@ -110,6 +113,9 @@ pull_request_rules:
       - -check-failure=build-sagemaker
       - -check-pending=build-sagemaker
       - -check-stale=build-sagemaker
+      - -check-failure=build-vite
+      - -check-pending=build-vite
+      - -check-stale=build-vite
       - -check-failure=build-websockets
       - -check-pending=build-websockets
       - -check-stale=build-websockets

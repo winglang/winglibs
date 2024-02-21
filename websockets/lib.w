@@ -6,7 +6,6 @@ bring "./platform/sim.w" as sim;
 
 pub class WebSocket impl api.IWebSocket {
   inner: api.IWebSocket;
-
   pub url: str;
   
   new(props: api.WebSocketProps) {
@@ -37,10 +36,6 @@ pub class WebSocket impl api.IWebSocket {
   }
   pub onMessage(handler: inflight(str, str): void): void {
     this.inner.onMessage(handler);
-  }
-
-  pub initialize() {
-    this.inner.initialize();
   }
 
   pub inflight sendMessage(connectionId: str, message: str) {
