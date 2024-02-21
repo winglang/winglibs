@@ -1,6 +1,7 @@
 bring util;
 bring "./commons/api.w" as api;
 bring "./platform/tf-aws.w" as tf_aws;
+bring "./platform/sim.w" as sim;
 
 pub class MessageFanout impl api.IMessageFanout {
   inner: api.IMessageFanout;
@@ -10,6 +11,10 @@ pub class MessageFanout impl api.IMessageFanout {
 
     if target == "tf-aws" {
       this.inner = new tf_aws.MessageFanout_tfaws();
+    } elif target == "sim" {
+      this.inner = new sim.MessageFanout_sim();
+    } else {
+      throw "unsupported target {target}";
     }
   }
 
