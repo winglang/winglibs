@@ -24,6 +24,13 @@ pub class WebSocket_sim impl api.IWebSocket {
     this.state = new sim.State();
     this.urlStateKey = "url";
     this.url = this.state.token(this.urlStateKey);
+    new cloud.Service(inflight () => {
+      let res = WebSocket_sim._startWebSocketApi(this.connectFn, this.disconnectFn, this.messageFn);
+      this.state.set(this.urlStateKey, res.url());
+      return () => {
+        res.close();
+      };
+    });
   }
 
   pub onConnect(handler: inflight(str): void): void {
@@ -34,16 +41,6 @@ pub class WebSocket_sim impl api.IWebSocket {
   }
   pub onMessage(handler: inflight(str, str): void): void {
     this.messageFn = handler;
-  }
-
-  pub initialize() {
-    new cloud.Service(inflight () => {
-      let res = WebSocket_sim._startWebSocketApi(this.connectFn, this.disconnectFn, this.messageFn);
-      this.state.set(this.urlStateKey, res.url());
-      return () => {
-        res.close();
-      };
-    });
   }
 
   extern "./sim/wb.js" static inflight _startWebSocketApi(
