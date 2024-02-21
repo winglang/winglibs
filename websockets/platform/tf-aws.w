@@ -106,8 +106,6 @@ pub class WebSocket_tfaws impl awsapi.IAwsWebSocket {
     this.addRoute(onMessageFunction, routeKey);
   }
 
-  pub initialize() {}
-
   pub addRoute(handler: cloud.Function, routeKey: str): void {
     if let func = aws.Function.from(handler) {
       let functionArn = func.functionArn;
