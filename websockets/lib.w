@@ -6,7 +6,6 @@ bring "./platform/sim.w" as sim;
 
 pub class WebSocket impl api.IWebSocket {
   inner: api.IWebSocket;
-
   pub url: str;
   
   new(props: api.WebSocketProps) {
