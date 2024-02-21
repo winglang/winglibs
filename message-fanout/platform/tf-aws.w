@@ -27,7 +27,7 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
   }
 
   pub addConsumer(handler: inflight(str): void, props: api.MessageFanoutProps): void {
-    let my_function = new cloud.Function(inflight(event: str): str? => {
+    let my_function = new cloud.Function(inflight(event: str?): str? => {
       let json: Json = unsafeCast(event);
       let sqsEvent = SqsEvent.fromJson(event);
       for message in sqsEvent.Records {
