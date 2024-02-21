@@ -1,5 +1,6 @@
 {
   "name": "@winglibs/message-fanout",
+  "description": "Message fanout library for Wing",
   "version": "0.0.1",
   "repository": {
     "type": "git",
