@@ -39,10 +39,6 @@ pub class WebSocket impl api.IWebSocket {
     this.inner.onMessage(handler);
   }
 
-  pub initialize() {
-    this.inner.initialize();
-  }
-
   pub inflight sendMessage(connectionId: str, message: str) {
     this.inner.sendMessage(connectionId, message);
   }

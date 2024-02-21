@@ -14,6 +14,7 @@ pub class Vite_sim {
     let cliFilename = Vite_sim.cliFilename();
     let homeEnv = util.env("HOME");
     let pathEnv = util.env("PATH");
+    let openBrowser = util.env("WING_IS_TEST") != "true";
 
     new cloud.Service(inflight () => {
       let url = Vite_sim.dev({
@@ -25,6 +26,7 @@ pub class Vite_sim {
         cliFilename: cliFilename,
         homeEnv: homeEnv,
         pathEnv: pathEnv,
+        openBrowser: openBrowser,
       });
       state.set("url", url);
     });

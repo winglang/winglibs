@@ -20,12 +20,12 @@ export const plugin = (options) => {
     },
     transformIndexHtml(html) {
       return html.replace(
-        "<head>",
-        `<head>\n    <script>window.${
+        "</head>",
+        `    <script>window.${
           options.publicEnvName
-        }=Object.freeze({meta:Object.freeze({env:${JSON.stringify(
+        }=Object.freeze({env:Object.freeze(${JSON.stringify(
           options.publicEnv
-        )}})});</script>`
+        )})});</script>\n</head>`
       );
     },
     async buildStart() {

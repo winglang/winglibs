@@ -108,8 +108,6 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     this.addRoute(onMessageFunction, routeKey);
   }
 
-  pub initialize() {}
-
   pub addRoute(handler: cloud.Function, routeKey: str): void {
     if let lambda = aws.Function.from(handler) {
       let functionArn = lambda.functionArn;
