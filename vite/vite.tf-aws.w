@@ -48,7 +48,7 @@ pub class Vite_tf_aws {
       let filename = fs.absolute("{distDir}/{file}");
       let var cacheControl = "public, max-age={1m.seconds}";
       if key.startsWith("/assets/") {
-        cacheControl = "public, max-age={1y.seconds}";
+        cacheControl = "public, max-age={1y.seconds}, immutable";
       }
       if file == "index.html" {
         new aws.s3Object.S3Object(
@@ -121,8 +121,8 @@ pub class Vite_tf_aws {
         },
         viewerProtocolPolicy: "redirect-to-https",
         compress: true,
-        minTtl: 5m.seconds,
-        defaultTtl: 5m.seconds,
+        minTtl: 1m.seconds,
+        defaultTtl: 1m.seconds,
         maxTtl: 1y.seconds,
       },
       priceClass: "PriceClass_100",
