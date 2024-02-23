@@ -4,11 +4,11 @@ bring cloud;
 bring ui;
 
 interface Process {
-	inflight kill(): void;
+  inflight kill(): void;
 }
 
 struct SpawnOptions {
-	command: str;
+  command: str;
   arguments: Array<str>;
   onData: inflight (str): void;
 }
@@ -52,11 +52,11 @@ struct StreamRecord {
 }
 
 class Util {
-	extern "./lib.mjs" pub static inflight getPort(): num;
-	extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
-	extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
-	extern "./lib.mjs" pub static inflight createDocumentClient(endpoint: str): DocumentClient;
-	extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (StreamRecord): void): void;
+  extern "./lib.mjs" pub static inflight getPort(): num;
+  extern "./lib.mjs" pub static inflight spawn(options: SpawnOptions): Process;
+  extern "./lib.mjs" pub static inflight createClient(endpoint: str): Client;
+  extern "./lib.mjs" pub static inflight createDocumentClient(endpoint: str): DocumentClient;
+  extern "./lib.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (StreamRecord): void): void;
 }
 
 class Host {
@@ -72,7 +72,7 @@ class Host {
       let port = Util.getPort();
 
       let docker = Util.spawn(
-				command: "docker",
+        command: "docker",
         arguments: [
           "run",
           "--rm",
@@ -87,11 +87,11 @@ class Host {
             state.set("endpoint", "http://0.0.0.0:{port}");
           }
         },
-			);
+      );
 
-			return () => {
-				docker.kill();
-			};
+      return () => {
+        docker.kill();
+      };
     });
 
     // The host will be ready when the endpoint is set.
