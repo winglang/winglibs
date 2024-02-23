@@ -1,0 +1,16 @@
+{
+  "name": "@winglibs/dynamodb",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "dynamodb"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.461.0",
+    "@aws-sdk/client-dynamodb-streams": "^3.461.0",
+    "@aws-sdk/lib-dynamodb": "^3.462.0",
+    "get-port": "^7.0.0"
+  }
+}
