@@ -20,5 +20,6 @@ pub class Vite {
     } else {
       throw "Unsupported WING_TARGET ${target}";
     }
+    new cloud.Endpoint(this.url);
   }
 }
