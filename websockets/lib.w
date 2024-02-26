@@ -1,4 +1,5 @@
 bring util;
+bring cloud;
 bring "./commons/api.w" as api;
 bring "./platform/awscdk.w" as awscdk;
 bring "./platform/tf-aws.w" as tfaws;
@@ -26,6 +27,7 @@ pub class WebSocket impl api.IWebSocket {
     } else {
       throw "unsupported target {target}";
     }
+    new cloud.Endpoint(this.url);
   }
 
   pub onConnect(handler: inflight(str): void): void {
