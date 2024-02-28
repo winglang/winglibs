@@ -11,7 +11,7 @@ pub class Budget {
     if util.env("WING_TARGET") == "tf-aws" {
       this.platform = new tfaws.BudgetTfAws(props);
     } elif util.env("WING_TARGET") == "sim" {
-      this.platform = new tfaws.BudgetTfAws(props);
+      this.platform = new sim.BudgetSim(props);
     } else {
       throw "unknown platform";
     }
