@@ -5,5 +5,5 @@ bring "./budget.w" as budget;
 let fifyCents = new budget.Budget(
   name: "test",
   amount: 0.5,
-  emailAddresses: ["maornet@gmail.com"],
+  emailAddresses: ["your@email.com"],
 );
