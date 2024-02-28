@@ -8,9 +8,9 @@ A Wing library for working with [AWS Budgets](https://docs.aws.amazon.com/cost-m
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/budget
-`
+```
 
 ## Usage
 
@@ -18,7 +18,7 @@ npm i @winglibs/budget
 
 Add your budget to the code:
 
-```
+```wing
 bring budget;
 
 let fifyCents = new budget.Budget(
