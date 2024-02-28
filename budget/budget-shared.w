@@ -5,10 +5,10 @@ pub enum TimeUnit {
 }
 
 pub struct BudgetProps {
-  amount: num; // USD
   name: str;
-  timeUnit: TimeUnit?; // default: MONTHLY
+  amount: num; // USD
   emailAddresses: Array<str>;
+  timeUnit: TimeUnit?; // default: MONTHLY
 }
 
 pub interface IBudget {
