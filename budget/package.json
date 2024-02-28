@@ -1,5 +1,5 @@
 {
-  "name": "budget",
+  "name": "@winglibs/budget",
   "version": "0.1.0",
   "description": "AWS Budget",
   "keywords": [
