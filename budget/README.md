@@ -14,6 +14,8 @@ npm i @winglibs/budget
 
 ## Usage
 
+**⚠️ The budget refers to the entire account and not just for the current project!**
+
 Add your budget to the code:
 
 ```
@@ -26,7 +28,7 @@ let fifyCents = new budget.Budget(
 );
 ```
 
-_Note: ​The budget amount is in USD._
+*Note: ​The budget amount is in USD.*
 
 You get an alert when your monthly payment goes over your budget.
 
