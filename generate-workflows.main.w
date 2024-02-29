@@ -13,8 +13,6 @@ fs.mkdir(workflowdir);
 
 let libs = MutArray<str>[];
 
-let libs = MutArray<str>[];
-
 for file in fs.readdir(".") {
   if !fs.exists("{file}/package.json") {
     log("skipping {file}");
