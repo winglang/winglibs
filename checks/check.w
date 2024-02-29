@@ -88,7 +88,7 @@ pub class Check impl ICheck {
    * Invokes the check and returns it's result
    */
   pub inflight run(): r.CheckResult {
-    let result = this.invoker.invoke("");
+    let result = this.invoker.invoke("")!;
     return r.CheckResult.fromJson(Json.parse(result));
   }
 

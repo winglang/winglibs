@@ -16,14 +16,9 @@ pub interface IWebSocket extends std.IResource {
   onMessage(handler: inflight(str, str): void): void;
 
   /**
-   * Initialize the WebSocket (necessary only in the sim, to be removed in the future).
-   */
-  initialize(): void;
-
-  /**
    * Sends a message through the WebSocket with inflight handling.
    */
-  inflight sendMessage(connectionId: str, message: str);
+  inflight sendMessage(connectionId: str, message: str): void;
 }
 
 /**

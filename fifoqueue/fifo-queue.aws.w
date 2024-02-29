@@ -75,5 +75,5 @@ pub class FifoQueue_aws impl api.IFifoQueue {
     FifoQueue_aws._push(this.url, message, options.groupId);
   }
 
-  extern "./aws.js" static inflight _push(queueUrl: str, message: str, groupId: str); 
+  extern "./aws.js" static inflight _push(queueUrl: str, message: str, groupId: str): void;
 }

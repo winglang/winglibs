@@ -29,7 +29,7 @@ pub class Library {
         name: "Setup Node.js",
         uses: "actions/setup-node@v3",
         with: {
-          "node-version": "18.x",
+          "node-version": "20.x",
           "registry-url": "https://registry.npmjs.org",
         },
       });
@@ -113,7 +113,10 @@ pub class Library {
       on: {
         push: {
           branches: ["main"],
-          paths: ["{libdir}/**"]
+          paths: [
+            "{libdir}/**",
+            "!{libdir}/package-lock.json"
+          ],
         }
       },
       jobs: Json.deepCopy(releaseJobs),
@@ -128,7 +131,7 @@ pub class Library {
       name: "{base}-pull",
       on: {
         pull_request: {
-          paths: ["{libdir}/**"]
+          paths: ["{libdir}/**"],
         }
       },
       jobs: Json.deepCopy(pullJobs),

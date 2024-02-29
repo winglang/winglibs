@@ -36,10 +36,8 @@ wb.onMessage(inflight (id: str, body: str): void => {
   }
 });
 
-wb.initialize();
-
 interface IWebSocketJS {
-  inflight on(cmd: str, handler: inflight(str):void);
+  inflight on(cmd: str, handler: inflight(str):void): void;
   inflight send(e: str): void;
   inflight close(): void;
 }

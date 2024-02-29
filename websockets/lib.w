@@ -1,4 +1,5 @@
 bring util;
+bring cloud;
 bring "./commons/api.w" as api;
 bring "./platform/awscdk.w" as awscdk;
 bring "./platform/tf-aws.w" as tfaws;
@@ -6,7 +7,6 @@ bring "./platform/sim.w" as sim;
 
 pub class WebSocket impl api.IWebSocket {
   inner: api.IWebSocket;
-
   pub url: str;
   
   new(props: api.WebSocketProps) {
@@ -27,6 +27,7 @@ pub class WebSocket impl api.IWebSocket {
     } else {
       throw "unsupported target {target}";
     }
+    new cloud.Endpoint(this.url);
   }
 
   pub onConnect(handler: inflight(str): void): void {
@@ -37,10 +38,6 @@ pub class WebSocket impl api.IWebSocket {
   }
   pub onMessage(handler: inflight(str, str): void): void {
     this.inner.onMessage(handler);
-  }
-
-  pub initialize() {
-    this.inner.initialize();
   }
 
   pub inflight sendMessage(connectionId: str, message: str) {
