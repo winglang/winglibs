@@ -22,7 +22,7 @@ class InboundGithubEvents {
 
     let fn = new cloud.Function(inflight (event) => {
       log("subscribed event received {event}");
-      this.bucket.put("test-{counter.inc()}", event);
+      this.bucket.put("test-{counter.inc()}", event!);
     });
 
     eventBridge.subscribeFunction("github.pull-request.created", fn, {
@@ -38,13 +38,8 @@ class Environments {
     let queue = new cloud.Queue();
 
     eventBridge.subscribeQueue("environments.created", queue, {
-      "detail-type": "test",
-      resources: ["test"],
-      source: "test",
-      version: 0,
-      detail: {
-        "test": "test",
-      },
+      "detail-type": [{"prefix": "myTest"}],
+      source: ["myTest"],
     });
   }
 }
@@ -57,6 +52,7 @@ new Environments();
 let eventBridge = new lib.EventBridge();
 
 test "publish to eventbridge" {
+  log("publishing to eventbridge");
   eventBridge.publish(
     detailType: "pull-request.created",
     resources: ["test"],
@@ -67,12 +63,16 @@ test "publish to eventbridge" {
     },
   );
 
+  log("published");
+
   util.waitUntil(inflight () => {
+    log("checking bucket for event");
     return github.bucket.exists("test-0");
   }, {
-    timeout: 5s,
+    timeout: 60s,
   });
 
+  log("after wait");
   let published = types.Event.fromJson(github.bucket.getJson("test-0"));
   expect.equal("pull-request.created", published.detailType);
   expect.equal("test", published.resources.at(0));

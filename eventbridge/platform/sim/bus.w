@@ -82,10 +82,8 @@ pub class EventBridgeBus impl types.IEventBridgeBus {
 
     let handler = new MyHandler(this.topic) as "EventBridgeOnMessageHandler{this.handlerCount}";
     let node = std.Node.of(handler);
-    node.hidden = true;
 
     let handlerNode = std.Node.of(handler.onMessageHandler);
-    handlerNode.hidden = true;
     this.handlerCount += 1;
 
     return handler.onMessageHandler;

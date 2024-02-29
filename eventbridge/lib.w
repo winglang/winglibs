@@ -1,14 +1,21 @@
 bring cloud;
+bring util;
 bring "./types.w" as types;
 bring "./platform/sim" as sim;
+bring "./platform/tf-aws" as aws;
 
 pub class EventBridgeInstance impl types.IEventBridgeInstance {
   inner: types.IEventBridgeInstance;
 
   new(props: types.EventBridgeProps) {
-    this.inner = new sim.EventBridgeInstance(props);
-    let node = std.Node.of(this);
-    node.hidden = true;
+    let target = util.env("WING_TARGET");
+    if target == "sim" {
+      this.inner = new sim.EventBridgeInstance(props) as "sim";
+    } elif target == "tf-aws" {
+      this.inner = new aws.EventBridgeInstance(props) as "tf-aws";
+    } else {
+      throw "Unsupported target {target}";
+    }
   }
 }
 
@@ -16,7 +23,14 @@ pub class EventBridge impl types.IEventBridge {
   inner: types.IEventBridge;
 
   new() {
-    this.inner = new sim.EventBridge();
+    let target = util.env("WING_TARGET");
+    if target == "sim" {
+      this.inner = new sim.EventBridge() as "sim";
+    } elif target == "tf-aws" {
+      this.inner = new aws.EventBridge() as "tf-aws";
+    } else {
+      throw "Unsupported target {target}";
+    }
   }
 
   pub inflight publish(event: types.PublishEvent): void {

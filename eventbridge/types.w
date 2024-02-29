@@ -26,8 +26,8 @@ pub struct PublishEvent {
 }
 
 pub interface IEventBridgeBus extends std.IResource {
-  subscribe(callback: inflight (Event): void, pattern: Json): std.Resource;
-  inflight publish(event: PublishEvent): void;
+  // subscribe(callback: inflight (Event): void, pattern: Json): std.Resource;
+  // inflight publish(event: PublishEvent): void;
 }
 
 pub interface IEventBridge extends std.IResource {
