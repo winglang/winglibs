@@ -1,0 +1,22 @@
+{
+  "name": "@winglibs/fifoqueue",
+  "version": "0.0.3",
+  "description": "A wing library to work with FIFO (first-in first-out) Queues",
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "fifoqueue"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^18.0.5",
+    "@aws-sdk/client-sqs": "^3.460.0"
+  },
+  "peerDependencies": {
+    "cdktf": "^0.19.1"
+  },
+  "license": "MIT"
+}

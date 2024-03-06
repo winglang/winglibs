@@ -5,26 +5,23 @@ struct PackageManifest {
 }
 
 pub class Library {
-  new(dir: str) {
-    let pkgjsonpath = "{dir}/package.json";
+  new(workflowdir: str, libdir: str) {
+    let pkgjsonpath = "{libdir}/package.json";
     let pkgjson = fs.readJson(pkgjsonpath);
     let manifest = PackageManifest.fromJson(pkgjson);
     log(manifest.name);
-    let base = fs.basename(dir);
+    let base = fs.basename(libdir);
     let expected = "@winglibs/{base}";
     if manifest.name != expected {
       throw "'name' in {pkgjsonpath} is expected to be {expected}";
     }
-
-    let workflowdir = ".github/workflows";
-    fs.mkdir(workflowdir);
 
     let addCommonSteps = (steps: MutArray<Json>) => {
       steps.push({
         name: "Checkout",
         uses: "actions/checkout@v3",
         with: {
-          "sparse-checkout": dir
+          "sparse-checkout": libdir
         }
       });
   
@@ -32,7 +29,7 @@ pub class Library {
         name: "Setup Node.js",
         uses: "actions/setup-node@v3",
         with: {
-          "node-version": "18.x",
+          "node-version": "20.x",
           "registry-url": "https://registry.npmjs.org",
         },
       });
@@ -45,19 +42,19 @@ pub class Library {
       steps.push({
         name: "Install dependencies",
         run: "npm install --include=dev",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
   
       steps.push({
         name: "Test",
         run: "wing test",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
 
       steps.push({
         name: "Pack",
         run: "wing pack",
-        "working-directory": dir,
+        "working-directory": libdir,
       });
   
     };
@@ -69,43 +66,75 @@ pub class Library {
     addCommonSteps(releaseSteps);
 
     releaseSteps.push({
-      name: "Publish",
-      run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
-      "working-directory": dir,
-      env: {
-        NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
-      } 
+      name: "Get package version",
+      run: "echo WINGLIB_VERSION=\$(node -p \"require('./package.json').version\") >> \"$GITHUB_ENV\"",
+      "working-directory": libdir,
     });
 
+    releaseSteps.push({
+      name: "Publish",
+      run: "npm publish --access=public --registry https://registry.npmjs.org --tag latest *.tgz",
+      "working-directory": libdir,
+      env: {
+        NODE_AUTH_TOKEN: "\$\{\{ secrets.NPM_TOKEN }}"
+      }
+    });
+
+    let tagName = "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}";
+    let githubTokenWithAuth = "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}";
+
+    releaseSteps.push({
+      name: "Tag commit",
+      uses: "tvdias/github-tagger@v0.0.1",
+      with: {
+        "repo-token": githubTokenWithAuth,
+        tag: tagName,
+      }
+    });
+
+    releaseSteps.push({
+      name: "GitHub release",
+      uses: "softprops/action-gh-release@v1",
+      with: {
+        name: "{base} v\$\{\{ env.WINGLIB_VERSION \}\}",
+        tag_name: tagName,
+        files: "*.tgz",
+        token: githubTokenWithAuth,
+      },
+    });
+
+    let releaseJobs = MutJson {};
+    releaseJobs.set("build-{base}", {
+      "runs-on": "ubuntu-latest",
+      steps: releaseSteps.copy(),
+    });
     fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
       name: "{base}-release",
       on: {
         push: {
           branches: ["main"],
-          paths: ["{dir}/**"]
+          paths: [
+            "{libdir}/**",
+            "!{libdir}/package-lock.json"
+          ],
         }
       },
-      jobs: {
-        build: {
-          "runs-on": "ubuntu-latest",
-          steps: releaseSteps.copy()
-        }
-      }
+      jobs: Json.deepCopy(releaseJobs),
     });
 
-    fs.writeYaml("{workflowdir}/{base}-pull.yaml", { 
+    let pullJobs = MutJson {};
+    pullJobs.set("build-{base}", {
+      "runs-on": "ubuntu-latest",
+      steps: pullSteps.copy(),
+    });
+    fs.writeYaml("{workflowdir}/{base}-pull.yaml", {
       name: "{base}-pull",
       on: {
         pull_request: {
-          paths: ["{dir}/**"]
+          paths: ["{libdir}/**"],
         }
       },
-      jobs: {
-        build: {
-          "runs-on": "ubuntu-latest",
-          steps: pullSteps.copy()
-        }
-      }
+      jobs: Json.deepCopy(pullJobs),
     });
   }
 }

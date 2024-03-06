@@ -1,4 +1,4 @@
-# websockets
+# Websockets
 
 This library enables you to create WebSockets using Wing.
 
@@ -58,9 +58,6 @@ wb.onMessage(inflight (id: str, body: str): void => {
   }
 });
 
-/* This method is temporarily required only for local execution (target sim) and will be deprecated in the future.
-*/
-wb.initialize();
 ```
 
 ## `sim`

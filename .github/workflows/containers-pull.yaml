@@ -4,7 +4,7 @@ on:
     paths:
       - containers/**
 jobs:
-  build:
+  build-containers:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
         run: npm i -g winglang

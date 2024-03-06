@@ -3,7 +3,7 @@ bring "@cdktf/provider-aws" as aws;
 
 pub class Aws {
   pub static getOrCreate(scope: std.IResource): Aws {
-    let stack = cdktf.TerraformStack.of(scope);
+    let stack = nodeof(scope).root;
     let id = "WingAwsUtil";
     let existing: Aws? = unsafeCast(stack.node.tryFindChild(id));
     return (existing ?? new Aws() as id in stack);
