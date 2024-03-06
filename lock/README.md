@@ -18,11 +18,20 @@ bring cloud;
 bring util;
 
 let l = new lock.Lock();
-let q = new cloud.Queue();
-
-q.setConsumer(inflight (m: str) => {
+let withoutExpiry = new cloud.Queue() as "without expiry";
+let withExpiry = new cloud.Queue() as "with expiry";
+withExpiry.setConsumer(inflight (m: str) => {
   let id = util.uuidv4();
-  l.acquire("my-lock", 20s);
+  l.acquire("my-lock", timeout: 20s, expiry: 10ms);
+  log("{id}:start");
+  util.sleep(1s);
+  log("{id}:end");
+  l.release("my-lock");
+});
+
+withoutExpiry.setConsumer(inflight (m: str) => {
+  let id = util.uuidv4();
+  l.acquire("my-lock", timeout: 20s);
   log("{id}:start");
   util.sleep(1s);
   log("{id}:end");
@@ -40,11 +49,22 @@ Output with the lock:
      │ 01da31df-4130-47f0-86f7-7173421a2676:end
      │ a24e59d3-d088-4e4e-b134-d1c3a6dfe278:start
      │ a24e59d3-d088-4e4e-b134-d1c3a6dfe278:end
-*/      
-test "count" {
-  q.push("1", "2");
+Output with an expiry:
+     | dfac7a32-65f2-4267-bb91-e4041a22cc5f:start
+     | 0ccee5ac-feb3-444e-9470-c660a06c7383:start
+     | dfac7a32-65f2-4267-bb91-e4041a22cc5f:end
+     | 0ccee5ac-feb3-444e-9470-c660a06c7383:end
+*/
+test "count without expiry" {
+  withoutExpiry.push("1", "2");
   util.sleep(5s);
 }
+
+test "count with expiry" {
+  withExpiry.push("1", "2");
+  util.sleep(5s);
+}
+
 ```
 
 ## Maintainers
