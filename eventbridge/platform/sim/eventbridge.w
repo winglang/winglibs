@@ -2,10 +2,10 @@ bring cloud;
 bring "./../../types.w" as types;
 bring "./bus.w" as bus;
 
-pub class EventBridge impl types.IEventBridge {
+pub class Bus impl types.IBus {
   bus: bus.EventBridgeBus;
 
-  new(props: types.EventBridgeProps) {
+  new(props: types.BusProps) {
     this.bus = new bus.EventBridgeBus(props);
     log("EventBridge: created {this.bus}");
   }
@@ -28,7 +28,11 @@ pub class EventBridge impl types.IEventBridge {
     class Rule {
       new(bus: bus.EventBridgeBus) {
         let onMessageHandler = bus.subscribe(inflight (event) => {
-          queue.push(Json.stringify(event));
+          let json: MutJson = event;
+          // make it look like it came from AWS
+          json.set("detail-type", json.get("detailType"));
+          json.set("detailType", unsafeCast(nil));
+          queue.push(Json.stringify(json));
         }, pattern);
 
         let node = std.Node.of(this);

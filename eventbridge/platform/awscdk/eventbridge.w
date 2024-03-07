@@ -3,13 +3,13 @@ bring aws;
 bring "./../../types.w" as types;
 bring "aws-cdk-lib" as cdk;
 
-pub class EventBridge impl types.IEventBridge {
+pub class Bus impl types.IBus {
   extern "../shared-aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
   extern "./helper.js" pub static addRulePermission(handler: str, arn: str): void;
 
   eventBridge: cdk.aws_events.EventBus;
 
-  new(props: types.EventBridgeProps) {
+  new(props: types.BusProps) {
     this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props.name) as "EventBridge";
   }
 
@@ -33,7 +33,7 @@ pub class EventBridge impl types.IEventBridge {
       }],
     ) as name;
 
-    EventBridge.addRulePermission(unsafeCast(awsHandler), rule.attrArn);
+    Bus.addRulePermission(unsafeCast(awsHandler), rule.attrArn);
   }
 
   pub subscribeQueue(name: str, queue: cloud.Queue, pattern: Json): void {
@@ -61,7 +61,7 @@ pub class EventBridge impl types.IEventBridge {
 
   pub inflight publish(event: types.PublishEvent): void {
     let name = this.eventBridge.eventBusName;
-    EventBridge.putEvent(name, event);
+    Bus.putEvent(name, event);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {

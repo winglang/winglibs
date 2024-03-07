@@ -4,13 +4,13 @@ bring "./../../types.w" as types;
 bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfAws;
 
-pub class EventBridge impl types.IEventBridge {
+pub class Bus impl types.IBus {
   extern "../shared-aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
 
   busName: str;
   busArn: str;
 
-  new(props: types.EventBridgeProps) {
+  new(props: types.BusProps) {
     let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props.name) as "EventBridge";
     this.busName = bus.name;
     this.busArn = bus.arn;
@@ -82,7 +82,7 @@ pub class EventBridge impl types.IEventBridge {
 
   pub inflight publish(event: types.PublishEvent): void {
     let name = this.busName;
-    EventBridge.putEvent(name, event);
+    Bus.putEvent(name, event);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {

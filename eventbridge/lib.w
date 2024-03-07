@@ -5,17 +5,20 @@ bring "./platform/sim" as sim;
 bring "./platform/tf-aws" as aws;
 bring "./platform/awscdk" as awscdk;
 
-pub class EventBridge impl types.IEventBridge {
-  inner: types.IEventBridge;
+/**
+  Winglang resource for Amazon EventBridge.
+*/
+pub class Bus impl types.IBus {
+  inner: types.IBus;
 
-  new(props: types.EventBridgeProps) {
+  new(props: types.BusProps) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.EventBridge(props) as "sim";
+      this.inner = new sim.Bus(props) as "sim";
     } elif target == "tf-aws" {
-      this.inner = new aws.EventBridge(props) as "tf-aws";
+      this.inner = new aws.Bus(props) as "tf-aws";
     } elif target == "awscdk" {
-      this.inner = new awscdk.EventBridge(props) as "awscdk";
+      this.inner = new awscdk.Bus(props) as "awscdk";
     } else {
       throw "Unsupported target {target}";
     }

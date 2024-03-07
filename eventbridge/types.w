@@ -1,6 +1,6 @@
 bring cloud;
 
-pub struct EventBridgeProps {
+pub struct BusProps {
   name: str;
   debug: bool?;
 }
@@ -25,7 +25,7 @@ pub struct PublishEvent {
   detail: Json;
 }
 
-pub interface IEventBridge extends std.IResource {
+pub interface IBus extends std.IResource {
   inflight publish(event: PublishEvent): void;
   subscribeFunction(name: str, handler: inflight (Event): void, pattern: Json): void;
   subscribeQueue(name: str, queue: cloud.Queue, pattern: Json): void;

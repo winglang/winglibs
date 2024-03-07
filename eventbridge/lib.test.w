@@ -4,7 +4,7 @@ bring util;
 bring "./lib.w" as lib;
 bring "./types.w" as types;
 
-let eventBridge = new lib.EventBridge(name: "test");
+let eventBridge = new lib.Bus(name: "test");
 
 class InboundGithubEvents {
   pub bucket: cloud.Bucket;

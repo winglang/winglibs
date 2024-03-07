@@ -7,7 +7,7 @@ pub class EventBridgeBus {
   topic: cloud.Topic;
   var handlerCount: num;
 
-  new(props: types.EventBridgeProps) {
+  new(props: types.BusProps) {
     this.topic = new cloud.Topic() as "EventBridge";
 
     this.handlerCount = 0;

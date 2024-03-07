@@ -10,7 +10,7 @@ const putEvent = async (eventBridgeName, event) => {
         DetailType: event.detailType,
         Detail: JSON.stringify(event.detail),
         EventBusName: eventBridgeName,
-        Resources: event.resource,
+        Resources: event.resources,
       },
     ],
   };
