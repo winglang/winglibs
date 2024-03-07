@@ -14,6 +14,7 @@
   },
   "peerDependencies": {
     "@cdktf/provider-aws": "^18",
+    "aws-cdk-lib": "^2.109.0",
     "cdktf": "^0.19",
     "constructs": "^10.3"
   },

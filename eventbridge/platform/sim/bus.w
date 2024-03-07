@@ -2,42 +2,10 @@ bring cloud;
 bring util;
 bring "./../../types.w" as types;
 
-pub class EventBridgeBus impl types.IEventBridgeBus {
+pub class EventBridgeBus {
   extern "./match.js" inflight static matchesPattern(obj: Json, pattern: Json): bool;
   topic: cloud.Topic;
   var handlerCount: num;
-
-  pub static create(scope: std.IResource, props: types.EventBridgeProps): EventBridgeBus {
-    let root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
-
-    let id = "winglibs:eventbridgebus";
-    log("EventBridgeBus: creating {id}");
-    return new EventBridgeBus(props) as id in root;
-  }
-
-  pub static exists(scope: std.IResource): EventBridgeBus? {
-    let var root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
-
-    let id = "winglibs:eventbridgebus";
-    let exists: EventBridgeBus? = unsafeCast(std.Node.of(root).tryFindChild(id));
-    return exists;
-  }
-
-  pub static of(scope: std.IResource): EventBridgeBus {
-    let var root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
-
-    let id = "winglibs:eventbridgebus";
-    let exists: EventBridgeBus? = unsafeCast(std.Node.of(root).tryFindChild(id));
-    if let bus = exists {
-      log("EventBridgeBus: found {bus}");
-      return bus;
-    } else {
-      throw "EventBridgeBus not found";
-    }
-  }
 
   new(props: types.EventBridgeProps) {
     this.topic = new cloud.Topic() as "EventBridge";

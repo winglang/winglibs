@@ -5,25 +5,19 @@ bring "./bus.w" as bus;
 pub class EventBridge impl types.IEventBridge {
   bus: bus.EventBridgeBus;
 
-  new() {
-    this.bus = bus.EventBridgeBus.of(this);
+  new(props: types.EventBridgeProps) {
+    this.bus = new bus.EventBridgeBus(props);
     log("EventBridge: created {this.bus}");
   }
 
-  pub subscribeFunction(name: str, handler: cloud.Function, pattern: Json): void {
+  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     class FnRule {
       new(bus: bus.EventBridgeBus) {
         let onMessageHandler = bus.subscribe(inflight (event) => {
-          handler.invoke(Json.stringify(event));
+          handler(event);
         }, pattern);
 
         let node = std.Node.of(this);
-
-        node.addConnection(
-          name: "event",
-          source: this,
-          target: handler,
-        );
       }
     }
 
