@@ -8,7 +8,7 @@ pub class EventBridgeBus impl types.IEventBridgeBus {
   var handlerCount: num;
 
   pub static create(scope: std.IResource, props: types.EventBridgeProps): EventBridgeBus {
-    let var root = std.Node.of(scope).root;
+    let root = std.Node.of(scope).root;
     let rootNode = std.Node.of(root);
 
     let id = "winglibs:eventbridgebus";
