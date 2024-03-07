@@ -6,9 +6,9 @@
 
 ## Installation
 
-`sh
+```
 npm i @winglibs/lock
-`
+```
 
 ## Usage
 
