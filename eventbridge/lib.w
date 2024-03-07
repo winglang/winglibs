@@ -2,7 +2,7 @@ bring cloud;
 bring util;
 bring "./types.w" as types;
 bring "./platform/sim" as sim;
-bring "./platform/tf-aws" as aws;
+bring "./platform/tfaws" as aws;
 bring "./platform/awscdk" as awscdk;
 
 /**

@@ -4,7 +4,7 @@ bring "./../../types.w" as types;
 bring "aws-cdk-lib" as cdk;
 
 pub class Bus impl types.IBus {
-  extern "../shared-aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
+  extern "../aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
   extern "./helper.js" pub static addRulePermission(handler: str, arn: str): void;
 
   eventBridge: cdk.aws_events.EventBus;

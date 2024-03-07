@@ -5,7 +5,7 @@ bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfAws;
 
 pub class Bus impl types.IBus {
-  extern "../shared-aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
+  extern "../aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
 
   busName: str;
   busArn: str;
