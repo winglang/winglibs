@@ -237,20 +237,6 @@ struct TransactWriteOptions {
 
 struct TransactWriteOutput {}
 
-// struct UpdateOptions {
-//   key: Json;
-//   conditionExpression: str?;
-//   expressionAttributeNames: Map<str>?;
-//   expressionAttributeValues: Map<Json>?;
-//   updateExpression: str;
-//   // returnValues: str?;
-//   // returnValuesOnConditionCheckFailure: str?;
-// }
-
-// struct UpdateOutput {
-//   // attributes: Json?;
-// }
-
 struct AttributeDefinition {
   attributeName: str;
   attributeType: str;
@@ -267,8 +253,7 @@ struct TableProps {
   timeToLiveAttribute: str?;
 }
 
-pub interface ITable {
-  setStreamConsumer(handler: inflight (StreamRecord): void): void;
+pub interface ITableInflight {
   inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
   inflight put(options: PutOptions): PutOutput;
@@ -277,88 +262,22 @@ pub interface ITable {
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
 }
 
-pub class Table impl ITable {
-  host: Host;
+pub interface ITable extends ITableInflight {
+  setStreamConsumer(handler: inflight (StreamRecord): void): void;
+}
 
-  pub endpoint: str;
-  pub tableName: str;
+struct TableClientProps {
+  endpoint: str;
+  tableName: str;
+}
 
-  new(props: TableProps) {
-    this.host = Host.of(this);
-    this.endpoint = this.host.endpoint;
-
-    let tableName = this.node.addr;
-    let state = new sim.State();
-    this.tableName = state.token("tableName");
-
-    new ui.Field(
-      "Key Schema",
-      inflight () => {
-        return Json.stringify(props.keySchema, indent: 2);
-      },
-    );
-
-    new cloud.Service(inflight () => {
-      let client = Util.createClient(this.host.endpoint);
-
-      let attributeDefinitions = MutArray<Json> [];
-      for attributeDefinition in props.attributeDefinitions {
-        attributeDefinitions.push({
-          AttributeName: attributeDefinition.attributeName,
-          AttributeType: attributeDefinition.attributeType,
-        });
-      }
-
-      let keySchemas = MutArray<Json> [];
-      for keySchema in props.keySchema {
-        keySchemas.push({
-          AttributeName: keySchema.attributeName,
-          KeyType: keySchema.keyType,
-        });
-      }
-
-      util.waitUntil(() => {
-        try {
-          client.createTable({
-            TableName: tableName,
-            AttributeDefinitions: attributeDefinitions.copy(),
-            KeySchema: keySchemas.copy(),
-            BillingMode: "PAY_PER_REQUEST",
-            StreamSpecification: {
-              StreamEnabled: true,
-              StreamViewType: "NEW_AND_OLD_IMAGES",
-            },
-          });
-
-          if let timeToLiveAttribute = props.timeToLiveAttribute {
-            client.updateTimeToLive({
-              TableName: tableName,
-              TimeToLiveSpecification: {
-                AttributeName: timeToLiveAttribute,
-                Enabled: true,
-              },
-            });
-          }
-
-          state.set("tableName", tableName);
-          return true;
-        } catch error {
-          return false;
-        }
-      });
-    });
-  }
-
-  pub setStreamConsumer(handler: inflight (StreamRecord): void) {
-    new cloud.Service(inflight () => {
-      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
-    }) as "StreamConsumer";
-  }
-
+inflight class TableClient impl ITableInflight {
+  inflight tableName: str;
   inflight client: DocumentClient;
 
-  inflight new() {
-    this.client = Util.createDocumentClient(this.host.endpoint);
+  inflight new(props: TableClientProps) {
+    this.tableName = props.tableName;
+    this.client = Util.createDocumentClient(props.endpoint);
   }
 
   pub inflight delete(options: DeleteOptions): DeleteOutput {
@@ -505,5 +424,116 @@ pub class Table impl ITable {
       lastEvaluatedKey: unsafeCast(response)?.LastEvaluatedKey,
       consumedCapacity: unsafeCast(response)?.ConsumedCapacity,
     };
+  }
+}
+
+pub class Table impl ITable {
+  host: Host;
+  pub endpoint: str;
+  pub tableName: str;
+
+  new(props: TableProps) {
+    this.host = Host.of(this);
+    this.endpoint = this.host.endpoint;
+
+    let tableName = this.node.addr;
+    let state = new sim.State();
+    this.tableName = state.token("tableName");
+
+    new ui.Field(
+      "Key Schema",
+      inflight () => {
+        return Json.stringify(props.keySchema, indent: 2);
+      },
+    );
+
+    new cloud.Service(inflight () => {
+      let client = Util.createClient(this.host.endpoint);
+
+      let attributeDefinitions = MutArray<Json> [];
+      for attributeDefinition in props.attributeDefinitions {
+        attributeDefinitions.push({
+          AttributeName: attributeDefinition.attributeName,
+          AttributeType: attributeDefinition.attributeType,
+        });
+      }
+
+      let keySchemas = MutArray<Json> [];
+      for keySchema in props.keySchema {
+        keySchemas.push({
+          AttributeName: keySchema.attributeName,
+          KeyType: keySchema.keyType,
+        });
+      }
+
+      util.waitUntil(() => {
+        try {
+          client.createTable({
+            TableName: tableName,
+            AttributeDefinitions: attributeDefinitions.copy(),
+            KeySchema: keySchemas.copy(),
+            BillingMode: "PAY_PER_REQUEST",
+            StreamSpecification: {
+              StreamEnabled: true,
+              StreamViewType: "NEW_AND_OLD_IMAGES",
+            },
+          });
+
+          if let timeToLiveAttribute = props.timeToLiveAttribute {
+            client.updateTimeToLive({
+              TableName: tableName,
+              TimeToLiveSpecification: {
+                AttributeName: timeToLiveAttribute,
+                Enabled: true,
+              },
+            });
+          }
+
+          state.set("tableName", tableName);
+          return true;
+        } catch error {
+          return false;
+        }
+      });
+    });
+  }
+
+  pub setStreamConsumer(handler: inflight (StreamRecord): void) {
+    new cloud.Service(inflight () => {
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
+    }) as "StreamConsumer";
+  }
+
+  inflight client: TableClient;
+
+  inflight new() {
+    this.client = new TableClient(
+      endpoint: this.host.endpoint,
+      tableName: this.tableName,
+    );
+  }
+
+  pub inflight delete(options: DeleteOptions): DeleteOutput {
+    return this.client.delete(options);
+  }
+
+  pub inflight get(options: GetOptions): GetOutput {
+    return this.client.get(options);
+  }
+
+  pub inflight put(options: PutOptions): PutOutput {
+    return this.client.put(options);
+  }
+
+  pub inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput {
+    return this.client.transactWrite(options);
+  }
+
+  pub inflight scan(options: ScanOptions?): ScanOutput {
+    return this.client.scan(options);
+  }
+
+  pub inflight query(options: QueryOptions): QueryOutput {
+    return this.client.query(options);
   }
 }
