@@ -20,12 +20,9 @@ interface Client {
 }
 
 interface DocumentClient {
-  inflight batchExecuteStatement(input: Json): Json;
   inflight batchGet(input: Json): Json;
   inflight batchWrite(input: Json): Json;
   inflight delete(input: Json): Json;
-  inflight executeStatement(input: Json): Json;
-  inflight executeTransaction(input: Json): Json;
   inflight get(input: Json): Json;
   inflight put(input: Json): Json;
   inflight query(input: Json): Json;
@@ -36,19 +33,19 @@ interface DocumentClient {
 }
 
 struct StreamRecordDynamodb {
-  ApproximateCreationDateTime: str;
-  Keys: Json;
-  NewImage: Json?;
-  OldImage: Json?;
-  SequenceNumber: str;
-  SizeBytes: num;
-  StreamViewType: str;
+  approximateCreationDateTime: str;
+  keys: Json;
+  newImage: Json?;
+  oldImage: Json?;
+  sequenceNumber: str;
+  sizeBytes: num;
+  streamViewType: str;
 }
 
 struct StreamRecord {
   dynamodb: StreamRecordDynamodb;
   eventName: str;
-  eventID: str;
+  eventId: str;
 }
 
 class Util {
@@ -112,8 +109,58 @@ class Host {
   }
 }
 
+// struct BatchGetOptions {
+//   keys: Array<Json>;
+//   projectionExpression: str?;
+//   consistentRead: bool?;
+//   expressionAttributeNames: Map<str>?;
+//   expressionAttributeValues: Map<Json>?;
+// }
+
+// struct BatchGetOutput {
+//   responses: Map<Json>?;
+//   unprocessedKeys: Array<BatchGetRequestItems>?;
+// }
+
+// struct BatchWriteDeleteRequest {
+//   key: Json;
+// }
+
+// struct BatchWritePutRequest {
+//   item: Json;
+// }
+
+// struct BatchWriteRequestItems {
+//   deleteRequest: BatchWriteDeleteRequest?;
+//   putRequest: BatchWritePutRequest?;
+// }
+
+// struct BatchWriteOptions {
+//   requestItems: Map<BatchWriteRequestItems>;
+// }
+
+// struct BatchWriteOutput {
+//   unprocessedItems: Array<Json>;
+// }
+
+struct DeleteOptions {
+  key: Json;
+  conditionExpression: str?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
+  returnValues: str?;
+}
+
+struct DeleteOutput {
+  attributes: Json?;
+}
+
 struct GetOptions {
   key: Json;
+  consistentRead: bool?;
+  projectionExpression: str?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
 }
 
 struct GetOutput {
@@ -125,13 +172,66 @@ struct PutOptions {
   conditionExpression: str?;
   expressionAttributeNames: Map<str>?;
   expressionAttributeValues: Map<Json>?;
-  // returnValues: str?;
-  // returnValuesOnConditionCheckFailure: str?;
+  returnValues: str?;
 }
 
 struct PutOutput {
-  // attributes: Json?;
+  attributes: Json?;
 }
+
+struct QueryOptions {
+  consistentRead: bool?;
+  exclusiveStartKey: Json?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
+  filterExpression: str?;
+  indexName: str?;
+  keyConditionExpression: str;
+  limit: num?;
+  projectionExpression: str?;
+  returnConsumedCapacity: str?;
+  scanIndexForward: bool?;
+  select: str?;
+}
+
+struct QueryOutput {
+  items: Array<Json>;
+  count: num;
+  scannedCount: num;
+  lastEvaluatedKey: Json?;
+  consumedCapacity: Json?;
+}
+
+struct ScanOptions {
+  consistentRead: bool?;
+  exclusiveStartKey: Json?;
+  expressionAttributeNames: Map<str>?;
+  expressionAttributeValues: Map<Json>?;
+  filterExpression: str?;
+  indexName: str?;
+  limit: num?;
+  projectionExpression: str?;
+  returnConsumedCapacity: str?;
+  select: str?;
+  segment: num?;
+  totalSegments: num?;
+}
+
+struct ScanOutput {
+  items: Array<Json>;
+  count: num;
+  scannedCount: num;
+  lastEvaluatedKey: Json?;
+  consumedCapacity: Json?;
+}
+
+// struct TransactGetOptions {
+//   get: Json;
+// }
+
+// struct TransactGetOutput {
+//   responses: Array<Json>;
+// }
 
 struct TransactWriteItemConditionCheck {
   key: Json;
@@ -179,51 +279,19 @@ struct TransactWriteOptions {
 
 struct TransactWriteOutput {}
 
-struct ScanOptions {
-  consistentRead: bool?;
-  exclusiveStartKey: Json?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  filterExpression: str?;
-  indexName: str?;
-  limit: num?;
-  projectionExpression: str?;
-  returnConsumedCapacity: str?;
-  select: str?;
-  segment: num?;
-  totalSegments: num?;
-}
+// struct UpdateOptions {
+//   key: Json;
+//   conditionExpression: str?;
+//   expressionAttributeNames: Map<str>?;
+//   expressionAttributeValues: Map<Json>?;
+//   updateExpression: str;
+//   // returnValues: str?;
+//   // returnValuesOnConditionCheckFailure: str?;
+// }
 
-struct ScanOutput {
-  items: Array<Json>;
-  count: num;
-  scannedCount: num;
-  lastEvaluatedKey: Json?;
-  consumedCapacity: Json?;
-}
-
-struct QueryOptions {
-  consistentRead: bool?;
-  exclusiveStartKey: Json?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  filterExpression: str?;
-  indexName: str?;
-  keyConditionExpression: str;
-  limit: num?;
-  projectionExpression: str?;
-  returnConsumedCapacity: str?;
-  scanIndexForward: bool?;
-  select: str?;
-}
-
-struct QueryOutput {
-  items: Array<Json>;
-  count: num;
-  scannedCount: num;
-  lastEvaluatedKey: Json?;
-  consumedCapacity: Json?;
-}
+// struct UpdateOutput {
+//   // attributes: Json?;
+// }
 
 struct AttributeDefinition {
   attributeName: str;
@@ -241,15 +309,30 @@ struct TableProps {
   timeToLiveAttribute: str?;
 }
 
-pub class Table {
-  host: Host;
-  // var usesStreams: bool;
+pub interface ITable {
+  setStreamConsumer(handler: inflight (StreamRecord): void): void;
 
-  tableName: str;
+  // inflight batchGet(options: BatchGetOptions): BatchGetOutput;
+  // inflight batchWrite(options: BatchWriteOptions): BatchWriteOutput;
+  // inflight delete(options: DeleteOptions): DeleteOutput;
+  inflight get(options: GetOptions): GetOutput;
+  inflight put(options: PutOptions): PutOutput;
+  inflight query(options: QueryOptions): QueryOutput;
+  inflight scan(options: ScanOptions): ScanOutput;
+  // inflight transactGet(options: TransactGetOptions): TransactGetOutput;
+  inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
+  // inflight update(options: UpdateOptions): UpdateOutput;
+}
+
+pub class Table impl ITable {
+  host: Host;
+
+  pub endpoint: str;
+  pub tableName: str;
 
   new(props: TableProps) {
     this.host = Host.of(this);
-    // this.usesStreams = false;
+    this.endpoint = this.host.endpoint;
 
     let tableName = this.node.addr;
     let state = new sim.State();
@@ -310,22 +393,10 @@ pub class Table {
           return false;
         }
       });
-
-      // return () => {
-      //   try {
-      //     client.deleteTable({
-      //       TableName: tableName,
-      //     });
-      //   } catch {}
-      // };
     });
   }
 
   pub setStreamConsumer(handler: inflight (StreamRecord): void) {
-    // if this.usesStreams {
-    //   throw "Table.onStream can only be called once";
-    // }
-    // this.usesStreams = true;
     new cloud.Service(inflight () => {
       Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
     }) as "StreamConsumer";

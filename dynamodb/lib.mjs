@@ -20,10 +20,7 @@ export const spawn = async (options) => {
 
 import * as dynamodb from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
-
-// export interface CreateClientOptions {
-//   endpoint: string;
-// }
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 export const createClient = (endpoint) => {
   return new dynamodb.DynamoDB({
@@ -49,27 +46,7 @@ export const createDocumentClient = (endpoint) => {
   });
 };
 
-// const x =  DynamoDBDocument.from();
-// x.transactWrite({
-//   TransactItems: [
-//     {
-//       Put: {}
-//     }
-//   ]
-// })
-
 import * as streams from "@aws-sdk/client-dynamodb-streams";
-
-// export const createStreamsClient = (endpoint) => {
-//   return new streams.DynamoDBStreams({
-//     region: "local",
-//     credentials: {
-//       accessKeyId: "local",
-//       secretAccessKey: "local",
-//     },
-//     endpoint,
-//   });
-// };
 
 /**
  * @param {import("@aws-sdk/client-dynamodb-streams").DynamoDBStreams} client
@@ -77,8 +54,6 @@ import * as streams from "@aws-sdk/client-dynamodb-streams";
  * @param {(record: any) => void|Promise<void>} handler
  */
 const processStreamRecords = async (client, StreamArn, handler) => {
-  // while (true) {
-  // try {
   const { StreamDescription } = await client.describeStream({ StreamArn });
 
   for (const { ShardId } of StreamDescription.Shards) {
@@ -96,7 +71,32 @@ const processStreamRecords = async (client, StreamArn, handler) => {
 
       for (const record of recordsData.Records) {
         try {
-          await handler(record);
+          await handler({
+            eventId: record.eventID,
+            eventName: record.eventName,
+            dynamodb: {
+              approximateCreationDateTime:
+                record.dynamodb.ApproximateCreationDateTime,
+              keys: record.dynamodb.Keys
+                ? unmarshall(record.dynamodb.Keys, {
+                    wrapNumbers: true,
+                  })
+                : undefined,
+              newImage: record.dynamodb.NewImage
+                ? unmarshall(record.dynamodb.NewImage, {
+                    wrapNumbers: true,
+                  })
+                : undefined,
+              oldImage: record.dynamodb.OldImage
+                ? unmarshall(record.dynamodb.OldImage, {
+                    wrapNumbers: true,
+                  })
+                : undefined,
+              sequenceNumber: record.dynamodb.SequenceNumber,
+              sizeBytes: record.dynamodb.SizeBytes,
+              streamViewType: record.dynamodb.StreamViewType,
+            },
+          });
         } catch (error) {
           console.error("Error processing stream record:", error, record);
         }
@@ -108,19 +108,6 @@ const processStreamRecords = async (client, StreamArn, handler) => {
       await new Promise((resolve) => setTimeout(resolve, 250));
     }
   }
-  // } catch (error) {
-  //   console.error("Error processing stream records:", error);
-  //   console.error("error name", error.name);
-  //   // if (error.name === "TrimmedDataAccessException") {
-  //   //   // Ignore...
-  //   // } else {
-  //   //   throw error;
-  //   // }
-  // }
-
-  //   console.log("something went wrong");
-  //   await new Promise((resolve) => setTimeout(resolve, 250));
-  // }
 };
 
 const processRecords = async (endpoint, tableName, handler) => {
