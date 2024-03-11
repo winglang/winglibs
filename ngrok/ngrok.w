@@ -14,16 +14,19 @@ pub interface OnConnectHandler {
 
 pub struct NgrokProps {
   domain: str?;
-  onConnect: OnConnectHandler?;
+  onConnect: (inflight (str): void)?;
 }
 
 pub class Tunnel {
   pub url: str;
   state: sim.State;
 
+  var onConnectHandlers: MutArray<inflight (str): void>;
+
   new(url: str, props: NgrokProps?) {
     this.state = new sim.State();
     this.url = this.state.token("url");
+    this.onConnectHandlers = MutArray<inflight (str): void>[];
 
     if !nodeof(this).app.isTestEnvironment {
       if !util.tryEnv("NGROK_AUTHTOKEN")? {
@@ -37,7 +40,9 @@ pub class Tunnel {
           log("ngrok: {child.url()} => {url}");
           let url = child.url();
           this.state.set("url", url);
-          props?.onConnect?.handle(url);
+          for handler in this.onConnectHandlers {
+            handler(url);
+          }
           return () => {
             child.kill();
           };
@@ -60,6 +65,14 @@ pub class Tunnel {
         this.state.set("url", "<test>");
       });
     }
+
+    if let h = props?.onConnect {
+      this.onConnect(h);
+    }
+  }
+
+  pub onConnect(handler: inflight (str): void) {
+    this.onConnectHandlers.push(handler);
   }
 
   extern "./util.js"
