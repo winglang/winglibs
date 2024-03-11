@@ -10,13 +10,13 @@ To use the queue, set `groupId` to group messages and process them in an ordered
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/fifoqueue
-`
+```
 
 ## Usage
 
-`js
+```js
 bring fifoqueue;
 
 let queue = new fifoqueue.FifoQueue();
@@ -28,7 +28,7 @@ queue.setConsumer(inflight (message: str) => {
 test "will push to queue" {
   queue.push("a new message", groupId: "myGroup");
 }
-`
+```
 
 ## License
 
