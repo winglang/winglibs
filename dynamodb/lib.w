@@ -109,40 +109,6 @@ class Host {
   }
 }
 
-// struct BatchGetOptions {
-//   keys: Array<Json>;
-//   projectionExpression: str?;
-//   consistentRead: bool?;
-//   expressionAttributeNames: Map<str>?;
-//   expressionAttributeValues: Map<Json>?;
-// }
-
-// struct BatchGetOutput {
-//   responses: Map<Json>?;
-//   unprocessedKeys: Array<BatchGetRequestItems>?;
-// }
-
-// struct BatchWriteDeleteRequest {
-//   key: Json;
-// }
-
-// struct BatchWritePutRequest {
-//   item: Json;
-// }
-
-// struct BatchWriteRequestItems {
-//   deleteRequest: BatchWriteDeleteRequest?;
-//   putRequest: BatchWritePutRequest?;
-// }
-
-// struct BatchWriteOptions {
-//   requestItems: Map<BatchWriteRequestItems>;
-// }
-
-// struct BatchWriteOutput {
-//   unprocessedItems: Array<Json>;
-// }
-
 struct DeleteOptions {
   key: Json;
   conditionExpression: str?;
@@ -225,14 +191,6 @@ struct ScanOutput {
   consumedCapacity: Json?;
 }
 
-// struct TransactGetOptions {
-//   get: Json;
-// }
-
-// struct TransactGetOutput {
-//   responses: Array<Json>;
-// }
-
 struct TransactWriteItemConditionCheck {
   key: Json;
   conditionExpression: str?;
@@ -311,17 +269,12 @@ struct TableProps {
 
 pub interface ITable {
   setStreamConsumer(handler: inflight (StreamRecord): void): void;
-
-  // inflight batchGet(options: BatchGetOptions): BatchGetOutput;
-  // inflight batchWrite(options: BatchWriteOptions): BatchWriteOutput;
-  // inflight delete(options: DeleteOptions): DeleteOutput;
+  inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
   inflight put(options: PutOptions): PutOutput;
   inflight query(options: QueryOptions): QueryOutput;
   inflight scan(options: ScanOptions): ScanOutput;
-  // inflight transactGet(options: TransactGetOptions): TransactGetOutput;
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
-  // inflight update(options: UpdateOptions): UpdateOutput;
 }
 
 pub class Table impl ITable {
@@ -408,6 +361,20 @@ pub class Table impl ITable {
     this.client = Util.createDocumentClient(this.host.endpoint);
   }
 
+  pub inflight delete(options: DeleteOptions): DeleteOutput {
+    let response = this.client.delete({
+      TableName: this.tableName,
+      Key: options.key,
+      ConditionExpression: options.conditionExpression,
+      ExpressionAttributeNames: options.expressionAttributeNames,
+      ExpressionAttributeValues: options.expressionAttributeValues,
+      ReturnValues: options.returnValues,
+    });
+    return {
+      attributes: unsafeCast(response)?.Attributes,
+    };
+  }
+
   pub inflight get(options: GetOptions): GetOutput {
     let response = this.client.get({
       TableName: this.tableName,
@@ -425,8 +392,11 @@ pub class Table impl ITable {
       ConditionExpression: options.conditionExpression,
       ExpressionAttributeNames: options.expressionAttributeNames,
       ExpressionAttributeValues: options.expressionAttributeValues,
+      ReturnValues: options.returnValues,
     });
-    return {};
+    return {
+      attributes: unsafeCast(response)?.Attributes,
+    };
   }
 
   pub inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput {
@@ -471,6 +441,7 @@ pub class Table impl ITable {
             TableName: this.tableName,
             Key: operation.key,
             ConditionExpression: operation.conditionExpression,
+            UpdateExpression: operation.updateExpression,
             ExpressionAttributeNames: operation.expressionAttributeNames,
             ExpressionAttributeValues: operation.expressionAttributeValues,
             ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
