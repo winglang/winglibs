@@ -1,7 +1,7 @@
 bring cloud;
-bring "../lib.w" as lib;
+bring "../dynamodb.sim.w" as dynamodb;
 
-let table = new lib.Table(
+let table = new dynamodb.Table(
   attributeDefinitions: [
     {
       attributeName: "id",
