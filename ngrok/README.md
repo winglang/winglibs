@@ -42,6 +42,11 @@ let t = new ngrok.Tunnel(api.url,
   },
 );
 
+// you can add listeners
+t.onConnect(inflight (url) => {
+  log("url: {url}");
+});
+
 new cloud.Function(inflight () => {
   log("tunnel connected to {t.url}");
 });
