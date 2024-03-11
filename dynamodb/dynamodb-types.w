@@ -1,8 +1,3 @@
-bring sim;
-bring util;
-bring cloud;
-bring ui;
-
 pub struct StreamRecordDynamodb {
   approximateCreationDateTime: str;
   keys: Json;
@@ -163,6 +158,11 @@ pub struct TableProps {
   timeToLiveAttribute: str?;
 }
 
+pub struct Connection {
+  endpoint: str?;
+  tableName: str;
+}
+
 pub interface IClient {
   inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
@@ -173,5 +173,6 @@ pub interface IClient {
 }
 
 pub interface ITable extends IClient {
+  connection(): Connection;
   setStreamConsumer(handler: inflight (StreamRecord): void): void;
 }

@@ -1,7 +1,3 @@
-bring sim;
-bring util;
-bring cloud;
-bring ui;
 bring "./dynamodb-types.w" as dynamodb_types;
 
 interface DocumentClient {
@@ -17,13 +13,26 @@ interface DocumentClient {
   inflight update(input: Json): Json;
 }
 
+struct Credentials {
+  accessKeyId: str;
+  secretAccessKey: str;
+}
+
+struct CreateDocumentClientOptions {
+  endpoint: str?;
+  region: str?;
+  credentials: Credentials?;
+}
+
 class Util {
-  extern "./dynamodb.mjs" pub static inflight createDocumentClient(endpoint: str): DocumentClient;
+  extern "./dynamodb.mjs" pub static inflight createDocumentClient(options: CreateDocumentClientOptions?): DocumentClient;
 }
 
 pub struct ClientProps {
-  endpoint: str;
   tableName: str;
+  endpoint: str?;
+  region: str?;
+  credentials: Credentials?;
 }
 
 pub inflight class Client impl dynamodb_types.IClient {
@@ -32,7 +41,11 @@ pub inflight class Client impl dynamodb_types.IClient {
 
   inflight new(props: ClientProps) {
     this.tableName = props.tableName;
-    this.client = Util.createDocumentClient(props.endpoint);
+    this.client = Util.createDocumentClient({
+      region: props.region,
+      credentials: props.credentials,
+      endpoint: props.endpoint,
+    });
   }
 
   pub inflight delete(options: dynamodb_types.DeleteOptions): dynamodb_types.DeleteOutput {

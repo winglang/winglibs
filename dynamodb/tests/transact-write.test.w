@@ -1,7 +1,7 @@
 bring cloud;
 bring "../dynamodb.sim.w" as dynamodb;
 
-let table = new dynamodb.Table(
+let table = new dynamodb.Table_sim(
   attributeDefinitions: [
     {
       attributeName: "id",

@@ -1,9 +1,10 @@
 bring sim;
 bring util;
 bring cloud;
-bring ui;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
+
+// dynamodb.tf-aws.w
 
 interface Process {
   inflight kill(): void;
@@ -21,10 +22,16 @@ interface Client {
   inflight updateTimeToLive(input: Json): Json;
 }
 
+struct CreateClientOptions {
+  endpoint: str;
+  region: str;
+  credentials: Json;
+}
+
 class Util {
   extern "./dynamodb.mjs" pub static inflight getPort(): num;
   extern "./dynamodb.mjs" pub static inflight spawn(options: SpawnOptions): Process;
-  extern "./dynamodb.mjs" pub static inflight createClient(endpoint: str): Client;
+  extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
   extern "./dynamodb.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (dynamodb_types.StreamRecord): void): void;
 }
 
@@ -77,32 +84,32 @@ class Host {
     let uid = "DynamodbHost-7JOQ92VWh6OavMXYpWx9O";
     let root = std.Node.of(scope).root;
     let rootNode = std.Node.of(root);
-    return unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
+    let host = unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
+    nodeof(host).hidden = true;
+    return host;
   }
 }
 
-pub class Table impl dynamodb_types.ITable {
+pub class Table_sim impl dynamodb_types.ITable {
   host: Host;
-  pub endpoint: str;
-  pub tableName: str;
+  tableName: str;
 
   new(props: dynamodb_types.TableProps) {
     this.host = Host.of(this);
-    this.endpoint = this.host.endpoint;
 
     let tableName = this.node.addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
-    new ui.Field(
-      "Key Schema",
-      inflight () => {
-        return Json.stringify(props.keySchema, indent: 2);
-      },
-    );
-
     new cloud.Service(inflight () => {
-      let client = Util.createClient(this.host.endpoint);
+      let client = Util.createClient({
+        endpoint: this.host.endpoint,
+        region: "local",
+        credentials: {
+          accessKeyId: "local",
+          secretAccessKey: "local",
+        },
+      });
 
       let attributeDefinitions = MutArray<Json> [];
       for attributeDefinition in props.attributeDefinitions {
@@ -152,6 +159,13 @@ pub class Table impl dynamodb_types.ITable {
     });
   }
 
+  pub connection(): dynamodb_types.Connection {
+    return {
+      endpoint: this.host.endpoint,
+      tableName: this.tableName,
+    };
+  }
+
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
     new cloud.Service(inflight () => {
       Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
@@ -162,8 +176,13 @@ pub class Table impl dynamodb_types.ITable {
 
   inflight new() {
     this.client = new dynamodb_client.Client(
-      endpoint: this.host.endpoint,
       tableName: this.tableName,
+      endpoint: this.host.endpoint,
+      region: "local",
+      credentials: {
+        accessKeyId: "local",
+        secretAccessKey: "local",
+      },
     );
   }
 
