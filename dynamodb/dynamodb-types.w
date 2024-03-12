@@ -143,18 +143,14 @@ pub struct TransactWriteOptions {
 pub struct TransactWriteOutput {}
 
 pub struct AttributeDefinition {
-  attributeName: str;
-  attributeType: str;
-}
-
-pub struct KeySchema {
-  attributeName: str;
-  keyType: str;
+  name: str;
+  type: str;
 }
 
 pub struct TableProps {
-  attributeDefinitions: Array<AttributeDefinition>;
-  keySchema: Array<KeySchema>;
+  attributes: Array<AttributeDefinition>;
+  hashKey: str;
+  rangeKey: str?;
   timeToLiveAttribute: str?;
 }
 

@@ -4,8 +4,6 @@ bring cloud;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
-// dynamodb.tf-aws.w
-
 interface Process {
   inflight kill(): void;
 }
@@ -112,18 +110,22 @@ pub class Table_sim impl dynamodb_types.ITable {
       });
 
       let attributeDefinitions = MutArray<Json> [];
-      for attributeDefinition in props.attributeDefinitions {
+      for attributeDefinition in props.attributes {
         attributeDefinitions.push({
-          AttributeName: attributeDefinition.attributeName,
-          AttributeType: attributeDefinition.attributeType,
+          AttributeName: attributeDefinition.name,
+          AttributeType: attributeDefinition.type,
         });
       }
 
       let keySchemas = MutArray<Json> [];
-      for keySchema in props.keySchema {
+      keySchemas.push({
+        AttributeName: props.hashKey,
+        KeyType: "HASH",
+      });
+      if let rangeKey = props.rangeKey {
         keySchemas.push({
-          AttributeName: keySchema.attributeName,
-          KeyType: keySchema.keyType,
+          AttributeName: rangeKey,
+          KeyType: "RANGE",
         });
       }
 

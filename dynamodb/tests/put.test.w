@@ -2,18 +2,13 @@ bring cloud;
 bring "../dynamodb.sim.w" as dynamodb;
 
 let table = new dynamodb.Table_sim(
-  attributeDefinitions: [
+  attributes: [
     {
-      attributeName: "id",
-      attributeType: "S",
+      name: "id",
+      type: "S",
     },
   ],
-  keySchema: [
-    {
-      attributeName: "id",
-      keyType: "HASH",
-    },
-  ],
+  hashKey: "id",
 );
 
 test "put (`returnValues=NONE`)" {

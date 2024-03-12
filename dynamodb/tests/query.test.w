@@ -2,26 +2,18 @@ bring cloud;
 bring "../dynamodb.sim.w" as dynamodb;
 
 let table = new dynamodb.Table_sim(
-  attributeDefinitions: [
+  attributes: [
     {
-      attributeName: "id",
-      attributeType: "S",
+      name: "id",
+      type: "S",
     },
     {
-      attributeName: "sk",
-      attributeType: "S",
-    },
-  ],
-  keySchema: [
-    {
-      attributeName: "id",
-      keyType: "HASH",
-    },
-    {
-      attributeName: "sk",
-      keyType: "RANGE",
+      name: "sk",
+      type: "S",
     },
   ],
+  hashKey: "id",
+  rangeKey: "sk",
 ) as "query table";
 
 test "query" {

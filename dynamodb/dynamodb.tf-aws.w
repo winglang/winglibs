@@ -44,35 +44,11 @@ pub class Table_tfaws impl dynamodb_types.ITable {
   table: tfaws.dynamodbTable.DynamodbTable;
 
   new(props: dynamodb_types.TableProps) {
-    let attributeDefinitions = MutArray<Json>[];
-    for attribute in props.attributeDefinitions {
-      attributeDefinitions.push({
-        name: attribute.attributeName,
-        type: attribute.attributeType,
-      });
-    }
-
-    let hashKey: str? = (() => {
-      for key in props.keySchema {
-        if key.keyType == "HASH" {
-          return key.attributeName;
-        }
-      }
-    })();
-
-    let rangeKey: str? = (() => {
-      for key in props.keySchema {
-        if key.keyType == "RANGE" {
-          return key.attributeName;
-        }
-      }
-    })();
-
     this.table = new tfaws.dynamodbTable.DynamodbTable({
       name: "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
-      attribute: attributeDefinitions,
-      hashKey: hashKey,
-      rangeKey: rangeKey,
+      attribute: props.attributes,
+      hashKey: props.hashKey,
+      rangeKey: props.rangeKey,
       billingMode: "PAY_PER_REQUEST",
       streamEnabled: true,
       streamViewType: "NEW_AND_OLD_IMAGES",
