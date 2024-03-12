@@ -48,6 +48,14 @@ test "put and query" {
 }
 ```
 
+In case you want to instantiate your own DynamoDB SDK, you can get the connection details like this:
+
+```wing
+let connection = table.connection();
+connection.endpoint;
+connection.tableName;
+```
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE).
