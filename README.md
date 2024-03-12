@@ -71,6 +71,11 @@ And then:
 bring my-awesome-lib
 ```
 
+## Import System
+
+See [Winglang's module system](https://www.winglang.io/docs/language-reference#4-module-system) to understand how to export 
+a class, an interface or a namespace as part of your library. 
+
 ## License
 
 This repository is licensed under the [MIT License](./LICENSE), unless otherwise specified in a
