@@ -32,7 +32,6 @@ pub class WebSocket_sim impl api.IWebSocket {
     new cloud.Service(inflight () => {
       let res = WebSocket_sim._startWebSocketApi(this.connectFn, this.disconnectFn, this.messageFn);
       this.state.set(this.urlStateKey, res.url());
-      log(Json.stringify(res.local()));
       this.state.set(this.localStateKey, res.local());
       return () => {
         res.close();
