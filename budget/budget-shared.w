@@ -4,14 +4,14 @@ pub enum TimeUnit {
   ANNUALLY,
 }
 
-pub struct BudgetProps {
+pub struct AlertProps {
   name: str;
   amount: num; // USD
   emailAddresses: Array<str>;
   timeUnit: TimeUnit?; // default: MONTHLY
 }
 
-pub interface IBudget {
+pub interface IAlert {
 }
 
 pub class Util {

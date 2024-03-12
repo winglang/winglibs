@@ -3,10 +3,10 @@ bring "@cdktf/provider-aws" as tfaws;
 
 bring "./budget-shared.w" as shared;
 
-pub class BudgetTfAws impl shared.IBudget {
+pub class AlertTfAws impl shared.IAlert {
   budget: tfaws.budgetsBudget.BudgetsBudget;
 
-  new(props: shared.BudgetProps) {
+  new(props: shared.AlertProps) {
     this.budget = new tfaws.budgetsBudget.BudgetsBudget(
       name: props.name,
       budgetType: "COST",

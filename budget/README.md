@@ -16,14 +16,14 @@ npm i @winglibs/budget
 
 **⚠️ The budget refers to the entire account and not just for the current project!**
 
-Add your budget to the code:
+Add your budget alert to the code:
 
 ```wing
 bring budget;
 
-let fifyCents = new budget.Budget(
+new budget.Alert(
   name: "Test",
-  amount: 0.5,
+  amount: 10,
   emailAddresses: ["your@email.com"],
 );
 ```
@@ -31,6 +31,11 @@ let fifyCents = new budget.Budget(
 *Note: ​The budget amount is in USD.*
 
 You get an alert when your monthly payment goes over your budget.
+
+## TODO
+
+- [ ] Filter the budget by tags.
+- [ ] Allow to perform automatic actions when the budget runs out.
 
 ## License
 

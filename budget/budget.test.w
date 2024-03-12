@@ -1,9 +1,9 @@
 bring "./budget.w" as budget;
 
-// use budget of 0.5 USD
+// use budget of 10 USD
 
-let fifyCents = new budget.Budget(
+new budget.Alert(
   name: "test",
-  amount: 0.5,
+  amount: 10,
   emailAddresses: ["your@email.com"],
 );
