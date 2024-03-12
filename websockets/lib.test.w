@@ -37,7 +37,7 @@ wb.onMessage(inflight (id: str, body: str): void => {
 });
 
 interface IWebSocketJS {
-  inflight on(cmd: str, handler: inflight(str):void): void;
+  inflight on(cmd: str, handler: inflight(str): void): void;
   inflight send(e: str): void;
   inflight close(): void;
 }
@@ -70,7 +70,11 @@ let receiver = new cloud.Service(inflight () => {
   ws.on("close", () => {
     log("close socket (receiver)");
   });
-}, autoStart: false) as "receive message";
+
+  return () => {
+    ws.close();
+  };
+}) as "receive message";
 
 let sender = new cloud.Service(inflight () => {
   let ws = Util._ws(wb.url);
@@ -99,19 +103,18 @@ let sender = new cloud.Service(inflight () => {
   ws.on("close", () => {
     log("close socket (sender)");
   });
-}, autoStart: false) as "send message";
+
+  return () => {
+    ws.close();
+  };  
+}) as "send message";
 
 test "simple websocket test" {
-  receiver.start();
   assert(receiver.started());
-
-  sender.start();
   assert(sender.started());
 
+  log("waiting 10s");
   util.sleep(10s);
-
-  sender.stop();
-  receiver.stop();
 
   assert(counter.peek() == 10);
 }
