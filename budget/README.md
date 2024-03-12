@@ -34,7 +34,7 @@ You get an alert when your monthly payment goes over your budget.
 
 ## TODO
 
-- [ ] Filter the budget by tags.
+- [ ] Set a budget alert only for resources with certain tags.
 - [ ] Allow to perform automatic actions when the budget runs out.
 
 ## License
