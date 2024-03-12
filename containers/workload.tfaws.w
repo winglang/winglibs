@@ -130,7 +130,7 @@ pub class Workload_tfaws {
     );
 
     if let port = props.port {
-      this.internalUrl = "http://{props.name}:{props.port}";
+      this.internalUrl = "http://{props.name}:{port}";
     }
 
     // if "public" is set, lookup the address from the ingress resource created by the helm chart
