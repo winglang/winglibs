@@ -1,0 +1,26 @@
+{
+  "name": "@winglibs/budget",
+  "version": "0.1.0",
+  "description": "AWS Budget",
+  "keywords": [
+    "AWS",
+    "Budget"
+  ],
+  "author": {
+    "name": "Meir Elbaz",
+    "email": "maornet@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "budget"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "cdktf": "*",
+    "winglang": "*"
+  },
+  "devDependencies": {
+    "@cdktf/provider-aws": "^19.7.0"
+  }
+}
