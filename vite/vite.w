@@ -27,5 +27,6 @@ pub class Vite {
     new ui.Field("URL", inflight () => {
       return this.url;
     });
+    nodeof(this).color = "violet";
   }
 }
