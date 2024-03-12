@@ -22,6 +22,8 @@ import * as dynamodb from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
+export { unmarshall };
+
 export const createClient = (options) => {
   return new dynamodb.DynamoDB(options);
 };

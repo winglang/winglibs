@@ -2,7 +2,7 @@ bring aws;
 bring util;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb.sim.w" as dynamodb_sim;
-// bring "./dynamodb.tfaws.w" as dynamodb_tfaws;
+bring "./dynamodb.tf-aws.w" as dynamodb_tfaws;
 
 pub class Table impl dynamodb_types.ITable {
   implementation: dynamodb_types.ITable;
@@ -11,11 +11,9 @@ pub class Table impl dynamodb_types.ITable {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       this.implementation = new dynamodb_sim.Table_sim(props);
-    }
-    // elif target == "tf-aws" {
-    //   let implementation = new dynamodb_tfaws.Model_tfaws(modelId);
-    // }
-    else {
+    } elif target == "tf-aws" {
+      this.implementation = new dynamodb_tfaws.Table_tfaws(props);
+    } else {
       throw "Unsupported target {target}";
     }
   }
