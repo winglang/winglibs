@@ -15,9 +15,10 @@ npm i @winglibs/eventbridge
 ## Usage
 
 ```js
+bring cloud;
 bring eventbridge;
 
-let bus = new eventbridge.Bus();
+let bus = new eventbridge.Bus(name: "my-bus");
 
 bus.subscribeFunction("github.pull-request.created", inflight (event) => {
   log("subscribed event received {Json.stringify(event)}");
@@ -37,8 +38,11 @@ new cloud.Function(inflight () => {
     },
   }]);
 });
-
 ```
+
+## Parameters
+
+* eventBridgeName - `str` - Optional. Name of an existing EventBridge to reference.
 
 ## License
 
