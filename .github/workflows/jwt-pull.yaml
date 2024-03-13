@@ -1,16 +1,16 @@
-name: lock-pull
+name: jwt-pull
 on:
   pull_request:
     paths:
-      - lock/**
+      - jwt/**
 jobs:
-  build-lock:
+  build-jwt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: lock
+          sparse-checkout: jwt
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,10 +20,10 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: lock
+        working-directory: jwt
       - name: Test
         run: wing test
-        working-directory: lock
+        working-directory: jwt
       - name: Pack
         run: wing pack
-        working-directory: lock
+        working-directory: jwt
