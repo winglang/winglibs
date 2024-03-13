@@ -11,10 +11,19 @@ pub class Bus impl types.IBus {
   busArn: str;
 
   new(props: types.BusProps) {
-    let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props.name) as "EventBridge";
-    this.busName = bus.name;
-    this.busArn = bus.arn;
-    log("EventBridge: created {bus}");
+    let app = nodeof(this).app;
+    // TODO: use typed properties when its available
+    if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
+      let bus = new tfAws.dataAwsCloudwatchEventBus.DataAwsCloudwatchEventBus(
+        name: eventBridgeName,
+      ) as "EventBridge";
+      this.busName = bus.name;
+      this.busArn = bus.arn;
+    } else {
+      let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props.name) as "EventBridge";
+      this.busName = bus.name;
+      this.busArn = bus.arn;
+    }
   }
 
   pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {

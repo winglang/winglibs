@@ -7,7 +7,6 @@ pub class Bus impl types.IBus {
 
   new(props: types.BusProps) {
     this.bus = new bus.EventBridgeBus(props);
-    log("EventBridge: created {this.bus}");
   }
 
   pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {

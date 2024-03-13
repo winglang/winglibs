@@ -7,10 +7,16 @@ pub class Bus impl types.IBus {
   extern "../aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
   extern "./helper.js" pub static addRulePermission(handler: str, arn: str): void;
 
-  eventBridge: cdk.aws_events.EventBus;
+  eventBridge: cdk.aws_events.IEventBus;
 
   new(props: types.BusProps) {
-    this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props.name) as "EventBridge";
+    let app = nodeof(this).app;
+    // TODO: use typed properties when its available
+    if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
+      this.eventBridge = cdk.aws_events.EventBus.fromEventBusName(this, "EventBridge", eventBridgeName);
+    } else {
+      this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props.name) as "EventBridge";
+    }
   }
 
   pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
