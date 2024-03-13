@@ -25,7 +25,7 @@ pub class Bus impl types.IBus {
     }
   }
 
-  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
+  pub onEvent(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     let rule = new tfAws.cloudwatchEventRule.CloudwatchEventRule(
       name: name,
       eventBusName: this.busName,

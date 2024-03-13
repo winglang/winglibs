@@ -20,7 +20,7 @@ bring eventbridge;
 
 let bus = new eventbridge.Bus(name: "my-bus");
 
-bus.subscribeFunction("github.pull-request.created", inflight (event) => {
+bus.onEvent("github.pull-request.created", inflight (event) => {
   log("subscribed event received {Json.stringify(event)}");
 }, {
   "detail-type": [{"prefix": "pull-request."}],
@@ -28,7 +28,7 @@ bus.subscribeFunction("github.pull-request.created", inflight (event) => {
 });
 
 new cloud.Function(inflight () => {
-  bus.putEvents([{
+  bus.putEvents({
     detailType: "pull-request.created",
     resources: ["test"],
     source: "github.com",
@@ -36,7 +36,7 @@ new cloud.Function(inflight () => {
     detail: {
       "test": "test",
     },
-  }]);
+  });
 });
 ```
 

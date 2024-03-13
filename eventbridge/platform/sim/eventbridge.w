@@ -9,7 +9,7 @@ pub class Bus impl types.IBus {
     this.bus = new bus.EventBridgeBus(props);
   }
 
-  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
+  pub onEvent(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     class FnRule {
       new(bus: bus.EventBridgeBus) {
         let onMessageHandler = bus.subscribe(inflight (event) => {
