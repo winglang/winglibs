@@ -11,7 +11,7 @@ bring "./platform/awscdk" as awscdk;
 pub class Bus impl types.IBus {
   inner: types.IBus;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       this.inner = new sim.Bus(props) as "sim";

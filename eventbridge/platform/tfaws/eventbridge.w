@@ -9,7 +9,7 @@ pub class Bus impl types.IBus {
   busName: str;
   busArn: str;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     let app = nodeof(this).app;
     // TODO: use typed properties when its available
     if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
@@ -19,7 +19,7 @@ pub class Bus impl types.IBus {
       this.busName = bus.name;
       this.busArn = bus.arn;
     } else {
-      let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props.name) as "EventBridge";
+      let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props?.name ?? "eventbridge-{this.node.id}") as "EventBridge";
       this.busName = bus.name;
       this.busArn = bus.arn;
     }

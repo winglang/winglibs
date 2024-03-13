@@ -5,7 +5,7 @@ bring "./bus.w" as bus;
 pub class Bus impl types.IBus {
   bus: bus.EventBridgeBus;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     this.bus = new bus.EventBridgeBus(props);
   }
 
