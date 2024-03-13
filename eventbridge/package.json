@@ -1,0 +1,27 @@
+{
+  "name": "@winglibs/eventbridge",
+  "description": "Amazon EventBridge library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "eventbridge"
+  },
+  "license": "MIT",
+  "author": {
+    "email": "eladc@wing.cloud",
+    "name": "Elad Cohen"
+  },
+  "devDependencies": {
+    "@cdktf/provider-aws": "^18.2.0",
+    "cdktf": "^0.19.2",
+    "constructs": "^10.3.0"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-eventbridge": "^3.525.0",
+    "@cdktf/provider-aws": "^18",
+    "aws-cdk-lib": "^2.109.0",
+    "cdktf": "^0.19",
+    "constructs": "^10.3"
+  }
+}
