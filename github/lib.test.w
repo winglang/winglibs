@@ -40,7 +40,7 @@ let handler = inflight (ctx) => {
       ref: ctx.payload.pull_request.head.sha
     );
     
-    let fileContents = util.base64Decode("{contents.data.content}");
+    let fileContents = util.base64Decode(contents.data.content ?? "");
       
     ctx.octokit.repos.createOrUpdateFileContents(
       owner: repo.owner.login,

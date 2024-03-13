@@ -71,6 +71,9 @@ And then:
 bring my-awesome-lib
 ```
 
+## Writing Wing Libraries
+
+See [docs](https://www.winglang.io/docs/libraries#creating-a-wing-library).
 ## License
 
 This repository is licensed under the [MIT License](./LICENSE), unless otherwise specified in a

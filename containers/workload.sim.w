@@ -26,7 +26,7 @@ pub class Workload_sim {
     this.containerIdKey = "container_id";
 
     let hash = utils.resolveContentHash(this, props);
-    if hash? {
+    if let hash = hash {
       this.imageTag = "{props.name}:{hash}";
     } else {
       this.imageTag = props.image;
@@ -98,7 +98,7 @@ pub class Workload_sim {
       if env.size() > 0 {
         dockerRun.push("-e");
         for k in env.keys() {
-          dockerRun.push("{k}={env.get(k)}");
+          dockerRun.push("{k}={env.get(k)!}");
         }
       }
     }
@@ -126,14 +126,14 @@ pub class Workload_sim {
         throw "Container does not listen to port {port}";
       }
 
-      let publicUrl = "http://localhost:{hostPort}";
+      let publicUrl = "http://localhost:{hostPort!}";
 
       if let k = this.publicUrlKey {
         this.state.set(k, publicUrl);
       }
 
       if let k = this.internalUrlKey {
-        this.state.set(k, "http://host.docker.internal:{hostPort}");
+        this.state.set(k, "http://host.docker.internal:{hostPort!}");
       }
 
       if let readiness = opts.readiness {
