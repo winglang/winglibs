@@ -15,7 +15,7 @@ pub class Bus impl types.IBus {
     if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
       this.eventBridge = cdk.aws_events.EventBus.fromEventBusName(this, "EventBridge", eventBridgeName);
     } else {
-      this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props?.name ?? "eventbridge-{this.node.id}") as "EventBridge";
+      this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props?.name ?? "eventbridge-{this.node.addr.substring(0, 8)}") as "EventBridge";
     }
   }
 

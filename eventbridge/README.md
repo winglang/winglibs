@@ -44,6 +44,12 @@ new cloud.Function(inflight () => {
 
 * eventBridgeName - `str` - Optional. Name of an existing EventBridge to reference.
 
+#### Usage
+
+```sh
+wing compile -t @winglang/platform-awscdk -v eventBridgeName="my-bus" main.w
+```
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE).
