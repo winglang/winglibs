@@ -45,7 +45,7 @@ pub class WebSocket_awscdk impl awsapi.IAwsWebSocket {
     ) as "url";
 
     new awscdk.CfnOutput(
-      value: "https://{this.api.attrApiId}.execute-api.{this.region}.{urlSuffix}/{stageName}",
+      value: "https://{this.api.attrApiId}.execute-api.{this.region!}.{urlSuffix}/{stageName}",
       exportName: "callbackUrl"
     ) as "callbackUrl";
   }

@@ -1,5 +1,6 @@
 bring util;
 bring cloud;
+bring ui;
 bring "./commons/api.w" as api;
 bring "./platform/awscdk.w" as awscdk;
 bring "./platform/tf-aws.w" as tfaws;
@@ -27,6 +28,14 @@ pub class WebSocket impl api.IWebSocket {
     } else {
       throw "unsupported target {target}";
     }
+
+    let inner = nodeof(this.inner);
+    inner.hidden = true;
+
+    new ui.Field("url", inflight () => {
+      return this.url;
+    });
+
     new cloud.Endpoint(this.url);
   }
 

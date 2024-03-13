@@ -19,14 +19,20 @@ export const plugin = (options) => {
       context.root = config.root;
     },
     transformIndexHtml(html) {
-      return html.replace(
-        "</head>",
-        `    <script>window.${
-          options.publicEnvName
-        }=Object.freeze({env:Object.freeze(${JSON.stringify(
-          options.publicEnv
-        )})});</script>\n</head>`
-      );
+      return {
+        html,
+        tags: [
+          {
+            tag: "script",
+            children: `window.${
+              options.publicEnvName
+            }=Object.freeze({env:Object.freeze(${JSON.stringify(
+              options.publicEnv
+            )})});`,
+            injectTo: "head-prepend",
+          },
+        ],
+      };
     },
     async buildStart() {
       if (!options.generateTypeDefinitions) {
