@@ -1,12 +1,11 @@
 bring cloud;
 bring aws;
 bring "./../../types.w" as types;
+bring "../aws/publish.w" as awsUtils;
 bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfAws;
 
 pub class Bus impl types.IBus {
-  extern "../aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
-
   busName: str;
   busArn: str;
 
@@ -89,14 +88,14 @@ pub class Bus impl types.IBus {
     ) as "{name}-policy";
   }
 
-  pub inflight publish(event: types.PublishEvent): void {
+  pub inflight putEvents(events: Array<types.PublishEvent>): void {
     let name = this.busName;
-    Bus.putEvent(name, event);
+    awsUtils.putEvent(name, events);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
     if let host = aws.Function.from(host) {
-      if ops.contains("publish") {
+      if ops.contains("putEvents") {
         host.addPolicyStatements(aws.PolicyStatement {
           actions: ["events:PutEvents"],
           resources: [this.busArn],

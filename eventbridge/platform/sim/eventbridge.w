@@ -47,7 +47,7 @@ pub class Bus impl types.IBus {
     let rule = new Rule(this.bus) as "Rule \"{name}\"";
   }
 
-  pub inflight publish(event: types.PublishEvent): void {
-    this.bus.publish(event);
+  pub inflight putEvents(events: Array<types.PublishEvent>): void {
+    this.bus.putEvents(events);
   }
 }

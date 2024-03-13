@@ -27,7 +27,7 @@ bus.subscribeFunction("github.pull-request.created", inflight (event) => {
 });
 
 new cloud.Function(inflight () => {
-  bus.publish(
+  bus.putEvents([{
     detailType: "pull-request.created",
     resources: ["test"],
     source: "github.com",
@@ -35,7 +35,7 @@ new cloud.Function(inflight () => {
     detail: {
       "test": "test",
     },
-  );
+  }]);
 });
 
 ```

@@ -57,21 +57,23 @@ pub class EventBridgeBus {
     return handler.onMessageHandler;
   }
 
-  pub inflight publish(event: types.PublishEvent): void {
-    let fullEvent = Json {
-      id: util.uuidv4(),
-      time: "{datetime.utcNow().toIso()}",
-      region: "local",
-      account: "local",
-      resources: event.resources,
-      version: event.version,
-      source: event.source,
-      "detail-type": event.detailType,
-      detail: event.detail,
-    };
-
-    let stringified = Json.stringify(fullEvent);
-    log("EventBridge: published event: " + stringified);
-    this.topic.publish(stringified);
+  pub inflight putEvents(events: Array<types.PublishEvent>): void {
+    for event in events {
+      let fullEvent = Json {
+        id: util.uuidv4(),
+        time: "{datetime.utcNow().toIso()}",
+        region: "local",
+        account: "local",
+        resources: event.resources,
+        version: event.version,
+        source: event.source,
+        "detail-type": event.detailType,
+        detail: event.detail,
+      };
+  
+      let stringified = Json.stringify(fullEvent);
+      log("EventBridge: published event: " + stringified);
+      this.topic.publish(stringified);
+    }
   }
 }

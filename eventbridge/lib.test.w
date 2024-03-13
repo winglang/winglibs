@@ -46,7 +46,7 @@ let env = new Environments();
 
 test "publish to eventbridge" {
   log("publishing to eventbridge");
-  eventBridge.publish(
+  eventBridge.putEvents([{
     detailType: "pull-request.created",
     resources: ["test"],
     source: "github.com",
@@ -54,7 +54,7 @@ test "publish to eventbridge" {
     detail: {
       "test": "test",
     },
-  );
+  }]);
 
   log("published");
 
@@ -73,7 +73,7 @@ test "publish to eventbridge" {
 
   expect.equal(0, env.bucket.list().length);
 
-  eventBridge.publish(
+  eventBridge.putEvents([{
     detailType: "myTest.check",
     resources: ["test"],
     source: "myTest",
@@ -81,7 +81,7 @@ test "publish to eventbridge" {
     detail: {
       "fake": "env",
     },
-  );
+  }]);
 
   log("published 2nd event");
 

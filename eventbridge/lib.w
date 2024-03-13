@@ -6,7 +6,7 @@ bring "./platform/tfaws" as aws;
 bring "./platform/awscdk" as awscdk;
 
 /**
-  Winglang resource for Amazon EventBridge.
+  Wing resource for Amazon EventBridge.
 */
 pub class Bus impl types.IBus {
   inner: types.IBus;
@@ -24,8 +24,8 @@ pub class Bus impl types.IBus {
     }
   }
 
-  pub inflight publish(event: types.PublishEvent): void {
-    this.inner.publish(event);
+  pub inflight putEvents(events: Array<types.PublishEvent>): void {
+    this.inner.putEvents(events);
   }
 
   pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {

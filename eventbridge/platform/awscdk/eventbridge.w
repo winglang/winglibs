@@ -1,10 +1,10 @@
 bring cloud;
 bring aws;
 bring "./../../types.w" as types;
+bring "../aws/publish.w" as awsUtils;
 bring "aws-cdk-lib" as cdk;
 
 pub class Bus impl types.IBus {
-  extern "../aws/publish.js" pub static inflight putEvent(name: str, event: types.PublishEvent): void;
   extern "./helper.js" pub static addRulePermission(handler: str, arn: str): void;
 
   eventBridge: cdk.aws_events.IEventBus;
@@ -65,14 +65,14 @@ pub class Bus impl types.IBus {
     cdkQueue.addToResourcePolicy(statement);
   }
 
-  pub inflight publish(event: types.PublishEvent): void {
+  pub inflight putEvents(events: Array<types.PublishEvent>): void {
     let name = this.eventBridge.eventBusName;
-    Bus.putEvent(name, event);
+    awsUtils.putEvent(name, events);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
     if let host = aws.Function.from(host) {
-      if ops.contains("publish") {
+      if ops.contains("putEvents") {
         host.addPolicyStatements(aws.PolicyStatement {
           effect: cdk.aws_iam.Effect.ALLOW,
           actions: ["events:PutEvents"],

@@ -26,7 +26,7 @@ pub struct PublishEvent {
 }
 
 pub interface IBus extends std.IResource {
-  inflight publish(event: PublishEvent): void;
+  inflight putEvents(events: Array<PublishEvent>): void;
   subscribeFunction(name: str, handler: inflight (Event): void, pattern: Json): void;
   subscribeQueue(name: str, queue: cloud.Queue, pattern: Json): void;
 }
