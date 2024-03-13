@@ -22,6 +22,7 @@ pub class Bus impl types.IBus {
   pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     // event will be json of type `types.Event`
     let funk = new cloud.Function(inflight (event) => {
+      // since wing structs don't supoort custom serialization we need to do it manually
       let json: MutJson = unsafeCast(event);
       json.set("detailType", json.tryGet("detail-type") ?? "");
       handler(unsafeCast(event));
