@@ -5,8 +5,9 @@ on:
       - main
     paths:
       - eventbridge/**
+      - "!eventbridge/package-lock.json"
 jobs:
-  build:
+  build-eventbridge:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
