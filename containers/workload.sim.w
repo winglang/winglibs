@@ -8,7 +8,6 @@ bring "./utils.w" as utils;
 pub class Workload_sim {
   publicUrlKey: str?;
   internalUrlKey: str?;
-  containerIdKey: str;
 
   pub publicUrl: str?;
   pub internalUrl: str?;
@@ -23,7 +22,7 @@ pub class Workload_sim {
     this.appDir = utils.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();
-    this.containerIdKey = "container_id";
+    let containerName = util.uuidv4();
 
     let hash = utils.resolveContentHash(this, props);
     if let hash = hash {
@@ -81,8 +80,7 @@ pub class Workload_sim {
       dockerRun.push("--detach");
       dockerRun.push("--rm");
 
-      let name = util.uuidv4();
-      dockerRun.push("--name", name);
+      dockerRun.push("--name", containerName);
 
       if let port = opts.port {
         dockerRun.push("-p");
@@ -109,25 +107,24 @@ pub class Workload_sim {
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
       utils.shell("docker", dockerRun.copy());
-      this.state.set(this.containerIdKey, name);
 
-      log("containerName={name}");
+      log("containerName={containerName}");
 
       return () => {
-        utils.shell("docker", ["rm", "-f", name]);
+        utils.shell("docker", ["rm", "-f", containerName]);
        };
     }) as "ContainerService";
     std.Node.of(containerService).hidden = true;
 
     let readinessService = new cloud.Service(inflight () => {
-      let name = this.state.get(this.containerIdKey).asStr();
       let opts = this.props;
       let var out: Json? = nil;
       util.waitUntil(inflight () => {
         try {
-          out = Json.parse(utils.shell("docker", ["inspect", name]));
+          out = Json.parse(utils.shell("docker", ["inspect", containerName]));
           return true;
         } catch {
+          log("something went wrong");
           return false;
         }
       }, interval: 0.1s);
