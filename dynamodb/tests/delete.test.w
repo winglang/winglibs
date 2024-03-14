@@ -13,29 +13,29 @@ let table = new dynamodb.Table(
 
 test "delete (`returnValues=NONE`)" {
   let response = table.delete(
-    key: {
+    Key: {
       id: "1",
     },
-    returnValues: "NONE",
+    ReturnValues: "NONE",
   );
 
-  assert(response.attributes == nil);
+  assert(response.Attributes == nil);
 }
 
 test "delete (`returnValues=ALL_OLD`)" {
   table.put(
-    item: {
+    Item: {
       id: "1",
       body: "hello world",
     },
   );
 
   let response = table.delete(
-    key: {
+    Key: {
       id: "1",
     },
-    returnValues: "ALL_OLD",
+    ReturnValues: "ALL_OLD",
   );
 
-  assert(response.attributes?.get("body")?.asStr() == "hello world");
+  assert(response.Attributes?.get("body")?.asStr() == "hello world");
 }

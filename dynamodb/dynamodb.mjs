@@ -70,26 +70,26 @@ const processStreamRecords = async (client, StreamArn, handler) => {
             eventId: record.eventID,
             eventName: record.eventName,
             dynamodb: {
-              approximateCreationDateTime:
+              ApproximateCreationDateTime:
                 record.dynamodb.ApproximateCreationDateTime,
-              keys: record.dynamodb.Keys
+              Keys: record.dynamodb.Keys
                 ? unmarshall(record.dynamodb.Keys, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              newImage: record.dynamodb.NewImage
+              NewImage: record.dynamodb.NewImage
                 ? unmarshall(record.dynamodb.NewImage, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              oldImage: record.dynamodb.OldImage
+              OldImage: record.dynamodb.OldImage
                 ? unmarshall(record.dynamodb.OldImage, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              sequenceNumber: record.dynamodb.SequenceNumber,
-              sizeBytes: record.dynamodb.SizeBytes,
-              streamViewType: record.dynamodb.StreamViewType,
+              SequenceNumber: record.dynamodb.SequenceNumber,
+              SizeBytes: record.dynamodb.SizeBytes,
+              StreamViewType: record.dynamodb.StreamViewType,
             },
           });
         } catch (error) {

@@ -69,29 +69,27 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       let event: DynamoDBStreamEvent = unsafeCast(eventStr);
       for record in event.Records {
         handler({
-          eventId: record.eventID,
+          eventID: record.eventID,
           eventName: record.eventName,
           dynamodb: {
-            approximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
-            keys: Util.safeUnmarshall(record.dynamodb.Keys, {
+            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
+            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
               wrapNumbers: true,
             }),
-            newImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
+            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
               wrapNumbers: true,
             }),
-            oldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
+            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
               wrapNumbers: true,
             }),
-            sequenceNumber: record.dynamodb.SequenceNumber,
-            sizeBytes: record.dynamodb.SizeBytes,
-            streamViewType: record.dynamodb.StreamViewType,
+            SequenceNumber: record.dynamodb.SequenceNumber,
+            SizeBytes: record.dynamodb.SizeBytes,
+            StreamViewType: record.dynamodb.StreamViewType,
           },
         });
       }
     });
 
-    new cdktf.TerraformOutput(value: this.table.arn) as "Arn";
-    new cdktf.TerraformOutput(value: this.table.streamArn) as "StreamArn";
     if let lambda = aws.Function.from(consumer) {
       lambda.addPolicyStatements({
         actions: [

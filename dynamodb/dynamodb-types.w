@@ -1,143 +1,143 @@
 pub struct StreamRecordDynamodb {
-  approximateCreationDateTime: str;
-  keys: Json;
-  newImage: Json?;
-  oldImage: Json?;
-  sequenceNumber: str;
-  sizeBytes: num;
-  streamViewType: str;
+  ApproximateCreationDateTime: str;
+  Keys: Json;
+  NewImage: Json?;
+  OldImage: Json?;
+  SequenceNumber: str;
+  SizeBytes: num;
+  StreamViewType: str;
 }
 
 pub struct StreamRecord {
   dynamodb: StreamRecordDynamodb;
   eventName: str;
-  eventId: str;
+  eventID: str;
 }
 
 pub struct DeleteOptions {
-  key: Json;
-  conditionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValues: str?;
+  Key: Json;
+  ConditionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValues: str?;
 }
 
 pub struct DeleteOutput {
-  attributes: Json?;
+  Attributes: Json?;
 }
 
 pub struct GetOptions {
-  key: Json;
-  consistentRead: bool?;
-  projectionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
+  Key: Json;
+  ConsistentRead: bool?;
+  ProjectionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
 }
 
 pub struct GetOutput {
-  item: Json?;
+  Item: Json?;
 }
 
 pub struct PutOptions {
-  item: Json;
-  conditionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValues: str?;
+  Item: Json;
+  ConditionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValues: str?;
 }
 
 pub struct PutOutput {
-  attributes: Json?;
+  Attributes: Json?;
 }
 
 pub struct QueryOptions {
-  consistentRead: bool?;
-  exclusiveStartKey: Json?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  filterExpression: str?;
-  indexName: str?;
-  keyConditionExpression: str;
-  limit: num?;
-  projectionExpression: str?;
-  returnConsumedCapacity: str?;
-  scanIndexForward: bool?;
-  select: str?;
+  ConsistentRead: bool?;
+  ExclusiveStartKey: Json?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  FilterExpression: str?;
+  IndexName: str?;
+  KeyConditionExpression: str;
+  Limit: num?;
+  ProjectionExpression: str?;
+  ReturnConsumedCapacity: str?;
+  ScanIndexForward: bool?;
+  Select: str?;
 }
 
 pub struct QueryOutput {
-  items: Array<Json>;
-  count: num;
-  scannedCount: num;
-  lastEvaluatedKey: Json?;
-  consumedCapacity: Json?;
+  Items: Array<Json>;
+  Count: num;
+  ScannedCount: num;
+  LastEvaluatedKey: Json?;
+  ConsumedCapacity: Json?;
 }
 
 pub struct ScanOptions {
-  consistentRead: bool?;
-  exclusiveStartKey: Json?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  filterExpression: str?;
-  indexName: str?;
-  limit: num?;
-  projectionExpression: str?;
-  returnConsumedCapacity: str?;
-  select: str?;
-  segment: num?;
-  totalSegments: num?;
+  ConsistentRead: bool?;
+  ExclusiveStartKey: Json?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  FilterExpression: str?;
+  IndexName: str?;
+  Limit: num?;
+  ProjectionExpression: str?;
+  ReturnConsumedCapacity: str?;
+  Select: str?;
+  Segment: num?;
+  TotalSegments: num?;
 }
 
 pub struct ScanOutput {
-  items: Array<Json>;
-  count: num;
-  scannedCount: num;
-  lastEvaluatedKey: Json?;
-  consumedCapacity: Json?;
+  Items: Array<Json>;
+  Count: num;
+  ScannedCount: num;
+  LastEvaluatedKey: Json?;
+  ConsumedCapacity: Json?;
 }
 
 pub struct TransactWriteItemConditionCheck {
-  key: Json;
-  conditionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValuesOnConditionCheckFailure: bool?;
+  Key: Json;
+  ConditionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValuesOnConditionCheckFailure: bool?;
 }
 
 pub struct TransactWriteItemPut {
-  item: Json;
-  conditionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValuesOnConditionCheckFailure: bool?;
+  Item: Json;
+  ConditionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValuesOnConditionCheckFailure: bool?;
 }
 
 pub struct TransactWriteItemDelete {
-  key: Json;
-  conditionExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValuesOnConditionCheckFailure: bool?;
+  Key: Json;
+  ConditionExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValuesOnConditionCheckFailure: bool?;
 }
 
 pub struct TransactWriteItemUpdate {
-  key: Json;
-  conditionExpression: str?;
-  updateExpression: str?;
-  expressionAttributeNames: Map<str>?;
-  expressionAttributeValues: Map<Json>?;
-  returnValuesOnConditionCheckFailure: bool?;
+  Key: Json;
+  ConditionExpression: str?;
+  UpdateExpression: str?;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValuesOnConditionCheckFailure: bool?;
 }
 
 pub struct TransactWriteItem {
-  conditionCheck: TransactWriteItemConditionCheck?;
-  put: TransactWriteItemPut?;
-  delete: TransactWriteItemDelete?;
-  update: TransactWriteItemUpdate?;
+  ConditionCheck: TransactWriteItemConditionCheck?;
+  Put: TransactWriteItemPut?;
+  Delete: TransactWriteItemDelete?;
+  Update: TransactWriteItemUpdate?;
 }
 
 pub struct TransactWriteOptions {
-  transactItems: Array<TransactWriteItem>;
+  TransactItems: Array<TransactWriteItem>;
 }
 
 pub struct TransactWriteOutput {}

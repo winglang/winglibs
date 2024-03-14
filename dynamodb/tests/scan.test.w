@@ -13,14 +13,14 @@ let table = new dynamodb.Table(
 
 test "scan" {
   table.put(
-    item: {
+    Item: {
       id: "1",
       body: "hello",
     },
   );
 
   let response = table.scan();
-  assert(response.count == 1);
-  assert(response.items.at(0).get("id").asStr() == "1");
-  assert(response.items.at(0).get("body").asStr() == "hello");
+  assert(response.Count == 1);
+  assert(response.Items.at(0).get("id").asStr() == "1");
+  assert(response.Items.at(0).get("body").asStr() == "hello");
 }

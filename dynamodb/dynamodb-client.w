@@ -49,148 +49,68 @@ pub inflight class Client impl dynamodb_types.IClient {
   }
 
   pub inflight delete(options: dynamodb_types.DeleteOptions): dynamodb_types.DeleteOutput {
-    let response = this.client.delete({
-      TableName: this.tableName,
-      Key: options.key,
-      ConditionExpression: options.conditionExpression,
-      ExpressionAttributeNames: options.expressionAttributeNames,
-      ExpressionAttributeValues: options.expressionAttributeValues,
-      ReturnValues: options.returnValues,
-    });
-    return {
-      attributes: unsafeCast(response)?.Attributes,
-    };
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.delete(input));
   }
 
   pub inflight get(options: dynamodb_types.GetOptions): dynamodb_types.GetOutput {
-    let response = this.client.get({
-      TableName: this.tableName,
-      Key: options.key,
-    });
-    return {
-      item: unsafeCast(response)?.Item,
-    };
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.get(input));
   }
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
-    let response = this.client.put({
-      TableName: this.tableName,
-      Item: options.item,
-      ConditionExpression: options.conditionExpression,
-      ExpressionAttributeNames: options.expressionAttributeNames,
-      ExpressionAttributeValues: options.expressionAttributeValues,
-      ReturnValues: options.returnValues,
-    });
-    return {
-      attributes: unsafeCast(response)?.Attributes,
-    };
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.put(input));
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
     let transactItems = MutArray<Json> [];
-    for item in options.transactItems {
-      if let operation = item.conditionCheck {
+    for item in options.TransactItems {
+      if let operation = item.ConditionCheck {
+        let input: MutJson = operation;
+        input.set("TableName", this.tableName);
         transactItems.push({
-          ConditionCheck: {
-            TableName: this.tableName,
-            Key: operation.key,
-            ConditionExpression: operation.conditionExpression,
-            ExpressionAttributeNames: operation.expressionAttributeNames,
-            ExpressionAttributeValues: operation.expressionAttributeValues,
-            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
-          },
+          ConditionCheck: Json.deepCopy(input),
         });
-      } elif let operation = item.delete {
+      } elif let operation = item.Delete {
+        let input: MutJson = operation;
+        input.set("TableName", this.tableName);
         transactItems.push({
-          Delete: {
-            TableName: this.tableName,
-            Key: operation.key,
-            ConditionExpression: operation.conditionExpression,
-            ExpressionAttributeNames: operation.expressionAttributeNames,
-            ExpressionAttributeValues: operation.expressionAttributeValues,
-            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
-          },
+          Delete: Json.deepCopy(input),
         });
-      } elif let operation = item.put {
+      } elif let operation = item.Put {
+        let input: MutJson = operation;
+        input.set("TableName", this.tableName);
         transactItems.push({
-          Put: {
-            TableName: this.tableName,
-            Item: operation.item,
-            ConditionExpression: operation.conditionExpression,
-            ExpressionAttributeNames: operation.expressionAttributeNames,
-            ExpressionAttributeValues: operation.expressionAttributeValues,
-            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
-          },
+          Put: Json.deepCopy(input),
         });
-      } elif let operation = item.update {
+      } elif let operation = item.Update {
+        let input: MutJson = operation;
+        input.set("TableName", this.tableName);
         transactItems.push({
-          Update: {
-            TableName: this.tableName,
-            Key: operation.key,
-            ConditionExpression: operation.conditionExpression,
-            UpdateExpression: operation.updateExpression,
-            ExpressionAttributeNames: operation.expressionAttributeNames,
-            ExpressionAttributeValues: operation.expressionAttributeValues,
-            ReturnValuesOnConditionCheckFailure: operation.returnValuesOnConditionCheckFailure,
-          },
+          Update: Json.deepCopy(input),
         });
       } else {
         throw "Invalid transact item";
       }
     }
-    this.client.transactWrite({
+    return unsafeCast(this.client.transactWrite({
       TransactItems: transactItems.copy(),
-    });
-    return {};
+    }));
   }
 
   pub inflight scan(options: dynamodb_types.ScanOptions?): dynamodb_types.ScanOutput {
-    let response = this.client.scan({
-      TableName: this.tableName,
-      ConsistentRead: options?.consistentRead,
-      ExclusiveStartKey: options?.exclusiveStartKey,
-      ExpressionAttributeNames: options?.expressionAttributeNames,
-      ExpressionAttributeValues: options?.expressionAttributeValues,
-      FilterExpression: options?.filterExpression,
-      IndexName: options?.indexName,
-      Limit: options?.limit,
-      ProjectionExpression: options?.projectionExpression,
-      ReturnConsumedCapacity: options?.returnConsumedCapacity,
-      Select: options?.select,
-      Segment: options?.segment,
-      TotalSegments: options?.totalSegments,
-    });
-    return {
-      items: unsafeCast(response)?.Items,
-      count: unsafeCast(response)?.Count,
-      scannedCount: unsafeCast(response)?.ScannedCount,
-      lastEvaluatedKey: unsafeCast(response)?.LastEvaluatedKey,
-      consumedCapacity: unsafeCast(response)?.ConsumedCapacity,
-    };
+    let input: MutJson = options ?? {};
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.scan(input));
   }
 
   pub inflight query(options: dynamodb_types.QueryOptions): dynamodb_types.QueryOutput {
-    let response = this.client.query({
-      TableName: this.tableName,
-      ConsistentRead: options.consistentRead,
-      ExclusiveStartKey: options.exclusiveStartKey,
-      ExpressionAttributeNames: options.expressionAttributeNames,
-      ExpressionAttributeValues: options.expressionAttributeValues,
-      FilterExpression: options.filterExpression,
-      IndexName: options.indexName,
-      KeyConditionExpression: options.keyConditionExpression,
-      Limit: options.limit,
-      ProjectionExpression: options.projectionExpression,
-      ReturnConsumedCapacity: options.returnConsumedCapacity,
-      ScanIndexForward: options.scanIndexForward,
-      Select: options.select,
-    });
-    return {
-      items: unsafeCast(response)?.Items,
-      count: unsafeCast(response)?.Count,
-      scannedCount: unsafeCast(response)?.ScannedCount,
-      lastEvaluatedKey: unsafeCast(response)?.LastEvaluatedKey,
-      consumedCapacity: unsafeCast(response)?.ConsumedCapacity,
-    };
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.query(input));
   }
 }

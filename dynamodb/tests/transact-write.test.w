@@ -13,10 +13,10 @@ let table = new dynamodb.Table(
 
 test "transactWrite (put)" {
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        put: {
-          item: {
+        Put: {
+          Item: {
             id: "1",
             body: "hello",
           },
@@ -26,17 +26,17 @@ test "transactWrite (put)" {
   );
 
   let response = table.scan();
-  assert(response.count == 1);
-  assert(response.items.at(0).get("id").asStr() == "1");
-  assert(response.items.at(0).get("body").asStr() == "hello");
+  assert(response.Count == 1);
+  assert(response.Items.at(0).get("id").asStr() == "1");
+  assert(response.Items.at(0).get("body").asStr() == "hello");
 }
 
 test "transactWrite (delete)" {
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        put: {
-          item: {
+        Put: {
+          Item: {
             id: "1",
             body: "hello",
           },
@@ -46,10 +46,10 @@ test "transactWrite (delete)" {
   );
 
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        delete: {
-          key: {
+        Delete: {
+          Key: {
             id: "1",
           },
         },
@@ -58,15 +58,15 @@ test "transactWrite (delete)" {
   );
 
   let response = table.scan();
-  assert(response.count == 0);
+  assert(response.Count == 0);
 }
 
 test "transactWrite (update)" {
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        put: {
-          item: {
+        Put: {
+          Item: {
             id: "1",
             body: "hello",
           },
@@ -76,14 +76,14 @@ test "transactWrite (update)" {
   );
 
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        update: {
-          key: {
+        Update: {
+          Key: {
             id: "1",
           },
-          updateExpression: "SET body = :body",
-          expressionAttributeValues: {
+          UpdateExpression: "SET body = :body",
+          ExpressionAttributeValues: {
             ":body": "world",
           },
         },
@@ -92,17 +92,17 @@ test "transactWrite (update)" {
   );
 
   let response = table.scan();
-  assert(response.count == 1);
-  assert(response.items.at(0).get("id").asStr() == "1");
-  assert(response.items.at(0).get("body").asStr() == "world");
+  assert(response.Count == 1);
+  assert(response.Items.at(0).get("id").asStr() == "1");
+  assert(response.Items.at(0).get("body").asStr() == "world");
 }
 
 test "transactWrite (conditionCheck)" {
   table.transactWrite(
-    transactItems: [
+    TransactItems: [
       {
-        put: {
-          item: {
+        Put: {
+          Item: {
             id: "1",
             body: "hello",
           },
@@ -113,13 +113,13 @@ test "transactWrite (conditionCheck)" {
 
   try {
     table.transactWrite(
-      transactItems: [
+      TransactItems: [
         {
-          conditionCheck: {
-            key: {
+          ConditionCheck: {
+            Key: {
               id: "1",
             },
-            conditionExpression: "attribute_not_exists(id)",
+            ConditionExpression: "attribute_not_exists(id)",
           },
         },
       ],
