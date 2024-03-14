@@ -8,9 +8,9 @@ A Wing library for working with JWT authentication.
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/jwt
-`
+```
 
 ## Usage
 

@@ -1,13 +1,9 @@
-import jwt, { SignOptions, VerifyOptions } from "jsonwebtoken";
+import jwt, { VerifyOptions } from "jsonwebtoken";
 import jwksClient from "jwks-rsa";
 
-export const _sign = async (data: Record<string, any>, secret: string, options?: SignOptions) => {
-  return jwt.sign(data, secret, options);
-};
+export const _sign = jwt.sign;
 
-export const _verifyWithSecret = async (token: string, secret: string, options?: VerifyOptions) => {
-  return jwt.verify(token, secret, options);
-};
+export const _verifyWithSecret = jwt.verify;
 
 export const _verifyWithJwksUri = async (token: string, uri: string, options?: VerifyOptions) => {
   const client = jwksClient({
