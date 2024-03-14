@@ -54,6 +54,7 @@ pub class Cognito impl types.ICognito {
       "password" => ex.ColumnType.STRING,
       "confirmed" => ex.ColumnType.BOOLEAN,
     }) as "users";
+    nodeof(this.table).hidden = true;
   }
 
   setUi() {
