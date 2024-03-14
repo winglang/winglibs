@@ -50,7 +50,7 @@ pub class Workload_sim {
       this.internalUrlKey = key;
     }
 
-    let s = new cloud.Service(inflight () => {
+    let containerService = new cloud.Service(inflight () => {
       log("starting workload...");
 
       let opts = this.props;
@@ -116,10 +116,10 @@ pub class Workload_sim {
       return () => {
         utils.shell("docker", ["rm", "-f", name]);
        };
-    });
-    std.Node.of(s).hidden = true;
+    }) as "ContainerService";
+    std.Node.of(containerService).hidden = true;
 
-    let s2 = new cloud.Service(inflight () => {
+    let readinessService = new cloud.Service(inflight () => {
       let name = this.state.get(this.containerIdKey).asStr();
       let opts = this.props;
       let var out: Json? = nil;
@@ -160,8 +160,8 @@ pub class Workload_sim {
           }, interval: 0.1s);
         }
       }
-    }) as "Port Retrieval";
-    std.Node.of(s2).hidden = true;
+    }) as "ReadinessService";
+    std.Node.of(readinessService).hidden = true;
 
     std.Node.of(this.state).hidden = true;
   }
