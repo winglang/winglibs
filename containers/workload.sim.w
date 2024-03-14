@@ -112,6 +112,15 @@ pub class Workload_sim {
 
       log("containerName={name}");
 
+      return () => {
+        container.kill();
+       };
+    });
+    std.Node.of(s).hidden = true;
+
+    let s2 = new cloud.Service(inflight () => {
+      let name = this.state.get(this.containerIdKey).asStr();
+      let opts = this.props;
       let var out: Json? = nil;
       util.waitUntil(inflight () => {
         try {
@@ -150,14 +159,9 @@ pub class Workload_sim {
           }, interval: 0.1s);
         }
       }
+    }) as "Port Retrieval";
+    std.Node.of(s2).hidden = true;
 
-      log("container ready");
-      return () => {
-        container.kill();
-       };
-    });
-
-    std.Node.of(s).hidden = true;
     std.Node.of(this.state).hidden = true;
   }
 }
