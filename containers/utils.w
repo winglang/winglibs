@@ -1,18 +1,7 @@
 bring "./api.w" as api;
 bring fs;
 
-interface Process {
-  inflight kill(): void;
-}
-
-struct SpawnOptions {
-  command: str;
-  arguments: Array<str>;
-  stdio: str?;
-}
-
 pub class Util {
-  extern "./utils.js" pub static inflight spawn(options: SpawnOptions): Process;
   extern "./utils.js" pub static inflight shell(command: str, args: Array<str>, cwd: str?): str;
   extern "./utils.js" pub static contentHash(files: Array<str>, cwd: str): str;
   extern "./utils.js" pub static dirname(): str;

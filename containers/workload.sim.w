@@ -78,6 +78,7 @@ pub class Workload_sim {
       // start the new container
       let dockerRun = MutArray<str>[];
       dockerRun.push("run");
+      dockerRun.push("--detach");
       dockerRun.push("--rm");
 
       let name = util.uuidv4();
@@ -107,13 +108,13 @@ pub class Workload_sim {
 
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
-      let container = utils.spawn(command: "docker", arguments: dockerRun.copy());
+      utils.shell("docker", dockerRun.copy());
       this.state.set(this.containerIdKey, name);
 
       log("containerName={name}");
 
       return () => {
-        container.kill();
+        utils.shell("docker", ["rm", "-f", name]);
        };
     });
     std.Node.of(s).hidden = true;
