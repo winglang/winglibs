@@ -40,11 +40,16 @@ exports.dev = async (options) => {
     },
   });
 
+  const kill = () => child.kill("SIGINT");
+
   return new Promise((resolve) => {
     child.stdout.on("data", (chunk) => {
       const payload = parsePayload(chunk.toString());
       if (payload) {
-        resolve(payload.url);
+        resolve({
+          url: () => payload.url,
+          kill,
+        });
         child.stdout.removeAllListeners("data");
       }
     });
