@@ -166,6 +166,7 @@ pub interface IClient {
   inflight query(options: QueryOptions): QueryOutput;
   inflight scan(options: ScanOptions?): ScanOutput;
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
+  pointInTimeRecovery: bool?;
 }
 
 pub interface ITable extends IClient {

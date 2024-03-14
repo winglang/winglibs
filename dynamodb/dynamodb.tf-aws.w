@@ -52,6 +52,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       billingMode: "PAY_PER_REQUEST",
       streamEnabled: true,
       streamViewType: "NEW_AND_OLD_IMAGES",
+      pointInTimeRecovery: {
+        enabled: props.pointInTimeRecovery,
+      },
     });
 
     this.tableName = this.table.name;
