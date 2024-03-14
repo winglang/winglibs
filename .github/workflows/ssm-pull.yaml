@@ -1,16 +1,16 @@
-name: lock-pull
+name: ssm-pull
 on:
   pull_request:
     paths:
-      - lock/**
+      - ssm/**
 jobs:
-  build-lock:
+  build-ssm:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: lock
+          sparse-checkout: ssm
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -20,10 +20,10 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: lock
+        working-directory: ssm
       - name: Test
         run: wing test
-        working-directory: lock
+        working-directory: ssm
       - name: Pack
         run: wing pack
-        working-directory: lock
+        working-directory: ssm

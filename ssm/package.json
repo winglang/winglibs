@@ -1,0 +1,19 @@
+{
+  "name": "@winglibs/ssm",
+  "description": "Amazon Systems Manager library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "ssm"
+  },
+  "author": {
+    "email": "eladc@wing.cloud",
+    "name": "Elad Cohen"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@aws-sdk/client-ssm": "^3.533.0",
+    "@cdktf/provider-aws": "^19.9.0"
+  }
+}
