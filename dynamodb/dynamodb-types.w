@@ -147,6 +147,16 @@ pub struct AttributeDefinition {
   type: str;
 }
 
+pub struct GlobalSecondaryIndex {
+    hashKey: str;
+    name: str;
+    nonKeyAttributes: Array<str>?;
+    projectionType: str;
+    rangeKey: str?;
+    readCapacity: num?;
+    writeCapacity: num?;
+}
+
 // pub struct StreamFilterPattern {
 //   pattern: str;
 // }
@@ -162,10 +172,12 @@ pub struct StreamConsumerOptions {
 }
 
 pub struct TableProps {
+  name: str?;
   attributes: Array<AttributeDefinition>;
   hashKey: str;
   rangeKey: str?;
   timeToLiveAttribute: str?;
+  globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
 }
 
