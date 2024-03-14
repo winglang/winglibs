@@ -1,5 +1,6 @@
 {
   "name": "@winglibs/openai",
+  "description": "openai library for Wing",
   "version": "0.0.1",
   "repository": {
     "type": "git",
