@@ -1,6 +1,7 @@
 bring sim;
 bring util;
 bring cloud;
+bring containers;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
@@ -30,7 +31,12 @@ class Util {
   extern "./dynamodb.mjs" pub static inflight getPort(): num;
   extern "./dynamodb.mjs" pub static inflight spawn(options: SpawnOptions): Process;
   extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
-  extern "./dynamodb.mjs" pub static inflight processRecordsAsync(endpoint: str, tableName: str, handler: inflight (dynamodb_types.StreamRecord): void): void;
+  extern "./dynamodb.mjs" pub static inflight processRecordsAsync(
+    endpoint: str,
+    tableName: str,
+    handler: inflight (dynamodb_types.StreamRecord): void,
+    options: dynamodb_types.StreamConsumerOptions?,
+  ): void;
 }
 
 class Host {
@@ -39,43 +45,13 @@ class Host {
   new() {
     let containerName = "winglibs-dynamodb-{util.uuidv4()}";
 
-    let state = new sim.State();
-    this.endpoint = state.token("endpoint");
-
-    new cloud.Service(inflight () => {
-      let port = Util.getPort();
-
-      let docker = Util.spawn(
-        command: "docker",
-        arguments: [
-          "run",
-          "--rm",
-          "--name",
-          containerName,
-          "-p",
-          "{port}:8000",
-          "amazon/dynamodb-local",
-        ],
-        onData: (data) => {
-          if data.contains("Initializing DynamoDB Local with the following configuration") {
-            state.set("endpoint", "http://0.0.0.0:{port}");
-          }
-        },
-      );
-
-      return () => {
-        docker.kill();
-      };
-    });
-
-    // The host will be ready when the endpoint is set.
-    new cloud.Service(inflight () => {
-      util.waitUntil(() => {
-        return state.tryGet("endpoint")?;
-      });
-    }) as "Wait Until";
-
-    // std.Node.of(this).hidden = true;
+    let container = new containers.Workload(
+      name: containerName,
+      image: "amazon/dynamodb-local",
+      port: 8000,
+      public: true,
+    );
+    this.endpoint = container.publicUrl!;
   }
 
   pub static of(scope: std.IResource): Host {
@@ -168,9 +144,9 @@ pub class Table_sim impl dynamodb_types.ITable {
     };
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
     new cloud.Service(inflight () => {
-      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler);
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, options);
     }) as "StreamConsumer";
   }
 

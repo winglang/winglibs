@@ -67,7 +67,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
     };
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
     let consumer = new cloud.Function(inflight (eventStr) => {
       let event: DynamoDBStreamEvent = unsafeCast(eventStr);
       for record in event.Records {
@@ -111,7 +111,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
         {
           eventSourceArn: this.table.streamArn,
           functionName: lambda.functionName,
-          startingPosition: "LATEST",
+          batchSize: options?.batchSize,
+          startingPosition: options?.startingPosition,
+          // filterCriteria: unsafeCast(options?.filterCriteria),
         },
       );
     }

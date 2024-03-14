@@ -48,20 +48,21 @@ import * as streams from "@aws-sdk/client-dynamodb-streams";
  * @param {string} StreamArn
  * @param {(record: any) => void|Promise<void>} handler
  */
-const processStreamRecords = async (client, StreamArn, handler) => {
+const processStreamRecords = async (client, StreamArn, handler, options) => {
   const { StreamDescription } = await client.describeStream({ StreamArn });
 
   for (const { ShardId } of StreamDescription.Shards) {
     const shardIteratorData = await client.getShardIterator({
       StreamArn,
       ShardId,
-      ShardIteratorType: "TRIM_HORIZON",
+      ShardIteratorType: options?.startingPosition ?? "LATEST",
     });
 
     let shardIterator = shardIteratorData.ShardIterator;
     while (shardIterator) {
       const recordsData = await client.getRecords({
         ShardIterator: shardIterator,
+        Limit: options?.batchSize,
       });
 
       for (const record of recordsData.Records) {
@@ -105,7 +106,7 @@ const processStreamRecords = async (client, StreamArn, handler) => {
   }
 };
 
-const processRecords = async (endpoint, tableName, handler) => {
+const processRecords = async (endpoint, tableName, handler, options) => {
   while (true) {
     const client = new streams.DynamoDBStreams({
       region: "local",
@@ -120,7 +121,7 @@ const processRecords = async (endpoint, tableName, handler) => {
       const { Streams } = await client.listStreams({ TableName: tableName });
       await Promise.all(
         Streams.map(({ StreamArn }) =>
-          processStreamRecords(client, StreamArn, handler)
+          processStreamRecords(client, StreamArn, handler, options)
         )
       );
     } catch (error) {
@@ -140,8 +141,13 @@ const processRecords = async (endpoint, tableName, handler) => {
   }
 };
 
-export const processRecordsAsync = async (endpoint, tableName, handler) => {
-  processRecords(endpoint, tableName, handler).catch((error) => {
+export const processRecordsAsync = async (
+  endpoint,
+  tableName,
+  handler,
+  options
+) => {
+  processRecords(endpoint, tableName, handler, options).catch((error) => {
     if (error.message.includes("ECONNREFUSED")) {
       // Ignore. This error happens when reloading the console.
       // We can safely end the execution here.

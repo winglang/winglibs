@@ -147,11 +147,26 @@ pub struct AttributeDefinition {
   type: str;
 }
 
+// pub struct StreamFilterPattern {
+//   pattern: str;
+// }
+
+// pub struct StreamFilterCriteria {
+//   filter: Array<StreamFilterPattern>;
+// }
+
+pub struct StreamConsumerOptions {
+  // filterCriteria: StreamFilterCriteria?;
+  batchSize: num?;
+  startingPosition: str?;
+}
+
 pub struct TableProps {
   attributes: Array<AttributeDefinition>;
   hashKey: str;
   rangeKey: str?;
   timeToLiveAttribute: str?;
+  pointInTimeRecovery: bool?;
 }
 
 pub struct Connection {
@@ -166,10 +181,9 @@ pub interface IClient {
   inflight query(options: QueryOptions): QueryOutput;
   inflight scan(options: ScanOptions?): ScanOutput;
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
-  pointInTimeRecovery: bool?;
 }
 
 pub interface ITable extends IClient {
   connection(): Connection;
-  setStreamConsumer(handler: inflight (StreamRecord): void): void;
+  setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
 }
