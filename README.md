@@ -15,7 +15,7 @@ It's so damn easy.
 Clone this repository:
 
 ```sh
-git clone git@github.com:winglang/winglibs
+git clone https://github.com/winglang/winglibs.git
 ```
 
 Change to the `winglibs` directory:
