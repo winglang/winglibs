@@ -94,41 +94,45 @@ pub class Table_sim impl dynamodb_types.ITable {
         });
       }
 
-      let globalSecondaryIndexes = MutArray<Json> [];
-      for gsi in props.globalSecondaryIndex ?? [] {
-        let keySchema = MutArray<Json> [];
-        keySchema.push({
-          AttributeName: gsi.hashKey,
-          KeyType: "HASH",
-        });
-        if let rangeKey = gsi.rangeKey {
-          keySchema.push({
-            AttributeName: rangeKey,
-            KeyType: "RANGE",
-          });
-        }
+      let globalSecondaryIndexes: Array<Json>? = (() => {
+        if let globalSecondaryIndex = props.globalSecondaryIndex {
+          let indexes = MutArray<Json> [];
+          for gsi in globalSecondaryIndex {
+            let keySchema = MutArray<Json> [];
+            keySchema.push({
+              AttributeName: gsi.hashKey,
+              KeyType: "HASH",
+            });
+            if let rangeKey = gsi.rangeKey {
+              keySchema.push({
+                AttributeName: rangeKey,
+                KeyType: "RANGE",
+              });
+            }
 
-        let provisionedThroughput: Json? = (() => {
-          if gsi.readCapacity? || gsi.writeCapacity? {
-            return {
-              ReadCapacityUnits: gsi.readCapacity,
-              WriteCapacityUnits: gsi.writeCapacity,
-            };
+            let provisionedThroughput: Json? = (() => {
+              if gsi.readCapacity? || gsi.writeCapacity? {
+                return {
+                  ReadCapacityUnits: gsi.readCapacity,
+                  WriteCapacityUnits: gsi.writeCapacity,
+                };
+              }
+              return nil;
+            })();
+
+            indexes.push({
+              IndexName: gsi.name,
+              KeySchema: keySchema.copy(),
+              Projection: {
+                ProjectionType: gsi.projectionType,
+              },
+              ProvisionedThroughput: provisionedThroughput,
+            });
           }
-          return nil;
-        })();
-
-        globalSecondaryIndexes.push({
-          IndexName: gsi.name,
-          KeySchema: keySchema.copy(),
-          Projection: {
-            ProjectionType: gsi.projectionType,
-          },
-          ProvisionedThroughput: provisionedThroughput,
-        });
-      }
-
-      log(unsafeCast(globalSecondaryIndexes));
+          return indexes.copy();
+        }
+        return  nil;
+      })();
 
       util.waitUntil(() => {
         try {
@@ -136,7 +140,7 @@ pub class Table_sim impl dynamodb_types.ITable {
             TableName: tableName,
             AttributeDefinitions: attributeDefinitions.copy(),
             KeySchema: keySchemas.copy(),
-            GlobalSecondaryIndexes: globalSecondaryIndexes.copy(),
+            GlobalSecondaryIndexes: globalSecondaryIndexes,
             BillingMode: "PAY_PER_REQUEST",
             StreamSpecification: {
               StreamEnabled: true,
