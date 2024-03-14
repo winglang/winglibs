@@ -30,23 +30,63 @@ pub struct SignOptions {
   encoding: str?;
 }
 
-class HiddenUtil {
-  extern "./utils.mts" pub static inflight _sign(data: Json, secret: str, options: SignOptions?): str;
-  extern "./utils.mts" pub static inflight _verifyWithSecret(token: str, secret: str, options: VerifyJwtOptions?): Json;
-  extern "./utils.mts" pub static inflight _verifyWithJwksUri(token: str, uri: str, options: VerifyJwtOptions?): Json;
+struct JwtHeader {
+  alg: str?;
+  typ: str?;
+  cty: str?;
+  crit: Array<str>?;
+  kid: str?;
+  jku: str?;
+  x5u: str?;
+  x5t: str?;
+  x5c: str?;
+}
+
+struct IJwksClientOptions {
+  jwksUri: str;
+}
+
+interface IJwksSigningKey {
+  inflight getPublicKey(): str;
+}
+
+interface IJwksClient {
+  inflight getSigningKey(kid: str?): IJwksSigningKey;
+}
+
+interface IJwt {
+  inflight jwksClient(options: IJwksClientOptions): IJwksClient;
+  inflight sign(data: Json, secret: str, options: SignOptions?): str;
+  inflight verify(token: str, secret: inflight (JwtHeader, inflight (str, str): void): void, options: VerifyJwtOptions?): Json;
+}
+
+class JwtUtil {
+  extern "./utils.mts" pub static inflight _jwt(): IJwt;
 }
 
 pub class Util {
   pub inflight static sign(data: Json, secret: str, options: SignOptions?): str {
-    return HiddenUtil._sign(data, secret, options);
+    return JwtUtil._jwt().sign(data, secret, options);
   }
 
   pub inflight static verify(token: str, options: VerifyOptions): Json {
     if let secret = options.secret {
-      let decoded = HiddenUtil._verifyWithSecret(token, secret, options.options);
+      let getKey = inflight (header: JwtHeader, callback: inflight (str, str): void) => {
+        callback(unsafeCast(nil), secret);
+      };
+      let decoded = JwtUtil._jwt().verify(token, getKey, options.options);
       return decoded;
     } elif let jwksUri = options.jwksUri {
-      let decoded = HiddenUtil._verifyWithJwksUri(token, jwksUri, options.options);
+      let client = JwtUtil._jwt().jwksClient(jwksUri: jwksUri);
+      let getKey = inflight (header: JwtHeader, callback: inflight (str, str): void) => {
+        try {
+          let secret = client.getSigningKey(header.kid).getPublicKey();
+          callback(unsafeCast(nil), secret);
+        } catch error {
+          callback(error, unsafeCast(nil));
+        }
+      };
+      let decoded = JwtUtil._jwt().verify(token, getKey, options.options);
       return decoded;
     } else {
       throw "Either secret or jwksUri must be provided";
