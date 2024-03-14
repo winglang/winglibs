@@ -1,8 +1,21 @@
 const child_process = require("child_process");
-const fs = require('fs');
-const crypto = require('crypto');
-const glob = require('glob');
-const path = require('path');
+const fs = require("fs");
+const crypto = require("crypto");
+const glob = require("glob");
+const path = require("path");
+
+exports.spawn = async (options) => {
+  const child = child_process.spawn(options.command, options.arguments, {
+    cwd: options.cwd,
+    stdio: options.stdio,
+  });
+
+  return {
+    kill() {
+      child.kill("SIGINT");
+    },
+  };
+};
 
 exports.shell = async function (command, args, cwd) {
   return new Promise((resolve, reject) => {
@@ -29,8 +42,8 @@ exports.dirname = function() {
   return __dirname;
 };
 
-exports.contentHash = function(patterns, cwd) {
-  const hash = crypto.createHash('md5');
+exports.contentHash = function (patterns, cwd) {
+  const hash = crypto.createHash("md5");
   const files = glob.sync(patterns, { nodir: true, cwd });
   for (const f of files) {
     const data = fs.readFileSync(path.join(cwd, f));
