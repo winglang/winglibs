@@ -5,16 +5,6 @@ bring containers;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
-interface Process {
-  inflight kill(): void;
-}
-
-struct SpawnOptions {
-  command: str;
-  arguments: Array<str>;
-  onData: inflight (str): void;
-}
-
 interface Client {
   inflight createTable(input: Json): Json;
   inflight deleteTable(input: Json): Json;
@@ -29,7 +19,6 @@ struct CreateClientOptions {
 
 class Util {
   extern "./dynamodb.mjs" pub static inflight getPort(): num;
-  extern "./dynamodb.mjs" pub static inflight spawn(options: SpawnOptions): Process;
   extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
   extern "./dynamodb.mjs" pub static inflight processRecordsAsync(
     endpoint: str,

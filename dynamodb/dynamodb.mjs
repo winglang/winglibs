@@ -1,23 +1,5 @@
 export { default as getPort } from "get-port";
 
-import * as child_process from "node:child_process";
-
-export const spawn = async (options) => {
-  let child = child_process.spawn(options.command, options.arguments, {
-    cwd: options.cwd,
-    env: options.env,
-  });
-
-  child.stdout.on("data", (data) => options.onData?.(data.toString()));
-  child.stderr.on("data", (data) => options.onData?.(data.toString()));
-
-  return {
-    kill() {
-      child.kill("SIGINT");
-    },
-  };
-};
-
 import * as dynamodb from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
