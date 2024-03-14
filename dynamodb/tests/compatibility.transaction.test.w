@@ -1,4 +1,4 @@
-bring "../../dynamodb.w" as dynamodb;
+bring "../dynamodb.w" as dynamodb;
 
 let t1 = new dynamodb.Table(
   attributes: [

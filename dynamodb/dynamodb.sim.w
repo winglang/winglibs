@@ -60,7 +60,7 @@ pub class Table_sim impl dynamodb_types.ITable {
   new(props: dynamodb_types.TableProps) {
     this.host = Host.of(this);
 
-    let tableName = this.node.addr;
+    let tableName = props.name ?? this.node.addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
@@ -94,12 +94,49 @@ pub class Table_sim impl dynamodb_types.ITable {
         });
       }
 
+      let globalSecondaryIndexes = MutArray<Json> [];
+      for gsi in props.globalSecondaryIndex ?? [] {
+        let keySchema = MutArray<Json> [];
+        keySchema.push({
+          AttributeName: gsi.hashKey,
+          KeyType: "HASH",
+        });
+        if let rangeKey = gsi.rangeKey {
+          keySchema.push({
+            AttributeName: rangeKey,
+            KeyType: "RANGE",
+          });
+        }
+
+        let provisionedThroughput: Json? = (() => {
+          if gsi.readCapacity? || gsi.writeCapacity? {
+            return {
+              ReadCapacityUnits: gsi.readCapacity,
+              WriteCapacityUnits: gsi.writeCapacity,
+            };
+          }
+          return nil;
+        })();
+
+        globalSecondaryIndexes.push({
+          IndexName: gsi.name,
+          KeySchema: keySchema.copy(),
+          Projection: {
+            ProjectionType: gsi.projectionType,
+          },
+          ProvisionedThroughput: provisionedThroughput,
+        });
+      }
+
+      log(unsafeCast(globalSecondaryIndexes));
+
       util.waitUntil(() => {
         try {
           client.createTable({
             TableName: tableName,
             AttributeDefinitions: attributeDefinitions.copy(),
             KeySchema: keySchemas.copy(),
+            GlobalSecondaryIndexes: globalSecondaryIndexes.copy(),
             BillingMode: "PAY_PER_REQUEST",
             StreamSpecification: {
               StreamEnabled: true,

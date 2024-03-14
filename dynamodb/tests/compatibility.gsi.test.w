@@ -1,6 +1,4 @@
-bring cloud;
-bring util;
-bring "../../dynamodb.w" as dynamodb;
+bring "../dynamodb.w" as dynamodb;
 
 let table = new dynamodb.Table(
     name: "blog",
@@ -35,7 +33,7 @@ let table2 = new dynamodb.Table(
     }],
 ) as "blog2";
 
-test "Global secondary index" {
+test "GlobalSecondaryIndex" {
     let idCreated = [
         {id: "zuegksw", createdAt: 1},
         {id: "dirnfhw", createdAt: 3},
