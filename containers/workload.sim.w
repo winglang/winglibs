@@ -113,18 +113,14 @@ pub class Workload_sim {
       log("containerName={name}");
 
       let var out: Json? = nil;
-      let inspected = util.waitUntil(inflight () => {
+      util.waitUntil(inflight () => {
         try {
           out = Json.parse(utils.shell("docker", ["inspect", name]));
           return true;
         } catch {
           return false;
         }
-      }, interval: 250ms, timeout: 2s);
-
-      if inspected == false {
-        throw "container did not start in time";
-      }
+      }, interval: 0.1s);
 
       if let port = opts.port {
         let hostPort = out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
@@ -155,6 +151,7 @@ pub class Workload_sim {
         }
       }
 
+      log("container ready");
       return () => {
         container.kill();
        };
