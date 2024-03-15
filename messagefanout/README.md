@@ -18,11 +18,11 @@ bring messagefanout;
 let fanout = new messagefanout.MessageFanout();
 
 fanout.addConsumer(inflight (msg: str) => {
-  log(msg);
+  log("Hello {msg}!!!");
 });
 
 test "push a message to fanout" {
-  fanout.publish("new message");
+  fanout.publish("world");
 }
 ```
 
