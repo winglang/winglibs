@@ -109,14 +109,14 @@ jobs:
       - name: Test
         run: wing test
         working-directory: github
-  canary-message-fanout:
+  canary-messagefanout:
     name: Test messagefanout
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: message-fanout
+          sparse-checkout: messagefanout
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -126,7 +126,7 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: message-fanout
+        working-directory: messagefanout
       - name: Test
         run: wing test
         working-directory: messagefanout

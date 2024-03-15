@@ -50,9 +50,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
-      - -check-failure=build-message-fanout
-      - -check-pending=build-message-fanout
-      - -check-stale=build-message-fanout
+      - -check-failure=build-messagefanout
+      - -check-pending=build-messagefanout
+      - -check-stale=build-messagefanout
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
@@ -104,9 +104,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
-      - -check-failure=build-message-fanout
-      - -check-pending=build-message-fanout
-      - -check-stale=build-message-fanout
+      - -check-failure=build-messagefanout
+      - -check-pending=build-messagefanout
+      - -check-stale=build-messagefanout
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok

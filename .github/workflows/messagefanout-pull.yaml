@@ -4,7 +4,7 @@ on:
     paths:
       - messagefanout/**
 jobs:
-  build-message-fanout:
+  build-messagefanout:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,7 +20,7 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: message-fanout
+        working-directory: messagefanout
       - name: Test
         run: wing test
         working-directory: messagefanout
