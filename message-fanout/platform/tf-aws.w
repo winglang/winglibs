@@ -74,24 +74,24 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
       policy: cdktf.Token.asString(queue_policy.json),
     ) as "queue_policy_" + props.name;
 
-    let lambda = aws.Function.from(my_function);
-    lambda?.addPolicyStatements({
-      actions: [
-        "sqs:ReceiveMessage",
-        "sqs:ChangeMessageVisibility",
-        "sqs:GetQueueUrl",
-        "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes",
-      ],
-      resources: [queue.arn],
-    });
+    if let lambda = aws.Function.from(my_function) {
+      lambda.addPolicyStatements({
+        actions: [
+          "sqs:ReceiveMessage",
+          "sqs:ChangeMessageVisibility",
+          "sqs:GetQueueUrl",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+        ],
+        resources: [queue.arn],
+      });
 
-    new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-      eventSourceArn: queue.arn,
-      functionName: "{lambda?.functionName}",
-      batchSize: 1,
-    ) as "event_source_mapping_" + props.name;
-    
+      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+        eventSourceArn: queue.arn,
+        functionName: "{lambda.functionName}",
+        batchSize: 1,
+      ) as "event_source_mapping_" + props.name;
+    }
     this.queueList.push(queue);
   }
 
