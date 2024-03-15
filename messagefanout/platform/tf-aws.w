@@ -23,7 +23,7 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
     if let my_topic = aws.Topic.from(this.topic) {
       this.topicArn = my_topic.topicArn;
     }
-    this.queueList = MutArray<tfaws.sqsQueue.SqsQueue>[]; 
+    this.queueList = MutArray<tfaws.sqsQueue.SqsQueue>[];
   }
 
   pub addConsumer(handler: inflight(str): void, props: api.MessageFanoutProps): void {
@@ -46,6 +46,7 @@ pub class MessageFanout_tfaws impl api.IMessageFanout {
       topicArn: this.topicArn,
       endpoint: queue.arn,
       protocol: "sqs",
+      rawMessageDelivery: true
     ) as "subscription_" + props.name;
       
     let queue_policy = new tfaws.dataAwsIamPolicyDocument.DataAwsIamPolicyDocument(

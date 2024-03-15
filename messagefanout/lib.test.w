@@ -13,26 +13,19 @@ let table = new ex.Table(
   }
 );
 
-fanout.addConsumer(inflight (event: str) => {
-  let obj = Json.parse(event);
-  let msg = "first_publisher_" + obj.get("Message").asStr();
-  table.insert("first", { message: msg });
+fanout.addConsumer(inflight (msg: str) => {
+  table.insert("first", { message: "first {msg}" });
 }, name: "first");
 
-fanout.addConsumer(inflight (event: str) => {
-  let obj = Json.parse(event);
-  let msg = "second_publisher_" + obj.get("Message").asStr();
-  table.insert("second", { message: msg });
+fanout.addConsumer(inflight (msg: str) => {
+  table.insert("second", { message: "second {msg}" });
 }, name: "second");
 
-let target = util.env("WING_TARGET");
-if target == "tf-aws" {
-  test "message fanout" {
-    fanout.publish("hello");
+test "message fanout" {
+    fanout.publish("hello 👋");
     
-    util.sleep(30s);
-    
-    assert(table.get("first").get("message") == "first_publisher_hello");  
-    assert(table.get("second").get("message") == "second_publisher_hello");
-  }
+    util.sleep(10s);
+
+    assert(table.get("first").get("message") == "first hello 👋");  
+    assert(table.get("second").get("message") == "second hello 👋");
 }
