@@ -110,7 +110,7 @@ jobs:
         run: wing test
         working-directory: github
   canary-message-fanout:
-    name: Test message-fanout
+    name: Test messagefanout
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -129,7 +129,7 @@ jobs:
         working-directory: message-fanout
       - name: Test
         run: wing test
-        working-directory: message-fanout
+        working-directory: messagefanout
   canary-ngrok:
     name: Test ngrok
     runs-on: ubuntu-latest

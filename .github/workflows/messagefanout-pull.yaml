@@ -1,8 +1,8 @@
-name: message-fanout-pull
+name: messagefanout-pull
 on:
   pull_request:
     paths:
-      - message-fanout/**
+      - messagefanout/**
 jobs:
   build-message-fanout:
     runs-on: ubuntu-latest
@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: message-fanout
+          sparse-checkout: messagefanout
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -23,7 +23,7 @@ jobs:
         working-directory: message-fanout
       - name: Test
         run: wing test
-        working-directory: message-fanout
+        working-directory: messagefanout
       - name: Pack
         run: wing pack
-        working-directory: message-fanout
+        working-directory: messagefanout
