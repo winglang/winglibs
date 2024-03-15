@@ -6,7 +6,7 @@ on:
     paths:
       - messagefanout/**
 jobs:
-  build-message-fanout:
+  build-messagefanout:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
