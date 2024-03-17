@@ -2,7 +2,7 @@
 
 This library is a set of tools that are supposed to make the user of the simulator a happier developer. 
 
-For the time being, it contains only one function
+For the time being, it contains only one function, `addMacro`.
 
 ## `addMacro`
 
