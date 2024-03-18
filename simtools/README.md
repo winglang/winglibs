@@ -6,7 +6,7 @@ For the time being, it contains only one function, `addMacro()`.
 
 ## `addMacro`
 
-This function adds a Macro into the target resource. 
+This function adds a Macro into the target resource's interaction pane in Wing Console.
 Every macro that is added is seen as a button on the Macro section.
 
 The following code:
