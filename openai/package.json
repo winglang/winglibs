@@ -12,7 +12,7 @@
     "name": "Shai Ber"
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "openai": "^4.28.4"
   }
 }
