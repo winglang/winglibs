@@ -7,7 +7,7 @@ For the time being, it contains only one function, `addMacro()`.
 ## Using `addMacro`
 
 This function adds a Macro into the target resource's interaction pane in Wing Console.
-Every macro that is added is seen as a button on the Macro section.
+Every macro that is added is seen as a button on the right side panel.
 
 The following code:
 ```wing
@@ -33,7 +33,8 @@ Will create two buttons on the Bucket resource on the right side panel:
 * Clean
 * Populate
 
-![image](https://github.com/winglang/winglibs/assets/1727147/177db204-c9c6-4692-b34e-28a8b6ca2a60)
+![image](https://github.com/winglang/winglibs/assets/1727147/909be141-f0f3-4c7c-aa1b-9c7ba5aae560)
+
 
 
 ## Prerequisites
