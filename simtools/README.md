@@ -4,7 +4,7 @@ This library is a set of tools that are supposed to make the user of the simulat
 
 For the time being, it contains only one function, `addMacro()`.
 
-## `addMacro`
+## Using `addMacro`
 
 This function adds a Macro into the target resource's interaction pane in Wing Console.
 Every macro that is added is seen as a button on the Macro section.
@@ -29,9 +29,12 @@ simtools.addMacro(bucket, "Populate",  inflight () => {
 });
 ```
 
-Will create two buttons on the Bucket resource:
+Will create two buttons on the Bucket resource on the right side panel:
 * Clean
 * Populate
+
+![image](https://github.com/winglang/winglibs/assets/1727147/177db204-c9c6-4692-b34e-28a8b6ca2a60)
+
 
 ## Prerequisites
 
@@ -43,26 +46,6 @@ Will create two buttons on the Bucket resource:
 npm i @winglibs/simtools
 ```
 
-## Usage
-
-```wing
-bring cloud;
-bring simtools;
-
-let bucket = new cloud.Bucket();
-
-simtools.addMacro(bucket, "Clean", inflight () => {
-  for i in bucket.list() {
-    bucket.delete(i);
-  }
-});
-
-simtools.addMacro(bucket, "Populate",  inflight () => {
- for i in 1..10 {
-  bucket.put("{i}.txt", "This is {i}");
- }
-});
-```
 
 ## License
 
