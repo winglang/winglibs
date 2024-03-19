@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/vite",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Wing resource that allows deploying a Vite application to the cloud",
   "repository": {
     "type": "git",
