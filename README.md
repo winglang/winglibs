@@ -15,7 +15,13 @@ It's so damn easy.
 Clone this repository:
 
 ```sh
-git clone git@github.com:winglang/winglibs
+git clone https://github.com/winglang/winglibs.git
+```
+
+Change to the `winglibs` directory:
+
+```sh
+cd winglibs
 ```
 
 Use the fabulous `mklib.sh` script to scaffold your library:
@@ -74,6 +80,9 @@ bring my-awesome-lib
 ## Writing Wing Libraries
 
 See [docs](https://www.winglang.io/docs/libraries#creating-a-wing-library).
+
+Please note that it refers to writing libraries that are not published here, so it includes instructions for things that you get here automatically when using the `mklib.sh` script to scaffold your library.
+
 ## License
 
 This repository is licensed under the [MIT License](./LICENSE), unless otherwise specified in a

@@ -8,6 +8,7 @@ mkdir $1
 cat > $1/package.json <<HERE
 {
   "name": "@winglibs/$1",
+  "description": "$1 library for Wing",
   "version": "0.0.1",
   "repository": {
     "type": "git",

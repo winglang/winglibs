@@ -59,6 +59,9 @@ pull_request_rules:
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
+      - -check-failure=build-openai
+      - -check-pending=build-openai
+      - -check-stale=build-openai
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
@@ -119,6 +122,9 @@ pull_request_rules:
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
+      - -check-failure=build-openai
+      - -check-pending=build-openai
+      - -check-stale=build-openai
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
