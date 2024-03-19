@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
 const PLUGIN_NAME = "@winglibs/vite";
 
@@ -74,11 +75,7 @@ export const plugin = (options) => {
       );
 
       const dtsFilename = new URL(options.typeDefinitionsFilename, root);
-      let path = dirname(dtsFilename.pathname);
-      // windows fix
-      if (path.startsWith("/")) {
-        path = path.slice(1);
-      }
+      let path = dirname(fileURLToPath(dtsFilename));
       await mkdir(path, { recursive: true });
       await writeFile(dtsFilename, dts.join("\n"));
     },
