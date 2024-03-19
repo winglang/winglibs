@@ -11,5 +11,10 @@
     "name": "Eyal Keren",
     "email": "eyalk@wing.cloud"
   },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
   "license": "MIT"
 }

@@ -21,5 +21,11 @@
     "@winglibs/containers": "^0.0.22",
     "pg": "^8.11.3"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "license": "MIT"
 }

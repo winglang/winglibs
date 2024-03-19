@@ -21,6 +21,13 @@
     "get-port": "^7.0.0",
     "ws": "^8.14.2"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws",
+      "awscdk"
+    ]
+  },
   "devDependencies": {
     "@types/ws": "^8.5.10"
   }

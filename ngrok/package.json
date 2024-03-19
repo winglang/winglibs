@@ -11,6 +11,11 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "ngrok"
   },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
+  },
   "license": "MIT",
   "dependencies": {
     "@ngrok/ngrok": "^0.9.1"

@@ -15,6 +15,12 @@
     "@cdktf/provider-aws": "^18.0.5",
     "@aws-sdk/client-sqs": "^3.460.0"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "peerDependencies": {
     "cdktf": "^0.19.1"
   },

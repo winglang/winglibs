@@ -12,6 +12,11 @@
     "name": "Shai Ber"
   },
   "license": "MIT",
+  "wing": {
+    "platforms": [
+      "*"
+    ]
+  },
   "peerDependencies": {
     "openai": "^4.28.4"
   }

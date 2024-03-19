@@ -20,5 +20,10 @@
     "email": "eladb@wing.cloud",
     "name": "Elad Ben-Israel"
   },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
+  },
   "license": "MIT"
 }

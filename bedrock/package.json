@@ -12,6 +12,12 @@
     "directory": "bedrock"
   },
   "license": "MIT",
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.484.0"
   }

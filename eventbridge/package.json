@@ -12,6 +12,13 @@
     "email": "eladc@wing.cloud",
     "name": "Elad Cohen"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws",
+      "awscdk"
+    ]
+  },
   "devDependencies": {
     "@cdktf/provider-aws": "^18.2.0",
     "cdktf": "^0.19.2",

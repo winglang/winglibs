@@ -17,6 +17,12 @@
     "./*.mjs",
     "./*.w"
   ],
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "dependencies": {
     "@cdktf/provider-aws": "^19.6.0",
     "cdktf": "^0.20.3",

@@ -20,6 +20,12 @@
     "cdktf": "*",
     "winglang": "*"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "devDependencies": {
     "@cdktf/provider-aws": "^19.7.0"
   }

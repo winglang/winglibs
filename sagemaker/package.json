@@ -11,6 +11,12 @@
     "name": "Tsuf Cohen",
     "email": "tsufc@wing.cloud"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-sagemaker-runtime": "^3.507.0"

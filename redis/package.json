@@ -11,6 +11,11 @@
     "email": "subhodiproy281@gmail.com",
     "name": "Subhodip Roy"
   },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
   "license": "MIT",
   "dependencies": {
     "@winglibs/containers": "^0.0.22",

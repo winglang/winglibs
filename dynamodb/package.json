@@ -11,6 +11,12 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "dynamodb"
   },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
   "license": "MIT",
   "peerDependencies": {
     "@aws-sdk/client-dynamodb": "^3.461.0",
