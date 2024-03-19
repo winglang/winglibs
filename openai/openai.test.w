@@ -3,8 +3,7 @@ bring "./openai.w" as openai;
 
 bring cloud;
 
-let key = new cloud.Secret(name: "my-openai-key");
-let oai = new openai.OpenAI(apiKeySecret: key);
+let oai = new openai.OpenAI(apiKey: "dummy-key");
 
 test "basic completion" {
   let answer = oai.createCompletion("tell me a short joke", maxTokens: 1024);
