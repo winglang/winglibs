@@ -74,7 +74,12 @@ export const plugin = (options) => {
       );
 
       const dtsFilename = new URL(options.typeDefinitionsFilename, root);
-      await mkdir(dirname(dtsFilename.pathname), { recursive: true });
+      let path = dirname(dtsFilename.pathname);
+      // windows fix
+      if (path.startsWith("/")) {
+        path = path.slice(1);
+      }
+      await mkdir(path, { recursive: true });
       await writeFile(dtsFilename, dts.join("\n"));
     },
   };
