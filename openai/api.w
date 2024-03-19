@@ -4,6 +4,6 @@ pub struct CompletionParams {
 }
 
 // TODO: need to recreate the openai interface with higher fidelity
-pub interface IOpenAI extends std.IResource {
+pub interface IOpenAI {
   inflight createCompletion(prompt: str, params: CompletionParams?): str;
 }

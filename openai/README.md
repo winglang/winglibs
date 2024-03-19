@@ -1,38 +1,72 @@
 # openai
 
+An [OpenAI](https://openai.com) library for Winglang.
+
+> This is an initial version of this library which currently exposes a very small subset of the
+> OpenAI API.
+
 ## Prerequisites
 
 * [winglang](https://winglang.io).
 
 ## Installation
 
-`sh
+```sh
 npm i @winglibs/openai
-`
+```
 
 ## Example
 
-`js
+```js
+bring cloud;
 bring openai;
 
-let openAIService = new openai.OpenAI("your-api-key");
+let key = new cloud.Secret(name: "OAIApiKey");
+let oai = new openai.OpenAI(apiKeySecret: key);
 
 new cloud.Function(inflight () => {
-  let joke = openAIService.createCompletion("tell me a short joke");
+  let joke = oai.createCompletion("tell me a short joke", model: "gpt-3.5-turbo", max_tokens: 2048);
   log(joke);
 });
-`
+```
+
+When running in a `test` context, the `createCompletion` method will return a JSON object which
+echos the request under the `mock` key:
+
+```js
+bring expect;
+
+test "create completion test" {
+  let r = oai.createCompletion("tell me a short joke");
+  expect.equal(r, Json.stringify({
+    mock: {
+      prompt:"tell me a short joke",
+      params:{"model":"gpt-3.5-turbo","max_tokens":2048}
+    }
+  }));
+}
+```
 
 ## Usage
-The `openai.OpenAI` resource provides the following inflight methods:
 
-* `createCompletion` - Gets an answer to a prompt.
+```js
+new openai.OpenAI();
+```
 
-The preflight constructor requires an api key in the form of either a secret or a string.
+* `apiKeySecret` - a `cloud.Secret` with the OpenAI API key (required).
+* `orgSecret` - a `cloud.Secret` with the OpenAI organization ID (not required).
+
+You can also specify clear text values through `apiKey` and `org`, but make sure not to commit these
+values to a repository :warning:.
+
+Methods:
+
+* `inflight createCompletion()` - requests a completion from a model. Options are `model` (defaults
+  to `gpt-3.5.turbo`) and `max_tokens` (defaults to 2048).
 
 ## Roadmap
 
-* [x] Support the rest of the openai API
+* [ ] Support the rest of the OpenAI API
 * [ ] Add more examples
 * [ ] Add more tests
 
