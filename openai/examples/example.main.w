@@ -1,5 +1,5 @@
 bring expect;
-bring "./openai.w" as openai;
+bring "../openai.w" as openai;
 
 bring cloud;
 
