@@ -45,6 +45,11 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   new(props: dynamodb_types.TableProps) {
     this.table = new tfaws.dynamodbTable.DynamodbTable({
+      // Generate a unique name for the table:
+      // - Replace slashes with hyphens
+      // - Get rid of the initial "root/Default/Default/" part (21 characters)
+      // - Make room for the last 8 digits of the address (9 characters including hyphen). 255 is the maximum length of an AWS resource name
+      // - Add the last 8 digits of the address
       name: "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
       attribute: props.attributes,
       hashKey: props.hashKey,
