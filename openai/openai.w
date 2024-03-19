@@ -1,7 +1,10 @@
-bring util;
-bring "./api.w" as api;
-bring "./utils.w" as utils;
 bring cloud;
+bring util;
+
+pub struct CompletionParams {
+  model: str?;
+  maxTokens: num?;
+}
 
 pub struct OpenAIProps {
   apiKey: str?;
@@ -10,13 +13,25 @@ pub struct OpenAIProps {
   orgSecret: cloud.Secret?;
 }
 
-inflight class Sim impl api.IOpenAI {
-  pub createCompletion(prompt: str, params: api.CompletionParams?): str {
-    return Json.stringify({ mock: { prompt: prompt, params: params } });
+interface IClient {
+  inflight createCompletion(params: Json): Json;
+}
+
+inflight class Sim impl IClient {
+  pub createCompletion(req: Json): Json {
+    return {
+      choices: [
+        {
+          message: {
+            content: Json.stringify({ mock: req })
+          }
+        }
+      ]
+    };
   }
 }
 
-pub class OpenAI impl api.IOpenAI {
+pub class OpenAI {
   apiKey: cloud.Secret?;
   org: cloud.Secret?;
   keyOverride: str?;
@@ -24,7 +39,7 @@ pub class OpenAI impl api.IOpenAI {
 
   mock: bool;
 
-  inflight openai: api.IOpenAI;
+  inflight openai: IClient;
   
   new(props: OpenAIProps?) {
     this.apiKey = props?.apiKeySecret;
@@ -50,11 +65,19 @@ pub class OpenAI impl api.IOpenAI {
     if this.mock {
       this.openai = new Sim();
     } else {
-      this.openai = utils.createNewInflightClient(apiKey, org);
+      this.openai = OpenAI.createNewInflightClient(apiKey, org);
     }
   }
 
-  pub inflight createCompletion(prompt: str, params: api.CompletionParams?): str {
-    return this.openai.createCompletion(prompt, params);
+  pub inflight createCompletion(prompt: str, params: CompletionParams?): str {
+    let resp = this.openai.createCompletion({
+      max_tokens: params?.maxTokens ?? 2048,
+      model: params?.model ?? "gpt-3.5-turbo",
+      messages: [ { role: "user", content: prompt } ]
+    });
+
+    return resp.get("choices").getAt(0).get("message").get("content").asStr();
   }
+
+  extern "./openai.js" pub static inflight createNewInflightClient(apiKey: str, org: str?): IClient;
 }
