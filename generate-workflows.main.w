@@ -4,6 +4,7 @@ bring "./library.w" as l;
 bring "./mergify.w" as mergify;
 bring "./pr-lint.w" as prlint;
 bring "./stale.w" as stale;
+bring "./readme.w" as readme;
 
 let workflowdir = ".github/workflows";
 
@@ -22,6 +23,8 @@ for file in fs.readdir(".") {
   new l.Library(workflowdir, file) as file;
   libs.push(file);
 }
+
+readme.update(libs.copy());
 
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
