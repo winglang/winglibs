@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/simtools",
   "description": "Wing simulator utility library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -10,6 +10,11 @@
   "author": {
     "name": "Eyal Keren",
     "email": "eyalk@wing.cloud"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
   },
   "license": "MIT"
 }

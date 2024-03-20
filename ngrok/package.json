@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/ngrok",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ngrok library for Wing",
   "author": {
     "name": "Elad Ben-Israel",
@@ -10,6 +10,11 @@
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "ngrok"
+  },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
   },
   "license": "MIT",
   "dependencies": {

@@ -15,6 +15,11 @@ cat > $1/package.json <<HERE
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "$1"
   },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
   "license": "MIT"
 }
 HERE

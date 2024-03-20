@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/eventbridge",
   "description": "Amazon EventBridge library for Wing",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -11,6 +11,13 @@
   "author": {
     "email": "eladc@wing.cloud",
     "name": "Elad Cohen"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws",
+      "awscdk"
+    ]
   },
   "devDependencies": {
     "@cdktf/provider-aws": "^18.2.0",

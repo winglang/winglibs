@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/budget",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AWS Budget",
   "keywords": [
     "AWS",
@@ -19,6 +19,12 @@
   "peerDependencies": {
     "cdktf": "*",
     "winglang": "*"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
   },
   "devDependencies": {
     "@cdktf/provider-aws": "^19.7.0"
