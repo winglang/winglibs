@@ -25,17 +25,22 @@ jobs:
         run: npm install --include=dev
         working-directory: dynamodb
       - name: Test
-        run: wing test
+        run: |
+          for testfile in tests/*.test.w; do
+            wing test "$testfile"
+          done
         working-directory: dynamodb
       - name: Pack
         run: wing pack
         working-directory: dynamodb
       - name: Get package version
-        run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
+        run:
+          echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
           "$GITHUB_ENV"
         working-directory: dynamodb
       - name: Publish
-        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+        run:
+          npm publish --access=public --registry https://registry.npmjs.org --tag
           latest *.tgz
         working-directory: dynamodb
         env:
