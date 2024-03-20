@@ -86,7 +86,10 @@ jobs:
         run: npm install --include=dev
         working-directory: dynamodb
       - name: Test
-        run: wing test
+        run: |
+          for testfile in tests/*.test.w; do
+             wing test "$testfile"
+          done
         working-directory: dynamodb
   canary-eventbridge:
     name: Test eventbridge
