@@ -3,6 +3,12 @@ bring fs;
 pub class CanaryWorkflow {
   new(workflowdir: str, libs: Array<str>, skipLibs: Array<str>?) {
     let testLibSteps = (lib: str): Array<Json> => {
+      let var testCommand = "wing test";
+
+      if ( fs.exists("./{lib}/test.sh")) {
+        testCommand = fs.readFile("./{lib}/test.sh", { encoding: "utf-8" });
+      }
+
       return [
         {
           name: "Checkout",
@@ -30,7 +36,7 @@ pub class CanaryWorkflow {
         },
         {
           name: "Test",
-          run: "wing test",
+          run: testCommand,
           "working-directory": lib,
         },
       ];
