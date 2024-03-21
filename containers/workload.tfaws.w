@@ -4,7 +4,6 @@ bring "cdk8s-plus-27" as plus;
 bring "cdk8s" as cdk8s;
 bring "cdktf" as cdktf;
 bring "./tfaws-ecr.w" as ecr;
-bring "./utils.w" as utils;
 bring "@cdktf/provider-kubernetes" as k8s;
 bring "@cdktf/provider-helm" as helm;
 bring fs;
@@ -21,7 +20,7 @@ pub class Workload_tfaws {
 
     if this.isPath(props.image) {
       let hash = this.resolveContentHash(props) ?? props.image;
-      let appDir = utils.entrypointDir(this);
+      let appDir = nodeof(this).app.entrypointDir;
       let repository = new ecr.Repository(
         name: props.name,
         directory: appDir + "/" + props.image,

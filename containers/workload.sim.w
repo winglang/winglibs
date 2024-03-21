@@ -4,7 +4,6 @@ bring cloud;
 bring sim;
 bring ui;
 bring "./api.w" as api;
-bring "./utils.w" as utils;
 
 pub class Workload_sim {
   pub publicUrl: str?;
