@@ -78,7 +78,7 @@ pub class Check impl ICheck {
     }
 
     if props?.testing ?? true {
-      new std.Test(handler) as "test";
+      new std.Test(handler) as "{this.node.id}Test";
     }
 
     this.invoker = new cloud.Function(wrapper) as "run";
