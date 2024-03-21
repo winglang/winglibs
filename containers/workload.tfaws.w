@@ -7,6 +7,7 @@ bring "./tfaws-ecr.w" as ecr;
 bring "./utils.w" as utils;
 bring "@cdktf/provider-kubernetes" as k8s;
 bring "@cdktf/provider-helm" as helm;
+bring fs;
 
 pub class Workload_tfaws {
   pub internalUrl: str?;
@@ -18,8 +19,8 @@ pub class Workload_tfaws {
     let var image = props.image;
     let var deps = MutArray<cdktf.ITerraformDependable>[];
 
-    if utils.isPath(props.image) {
-      let hash = utils.resolveContentHash(this, props) ?? props.image;
+    if this.isPath(props.image) {
+      let hash = this.resolveContentHash(props) ?? props.image;
       let appDir = utils.entrypointDir(this);
       let repository = new ecr.Repository(
         name: props.name,
@@ -147,6 +148,18 @@ pub class Workload_tfaws {
       let hostname = ingress.status.get(0).loadBalancer.get(0).ingress.get(0).hostname;
       this.publicUrl = "http://{hostname}";
     }
+  }
+
+  isPath(s: str): bool {
+    return s.startsWith("/") || s.startsWith("./");
+  }
+  
+  resolveContentHash(props: api.WorkloadProps): str? {
+    if !this.isPath(props.image) {
+      return nil;
+    }
+
+    return props.sourceHash ?? fs.md5(props.image, props.sources);
   }
 }
 
