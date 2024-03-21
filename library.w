@@ -17,6 +17,12 @@ pub class Library {
     }
 
     let addCommonSteps = (steps: MutArray<Json>) => {
+      let var testCommand = "wing test";
+
+      if (fs.exists("./{libdir}/test.sh")) {
+        testCommand = fs.readFile("./{libdir}/test.sh", { encoding: "utf-8" });
+      }
+
       steps.push({
         name: "Checkout",
         uses: "actions/checkout@v3",
@@ -24,7 +30,7 @@ pub class Library {
           "sparse-checkout": libdir
         }
       });
-  
+
       steps.push({
         name: "Setup Node.js",
         uses: "actions/setup-node@v3",
@@ -33,21 +39,21 @@ pub class Library {
           "registry-url": "https://registry.npmjs.org",
         },
       });
-  
+
       steps.push({
         name: "Install winglang",
         run: "npm i -g winglang",
       });
-  
+
       steps.push({
         name: "Install dependencies",
         run: "npm install --include=dev",
         "working-directory": libdir,
       });
-  
+
       steps.push({
         name: "Test",
-        run: "wing test",
+        run: testCommand,
         "working-directory": libdir,
       });
 
@@ -56,7 +62,7 @@ pub class Library {
         run: "wing pack",
         "working-directory": libdir,
       });
-  
+
     };
 
     let releaseSteps = MutArray<Json>[];
@@ -108,7 +114,7 @@ pub class Library {
       "runs-on": "ubuntu-latest",
       steps: releaseSteps.copy(),
     });
-    fs.writeYaml("{workflowdir}/{base}-release.yaml", { 
+    fs.writeYaml("{workflowdir}/{base}-release.yaml", {
       name: "{base}-release",
       on: {
         push: {
