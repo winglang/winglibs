@@ -20,15 +20,12 @@
   "license": "MIT",
   "peerDependencies": {
     "cdktf": "*",
-    "winglang": "*"
-  },
-  "dependencies": {
+    "winglang": "*",
     "@cdktf/provider-aws": "^18.0.5",
     "@cdktf/provider-docker": "^10.0.0",
     "@cdktf/provider-helm": "^9.0.0",
     "@cdktf/provider-kubernetes": "^10.0.0",
     "@cdktf/provider-null": "^9.0.0",
-    "cdk8s-plus-27": "^2.7.33",
-    "glob": "^10.3.10"
+    "cdk8s-plus-27": "^2.7.33"
   }
 }

@@ -12,10 +12,9 @@ pub struct ContainerOpts {
   args: Array<str>?; // container arguments
 
   /** 
-   * A list of globs of local files to consider as input sources for the container.
-   * By default, the entire build context directory will be included.
+   * The glob to use in order to calculate the content hash (default: all files)
    */
-  sources: Array<str>?;
+  sources: str?;
 
   /**
    * a hash that represents the container source. if not set,
