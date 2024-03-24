@@ -72,7 +72,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
     };
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+  setStream(eventType: str, handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
     let consumer = new cloud.Function(inflight (eventStr) => {
       let event: DynamoDBStreamEvent = unsafeCast(eventStr);
       for record in event.Records {
@@ -96,7 +96,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           },
         });
       }
-    }) as "stream-function";
+    }) as "{eventType.lowercase()}-stream-function";
 
     if let lambda = aws.Function.from(consumer) {
       lambda.addPolicyStatements({
@@ -112,184 +112,47 @@ pub class Table_tfaws impl dynamodb_types.ITable {
         ],
       });
 
-      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-        {
-          eventSourceArn: this.table.streamArn,
-          functionName: lambda.functionName,
-          batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition ?? "LATEST",
-          // filterCriteria: unsafeCast(options?.filterCriteria),
-        },
-      ) as "stream-event-source";
+      if eventType == "ALL" {
+        new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+          {
+            eventSourceArn: this.table.streamArn,
+            functionName: lambda.functionName,
+            batchSize: options?.batchSize,
+            startingPosition: options?.startingPosition ?? "LATEST",
+          },
+        ) as "{eventType.lowercase()}-stream-event-source";        
+      } else {
+        new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+          {
+            eventSourceArn: this.table.streamArn,
+            functionName: lambda.functionName,
+            batchSize: options?.batchSize,
+            startingPosition: options?.startingPosition ?? "LATEST",
+            filterCriteria: {
+              filter: {
+                pattern: "\{\"eventName\":[\"{eventType}\"]\}"
+              }
+            },
+          },
+        ) as "{eventType.lowercase()}-stream-event-source";
+      }      
     }
+  }
+
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.setStream("ALL", handler, options);
   }
 
   pub onInsert(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
-    let consumer = new cloud.Function(inflight (eventStr) => {
-      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
-      for record in event.Records {
-        handler({
-          eventID: record.eventID,
-          eventName: record.eventName,
-          dynamodb: {
-            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
-            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
-              wrapNumbers: true,
-            }),
-            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
-              wrapNumbers: true,
-            }),
-            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
-              wrapNumbers: true,
-            }),
-            SequenceNumber: record.dynamodb.SequenceNumber,
-            SizeBytes: record.dynamodb.SizeBytes,
-            StreamViewType: record.dynamodb.StreamViewType,
-          },
-        });
-      }
-    }) as "insert-stream-function";
-
-    if let lambda = aws.Function.from(consumer) {
-      lambda.addPolicyStatements({
-        actions: [
-          "dynamodb:DescribeStream",
-          "dynamodb:GetRecords",
-          "dynamodb:GetShardIterator",
-          "dynamodb:ListStreams",
-        ],
-        effect: aws.Effect.ALLOW,
-        resources: [
-          this.table.streamArn,
-        ],
-      });
-
-      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-        {
-          eventSourceArn: this.table.streamArn,
-          functionName: lambda.functionName,
-          batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition ?? "LATEST",
-          filterCriteria: {
-            filter: {
-              pattern: "\{\"eventName\":[\"INSERT\"]\}"
-            }
-          },
-        },
-      ) as "insert-event-source";
-    }
+    this.setStream("INSERT", handler, options);
   }
 
   pub onUpdate(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
-    let consumer = new cloud.Function(inflight (eventStr) => {
-      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
-      for record in event.Records {
-        handler({
-          eventID: record.eventID,
-          eventName: record.eventName,
-          dynamodb: {
-            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
-            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
-              wrapNumbers: true,
-            }),
-            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
-              wrapNumbers: true,
-            }),
-            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
-              wrapNumbers: true,
-            }),
-            SequenceNumber: record.dynamodb.SequenceNumber,
-            SizeBytes: record.dynamodb.SizeBytes,
-            StreamViewType: record.dynamodb.StreamViewType,
-          },
-        });
-      }
-    }) as "modify-stream-function";
-
-    if let lambda = aws.Function.from(consumer) {
-      lambda.addPolicyStatements({
-        actions: [
-          "dynamodb:DescribeStream",
-          "dynamodb:GetRecords",
-          "dynamodb:GetShardIterator",
-          "dynamodb:ListStreams",
-        ],
-        effect: aws.Effect.ALLOW,
-        resources: [
-          this.table.streamArn,
-        ],
-      });
-
-      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-        {
-          eventSourceArn: this.table.streamArn,
-          functionName: lambda.functionName,
-          batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition ?? "LATEST",
-          filterCriteria: {
-            filter: {
-              pattern: "\{\"eventName\":[\"MODIFY\"]\}"
-            }
-          },
-        },
-      ) as "modify-event-source";
-    }
+    this.setStream("MODIFY", handler, options);
   }
 
   pub onDelete(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
-    let consumer = new cloud.Function(inflight (eventStr) => {
-      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
-      for record in event.Records {
-        handler({
-          eventID: record.eventID,
-          eventName: record.eventName,
-          dynamodb: {
-            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
-            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
-              wrapNumbers: true,
-            }),
-            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
-              wrapNumbers: true,
-            }),
-            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
-              wrapNumbers: true,
-            }),
-            SequenceNumber: record.dynamodb.SequenceNumber,
-            SizeBytes: record.dynamodb.SizeBytes,
-            StreamViewType: record.dynamodb.StreamViewType,
-          },
-        });
-      }
-    }) as "remove-stream-function";
-
-    if let lambda = aws.Function.from(consumer) {
-      lambda.addPolicyStatements({
-        actions: [
-          "dynamodb:DescribeStream",
-          "dynamodb:GetRecords",
-          "dynamodb:GetShardIterator",
-          "dynamodb:ListStreams",
-        ],
-        effect: aws.Effect.ALLOW,
-        resources: [
-          this.table.streamArn,
-        ],
-      });
-
-      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-        {
-          eventSourceArn: this.table.streamArn,
-          functionName: lambda.functionName,
-          batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition ?? "LATEST",
-          filterCriteria: {
-            filter: {
-              pattern: "\{\"eventName\":[\"REMOVE\"]\}"
-            }
-          },
-        },
-      ) as "remove-event-source";
-    }
+    this.setStream("REMOVE", handler, options);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
