@@ -96,7 +96,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           },
         });
       }
-    });
+    }) as "stream-function";
 
     if let lambda = aws.Function.from(consumer) {
       lambda.addPolicyStatements({
@@ -117,10 +117,178 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           eventSourceArn: this.table.streamArn,
           functionName: lambda.functionName,
           batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition,
+          startingPosition: options?.startingPosition ?? "LATEST",
           // filterCriteria: unsafeCast(options?.filterCriteria),
         },
-      );
+      ) as "stream-event-source";
+    }
+  }
+
+  pub onInsert(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    let consumer = new cloud.Function(inflight (eventStr) => {
+      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
+      for record in event.Records {
+        handler({
+          eventID: record.eventID,
+          eventName: record.eventName,
+          dynamodb: {
+            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
+            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
+              wrapNumbers: true,
+            }),
+            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
+              wrapNumbers: true,
+            }),
+            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
+              wrapNumbers: true,
+            }),
+            SequenceNumber: record.dynamodb.SequenceNumber,
+            SizeBytes: record.dynamodb.SizeBytes,
+            StreamViewType: record.dynamodb.StreamViewType,
+          },
+        });
+      }
+    }) as "insert-stream-function";
+
+    if let lambda = aws.Function.from(consumer) {
+      lambda.addPolicyStatements({
+        actions: [
+          "dynamodb:DescribeStream",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator",
+          "dynamodb:ListStreams",
+        ],
+        effect: aws.Effect.ALLOW,
+        resources: [
+          this.table.streamArn,
+        ],
+      });
+
+      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+        {
+          eventSourceArn: this.table.streamArn,
+          functionName: lambda.functionName,
+          batchSize: options?.batchSize,
+          startingPosition: options?.startingPosition ?? "LATEST",
+          filterCriteria: {
+            filter: {
+              pattern: "\{\"eventName\":[\"INSERT\"]\}"
+            }
+          },
+        },
+      ) as "insert-event-source";
+    }
+  }
+
+  pub onUpdate(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    let consumer = new cloud.Function(inflight (eventStr) => {
+      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
+      for record in event.Records {
+        handler({
+          eventID: record.eventID,
+          eventName: record.eventName,
+          dynamodb: {
+            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
+            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
+              wrapNumbers: true,
+            }),
+            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
+              wrapNumbers: true,
+            }),
+            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
+              wrapNumbers: true,
+            }),
+            SequenceNumber: record.dynamodb.SequenceNumber,
+            SizeBytes: record.dynamodb.SizeBytes,
+            StreamViewType: record.dynamodb.StreamViewType,
+          },
+        });
+      }
+    }) as "modify-stream-function";
+
+    if let lambda = aws.Function.from(consumer) {
+      lambda.addPolicyStatements({
+        actions: [
+          "dynamodb:DescribeStream",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator",
+          "dynamodb:ListStreams",
+        ],
+        effect: aws.Effect.ALLOW,
+        resources: [
+          this.table.streamArn,
+        ],
+      });
+
+      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+        {
+          eventSourceArn: this.table.streamArn,
+          functionName: lambda.functionName,
+          batchSize: options?.batchSize,
+          startingPosition: options?.startingPosition ?? "LATEST",
+          filterCriteria: {
+            filter: {
+              pattern: "\{\"eventName\":[\"MODIFY\"]\}"
+            }
+          },
+        },
+      ) as "modify-event-source";
+    }
+  }
+
+  pub onDelete(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    let consumer = new cloud.Function(inflight (eventStr) => {
+      let event: DynamoDBStreamEvent = unsafeCast(eventStr);
+      for record in event.Records {
+        handler({
+          eventID: record.eventID,
+          eventName: record.eventName,
+          dynamodb: {
+            ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
+            Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
+              wrapNumbers: true,
+            }),
+            NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
+              wrapNumbers: true,
+            }),
+            OldImage: Util.safeUnmarshall(record.dynamodb.OldImage, {
+              wrapNumbers: true,
+            }),
+            SequenceNumber: record.dynamodb.SequenceNumber,
+            SizeBytes: record.dynamodb.SizeBytes,
+            StreamViewType: record.dynamodb.StreamViewType,
+          },
+        });
+      }
+    }) as "remove-stream-function";
+
+    if let lambda = aws.Function.from(consumer) {
+      lambda.addPolicyStatements({
+        actions: [
+          "dynamodb:DescribeStream",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator",
+          "dynamodb:ListStreams",
+        ],
+        effect: aws.Effect.ALLOW,
+        resources: [
+          this.table.streamArn,
+        ],
+      });
+
+      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+        {
+          eventSourceArn: this.table.streamArn,
+          functionName: lambda.functionName,
+          batchSize: options?.batchSize,
+          startingPosition: options?.startingPosition ?? "LATEST",
+          filterCriteria: {
+            filter: {
+              pattern: "\{\"eventName\":[\"REMOVE\"]\}"
+            }
+          },
+        },
+      ) as "remove-event-source";
     }
   }
 
@@ -135,6 +303,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       }
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
+      }
+      if ops.contains("update") {
+        actions.push("dynamodb:UpdateItem");
       }
       if ops.contains("scan") {
         actions.push("dynamodb:Scan");
@@ -181,6 +352,10 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

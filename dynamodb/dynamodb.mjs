@@ -30,8 +30,10 @@ import * as streams from "@aws-sdk/client-dynamodb-streams";
  * @param {string} StreamArn
  * @param {(record: any) => void|Promise<void>} handler
  */
-const processStreamRecords = async (client, StreamArn, handler, options) => {
+const processStreamRecords = async (client, StreamArn, handler, eventType, options) => {
   const { StreamDescription } = await client.describeStream({ StreamArn });
+
+  const event = eventType == "ALL" ? undefined : eventType;
 
   for (const { ShardId } of StreamDescription.Shards) {
     const shardIteratorData = await client.getShardIterator({
@@ -48,35 +50,37 @@ const processStreamRecords = async (client, StreamArn, handler, options) => {
       });
 
       for (const record of recordsData.Records) {
-        try {
-          await handler({
-            eventId: record.eventID,
-            eventName: record.eventName,
-            dynamodb: {
-              ApproximateCreationDateTime:
-                record.dynamodb.ApproximateCreationDateTime,
-              Keys: record.dynamodb.Keys
-                ? unmarshall(record.dynamodb.Keys, {
+        if (!event || record.eventName == event) {
+          try {
+            await handler({
+              eventId: record.eventID,
+              eventName: record.eventName,
+              dynamodb: {
+                ApproximateCreationDateTime:
+                  record.dynamodb.ApproximateCreationDateTime,
+                Keys: record.dynamodb.Keys
+                  ? unmarshall(record.dynamodb.Keys, {
                     wrapNumbers: true,
                   })
-                : undefined,
-              NewImage: record.dynamodb.NewImage
-                ? unmarshall(record.dynamodb.NewImage, {
+                  : undefined,
+                NewImage: record.dynamodb.NewImage
+                  ? unmarshall(record.dynamodb.NewImage, {
                     wrapNumbers: true,
                   })
-                : undefined,
-              OldImage: record.dynamodb.OldImage
-                ? unmarshall(record.dynamodb.OldImage, {
+                  : undefined,
+                OldImage: record.dynamodb.OldImage
+                  ? unmarshall(record.dynamodb.OldImage, {
                     wrapNumbers: true,
                   })
-                : undefined,
-              SequenceNumber: record.dynamodb.SequenceNumber,
-              SizeBytes: record.dynamodb.SizeBytes,
-              StreamViewType: record.dynamodb.StreamViewType,
-            },
-          });
-        } catch (error) {
-          console.error("Error processing stream record:", error, record);
+                  : undefined,
+                SequenceNumber: record.dynamodb.SequenceNumber,
+                SizeBytes: record.dynamodb.SizeBytes,
+                StreamViewType: record.dynamodb.StreamViewType,
+              },
+            });
+          } catch (error) {
+            console.error("Error processing stream record:", error, record);
+          }
         }
       }
 
