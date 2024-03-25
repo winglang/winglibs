@@ -22,8 +22,10 @@ jobs:
         run: npm i -g winglang
       - name: Update config files
         run: wing compile generate-workflows.main.w
-      - name: Detect changes
-        run: git diff --exit-code
+      - name: Check for missing changes
+        run: git diff --exit-code || (echo 'Please run "wing compile
+          generate-workflows.main.w" and commit any changes to your branch.' &&
+          exit 1)
   validate:
     name: Validate PR title
     runs-on: ubuntu-latest

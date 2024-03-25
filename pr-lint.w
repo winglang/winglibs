@@ -34,7 +34,7 @@ pub class PullRequestLintWorkflow {
               "run": "wing compile generate-workflows.main.w",
             },
             {
-              "name": "Detect git diff, or raise error message",
+              "name": "Check for missing changes",
               "run": "git diff --exit-code || (echo 'Please run \"wing compile generate-workflows.main.w\" and commit any changes to your branch.' && exit 1)",
             },
           ],
