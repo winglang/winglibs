@@ -4,7 +4,6 @@ bring http;
 bring util;
 bring aws;
 bring "./lib.w" as l;
-bring simtools;
 
 let api = new cloud.Api();
 api.get("/hello", inflight (req) => {
