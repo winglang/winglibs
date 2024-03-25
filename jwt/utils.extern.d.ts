@@ -10,17 +10,6 @@ export interface IJwksSigningKey$Inflight {
 export interface IJwksClient$Inflight {
   readonly getSigningKey: (kid?: (string) | undefined) => Promise<IJwksSigningKey$Inflight>;
 }
-export interface SignOptions {
-  readonly algorithm?: (string) | undefined;
-  readonly audience?: ((readonly (string)[])) | undefined;
-  readonly encoding?: (string) | undefined;
-  readonly expiresIn?: (number) | undefined;
-  readonly issuer?: (string) | undefined;
-  readonly jwtid?: (string) | undefined;
-  readonly keyid?: (string) | undefined;
-  readonly notBefore?: (number) | undefined;
-  readonly subject?: (string) | undefined;
-}
 export interface JwtHeader {
   readonly alg?: (string) | undefined;
   readonly crit?: ((readonly (string)[])) | undefined;
@@ -45,6 +34,6 @@ export interface VerifyJwtOptions {
 }
 export interface IJwt$Inflight {
   readonly jwksClient: (options: IJwksClientOptions) => Promise<IJwksClient$Inflight>;
-  readonly sign: (data: Readonly<any>, secret: string, options?: (SignOptions) | undefined) => Promise<string>;
+  readonly sign: (data: Readonly<any>, secret: string, options?: (Readonly<any>) | undefined) => Promise<string>;
   readonly verify: (token: string, secret: (arg0: JwtHeader, arg1: (arg0: string, arg1: string) => Promise<void>) => Promise<void>, options?: (VerifyJwtOptions) | undefined) => Promise<Readonly<any>>;
 }

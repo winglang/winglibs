@@ -12,3 +12,27 @@ test "sign and verify" {
   let decoded2 = jwt.verify(token2, secret: "shhhhh", options: { algorithms: ["HS256"] });
   expect.equal(decoded2.get("foo").asStr(), id);
 }
+
+test "sign with notBefore" {
+  try {
+    let id = util.nanoid();
+    let token = jwt.sign({ foo: id }, "shhhhh", { notBefore: 50m });
+    let decoded1 = jwt.verify(token, secret: "shhhhh");
+    expect.equal("not-id", id);
+    log(Json.stringify(decoded1));
+  } catch e {
+    expect.equal(e, "jwt not active");
+  }
+}
+
+test "sign with expiresIn" {
+  try {
+    let id = util.nanoid();
+    let token = jwt.sign({ foo: id }, "shhhhh", { expiresIn: 0s });
+    let decoded1 = jwt.verify(token, secret: "shhhhh");
+    expect.equal("not-id", id);
+    log(Json.stringify(decoded1));
+  } catch e {
+    expect.equal(e, "jwt expired");
+  }
+}

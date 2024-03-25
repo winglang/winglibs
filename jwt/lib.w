@@ -19,10 +19,8 @@ pub struct VerifyOptions  {
 pub struct SignOptions {
   algorithm: str?;
   keyid: str?;
-  // expressed in seconds
-  expiresIn: num?;
-  // expressed in seconds
-  notBefore: num?;
+  expiresIn: duration?;
+  notBefore: duration?;
   audience: Array<str>?;
   subject: str?;
   issuer: str?;
@@ -56,7 +54,7 @@ interface IJwksClient {
 
 interface IJwt {
   inflight jwksClient(options: IJwksClientOptions): IJwksClient;
-  inflight sign(data: Json, secret: str, options: SignOptions?): str;
+  inflight sign(data: Json, secret: str, options: Json?): str;
   inflight verify(token: str, secret: inflight (JwtHeader, inflight (str, str): void): void, options: VerifyJwtOptions?): Json;
 }
 
@@ -66,7 +64,17 @@ class JwtUtil {
 
 pub class Util {
   pub inflight static sign(data: Json, secret: str, options: SignOptions?): str {
-    return JwtUtil._jwt().sign(data, secret, options);
+    let var opts: MutJson? = nil;
+    if let options = options {
+      opts = MutJson Json.parse(Json.stringify(options));
+      if let expiresIn = options.expiresIn {
+        opts?.set("expiresIn", expiresIn.seconds);
+      }
+      if let notBefore = options.notBefore {
+        opts?.set("notBefore", notBefore.seconds);
+      }
+    }
+    return JwtUtil._jwt().sign(data, secret, opts);
   }
 
   pub inflight static verify(token: str, options: VerifyOptions): Json {
