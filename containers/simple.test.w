@@ -1,6 +1,7 @@
 bring cloud;
 bring http;
 bring "./workload.w" as containers;
+bring expect;
 
 let app = new containers.Workload(
   name: "http-echo",
@@ -18,6 +19,6 @@ new cloud.Function(inflight () => {
 test "http get" {
   if let url = app.publicUrl {
     let response = http.get(url);
-    assert(response.body.contains("bang_bang"));
+    expect.equal("bang_bang\n", response.body);
   }
 }

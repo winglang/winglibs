@@ -41,6 +41,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cognito
+      - -check-pending=build-cognito
+      - -check-stale=build-cognito
       - -check-failure=build-containers
       - -check-pending=build-containers
       - -check-stale=build-containers
@@ -59,6 +62,9 @@ pull_request_rules:
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock
+      - -check-failure=build-messagefanout
+      - -check-pending=build-messagefanout
+      - -check-stale=build-messagefanout
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
@@ -107,6 +113,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cognito
+      - -check-pending=build-cognito
+      - -check-stale=build-cognito
       - -check-failure=build-containers
       - -check-pending=build-containers
       - -check-stale=build-containers
@@ -125,6 +134,9 @@ pull_request_rules:
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock
+      - -check-failure=build-messagefanout
+      - -check-pending=build-messagefanout
+      - -check-stale=build-messagefanout
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok

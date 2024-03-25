@@ -1,0 +1,21 @@
+{
+  "name": "@winglibs/cognito",
+  "version": "0.0.1",
+  "description": "A wing library to work with AWS Cognito",
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "cognito"
+  },
+  "dependencies": {
+    "@cdktf/provider-aws": "^19.6.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
+  }
+}
