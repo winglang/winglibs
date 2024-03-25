@@ -57,17 +57,17 @@ cat > $1/README.md <<HERE
 
 ## Installation
 
-``\`sh
+\`\`\`sh
 npm i @winglibs/$1
-``\`
+\`\`\`
 
 ## Usage
 
-``\`js
+\`\`\`js
 bring $1;
 
 let adder = new $1.Adder();
-``\`
+\`\`\`
 
 ## License
 
@@ -80,4 +80,4 @@ wing compile generate-workflows.main.w
 rm -fr target/
 
 cd $1
-wing test **/*.test.w
+wing test *.test.w
