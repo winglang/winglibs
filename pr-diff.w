@@ -5,10 +5,7 @@ pub class PullRequestDiffWorkflow {
     fs.writeYaml("{workflowdir}/pull-request-diff.yaml", {
       name: "Pull Request Diff",
       on: {
-        pull_request_target: {
-          types: ["opened", "synchronize", "reopened", "edited"],
-          "branches-ignore": ["mergify/merge-queue/*"],
-        },
+        pull_request: {}
       },
       "jobs": {
         "check-mutation": {
