@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/fifoqueue",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A wing library to work with FIFO (first-in first-out) Queues",
   "author": {
     "name": "Elad Cohen",
@@ -14,6 +14,12 @@
   "dependencies": {
     "@cdktf/provider-aws": "^18.0.5",
     "@aws-sdk/client-sqs": "^3.460.0"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
   },
   "peerDependencies": {
     "cdktf": "^0.19.1"

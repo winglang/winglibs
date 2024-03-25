@@ -8,11 +8,17 @@ mkdir $1
 cat > $1/package.json <<HERE
 {
   "name": "@winglibs/$1",
+  "description": "$1 library for Wing",
   "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "$1"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
   },
   "license": "MIT"
 }
@@ -51,17 +57,17 @@ cat > $1/README.md <<HERE
 
 ## Installation
 
-``\`sh
+\`\`\`sh
 npm i @winglibs/$1
-``\`
+\`\`\`
 
 ## Usage
 
-``\`js
+\`\`\`js
 bring $1;
 
 let adder = new $1.Adder();
-``\`
+\`\`\`
 
 ## License
 
@@ -74,4 +80,4 @@ wing compile generate-workflows.main.w
 rm -fr target/
 
 cd $1
-wing test **/*.test.w
+wing test *.test.w
