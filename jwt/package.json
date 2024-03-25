@@ -13,7 +13,7 @@
   },
   "wing": {
     "platforms": [
-      "sim"
+      "*"
     ]
   },
   "license": "MIT",
