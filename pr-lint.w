@@ -11,6 +11,34 @@ pub class PullRequestLintWorkflow {
         },
       },
       "jobs": {
+        "check-mutation": {
+          "name": "Check for mutations",
+          "runs-on": "ubuntu-latest",
+          "steps": [
+            {
+              "uses": "actions/checkout@v3",
+            },
+            {
+              "uses": "actions/setup-node@v3",
+              "with": {
+                "node-version": "20.x",
+                "registry-url": "https://registry.npmjs.org",
+              },
+            },
+            {
+              "name": "Install winglang",
+              "run": "npm i -g winglang",
+            },
+            {
+              "name": "Update config files",
+              "run": "wing compile generate-workflows.main.w",
+            },
+            {
+              "name": "Detect changes",
+              "run": "git diff --exit-code",
+            },
+          ],
+        },
         "validate": {
           "name": "Validate PR title",
           "runs-on": "ubuntu-latest",
