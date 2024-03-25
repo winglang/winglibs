@@ -86,6 +86,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-ssm
+      - -check-pending=build-ssm
+      - -check-stale=build-ssm
       - -check-failure=build-vite
       - -check-pending=build-vite
       - -check-stale=build-vite
@@ -161,6 +164,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-ssm
+      - -check-pending=build-ssm
+      - -check-stale=build-ssm
       - -check-failure=build-vite
       - -check-pending=build-vite
       - -check-stale=build-vite

@@ -23,7 +23,7 @@ pub class Parameter impl types.IParameter {
   }
 
   pub inflight value(): str {
-    return Parameter.fetchParameter(this.key).Value;
+    return AwsUtil.fetchParameter(this.key).Value;
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
@@ -37,6 +37,32 @@ pub class Parameter impl types.IParameter {
       }
     }
   }
-
-  extern "./aws.ts" pub static inflight fetchParameter(key: str): AwsParameter;
 }
+
+pub class ParameterRef impl types.IParameter {
+  arn: str;
+
+  new(props: types.ParameterRefProps) {
+    this.arn = props.arn;
+  }
+
+  pub inflight value(): str {
+    return AwsUtil.fetchParameter(this.arn).Value;
+  }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    if let host = aws.Function.from(host) {
+      if ops.contains("value") {
+        host.addPolicyStatements(aws.PolicyStatement {
+          actions: ["ssm:GetParameter"],
+          resources: [this.arn],
+          effect: aws.Effect.ALLOW,
+        });
+      }
+    }
+  }
+}
+
+class AwsUtil {
+  extern "./aws.ts" pub static inflight fetchParameter(key: str): AwsParameter;
+}  

@@ -8,3 +8,7 @@ pub struct ParameterProps {
   name: str;
   value: str;
 }
+
+pub struct ParameterRefProps {
+  arn: str;
+}

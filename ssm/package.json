@@ -15,5 +15,11 @@
   "peerDependencies": {
     "@aws-sdk/client-ssm": "^3.533.0",
     "@cdktf/provider-aws": "^19.9.0"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
   }
 }

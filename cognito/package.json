@@ -17,5 +17,11 @@
   "license": "MIT",
   "devDependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
   }
 }
