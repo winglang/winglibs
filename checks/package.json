@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/checks",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Cloud checks",
   "publishConfig": {
     "access": "public",
@@ -19,6 +19,11 @@
   "author": {
     "email": "eladb@wing.cloud",
     "name": "Elad Ben-Israel"
+  },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
   },
   "license": "MIT"
 }

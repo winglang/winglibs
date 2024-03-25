@@ -8,6 +8,36 @@ and that meet our community's quality bar.
 One of the cool things about trusted libraries is that we take care of building, testing and
 publishing them for you.
 
+<!-- WINGLIBS_TOC_START -->
+
+## Table of contents
+
+| Library | npm package | Platforms |
+| --- | --- | --- |
+| [bedrock](./bedrock) | [@winglibs/bedrock](https://www.npmjs.com/package/@winglibs/bedrock) | sim, tf-aws |
+| [budget](./budget) | [@winglibs/budget](https://www.npmjs.com/package/@winglibs/budget) | sim, tf-aws |
+| [checks](./checks) | [@winglibs/checks](https://www.npmjs.com/package/@winglibs/checks) | * |
+| [cognito](./cognito) | [@winglibs/cognito](https://www.npmjs.com/package/@winglibs/cognito) | sim, tf-aws |
+| [containers](./containers) | [@winglibs/containers](https://www.npmjs.com/package/@winglibs/containers) | sim, tf-aws |
+| [dynamodb](./dynamodb) | [@winglibs/dynamodb](https://www.npmjs.com/package/@winglibs/dynamodb) | sim, tf-aws |
+| [eventbridge](./eventbridge) | [@winglibs/eventbridge](https://www.npmjs.com/package/@winglibs/eventbridge) | awscdk, sim, tf-aws |
+| [fifoqueue](./fifoqueue) | [@winglibs/fifoqueue](https://www.npmjs.com/package/@winglibs/fifoqueue) | sim, tf-aws |
+| [github](./github) | [@winglibs/github](https://www.npmjs.com/package/@winglibs/github) | * |
+| [lock](./lock) | [@winglibs/lock](https://www.npmjs.com/package/@winglibs/lock) | * |
+| [messagefanout](./messagefanout) | [@winglibs/messagefanout](https://www.npmjs.com/package/@winglibs/messagefanout) |  |
+| [ngrok](./ngrok) | [@winglibs/ngrok](https://www.npmjs.com/package/@winglibs/ngrok) | * |
+| [openai](./openai) | [@winglibs/openai](https://www.npmjs.com/package/@winglibs/openai) | * |
+| [postgres](./postgres) | [@winglibs/postgres](https://www.npmjs.com/package/@winglibs/postgres) | sim, tf-aws |
+| [redis](./redis) | [@winglibs/redis](https://www.npmjs.com/package/@winglibs/redis) | sim |
+| [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
+| [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
+| [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
+| [websockets](./websockets) | [@winglibs/websockets](https://www.npmjs.com/package/@winglibs/websockets) | awscdk, sim, tf-aws |
+
+_Generated with `wing compile generate-workflows.w`._
+
+<!-- WINGLIBS_TOC_END -->
+
 ## How do I add a new library?
 
 It's so damn easy.
@@ -15,7 +45,13 @@ It's so damn easy.
 Clone this repository:
 
 ```sh
-git clone git@github.com:winglang/winglibs
+git clone https://github.com/winglang/winglibs.git
+```
+
+Change to the `winglibs` directory:
+
+```sh
+cd winglibs
 ```
 
 Use the fabulous `mklib.sh` script to scaffold your library:
@@ -74,6 +110,24 @@ bring my-awesome-lib
 ## Writing Wing Libraries
 
 See [docs](https://www.winglang.io/docs/libraries#creating-a-wing-library).
+
+Please note that it refers to writing libraries that are not published here, so it includes instructions for things that you get here automatically when using the `mklib.sh` script to scaffold your library.
+
+To specify the platforms your library supports, you can add a `wing.platforms` field to your `package.json`:
+
+```json
+{
+  "name": "@winglibs/my-awesome-lib",
+  "version": "0.0.1",
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  }
+}
+```
+
 ## License
 
 This repository is licensed under the [MIT License](./LICENSE), unless otherwise specified in a

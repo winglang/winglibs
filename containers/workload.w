@@ -2,7 +2,6 @@ bring util;
 bring "./workload.sim.w" as sim;
 bring "./workload.tfaws.w" as tfaws;
 bring "./api.w" as api;
-bring "./utils.w" as utils;
 
 bring http;
 

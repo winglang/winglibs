@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/redis",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Redis resource for Wing",
   "repository": {
     "type": "git",
@@ -11,9 +11,14 @@
     "email": "subhodiproy281@gmail.com",
     "name": "Subhodip Roy"
   },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
   "license": "MIT",
   "dependencies": {
-    "@winglibs/containers": "^0.0.18",
+    "@winglibs/containers": "^0.0.22",
     "redis": "^4.6.11"
   }
 }
