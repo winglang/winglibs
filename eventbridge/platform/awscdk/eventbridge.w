@@ -12,7 +12,7 @@ pub class Bus impl types.IBus {
   new(props: types.BusProps) {
     let app = nodeof(this).app;
     // TODO: use typed properties when its available
-    if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
+    if let eventBridgeName = app.parameters.value("eventBridgeName") {
       this.eventBridge = cdk.aws_events.EventBus.fromEventBusName(this, "EventBridge", eventBridgeName);
     } else {
       this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props.name) as "EventBridge";
