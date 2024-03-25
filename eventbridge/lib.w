@@ -11,7 +11,7 @@ bring "./platform/awscdk" as awscdk;
 pub class Bus impl types.IBus {
   inner: types.IBus;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       this.inner = new sim.Bus(props) as "sim";
@@ -24,12 +24,12 @@ pub class Bus impl types.IBus {
     }
   }
 
-  pub inflight putEvents(events: Array<types.PublishEvent>): void {
+  pub inflight putEvents(...events: Array<types.PublishEvent>): void {
     this.inner.putEvents(events);
   }
 
-  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
-    this.inner.subscribeFunction(name, handler, pattern);
+  pub onEvent(name: str, handler: inflight (types.Event): void, pattern: Json): void {
+    this.inner.onEvent(name, handler, pattern);
   }
   pub subscribeQueue(name: str, queue: cloud.Queue, pattern: Json): void {
     this.inner.subscribeQueue(name, queue, pattern);
