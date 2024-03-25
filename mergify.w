@@ -4,6 +4,7 @@ pub class MergifyWorkflow {
   new(libs: Array<str>) {
     let buildChecks = MutArray<Json>[];
     buildChecks.push("check-success=Validate PR title");
+    buildChecks.push("check-success=Check for mutations");
     for lib in libs {
       buildChecks.push("-check-failure=build-{lib}");
       buildChecks.push("-check-pending=build-{lib}");
@@ -45,7 +46,6 @@ pub class MergifyWorkflow {
             "#changes-requested-reviews-by=0",
             "#review-threads-unresolved=0",
             "-approved-reviews-by~=author",
-            "check-success=Validate PR title",
             "base=main",
           ].concat(buildChecks.copy())
         },
