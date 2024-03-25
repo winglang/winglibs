@@ -1,5 +1,6 @@
 bring "./workload.w" as containers;
 bring http;
+bring expect;
 
 let app = new containers.Workload(
   name: "my-app",
@@ -9,6 +10,6 @@ let app = new containers.Workload(
 );
 
 test "can access container" {
-  let response = http.get("{app.publicUrl}");
-  assert(response.body == "Hello, Wingnuts!");
+  let response = http.get("{app.publicUrl!}");
+  expect.equal(response.body, "Hello, Wingnuts!");
 }

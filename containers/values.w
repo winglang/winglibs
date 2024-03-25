@@ -1,6 +1,5 @@
 bring util;
 bring fs;
-bring "./utils.w" as utils;
 
 pub class Values {
   pub static all(): Map<str> {

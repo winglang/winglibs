@@ -1,12 +1,15 @@
 bring "./tfaws-ecr.w" as ecr;
-bring "./utils.w" as utils;
 bring util;
+
+class Extern {
+  pub static extern "./utils.js" dirname(): str;
+}
 
 if util.env("WING_TARGET") == "tf-aws" {
   new ecr.Repository(
     name: "my-repository",
-    directory: utils.dirname() + "/test/my-app",
+    directory: Extern.dirname() + "/test/my-app",
     tag: "tag1"
-  );  
+  );
 }
 

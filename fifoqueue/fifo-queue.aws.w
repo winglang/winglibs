@@ -39,22 +39,24 @@ pub class FifoQueue_aws impl api.IFifoQueue {
     }, env: options?.env, logRetentionDays: options?.logRetentionDays, memory: options?.memory, timeout: options?.timeout);
 
     let lambda = awsUtil.Function.from(lambdaFn);
-    lambda?.addPolicyStatements({
-      actions: [
-        "sqs:ReceiveMessage",
-        "sqs:ChangeMessageVisibility",
-        "sqs:GetQueueUrl",
-        "sqs:DeleteMessage",
-        "sqs:GetQueueAttributes",
-      ],
-      resources: [this.arn],
-    });
-
-    new aws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-      functionName: "{lambda?.functionName}",
-      eventSourceArn: this.arn,
-      batchSize: options?.batchSize ?? 1
-    );
+    if let lambda = lambda {
+      lambda?.addPolicyStatements({
+        actions: [
+          "sqs:ReceiveMessage",
+          "sqs:ChangeMessageVisibility",
+          "sqs:GetQueueUrl",
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes",
+        ],
+        resources: [this.arn],
+      });
+  
+      new aws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+        functionName: lambda.functionName,
+        eventSourceArn: this.arn,
+        batchSize: options?.batchSize ?? 1
+      );
+    }
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {

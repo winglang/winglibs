@@ -2,157 +2,73 @@ bring http;
 bring util;
 bring cloud;
 bring sim;
+bring ui;
 bring "./api.w" as api;
-bring "./utils.w" as utils;
 
 pub class Workload_sim {
-  publicUrlKey: str?;
-  internalUrlKey: str?;
-  containerIdKey: str;
-
   pub publicUrl: str?;
   pub internalUrl: str?;
 
-  props: api.WorkloadProps;
-  appDir: str;
-  imageTag: str;
-  public: bool;
-  state: sim.State;
-  
   new(props: api.WorkloadProps) {
-    this.appDir = utils.entrypointDir(this);
-    this.props = props;
-    this.state = new sim.State();
-    this.containerIdKey = "container_id";
+    let state = new sim.State();
+    nodeof(state).hidden = true;
 
-    let hash = utils.resolveContentHash(this, props);
-    if hash? {
-      this.imageTag = "{props.name}:{hash}";
-    } else {
-      this.imageTag = props.image;
-    }
+    let publicUrlKey = "public_url";
+    let internalUrlKey = "internal_url";
 
-    this.public = props.public ?? false;
+    let c = new sim.Container(
+      name: props.name,
+      image: props.image,
+      args: props.args,
+      containerPort: props.port,
+      env: this.toEnv(props.env),
+      sourceHash: props.sourceHash,
+      sourcePattern: props.sources,
+    );
 
-    if this.public {
-      if !props.port? {
-        throw "'port' is required if 'public' is enabled";
-      }
+    nodeof(c).hidden = true;
 
-      let key = "public_url";
-      this.publicUrl = this.state.token(key);
-      this.publicUrlKey = key;
-    }
+    if props.port != nil {
+      this.publicUrl = state.token(publicUrlKey);
+      this.internalUrl = state.token(internalUrlKey);
 
-    if props.port? {
-      let key = "internal_url";
-      this.internalUrl = this.state.token(key);
-      this.internalUrlKey = key;
-    }
+      new ui.Field("url", inflight () => {
+        return this.publicUrl!;
+      });
 
-    let s = new cloud.Service(inflight () => {
-      this.start();
-      return () => { this.stop(); };
-    });
+      let s1 = new cloud.Service(inflight () => {
+        state.set(publicUrlKey, "http://localhost:{c.hostPort!}");
+        state.set(internalUrlKey, "http://host.docker.internal:{c.hostPort!}");
+      }) as "urls";
 
-    std.Node.of(s).hidden = true;
-    std.Node.of(this.state).hidden = true;
-  }
-
-  inflight start(): void {
-    log("starting workload...");
-
-    let opts = this.props;
-
-    // if this a reference to a local directory, build the image from a docker file
-    if utils.isPathInflight(opts.image) {
-      // check if the image is already built
-      try {
-        utils.shell("docker", ["inspect", this.imageTag]);
-        log("image {this.imageTag} already exists");
-      } catch {
-        log("building locally from {opts.image} and tagging {this.imageTag}...");
-        utils.shell("docker", ["build", "-t", this.imageTag, opts.image], this.appDir);
-      }
-    } else {
-      try {
-        utils.shell("docker", ["inspect", this.imageTag]);
-        log("image {this.imageTag} already exists");
-      } catch {
-        log("pulling {this.imageTag}");
-        utils.shell("docker", ["pull", this.imageTag]);
-      }
-    }
-
-    // start the new container
-    let dockerRun = MutArray<str>[];
-    dockerRun.push("run");
-    dockerRun.push("--detach");
-
-    if let port = opts.port {
-      dockerRun.push("-p");
-      dockerRun.push("{port}");
-    }
-
-    if let env = opts.env {
-      if env.size() > 0 {
-        dockerRun.push("-e");
-        for k in env.keys() {
-          dockerRun.push("{k}={env.get(k)}");
+      let s2 = new cloud.Service(inflight () => {
+        if let readiness = props.readiness {
+          let readinessUrl = "{this.publicUrl!}{readiness}";
+          log("waiting for container to be ready: {readinessUrl}...");
+          util.waitUntil(inflight () => {
+            try {
+              return http.get(readinessUrl).ok;
+            } catch {
+              return false;
+            }
+          }, interval: 0.1s);
         }
-      }
-    }
+      }) as "readiness";
 
-    dockerRun.push(this.imageTag);
-
-    if let runArgs = this.props.args {
-      for a in runArgs {
-        dockerRun.push(a);
-      }
-    }
-
-    log("starting container from image {this.imageTag}");
-    log("docker {dockerRun.join(" ")}");
-    let containerId = utils.shell("docker", dockerRun.copy()).trim();
-    this.state.set(this.containerIdKey, containerId);
-
-    log("containerId={containerId}");
-
-    let out = Json.parse(utils.shell("docker", ["inspect", containerId]));
-
-    if let port = opts.port {
-      let hostPort = out.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
-      if !hostPort? {
-        throw "Container does not listen to port {port}";
-      }
-
-      let publicUrl = "http://localhost:{hostPort}";
-
-      if let k = this.publicUrlKey {
-        this.state.set(k, publicUrl);
-      }
-
-      if let k = this.internalUrlKey {
-        this.state.set(k, "http://host.docker.internal:{hostPort}");
-      }
-
-      if let readiness = opts.readiness {
-        let readinessUrl = "{publicUrl}{readiness}";
-        log("waiting for container to be ready: {readinessUrl}...");
-        util.waitUntil(inflight () => {
-          try {
-            return http.get(readinessUrl).ok;
-          } catch {
-            return false;
-          }
-        }, interval: 0.1s);
-      }
+      nodeof(s1).hidden = true;
+      nodeof(s2).hidden = true;
     }
   }
 
-  inflight stop() {
-    let containerId = this.state.get(this.containerIdKey).asStr();
-    log("stopping container {containerId}");
-    utils.shell("docker", ["rm", "-f", containerId]);
+  toEnv(input: Map<str?>?): Map<str> {
+    let env = MutMap<str>{};
+    let i = input ?? {};
+    for e in i.entries() {
+      if e.value != nil {
+        env.set(e.key, e.value!);
+      }
+    }
+
+    return env.copy();
   }
 }
