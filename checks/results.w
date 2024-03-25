@@ -56,7 +56,10 @@ pub class Results {
   pub inflight latest(checkid: str): CheckResult? {
     let key = this.makeLatestKey(checkid);
     let s = this.bucket.tryGetJson(key);
-    return CheckResult.fromJson(s);
+    if let s = s {
+      return CheckResult.fromJson(s);
+    }
+    return nil;
   }
 
   inflight makeKey(checkid: str, key: str): str {
