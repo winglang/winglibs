@@ -1,29 +1,29 @@
 bring cloud;
-bring ex;
+bring dynamodb;
 bring util;
 bring "./lib.w" as websockets;
 
-let tb = new ex.DynamodbTable(
+let tb = new dynamodb.Table(
   name: "WebSocketTable",
   hashKey: "connectionId",
-  attributeDefinitions: {
-    "connectionId": "S",
-  },
+  attributes: [{
+    name: "connectionId", type: "S",
+  }],
 );
 
 let wb = new websockets.WebSocket(name: "MyWebSocket") as "my-websocket";
 
 wb.onConnect(inflight(id: str): void => {
-  tb.putItem({
-    item: {
+  tb.put({
+    Item: {
       "connectionId": id
     }
   });
 });
 
 wb.onDisconnect(inflight(id: str): void => {
-  tb.deleteItem({
-    key: {
+  tb.delete({
+    Key: {
       "connectionId": id
     }
   });
@@ -31,7 +31,7 @@ wb.onDisconnect(inflight(id: str): void => {
 
 wb.onMessage(inflight (id: str, body: str): void => {
   let connections = tb.scan();
-  for item in connections.items {
+  for item in connections.Items {
     wb.sendMessage(str.fromJson(item.get("connectionId")), body);
   }
 });
