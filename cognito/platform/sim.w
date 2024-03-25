@@ -6,7 +6,7 @@ bring "@cdktf/provider-aws" as aws;
 bring "../types.w" as types;
 
 struct Route {
-  path: str;
+  pathPattern: str;
   method: str;
 }
 
@@ -109,7 +109,7 @@ pub class Cognito impl types.ICognito {
       let handler = entry.value;
       let func: cloud.Function = handler.func;
       let route = handler.mapping.eventProps.subscriptionProps.routes.at(0);
-      if route.path == path && route.method == method.uppercase() {
+      if route.pathPattern == path && route.method == method.uppercase() {
         let pathJson = MutJson api.apiSpec.get("paths").get(path);
         pathJson.set(method, unsafeCast(nil));
 
