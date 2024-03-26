@@ -1,5 +1,6 @@
 bring aws;
 bring util;
+bring ui;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb.sim.w" as dynamodb_sim;
 bring "./dynamodb.tf-aws.w" as dynamodb_tfaws;
@@ -17,16 +18,20 @@ pub class Table impl dynamodb_types.ITable {
       this.connection = sim.connection;
       this.tableName = sim.tableName;
       this.implementation = sim;
-
+      nodeof(sim).hidden = true;
     } elif target == "tf-aws" {
       let tfaws = new dynamodb_tfaws.Table_tfaws(props);
       this.connection = tfaws.connection;
       this.tableName = tfaws.tableName;
       this.implementation = tfaws;
+      nodeof(tfaws).hidden = true;
     } else {
       throw "Unsupported target {target}";
     }
 
+    new ui.Field("Table Name", inflight () => {
+      return this.tableName;
+    });
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
