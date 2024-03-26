@@ -13,7 +13,7 @@
   },
   "files": [
     "*.w",
-    "*.mjs"
+    "*.ts"
   ],
   "wing": {
     "platforms": [

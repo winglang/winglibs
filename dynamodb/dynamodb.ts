@@ -100,9 +100,9 @@ const processRecords = async (endpoint, tableName, handler, options) => {
     try {
       const { Streams } = await client.listStreams({ TableName: tableName });
       await Promise.all(
-        Streams.map(({ StreamArn }) =>
+        Streams?.map(({ StreamArn }) =>
           processStreamRecords(client, StreamArn, handler, options)
-        )
+        ) ?? []
       );
     } catch (error) {
       if (error.message.includes("ECONNREFUSED")) {

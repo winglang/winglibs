@@ -17,9 +17,9 @@ struct CreateClientOptions {
 }
 
 class Util {
-  extern "./dynamodb.mjs" pub static inflight getPort(): num;
-  extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
-  extern "./dynamodb.mjs" pub static inflight processRecordsAsync(
+  extern "./dynamodb.ts" pub static inflight getPort(): num;
+  extern "./dynamodb.ts" pub static inflight createClient(options: CreateClientOptions): Client;
+  extern "./dynamodb.ts" pub static inflight processRecordsAsync(
     endpoint: str,
     tableName: str,
     handler: inflight (dynamodb_types.StreamRecord): void,

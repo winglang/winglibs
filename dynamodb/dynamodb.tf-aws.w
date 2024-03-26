@@ -26,7 +26,7 @@ struct DynamoDBStreamEvent {
 }
 
 class Util {
-  extern "./dynamodb.mjs" pub inflight static unmarshall(
+  extern "./dynamodb.ts" pub inflight static unmarshall(
     item: Json,
     options: Json?,
   ): Json;
