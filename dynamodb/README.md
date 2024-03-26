@@ -51,9 +51,16 @@ test "put and query" {
 In case you want to instantiate your own DynamoDB SDK, you can get the connection details like this:
 
 ```wing
-let connection = table.connection();
-connection.endpoint;
-connection.tableName;
+table.connection.clientConfig.endpoint;
+table.connection.clientConfig.credentials;
+table.connection.clientConfig.region;
+table.connection.tableName;
+```
+
+So you can use the AWS SDK DynamoDB client like this:
+
+```js
+new DynamoDB(table.connection.clientConfig);
 ```
 
 ## License
