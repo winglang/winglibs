@@ -28,7 +28,6 @@
     "@aws-sdk/lib-dynamodb": "^3.462.0",
     "@aws-sdk/util-dynamodb": "^3.529.1",
     "@cdktf/provider-aws": "^19.9.0",
-    "@winglibs/containers": "^0.0.22",
     "get-port": "^7.0.0"
   },
   "devDependencies": {
