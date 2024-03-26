@@ -1,6 +1,9 @@
 export default interface extern {
   _jwt: () => Promise<IJwt$Inflight>,
 }
+export interface DecodeOptions {
+  readonly complete?: (boolean) | undefined;
+}
 export interface IJwksClientOptions {
   readonly jwksUri: string;
 }
@@ -33,6 +36,7 @@ export interface VerifyJwtOptions {
   readonly subject?: (string) | undefined;
 }
 export interface IJwt$Inflight {
+  readonly decode: (token: string, options?: (DecodeOptions) | undefined) => Promise<Readonly<any>>;
   readonly jwksClient: (options: IJwksClientOptions) => Promise<IJwksClient$Inflight>;
   readonly sign: (data: Readonly<any>, secret: string, options?: (Readonly<any>) | undefined) => Promise<string>;
   readonly verify: (token: string, secret: (arg0: JwtHeader, arg1: (arg0: string, arg1: string) => Promise<void>) => Promise<void>, options?: (VerifyJwtOptions) | undefined) => Promise<Readonly<any>>;
