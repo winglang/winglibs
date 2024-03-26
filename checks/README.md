@@ -143,6 +143,10 @@ let allResults = resultsBucket.list();
 - [ ] REST API for querying/executing checks
 - [ ] Console UI
 
+## Maintainers
+- [Elad Ben-Israel](https://github.com/eladb) 
+- [Subhodip Roy](https://github.com/subh-cs)
+
 ## License
 
 Licensed under the [MIT License](./LICENSE).

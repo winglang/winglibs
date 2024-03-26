@@ -3,6 +3,7 @@ bring http;
 bring cloud;
 bring expect;
 
+let checkName = "Test";
 let api = new cloud.Api();
 let s = new cloud.Bucket() as "customize";
 let responseKey = "response.json";
@@ -27,7 +28,7 @@ let check = new c.Check(inflight () => {
 
   log(response.body);
   expect.equal(response.body, "/foo"); // body is expected to be the path
-}, deploy: false);
+}, deploy: false) as checkName;
 
 test "run() with success" {
   let result = check.run();
@@ -55,4 +56,8 @@ test "run() with failure" {
   assert(!result.ok);
   expect.equal(result.error, "response status 404");
   expect.equal(check.latest()?.ok, false);
+}
+
+test "check name is set" {
+  expect.equal("check {check.node.id}", "check {checkName}");
 }
