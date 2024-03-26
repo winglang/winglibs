@@ -7,19 +7,26 @@ bring "./dynamodb.tf-aws.w" as dynamodb_tfaws;
 pub class Table impl dynamodb_types.ITable {
   implementation: dynamodb_types.ITable;
 
+  pub connection: dynamodb_types.Connection;
+  pub tableName: str;
+
   new(props: dynamodb_types.TableProps) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.implementation = new dynamodb_sim.Table_sim(props);
+      let sim = new dynamodb_sim.Table_sim(props);
+      this.connection = sim.connection;
+      this.tableName = sim.tableName;
+      this.implementation = sim;
+
     } elif target == "tf-aws" {
-      this.implementation = new dynamodb_tfaws.Table_tfaws(props);
+      let tfaws = new dynamodb_tfaws.Table_tfaws(props);
+      this.connection = tfaws.connection;
+      this.tableName = tfaws.tableName;
+      this.implementation = tfaws;
     } else {
       throw "Unsupported target {target}";
     }
-  }
 
-  pub connection(): dynamodb_types.Connection {
-    return this.implementation.connection();
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {

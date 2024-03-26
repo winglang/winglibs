@@ -181,9 +181,20 @@ pub struct TableProps {
   pointInTimeRecovery: bool?;
 }
 
+pub struct Credentials {
+  accessKeyId: str;
+  secretAccessKey: str;
+}
+
+pub struct ClientConfig {
+  endpoint: str;
+  region: str;
+  credentials: Credentials;
+}
+
 pub struct Connection {
-  endpoint: str?;
   tableName: str;
+  clientConfig: ClientConfig?;
 }
 
 pub interface IClient {
@@ -196,6 +207,5 @@ pub interface IClient {
 }
 
 pub interface ITable extends IClient {
-  connection(): Connection;
   setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
 }

@@ -10,15 +10,9 @@ interface Client {
   inflight updateTimeToLive(input: Json): Json;
 }
 
-struct CreateClientOptions {
-  endpoint: str;
-  region: str;
-  credentials: Json;
-}
-
 class Util {
   extern "./dynamodb.mjs" pub static inflight getPort(): num;
-  extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
+  extern "./dynamodb.mjs" pub static inflight createClient(options: dynamodb_types.ClientConfig): Client;
   extern "./dynamodb.mjs" pub static inflight processRecordsAsync(
     endpoint: str,
     tableName: str,
@@ -52,7 +46,8 @@ class Host {
 
 pub class Table_sim impl dynamodb_types.ITable {
   host: Host;
-  tableName: str;
+  pub tableName: str;
+  pub connection: dynamodb_types.Connection;
 
   new(props: dynamodb_types.TableProps) {
     this.host = Host.of(this);
@@ -61,15 +56,22 @@ pub class Table_sim impl dynamodb_types.ITable {
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
+    let clientConfig = {
+      endpoint: this.host.endpoint,
+      region: "local",
+      credentials: {
+        accessKeyId: "local",
+        secretAccessKey: "local",
+      },
+    };
+
+    this.connection = {
+      tableName: tableName,
+      clientConfig: clientConfig
+    };
+
     new cloud.Service(inflight () => {
-      let client = Util.createClient({
-        endpoint: this.host.endpoint,
-        region: "local",
-        credentials: {
-          accessKeyId: "local",
-          secretAccessKey: "local",
-        },
-      });
+      let client = Util.createClient(clientConfig);
 
       let attributeDefinitions = MutArray<Json> [];
       for attributeDefinition in props.attributes {
@@ -162,13 +164,6 @@ pub class Table_sim impl dynamodb_types.ITable {
         }
       });
     });
-  }
-
-  pub connection(): dynamodb_types.Connection {
-    return {
-      endpoint: this.host.endpoint,
-      tableName: this.tableName,
-    };
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
