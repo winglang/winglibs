@@ -3,6 +3,7 @@ bring "./canary.w" as canary;
 bring "./library.w" as l;
 bring "./mergify.w" as mergify;
 bring "./pr-lint.w" as prlint;
+bring "./pr-diff.w" as prdiff;
 bring "./stale.w" as stale;
 bring "./readme.w" as readme;
 
@@ -28,6 +29,7 @@ readme.update(libs.copy());
 
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
+new prdiff.PullRequestDiffWorkflow(workflowdir);
 new prlint.PullRequestLintWorkflow(workflowdir);
 
 let skipCanaryTests = [

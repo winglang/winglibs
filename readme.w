@@ -17,8 +17,6 @@ pub class Util {
 
     let newLines = Util.arraySlice(lines, 0, start + 1);
     newLines.push("");
-    newLines.push("## Table of contents");
-    newLines.push("");
     newLines.push("| Library | npm package | Platforms |");
     newLines.push("| --- | --- | --- |");
     for lib in libraries {
@@ -27,12 +25,15 @@ pub class Util {
       let pkgJson = fs.readFile("{lib}/package.json");
       let pkg = Json.parse(pkgJson);
       let platforms: MutArray<str> = unsafeCast(pkg.tryGet("wing")?.tryGet("platforms")) ?? [];
+      if platforms.length == 0 {
+        throw "\"{lib}\" winglib does not have a `wing.platforms` field in its package.json.";
+      }
       Util.arraySort(platforms);
       line += " | " + platforms.join(", ") + " |";
       newLines.push(line);
     }
     newLines.push("");
-    newLines.push("_Generated with `wing compile generate-workflows.w`._");
+    newLines.push("_Generated with `wing compile generate-workflows.w`. To update the list of supported platforms for a winglib, please update the \"wing\" section in its package.json file._");
     newLines.push("");
     let finalLines = newLines.concat(Util.arraySlice(lines, end, lines.length));
 

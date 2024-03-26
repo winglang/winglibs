@@ -5,11 +5,11 @@ bring "./bus.w" as bus;
 pub class Bus impl types.IBus {
   bus: bus.EventBridgeBus;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     this.bus = new bus.EventBridgeBus(props);
   }
 
-  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
+  pub onEvent(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     class FnRule {
       new(bus: bus.EventBridgeBus) {
         let onMessageHandler = bus.subscribe(inflight (event) => {
