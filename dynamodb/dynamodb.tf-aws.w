@@ -72,7 +72,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
     };
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+  setStream(eventType: str, handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
     let consumer = new cloud.Function(inflight (eventStr) => {
       let event: DynamoDBStreamEvent = unsafeCast(eventStr);
       for record in event.Records {
@@ -96,7 +96,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           },
         });
       }
-    });
+    }) as "{eventType.lowercase()}-stream-function";
 
     if let lambda = aws.Function.from(consumer) {
       lambda.addPolicyStatements({
@@ -112,16 +112,47 @@ pub class Table_tfaws impl dynamodb_types.ITable {
         ],
       });
 
-      new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
-        {
-          eventSourceArn: this.table.streamArn,
-          functionName: lambda.functionName,
-          batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition,
-          // filterCriteria: unsafeCast(options?.filterCriteria),
-        },
-      );
+      if eventType == "ALL" {
+        new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+          {
+            eventSourceArn: this.table.streamArn,
+            functionName: lambda.functionName,
+            batchSize: options?.batchSize,
+            startingPosition: options?.startingPosition ?? "LATEST",
+          },
+        ) as "{eventType.lowercase()}-stream-event-source";        
+      } else {
+        new tfaws.lambdaEventSourceMapping.LambdaEventSourceMapping(
+          {
+            eventSourceArn: this.table.streamArn,
+            functionName: lambda.functionName,
+            batchSize: options?.batchSize,
+            startingPosition: options?.startingPosition ?? "LATEST",
+            filterCriteria: {
+              filter: {
+                pattern: "\{\"eventName\":[\"{eventType}\"]\}"
+              }
+            },
+          },
+        ) as "{eventType.lowercase()}-stream-event-source";
+      }      
     }
+  }
+
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.setStream("ALL", handler, options);
+  }
+
+  pub onInsert(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.setStream("INSERT", handler, options);
+  }
+
+  pub onUpdate(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.setStream("MODIFY", handler, options);
+  }
+
+  pub onDelete(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.setStream("REMOVE", handler, options);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
@@ -135,6 +166,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       }
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
+      }
+      if ops.contains("update") {
+        actions.push("dynamodb:UpdateItem");
       }
       if ops.contains("scan") {
         actions.push("dynamodb:Scan");
@@ -181,6 +215,10 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

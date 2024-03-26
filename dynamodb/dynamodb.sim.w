@@ -24,6 +24,7 @@ class Util {
     endpoint: str,
     tableName: str,
     handler: inflight (dynamodb_types.StreamRecord): void,
+    eventName: str,
     options: dynamodb_types.StreamConsumerOptions?,
   ): void;
 }
@@ -176,8 +177,26 @@ pub class Table_sim impl dynamodb_types.ITable {
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
     new cloud.Service(inflight () => {
-      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, options);
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, "ALL", options);
     }) as "StreamConsumer";
+  }
+
+  pub onInsert(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    new cloud.Service(inflight () => {
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, "INSERT", options);
+    }) as "InsertStreamConsumer";
+  }
+
+  pub onUpdate(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    new cloud.Service(inflight () => {
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, "MODIFY", options);
+    }) as "UpdateStreamConsumer";
+  }
+
+  pub onDelete(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    new cloud.Service(inflight () => {
+      Util.processRecordsAsync(this.host.endpoint, this.tableName, handler, "REMOVE", options,);
+    }) as "DeleteStreamConsumer";
   }
 
   inflight client: dynamodb_types.IClient;
@@ -204,6 +223,10 @@ pub class Table_sim impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

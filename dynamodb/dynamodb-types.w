@@ -50,6 +50,18 @@ pub struct PutOutput {
   Attributes: Json?;
 }
 
+pub struct UpdateOptions {
+  Key: Json;
+  UpdateExpression: str;
+  ExpressionAttributeNames: Map<str>?;
+  ExpressionAttributeValues: Map<Json>?;
+  ReturnValues: str?;
+}
+
+pub struct UpdateOutput {
+  Attributes: Json?;
+}
+
 pub struct QueryOptions {
   ConsistentRead: bool?;
   ExclusiveStartKey: Json?;
@@ -190,6 +202,7 @@ pub interface IClient {
   inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
   inflight put(options: PutOptions): PutOutput;
+  inflight update(options: UpdateOptions): UpdateOutput;
   inflight query(options: QueryOptions): QueryOutput;
   inflight scan(options: ScanOptions?): ScanOutput;
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
@@ -198,4 +211,7 @@ pub interface IClient {
 pub interface ITable extends IClient {
   connection(): Connection;
   setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
+  onInsert(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
+  onUpdate(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
+  onDelete(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
 }

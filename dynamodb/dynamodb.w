@@ -22,8 +22,20 @@ pub class Table impl dynamodb_types.ITable {
     return this.implementation.connection();
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
-    this.implementation.setStreamConsumer(handler);
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.implementation.setStreamConsumer(handler, options);
+  }
+
+  pub onInsert(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.implementation.onInsert(handler, options);
+  }
+
+  pub onUpdate(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.implementation.onUpdate(handler, options);
+  }
+
+  pub onDelete(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+    this.implementation.onDelete(handler, options);
   }
 
   pub inflight delete(options: dynamodb_types.DeleteOptions): dynamodb_types.DeleteOutput {
@@ -36,6 +48,10 @@ pub class Table impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.implementation.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.implementation.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

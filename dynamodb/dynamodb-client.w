@@ -66,6 +66,12 @@ pub inflight class Client impl dynamodb_types.IClient {
     return unsafeCast(this.client.put(input));
   }
 
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.update(input));
+  }
+
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
     let transactItems = MutArray<Json> [];
     for item in options.TransactItems {
