@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/dynamodb",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "DynamoDB library for Wing",
   "author": {
     "name": "Cristian Pallarés",
@@ -13,7 +13,7 @@
   },
   "files": [
     "*.w",
-    "*.mjs"
+    "*.ts"
   ],
   "wing": {
     "platforms": [

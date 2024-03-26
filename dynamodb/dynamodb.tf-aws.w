@@ -26,7 +26,7 @@ struct DynamoDBStreamEvent {
 }
 
 class Util {
-  extern "./dynamodb.mjs" pub inflight static unmarshall(
+  extern "./dynamodb.ts" pub inflight static unmarshall(
     item: Json,
     options: Json?,
   ): Json;
@@ -117,7 +117,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           eventSourceArn: this.table.streamArn,
           functionName: lambda.functionName,
           batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition,
+          startingPosition: unsafeCast(options?.startingPosition),
           // filterCriteria: unsafeCast(options?.filterCriteria),
         },
       );
