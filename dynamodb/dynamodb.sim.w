@@ -1,7 +1,6 @@
 bring sim;
 bring util;
 bring cloud;
-bring containers;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
@@ -32,15 +31,13 @@ class Host {
   pub endpoint: str;
 
   new() {
-    let containerName = "winglibs-dynamodb-{util.uuidv4()}";
-
-    let container = new containers.Workload(
-      name: containerName,
+    let container = new sim.Container(
+      name: "winglibs-dynamodb",
       image: "amazon/dynamodb-local",
-      port: 8000,
-      public: true,
+      containerPort: 8000,
     );
-    this.endpoint = container.publicUrl!;
+
+    this.endpoint = "http://localhost:{container.hostPort!}";
   }
 
   pub static of(scope: std.IResource): Host {
