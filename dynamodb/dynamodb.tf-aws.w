@@ -117,7 +117,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           eventSourceArn: this.table.streamArn,
           functionName: lambda.functionName,
           batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition,
+          startingPosition: unsafeCast(options?.startingPosition),
           // filterCriteria: unsafeCast(options?.filterCriteria),
         },
       );

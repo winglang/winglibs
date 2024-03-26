@@ -11,9 +11,9 @@ interface Client {
 }
 
 struct CreateClientOptions {
-  endpoint: str;
-  region: str;
-  credentials: Json;
+  endpoint: str?;
+  region: str?;
+  credentials: Json?;
 }
 
 class Util {

@@ -25,7 +25,7 @@ struct CreateDocumentClientOptions {
 }
 
 class Util {
-  extern "./dynamodb.ts" pub static inflight createDocumentClient(options: CreateDocumentClientOptions?): DocumentClient;
+  extern "./dynamodb.ts" pub static inflight createDocumentClient(options: CreateDocumentClientOptions): DocumentClient;
 }
 
 pub struct ClientProps {

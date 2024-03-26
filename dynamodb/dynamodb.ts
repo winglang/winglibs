@@ -2,14 +2,22 @@ import * as dynamodb from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
+import type extern from "./dynamodb.extern";
+
 export { unmarshall };
 
-export const createClient = (options) => {
+// @ts-ignore
+export const createClient: extern["createClient"] = async (options) => {
+  // @ts-ignore
   return new dynamodb.DynamoDB(options);
 };
 
-export const createDocumentClient = (options) => {
-  const client = createClient(options);
+// @ts-ignore
+export const createDocumentClient: extern["createDocumentClient"] = async (
+  options
+) => {
+  const client = await createClient(options);
+  // @ts-ignore
   return DynamoDBDocument.from(client, {
     marshallOptions: {
       removeUndefinedValues: true,
@@ -23,15 +31,20 @@ export const createDocumentClient = (options) => {
 
 import * as streams from "@aws-sdk/client-dynamodb-streams";
 
-/**
- * @param {import("@aws-sdk/client-dynamodb-streams").DynamoDBStreams} client
- * @param {string} StreamArn
- * @param {(record: any) => void|Promise<void>} handler
- */
-const processStreamRecords = async (client, StreamArn, handler, options) => {
+interface ProcessStreamRecordsOptions {
+  batchSize?: number;
+  startingPosition?: "LATEST" | "TRIM_HORIZON";
+}
+
+const processStreamRecords = async (
+  client: streams.DynamoDBStreams,
+  StreamArn: string,
+  handler: (record: any) => void | Promise<void>,
+  options?: ProcessStreamRecordsOptions
+) => {
   const { StreamDescription } = await client.describeStream({ StreamArn });
 
-  for (const { ShardId } of StreamDescription.Shards) {
+  for (const { ShardId } of StreamDescription?.Shards ?? []) {
     const shardIteratorData = await client.getShardIterator({
       StreamArn,
       ShardId,
@@ -45,32 +58,32 @@ const processStreamRecords = async (client, StreamArn, handler, options) => {
         Limit: options?.batchSize,
       });
 
-      for (const record of recordsData.Records) {
+      for (const record of recordsData?.Records ?? []) {
         try {
           await handler({
             eventId: record.eventID,
             eventName: record.eventName,
             dynamodb: {
               ApproximateCreationDateTime:
-                record.dynamodb.ApproximateCreationDateTime,
-              Keys: record.dynamodb.Keys
+                record.dynamodb?.ApproximateCreationDateTime,
+              Keys: record.dynamodb?.Keys
                 ? unmarshall(record.dynamodb.Keys, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              NewImage: record.dynamodb.NewImage
+              NewImage: record.dynamodb?.NewImage
                 ? unmarshall(record.dynamodb.NewImage, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              OldImage: record.dynamodb.OldImage
+              OldImage: record.dynamodb?.OldImage
                 ? unmarshall(record.dynamodb.OldImage, {
                     wrapNumbers: true,
                   })
                 : undefined,
-              SequenceNumber: record.dynamodb.SequenceNumber,
-              SizeBytes: record.dynamodb.SizeBytes,
-              StreamViewType: record.dynamodb.StreamViewType,
+              SequenceNumber: record.dynamodb?.SequenceNumber,
+              SizeBytes: record.dynamodb?.SizeBytes,
+              StreamViewType: record.dynamodb?.StreamViewType,
             },
           });
         } catch (error) {
@@ -86,7 +99,12 @@ const processStreamRecords = async (client, StreamArn, handler, options) => {
   }
 };
 
-const processRecords = async (endpoint, tableName, handler, options) => {
+const processRecords = async (
+  endpoint: string,
+  tableName: string,
+  handler: (record: any) => void | Promise<void>,
+  options?: ProcessStreamRecordsOptions
+) => {
   while (true) {
     const client = new streams.DynamoDBStreams({
       region: "local",
@@ -101,7 +119,7 @@ const processRecords = async (endpoint, tableName, handler, options) => {
       const { Streams } = await client.listStreams({ TableName: tableName });
       await Promise.all(
         Streams?.map(({ StreamArn }) =>
-          processStreamRecords(client, StreamArn, handler, options)
+          processStreamRecords(client, StreamArn!, handler, options)
         ) ?? []
       );
     } catch (error) {
@@ -121,13 +139,20 @@ const processRecords = async (endpoint, tableName, handler, options) => {
   }
 };
 
-export const processRecordsAsync = async (
+export const processRecordsAsync: extern["processRecordsAsync"] = async (
   endpoint,
   tableName,
   handler,
   options
 ) => {
-  processRecords(endpoint, tableName, handler, options).catch((error) => {
+  const startingPosition = options?.startingPosition;
+  if (startingPosition !== "TRIM_HORIZON" && startingPosition !== "LATEST") {
+    throw new Error("Invalid starting position");
+  }
+  processRecords(endpoint, tableName, handler, {
+    ...options,
+    startingPosition,
+  }).catch((error) => {
     if (error.message.includes("ECONNREFUSED")) {
       // Ignore. This error happens when reloading the console.
       // We can safely end the execution here.
