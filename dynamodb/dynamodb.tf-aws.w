@@ -40,8 +40,10 @@ class Util {
 }
 
 pub class Table_tfaws impl dynamodb_types.ITable {
-  tableName: str;
+  pub tableName: str;
   table: tfaws.dynamodbTable.DynamodbTable;
+
+  pub connection: dynamodb_types.Connection;
 
   new(props: dynamodb_types.TableProps) {
     this.table = new tfaws.dynamodbTable.DynamodbTable({
@@ -50,7 +52,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       // - Get rid of the initial "root/Default/Default/" part (21 characters)
       // - Make room for the last 8 digits of the address (9 characters including hyphen). 255 is the maximum length of an AWS resource name
       // - Add the last 8 digits of the address
-      name: "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
+      name: props.name ?? "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
       attribute: props.attributes,
       hashKey: props.hashKey,
       rangeKey: props.rangeKey,
@@ -63,13 +65,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
     });
 
     this.tableName = this.table.name;
-  }
-
-  pub connection(): dynamodb_types.Connection {
-    return {
-      endpoint: nil,
-      tableName: this.tableName,
-    };
+    this.connection = { tableName: this.tableName };
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {

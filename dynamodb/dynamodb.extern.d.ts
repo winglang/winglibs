@@ -1,12 +1,16 @@
 export default interface extern {
-  createClient: (options: CreateClientOptions) => Promise<Client$Inflight>,
+  createClient: (options: ClientConfig) => Promise<Client$Inflight>,
   createDocumentClient: (options?: (CreateDocumentClientOptions) | undefined) => Promise<DocumentClient$Inflight>,
   getPort: () => Promise<number>,
   processRecordsAsync: (endpoint: string, tableName: string, handler: (arg0: StreamRecord) => Promise<void>, options?: (StreamConsumerOptions) | undefined) => Promise<void>,
   unmarshall: (item: Readonly<any>, options?: (Readonly<any>) | undefined) => Promise<Readonly<any>>,
 }
-export interface CreateClientOptions {
-  readonly credentials: Readonly<any>;
+export interface Credentials {
+  readonly accessKeyId: string;
+  readonly secretAccessKey: string;
+}
+export interface ClientConfig {
+  readonly credentials: Credentials;
   readonly endpoint: string;
   readonly region: string;
 }
@@ -20,7 +24,7 @@ export interface Credentials {
   readonly secretAccessKey: string;
 }
 export interface CreateDocumentClientOptions {
-  readonly credentials?: (Credentials) | undefined;
+  readonly credentials?: (Credentials1) | undefined;
   readonly endpoint?: (string) | undefined;
   readonly region?: (string) | undefined;
 }
