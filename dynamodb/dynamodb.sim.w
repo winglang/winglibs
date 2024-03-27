@@ -50,9 +50,10 @@ pub class Table_sim impl dynamodb_types.ITable {
   pub connection: dynamodb_types.Connection;
 
   new(props: dynamodb_types.TableProps) {
-    // Ideally, we would reuse the same host (and container) for all tables in the same stack,
-    // but there seems to be a bug somewhere that prevents INSERT events from being processed
-    // where there's more than one table in the application.
+    // Ideally, we would reuse the same host (and container) for all tables in
+    // the same application, but there seems to be a bug somewhere that prevents
+    // INSERT events from being processed when there's more than one table in
+    // the application.
     //
     // So, instead of `this.host = Host.of(this);`, we just:
     this.host = new Host();
