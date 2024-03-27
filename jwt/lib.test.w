@@ -36,3 +36,10 @@ test "sign with expiresIn" {
     expect.equal(e, "jwt expired");
   }
 }
+
+test "sign and decode" {
+  let id = util.nanoid();
+  let token = jwt.sign({ foo: id }, "shhhhh");
+  let decoded1 = jwt.decode(token, complete: true);
+  expect.equal(decoded1.get("payload").get("foo").asStr(), id);
+}
