@@ -30,7 +30,7 @@ readme.update(libs.copy());
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
 new prdiff.PullRequestDiffWorkflow(workflowdir);
-new prlint.PullRequestLintWorkflow(workflowdir);
+new prlint.PullRequestLintWorkflow(workflowdir, libs.copy());
 
 let skipCanaryTests = [
   "containers" // https://github.com/winglang/wing/issues/5716
