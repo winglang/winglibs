@@ -130,7 +130,7 @@ pub class Cognito impl types.ICognito {
     }
   }
 
-  extern "./aws-utils.ts" static pub inflight _signUp(clientId: str, email: str, password: str): void;
-  extern "./aws-utils.ts" static pub inflight _adminConfirmUser(poolId: str, email: str): void;
-  extern "./aws-utils.ts" static pub inflight _initiateAuth(clientId: str, email: str, password: str): str;
+  extern "./aws-utils.js" static pub inflight _signUp(clientId: str, email: str, password: str): void;
+  extern "./aws-utils.js" static pub inflight _adminConfirmUser(poolId: str, email: str): void;
+  extern "./aws-utils.js" static pub inflight _initiateAuth(clientId: str, email: str, password: str): str;
 }
