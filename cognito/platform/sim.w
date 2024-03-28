@@ -37,7 +37,7 @@ interface ICallable {
   call(api: cloud.Api, method: str, handler: inflight (cloud.ApiRequest): cloud.ApiResponse): void;
 }
 
-pub class Cognito impl types.ICognito {
+pub class Cognito_sim impl types.ICognito {
   api: cloud.Api;
   counter: cloud.Counter;
   table: ex.Table;

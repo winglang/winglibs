@@ -11,11 +11,11 @@ pub class Cognito impl types.ICognito {
   new(api: cloud.Api, props: types.CognitoProps?) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.Cognito(api, props) as "sim";
+      this.inner = new sim.Cognito_sim(api, props) as "sim";
       this.clientId = "sim-client-id";
       this.userPoolId = "sim-user-pool-id";
     } elif target == "tf-aws" {
-      let auth = new tfaws.Cognito(api, props) as "tf-aws";
+      let auth = new tfaws.Cognito_tfaws(api, props) as "tf-aws";
       this.clientId = auth.clientId;
       this.userPoolId = auth.userPoolId;
       this.inner = auth;
