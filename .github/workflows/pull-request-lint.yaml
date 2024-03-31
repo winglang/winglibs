@@ -42,6 +42,7 @@ jobs:
             redis
             sagemaker
             simtools
+            tsoa
             vite
             websockets
           subjectPattern: ^[^A-Z][^:]+[^.]$
