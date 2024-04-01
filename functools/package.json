@@ -12,5 +12,8 @@
       "sim"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@winglibs/dynamodb": "^0.1.0"
+  }
 }
