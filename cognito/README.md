@@ -15,6 +15,7 @@ npm i @winglibs/cognito
 ## Usage
 
 ```js
+bring cloud;
 bring cognito;
 
 let api = new cloud.Api();
@@ -33,13 +34,17 @@ auth.get("/hello");
 ### Wing Code
 
 ```js
-auth.signUp("fakeId@monada.co", "This-is-my-test-99!");
-auth.adminConfirmUser("fakeId@monada.co");
-let token = auth.initiateAuth("fakeId@monada.co", "This-is-my-test-99!");
-let res = http.get("{api.url}/hello", headers: {
-  "Authorization": "Bearer {token}"
-});
-expect.equal(res.status, 200);
+bring expect;
+bring http;
+test "auth happy path" {
+  auth.signUp("fakeId@wing.cloud", "This-is-my-test-99!");
+  auth.adminConfirmUser("fakeId@wing.cloud");
+  let token = auth.initiateAuth("fakeId@wing.cloud", "This-is-my-test-99!");
+  let res = http.get("{api.url}/hello", headers: {
+    "Authorization": "Bearer {token}"
+  });
+  expect.equal(res.status, 200);
+}
 ```
 
 ### AWS CLI
