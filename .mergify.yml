@@ -56,6 +56,9 @@ pull_request_rules:
       - -check-failure=build-fifoqueue
       - -check-pending=build-fifoqueue
       - -check-stale=build-fifoqueue
+      - -check-failure=build-functools
+      - -check-pending=build-functools
+      - -check-stale=build-functools
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
@@ -132,6 +135,9 @@ pull_request_rules:
       - -check-failure=build-fifoqueue
       - -check-pending=build-fifoqueue
       - -check-stale=build-fifoqueue
+      - -check-failure=build-functools
+      - -check-pending=build-functools
+      - -check-stale=build-functools
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github

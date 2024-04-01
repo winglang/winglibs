@@ -1,0 +1,16 @@
+{
+  "name": "@winglibs/functools",
+  "description": "functools library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "functools"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
+  "license": "MIT"
+}

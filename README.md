@@ -20,6 +20,7 @@ publishing them for you.
 | [dynamodb](./dynamodb) | [@winglibs/dynamodb](https://www.npmjs.com/package/@winglibs/dynamodb) | sim, tf-aws |
 | [eventbridge](./eventbridge) | [@winglibs/eventbridge](https://www.npmjs.com/package/@winglibs/eventbridge) | awscdk, sim, tf-aws |
 | [fifoqueue](./fifoqueue) | [@winglibs/fifoqueue](https://www.npmjs.com/package/@winglibs/fifoqueue) | sim, tf-aws |
+| [functools](./functools) | [@winglibs/functools](https://www.npmjs.com/package/@winglibs/functools) | sim |
 | [github](./github) | [@winglibs/github](https://www.npmjs.com/package/@winglibs/github) | * |
 | [jwt](./jwt) | [@winglibs/jwt](https://www.npmjs.com/package/@winglibs/jwt) | * |
 | [lock](./lock) | [@winglibs/lock](https://www.npmjs.com/package/@winglibs/lock) | * |
