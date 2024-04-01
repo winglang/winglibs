@@ -14,7 +14,7 @@ struct SpecProps {
 }
 
 pub struct ServiceProps {
-  entryFile: str;
+  entryFile: str?;
   controllerPathGlobs: Array<str>;
   outputDirectory: str;
   spec: SpecProps?;
@@ -26,7 +26,6 @@ pub class Service {
   state: sim.State;
   service: cloud.Service;
 
-  extern "./lib.ts" inflight static startService(props: ServiceProps): StartResponse;
   new(props: ServiceProps) {
     let target = util.env("WING_TARGET");
     if target != "sim" {
@@ -36,8 +35,12 @@ pub class Service {
     this.state = new sim.State();
     this.url = "http://127.0.0.1:{this.state.token("port")}";
     new cloud.Endpoint(this.url);
+
+    let entrypointDir = nodeof(this).app.entrypointDir;
+    let workDir = nodeof(this).app.workdir;
+
     this.service = new cloud.Service(inflight () => {
-      let res = Service.startService(props);
+      let res = Service.startService(entrypointDir, workDir, props);
       this.state.set("port", "{res.port()}");
 
       return inflight () => {
@@ -56,4 +59,6 @@ pub class Service {
       return this.url;
     }, link: true);
   }
+
+  extern "./lib.js" inflight static startService(entrypointDir: str, workDir: str, props: ServiceProps): StartResponse;
 }

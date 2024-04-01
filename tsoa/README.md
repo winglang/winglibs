@@ -18,10 +18,9 @@ npm i @winglibs/tsoa
 bring tsoa;
 
 let service = new tsoa.Service(
-  entryFile: "../test/app.ts",
-  controllerPathGlobs: ["../test/*Controller.ts"],
-  outputDirectory: "../test/build",
-  routesDir: "../test/build"
+  controllerPathGlobs: ["./src/*Controller.ts"],
+  outputDirectory: "../build",
+  routesDir: "../build"
 );
 ```
 

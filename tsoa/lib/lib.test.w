@@ -8,10 +8,9 @@ struct User {
 }
 
 let service = new tsoa.Service(
-  entryFile: "../test/app.ts",
   controllerPathGlobs: ["../test/*Controller.ts"],
   outputDirectory: "../test/build",
-  routesDir: "/private/tmp/winglibs/tsoa/lib/test/build"
+  routesDir: "../test/build",
 );
 
 test "will start tsoa service" {
