@@ -3,7 +3,7 @@ bring aws as awsUtils;
 bring "@cdktf/provider-aws" as aws;
 bring "../types.w" as types;
 
-pub class Cognito impl types.ICognito {
+pub class Cognito_tfaws impl types.ICognito {
   api: cloud.Api;
   name: str;
   pub clientId: str;
@@ -105,15 +105,15 @@ pub class Cognito impl types.ICognito {
   }
 
   pub inflight signUp(email: str, password: str): void {
-    Cognito._signUp(this.clientId, email, password);
+    Cognito_tfaws._signUp(this.clientId, email, password);
   }
 
   pub inflight adminConfirmUser(email: str): void {
-    Cognito._adminConfirmUser(this.userPoolId, email);
+    Cognito_tfaws._adminConfirmUser(this.userPoolId, email);
   }
 
   pub inflight initiateAuth(email: str, password: str): str {
-    return Cognito._initiateAuth(this.clientId, email, password);
+    return Cognito_tfaws._initiateAuth(this.clientId, email, password);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
@@ -130,7 +130,7 @@ pub class Cognito impl types.ICognito {
     }
   }
 
-  extern "./aws-utils.ts" static pub inflight _signUp(clientId: str, email: str, password: str): void;
-  extern "./aws-utils.ts" static pub inflight _adminConfirmUser(poolId: str, email: str): void;
-  extern "./aws-utils.ts" static pub inflight _initiateAuth(clientId: str, email: str, password: str): str;
+  extern "./aws-utils.js" static pub inflight _signUp(clientId: str, email: str, password: str): void;
+  extern "./aws-utils.js" static pub inflight _adminConfirmUser(poolId: str, email: str): void;
+  extern "./aws-utils.js" static pub inflight _initiateAuth(clientId: str, email: str, password: str): str;
 }

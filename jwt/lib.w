@@ -16,6 +16,10 @@ pub struct VerifyOptions  {
   options: VerifyJwtOptions?;
 }
 
+pub struct DecodeOptions {
+  complete: bool?;
+}
+
 pub struct SignOptions {
   algorithm: str?;
   keyid: str?;
@@ -56,10 +60,11 @@ interface IJwt {
   inflight jwksClient(options: IJwksClientOptions): IJwksClient;
   inflight sign(data: Json, secret: str, options: Json?): str;
   inflight verify(token: str, secret: inflight (JwtHeader, inflight (str, str): void): void, options: VerifyJwtOptions?): Json;
+  inflight decode(token: str, options: DecodeOptions?): Json;
 }
 
 class JwtUtil {
-  extern "./utils.mts" pub static inflight _jwt(): IJwt;
+  extern "./utils.js" pub static inflight _jwt(): IJwt;
 }
 
 pub class Util {
@@ -99,5 +104,9 @@ pub class Util {
     } else {
       throw "Either secret or jwksUri must be provided";
     }
+  }
+  
+  pub inflight static decode(token: str, options: DecodeOptions?): Json {
+    return JwtUtil._jwt().decode(token, options);
   }
 }

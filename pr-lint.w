@@ -1,7 +1,17 @@
 bring fs;
 
 pub class PullRequestLintWorkflow {
-  new(workflowdir: str) {
+  new(workflowdir: str, libs: Array<str>) {
+    let var types = MutArray<str>[
+      "feat",
+      "fix",
+      "docs",
+      "chore",
+      "rfc",
+      "revert",
+    ];
+    types = types.concat(libs.copyMut());
+
     fs.writeYaml("{workflowdir}/pull-request-lint.yaml", {
       name: "Pull Request Lint",
       on: {
@@ -21,7 +31,7 @@ pub class PullRequestLintWorkflow {
                 "GITHUB_TOKEN": "$\{\{ secrets.GITHUB_TOKEN \}\}"
               },
               "with": {
-                "types": "feat\nfix\ndocs\nchore\nrfc\nrevert",
+                "types": types.join("\n"),
                 "subjectPattern": "^[^A-Z][^:]+[^.]$",
                 "subjectPatternError": "Subject must start with a lowercase, should not include ':' and should not end with a period",
                 "requireScope": false

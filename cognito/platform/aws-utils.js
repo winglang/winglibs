@@ -1,6 +1,16 @@
-import { AdminConfirmSignUpCommand, CognitoIdentityProviderClient, ConfirmSignUpCommand, InitiateAuthCommand, SignUpCommand } from "@aws-sdk/client-cognito-identity-provider";
+import {
+  AdminConfirmSignUpCommand,
+  CognitoIdentityProviderClient,
+  InitiateAuthCommand,
+  SignUpCommand,
+} from "@aws-sdk/client-cognito-identity-provider";
 
-export const _signUp = async (clientId: string, username: string, password: string) => {
+/**
+ * @param {string} clientId
+ * @param {string} username
+ * @param {string} password
+ */
+export const _signUp = async (clientId, username, password) => {
   const client = new CognitoIdentityProviderClient();
 
   const command = new SignUpCommand({
@@ -15,15 +25,18 @@ export const _signUp = async (clientId: string, username: string, password: stri
       {
         Name: "name",
         Value: username,
-      }
-    ]
+      },
+    ],
   });
 
   await client.send(command);
-  
 };
 
-export const _adminConfirmUser = async (poolId: string, username: string) => {
+/**
+ * @param {string} poolId
+ * @param {string} username
+ */
+export const _adminConfirmUser = async (poolId, username) => {
   const client = new CognitoIdentityProviderClient();
 
   const command = new AdminConfirmSignUpCommand({
@@ -34,15 +47,24 @@ export const _adminConfirmUser = async (poolId: string, username: string) => {
   await client.send(command);
 };
 
-export const _initiateAuth = async (clientId: string, username: string, password: string) => {
+/**
+ * @param {string} clientId
+ * @param {string} username
+ * @param {string} password
+ */
+export const _initiateAuth = async (
+  clientId,
+  username,
+  password
+) => {
   const client = new CognitoIdentityProviderClient();
 
   const command = new InitiateAuthCommand({
     ClientId: clientId,
     AuthFlow: "USER_PASSWORD_AUTH",
     AuthParameters: {
-      "PASSWORD": password,
-      "USERNAME": username,
+      PASSWORD: password,
+      USERNAME: username,
     },
   });
 

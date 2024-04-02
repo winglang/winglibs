@@ -24,6 +24,26 @@ jobs:
             chore
             rfc
             revert
+            bedrock
+            budget
+            checks
+            cognito
+            containers
+            dynamodb
+            eventbridge
+            fifoqueue
+            github
+            jwt
+            lock
+            messagefanout
+            ngrok
+            openai
+            postgres
+            redis
+            sagemaker
+            simtools
+            vite
+            websockets
           subjectPattern: ^[^A-Z][^:]+[^.]$
           subjectPatternError: Subject must start with a lowercase, should not include ':'
             and should not end with a period
