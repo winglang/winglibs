@@ -54,3 +54,16 @@ test "access endpoint with cognito auth" {
 
   expect.equal(res3.status, 200);
 }
+
+test "throw error when credentials are invalid" {
+  let var err = false;
+  auth.signUp("fakeId@monada.co", "This-is-my-test-99!");
+  auth.adminConfirmUser("fakeId@monada.co");
+  try {
+    let token = auth.initiateAuth("fakeId@monada.co", "not-my-password");
+  } catch {
+    err = true;
+  }
+
+  expect.equal(err, true);
+}
