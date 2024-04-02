@@ -139,6 +139,10 @@ pub class Table_sim impl dynamodb_types.ITable {
         return  nil;
       })();
 
+      // delete the table if it already exists
+      try { client.deleteTable({ TableName: tableName }); } 
+      catch e { }
+
       util.waitUntil(() => {
         try {
           client.createTable({
