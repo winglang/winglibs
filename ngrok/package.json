@@ -17,7 +17,7 @@
     ]
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@ngrok/ngrok": "^0.9.1"
   }
 }

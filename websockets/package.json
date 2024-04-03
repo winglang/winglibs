@@ -13,10 +13,9 @@
     "name": "Marcio Cruz de Almeida"
   },
   "peerDependencies": {
-    "cdktf": "*",
-    "winglang": "*",
+    "cdktf": "^0.20.6",
     "@aws-sdk/client-apigatewaymanagementapi": "^3.451.0",
-    "@cdktf/provider-aws": "^19.9.0",
+    "@cdktf/provider-aws": "^19.12.0",
     "aws-cdk-lib": "^2.109.0",
     "get-port": "^7.0.0",
     "ws": "^8.14.2"

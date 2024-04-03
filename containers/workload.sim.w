@@ -37,6 +37,7 @@ pub class Workload_sim {
       });
 
       let s1 = new cloud.Service(inflight () => {
+        log("waiting for container to be ready...");
         state.set(publicUrlKey, "http://localhost:{c.hostPort!}");
         state.set(internalUrlKey, "http://host.docker.internal:{c.hostPort!}");
       }) as "urls";

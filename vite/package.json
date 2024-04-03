@@ -23,9 +23,9 @@
       "tf-aws"
     ]
   },
-  "dependencies": {
-    "@cdktf/provider-aws": "^19.6.0",
-    "cdktf": "^0.20.3",
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^19.12.0",
+    "cdktf": "^0.20.6",
     "mime-types": "^2.1.35",
     "vite": "^5.1.3"
   }

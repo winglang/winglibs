@@ -11,8 +11,8 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "cognito"
   },
-  "dependencies": {
-    "@cdktf/provider-aws": "^19.6.0"
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^19.12.0"
   },
   "wing": {
     "platforms": [

@@ -19,9 +19,8 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "cdktf": "*",
-    "winglang": "*",
-    "@cdktf/provider-aws": "^19.11.0",
+    "cdktf": "^0.20.6",
+    "@cdktf/provider-aws": "^19.12.0",
     "@cdktf/provider-docker": "^11.0.0",
     "@cdktf/provider-helm": "^10.0.0",
     "@cdktf/provider-kubernetes": "^11.2.0",

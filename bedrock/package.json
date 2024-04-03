@@ -18,7 +18,7 @@
       "tf-aws"
     ]
   },
-  "dependencies": {
+  "peerDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.484.0"
   }
 }
