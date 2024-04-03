@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/sagemaker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "The library enables owners of a trained sagemaker model, to access its Endpoints from a winglang inflight code.",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     ]
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@aws-sdk/client-sagemaker-runtime": "^3.507.0"
   }
 }
