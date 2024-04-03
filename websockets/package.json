@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",
-    "@winglibs/dynamodb": "^0.0.3",
+    "@winglibs/dynamodb": "^0.1.2",
     "@cdktf/provider-helm": "^10.0.0",
     "@cdktf/provider-kubernetes": "^11.2.0",
     "@cdktf/provider-null": "^10.0.0",

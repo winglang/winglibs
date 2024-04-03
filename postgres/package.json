@@ -14,7 +14,7 @@
   "peerDependencies": {
     "@rybickic/cdktf-provider-neon": "^1.0.0",
     "@cdktf/provider-aws": "^19.12.0",
-    "@winglibs/containers": "^0.0.22",
+    "@winglibs/containers": "^0.0.26",
     "pg": "^8.11.3",
     "cdktf": "^0.20.6"
   },
