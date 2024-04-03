@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/postgres",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Postgres support for Wing",
   "repository": {
     "type": "git",
