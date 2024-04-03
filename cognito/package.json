@@ -12,7 +12,8 @@
     "directory": "cognito"
   },
   "peerDependencies": {
-    "@cdktf/provider-aws": "^19.12.0"
+    "@cdktf/provider-aws": "^19.12.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
   },
   "wing": {
     "platforms": [
@@ -20,8 +21,5 @@
       "tf-aws"
     ]
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
-  }
+  "license": "MIT"
 }

@@ -29,11 +29,5 @@
     "@aws-sdk/util-dynamodb": "^3.529.1",
     "@cdktf/provider-aws": "^19.9.0",
     "get-port": "^7.0.0"
-  },
-  "devDependencies": {
-    "@cdktf/provider-helm": "^10.0.0",
-    "@cdktf/provider-kubernetes": "^11.2.0",
-    "@cdktf/provider-null": "^10.0.0",
-    "cdk8s-plus-27": "^2.7.84"
   }
 }
