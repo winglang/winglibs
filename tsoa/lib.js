@@ -4,7 +4,7 @@ const {
 } = require("tsoa");
 const { join } = require("node:path");
 
-exports.startService = async (basedir, workdir, options) => {
+exports.startService = async (currentDir, basedir, workdir, options) => {
   try {
     const specOptions = {
       entryFile: options.entryFile ? join(basedir, options.entryFile) : "./app.js",
@@ -23,7 +23,7 @@ exports.startService = async (basedir, workdir, options) => {
       controllerPathGlobs: options.controllerPathGlobs.map((path) => join(basedir, path)),
       routesDir: join(basedir, options.routesDir),
       bodyCoercion: false,
-      middlewareTemplate: join(basedir, "./templates/express.hbs"),
+      middlewareTemplate: join(require.resolve("@tsoa/cli"), "../routeGeneration/templates/express.hbs"),
     };
   
     console.log("generating spec...");
@@ -39,3 +39,5 @@ exports.startService = async (basedir, workdir, options) => {
     throw e;
   }
 }
+
+exports.dirname = () => __dirname;

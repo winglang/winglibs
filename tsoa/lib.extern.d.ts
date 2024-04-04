@@ -1,5 +1,6 @@
 export default interface extern {
-  startService: (entrypointDir: string, workDir: string, props: ServiceProps) => Promise<StartResponse$Inflight>,
+  dirname: () => string,
+  startService: (currentDir: string, entrypointDir: string, workDir: string, props: ServiceProps) => Promise<StartResponse$Inflight>,
 }
 export interface SpecProps {
   readonly outputDirectory?: (string) | undefined;

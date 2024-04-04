@@ -57,11 +57,12 @@ pub class Service {
     this.url = "http://127.0.0.1:{this.state.token("port")}";
     new cloud.Endpoint(this.url);
 
+    let currentDir = Service.dirname();
     let entrypointDir = nodeof(this).app.entrypointDir;
     let workDir = nodeof(this).app.workdir;
 
     this.service = new cloud.Service(inflight () => {
-      let res = Service.startService(entrypointDir, workDir, props);
+      let res = Service.startService(currentDir, entrypointDir, workDir, props);
       this.state.set("port", "{res.port()}");
 
       return inflight () => {
@@ -81,5 +82,6 @@ pub class Service {
     }, link: true);
   }
 
-  extern "./lib.js" inflight static startService(entrypointDir: str, workDir: str, props: ServiceProps): StartResponse;
+  extern "./lib.js" inflight static startService(currentDir: str, entrypointDir: str, workDir: str, props: ServiceProps): StartResponse;
+  extern "./lib.js" static dirname(): str;
 }

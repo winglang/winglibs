@@ -1,6 +1,6 @@
 bring http;
 bring expect;
-bring "./lib.w" as tsoa;
+bring "../lib.w" as tsoa;
 
 struct User {
   id: num;
@@ -8,9 +8,9 @@ struct User {
 }
 
 let service = new tsoa.Service(
-  controllerPathGlobs: ["../test/*Controller.ts"],
-  outputDirectory: "../test/build",
-  routesDir: "../test/build",
+  controllerPathGlobs: ["../test-assets/*Controller.ts"],
+  outputDirectory: "../test-assets/build",
+  routesDir: "../test-assets/build",
 );
 
 test "will start tsoa service" {
