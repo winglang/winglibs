@@ -27,7 +27,7 @@ publishing them for you.
 | [ngrok](./ngrok) | [@winglibs/ngrok](https://www.npmjs.com/package/@winglibs/ngrok) | * |
 | [openai](./openai) | [@winglibs/openai](https://www.npmjs.com/package/@winglibs/openai) | * |
 | [postgres](./postgres) | [@winglibs/postgres](https://www.npmjs.com/package/@winglibs/postgres) | sim, tf-aws |
-| [reactapp](./reactapp) | [@winglibs/reactapp](https://www.npmjs.com/package/@winglibs/reactapp) | sim |
+| [reactapp](./reactapp) | [@winglibs/reactapp](https://www.npmjs.com/package/@winglibs/reactapp) | sim, tf-aws |
 | [redis](./redis) | [@winglibs/redis](https://www.npmjs.com/package/@winglibs/redis) | sim |
 | [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
