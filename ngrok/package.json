@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/ngrok",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "ngrok library for Wing",
   "author": {
     "name": "Elad Ben-Israel",
@@ -17,7 +17,7 @@
     ]
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@ngrok/ngrok": "^0.9.1"
   }
 }
