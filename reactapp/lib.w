@@ -12,9 +12,11 @@ pub class ReactApp {
   platform: reactAppShared.IReactApp;
 
   new(props: reactAppShared.ReactAppPros) {
-    if util.env("WING_TARGET") == "sim" {
+    let target = util.env("WING_TARGET");
+
+    if target == "sim" {
       this.platform = new reactAppsim.ReactAppSim(props);
-    } elif util.env("WING_TARGET") == "tf-aws" {
+    } elif target == "tf-aws" {
       this.platform = new reactAppTfAws.ReactAppTfAws(props); 
     } else {
       throw "unknown platform";
@@ -26,7 +28,7 @@ pub class ReactApp {
       return this.url;
     }, link: true);
 
-    if util.env("WING_TARGET") == "sim" {
+    if target == "sim" {
       new cloud.Endpoint(this.url);
     }
 
