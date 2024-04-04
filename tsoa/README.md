@@ -1,6 +1,6 @@
 # tsoa
 
-A Wing library for working with TSOA projects.
+A Wing library for working with [TSOA](https://tsoa-community.github.io/docs/) - An OpenAPI-compliant Web APIs using TypeScript.
 
 ## Prerequisites
 

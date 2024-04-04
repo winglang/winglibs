@@ -13,14 +13,35 @@ struct SpecProps {
   specVersion: num?;
 }
 
+/**
+ * Properties for a new TSOA service.
+ */
 pub struct ServiceProps {
+  /**
+   * The entry point to your API
+   */
   entryFile: str?;
+  /**
+   * An array of path globs that point to your route controllers that you would like to have tsoa include.
+   */
   controllerPathGlobs: Array<str>;
+  /**
+   * Generated SwaggerConfig.json will output here
+   */
   outputDirectory: str;
+  /**
+   * Extend generated swagger spec with this object
+   */
   spec: SpecProps?;
+  /**
+   * Routes directory; generated routes.ts (which contains the generated code wiring up routes using middleware of choice) will be dropped here
+   */
   routesDir: str;
 }
 
+/**
+ * Starts a new TSOA service.
+ */
 pub class Service {
   pub url: str;
   state: sim.State;
@@ -48,10 +69,10 @@ pub class Service {
       };
     });
 
-    this.setUi();
+    this.addUi();
   }
 
-  setUi() {
+  addUi() {
     nodeof(this.state).hidden = true;
     nodeof(this.service).hidden = true;
 
