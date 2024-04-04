@@ -11,8 +11,9 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "cognito"
   },
-  "dependencies": {
-    "@cdktf/provider-aws": "^19.6.0"
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^19.6.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
   },
   "wing": {
     "platforms": [
@@ -20,8 +21,5 @@
       "tf-aws"
     ]
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
-  }
+  "license": "MIT"
 }
