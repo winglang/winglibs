@@ -171,10 +171,14 @@ pub class Table_sim impl dynamodb_types.ITable {
           // Wait until we can describe the table. This is
           // to ensure that the table is ready to be used.
           util.waitUntil(() => {
-            client.describeTable({
-              TableName: tableName,
-            });
-            return true;
+            try {
+              client.describeTable({
+                TableName: tableName,
+              });
+              return true;
+            } catch error {
+              return false;
+            }
           });
 
           state.set("tableName", tableName);
