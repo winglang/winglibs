@@ -19,7 +19,7 @@ pub class ReactApp {
     } elif target == "tf-aws" {
       this.platform = new reactAppTfAws.ReactAppTfAws(props); 
     } else {
-      throw "unknown platform";
+      throw "unknown platform {target}";
     }
 
     this.url = this.platform.getUrl();
