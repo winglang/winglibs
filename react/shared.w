@@ -3,7 +3,7 @@ bring fs;
 
 bring "./utils.w" as utils;
 
-pub struct ReactAppPros {
+pub struct AppPros {
   projectPath: str;
   localPort: num?;
   buildDir: str?;
@@ -12,13 +12,13 @@ pub struct ReactAppPros {
   useBuildCommand: bool?;
 }
 
-pub interface IReactApp {
+pub interface IApp {
   getUrl(): str;
   addEnvironment(key: str, value: str): void;
 }
 
-pub class ReactAppBase {
-  protected props: ReactAppPros;
+pub class AppBase {
+  protected props: AppPros;
 
   protected path: str;
 
@@ -28,7 +28,7 @@ pub class ReactAppBase {
   protected buildCommand: str;
   protected buildDir: str;
 
-  new(props: ReactAppPros) {
+  new(props: AppPros) {
     this.path = fs.absolute(nodeof(this).app.entrypointDir, props.projectPath);
 
     if !fs.exists(this.path) {

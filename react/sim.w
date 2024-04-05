@@ -6,10 +6,10 @@ bring util;
 bring "./shared.w" as shared;
 bring "./utils.w" as utils;
 
-pub class ReactAppSim extends shared.ReactAppBase impl shared.IReactApp {
+pub class AppSim extends shared.AppBase impl shared.IApp {
   pub url: str;
 
-  new(props: shared.ReactAppPros) {
+  new(props: shared.AppPros) {
     super(props);
 
     let state = new sim.State();

@@ -1,6 +1,6 @@
-# ReactApp
+# React
 
-Use ReactApp in your project.
+Use React in your project.
 
 ## Prerequisites
 
@@ -9,7 +9,7 @@ Use ReactApp in your project.
 ## Installation
 
 ```sh
-npm i @winglibs/reactapp
+npm i @winglibs/react
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ npm i @winglibs/reactapp
 
 ```js
 bring cloud;
-bring reactapp;
+bring react;
 
 let api = new cloud.Api(cors: true);
 
@@ -29,7 +29,7 @@ api.get("/", inflight () => {
   };
 });
 
-let project = new reactapp.ReactApp(
+let project = new react.App(
   projectPath: "../react-project",
   localPort: 4500,
 );

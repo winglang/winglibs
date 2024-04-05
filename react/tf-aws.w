@@ -5,10 +5,10 @@ bring util;
 bring "./shared.w" as shared;
 bring "./utils.w" as utils;
 
-pub class ReactAppTfAws extends shared.ReactAppBase impl shared.IReactApp {
+pub class AppTfAws extends shared.AppBase impl shared.IApp {
   var website: cloud.Website;
 
-  new(props: shared.ReactAppPros) {
+  new(props: shared.AppPros) {
     super(props);
 
     utils.Utils.execSync(this.buildCommand, this.env, this.path);

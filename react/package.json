@@ -1,6 +1,6 @@
 {
-  "name": "@winglibs/reactapp",
-  "description": "ReactApp library for Wing",
+  "name": "@winglibs/react",
+  "description": "React library for Wing",
   "version": "0.0.1",
   "author": {
     "name": "Meir Elbaz",
@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
-    "directory": "reactapp"
+    "directory": "react"
   },
   "wing": {
     "platforms": [

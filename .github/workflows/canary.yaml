@@ -301,14 +301,14 @@ jobs:
       - name: Test
         run: wing test
         working-directory: postgres
-  canary-reactapp:
-    name: Test reactapp
+  canary-react:
+    name: Test react
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: reactapp
+          sparse-checkout: react
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -318,10 +318,10 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: reactapp
+        working-directory: react
       - name: Test
         run: wing test
-        working-directory: reactapp
+        working-directory: react
   canary-redis:
     name: Test redis
     runs-on: ubuntu-latest

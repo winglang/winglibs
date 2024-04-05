@@ -77,9 +77,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
-      - -check-failure=build-reactapp
-      - -check-pending=build-reactapp
-      - -check-stale=build-reactapp
+      - -check-failure=build-react
+      - -check-pending=build-react
+      - -check-stale=build-react
       - -check-failure=build-redis
       - -check-pending=build-redis
       - -check-stale=build-redis
@@ -156,9 +156,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
-      - -check-failure=build-reactapp
-      - -check-pending=build-reactapp
-      - -check-stale=build-reactapp
+      - -check-failure=build-react
+      - -check-pending=build-react
+      - -check-stale=build-react
       - -check-failure=build-redis
       - -check-pending=build-redis
       - -check-stale=build-redis

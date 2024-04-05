@@ -6,18 +6,18 @@ bring "./shared.w" as reactAppShared;
 bring "./sim.w" as reactAppsim;
 bring "./tf-aws.w" as reactAppTfAws;
 
-pub class ReactApp {
+pub class App {
   pub url: str;
 
-  platform: reactAppShared.IReactApp;
+  platform: reactAppShared.IApp;
 
-  new(props: reactAppShared.ReactAppPros) {
+  new(props: reactAppShared.AppPros) {
     let target = util.env("WING_TARGET");
 
     if target == "sim" {
-      this.platform = new reactAppsim.ReactAppSim(props);
+      this.platform = new reactAppsim.AppSim(props);
     } elif target == "tf-aws" {
-      this.platform = new reactAppTfAws.ReactAppTfAws(props); 
+      this.platform = new reactAppTfAws.AppTfAws(props); 
     } else {
       throw "unknown platform {target}";
     }

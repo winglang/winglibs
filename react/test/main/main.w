@@ -3,7 +3,7 @@ bring expect;
 bring http;
 bring util;
 
-bring "../../lib.w" as reactapp;
+bring "../../lib.w" as react;
 
 let api = new cloud.Api(cors: true);
 
@@ -14,7 +14,7 @@ api.get("/", inflight () => {
   };
 });
 
-let project = new reactapp.ReactApp(
+let project = new react.App(
   projectPath: "../react-project",
   localPort: 4500,
 );
