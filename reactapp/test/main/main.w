@@ -1,5 +1,6 @@
 bring cloud;
 bring expect;
+bring fs;
 bring http;
 bring util;
 
@@ -23,7 +24,16 @@ project.addEnvironment("API_URL", api.url);
 project.addEnvironment("TEXT", "Hello World!");
 
 if util.env("WING_TARGET") == "sim" {
+  let path = util.env("PATH");
+  let reactDir = fs.absolute(nodeof(this).app.entrypointDir, "..", "react-project");
+
+  let buildReact = inflight () => {
+    util.shell("cd {reactDir} && npm install && sleep 5", env: {"PATH": path});
+  };
+
   test "we can access the app" {
+    buildReact();
+
     let url = project.url;
   
     util.waitUntil(inflight () => {
@@ -43,6 +53,8 @@ if util.env("WING_TARGET") == "sim" {
   }
 
   test "wing.js content" {
+    buildReact();
+
     let url = project.url + "/wing.js";
   
     util.waitUntil(inflight () => {
