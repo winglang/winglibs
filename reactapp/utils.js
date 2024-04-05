@@ -9,24 +9,26 @@ const treeKill = require("tree-kill");
 exports.getPort = getPort;
 
 exports.exec = (command, env, cwd) => {
+  process.env.NODE_NO_WARNINGS = "1"; // disable deprecation warnings
+
   const proc = child_process.exec(command, {
     env: { ...process.env, ...env },
     cwd,
   });
 
   proc.on("error", (error) => {
-    console.log(error);
+    console.log(`error: ${error}`);
   });
 
   // proc.stdout.setEncoding("utf8");
   // proc.stdout.on("data", (data) => {
-  //   console.log(data);
+  //   console.log(`stdout: [${command}] ${data}`);
   // });
 
-  // proc.stderr.setEncoding("utf8");
-  // proc.stderr.on("data", (data) => {
-  //   console.log(data);
-  // });
+  proc.stderr.setEncoding("utf8");
+  proc.stderr.on("data", (data) => {
+    console.log(`stderr: [${command}] ${data}`);
+  });
 
   return async () => {
     await new Promise((resolve, reject) => {
