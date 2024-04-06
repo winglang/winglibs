@@ -31,7 +31,7 @@ pub class AppSim extends api.AppBase impl api.IApp {
       this.env.set("PORT", "{port}");
 
       if this.props.useBuildCommand? == true {
-        utils.Utils.exec(this.buildCommand, this.env, this.path);
+        util.shell(this.buildCommand, env: this.env.copy(), cwd: this.path, inheritEnv: true);
 
         return utils.Utils.serveStaticFiles(this.buildDir, port);
       }
