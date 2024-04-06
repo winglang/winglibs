@@ -48,23 +48,25 @@ const processStreamRecords = async (client, StreamArn, handler, eventType, optio
       });
 
       for (const record of recordsData.Records) {
-        try {
-          await handler({
-            eventId: record.eventID,
-            eventName: record.eventName,
-            dynamodb: {
-              ApproximateCreationDateTime:
-                record.dynamodb.ApproximateCreationDateTime,
-              Keys: record.dynamodb.Keys,
-              NewImage: record.dynamodb.NewImage,
-              OldImage: record.dynamodb.OldImage,
-              SequenceNumber: record.dynamodb.SequenceNumber,
-              SizeBytes: record.dynamodb.SizeBytes,
-              StreamViewType: record.dynamodb.StreamViewType,
-            },
-          });
-        } catch (error) {
-          console.error("Error processing stream record:", error, record);
+        if (!event || record.eventName == event) {
+          try {
+            await handler({
+              eventId: record.eventID,
+              eventName: record.eventName,
+              dynamodb: {
+                ApproximateCreationDateTime:
+                  record.dynamodb.ApproximateCreationDateTime,
+                Keys: record.dynamodb.Keys,
+                NewImage: record.dynamodb.NewImage,
+                OldImage: record.dynamodb.OldImage,
+                SequenceNumber: record.dynamodb.SequenceNumber,
+                SizeBytes: record.dynamodb.SizeBytes,
+                StreamViewType: record.dynamodb.StreamViewType,
+              },
+            });
+          } catch (error) {
+            console.error("Error processing stream record:", error, record);
+          }
         }
       }
 

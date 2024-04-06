@@ -44,7 +44,6 @@ test "onDelete" {
     ReturnValues: "NONE",
   );
 
-  // util.sleep(2s);
   util.waitUntil((): bool => { return bucket.list().length == 1; }, interval: 2s);
 
   let list = bucket.list();
