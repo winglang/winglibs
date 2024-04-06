@@ -1,5 +1,3 @@
-export { default as getPort } from "get-port";
-
 import * as dynamodb from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
@@ -50,37 +48,23 @@ const processStreamRecords = async (client, StreamArn, handler, eventType, optio
       });
 
       for (const record of recordsData.Records) {
-        if (!event || record.eventName == event) {
-          try {
-            await handler({
-              eventId: record.eventID,
-              eventName: record.eventName,
-              dynamodb: {
-                ApproximateCreationDateTime:
-                  record.dynamodb.ApproximateCreationDateTime,
-                Keys: record.dynamodb.Keys
-                  ? unmarshall(record.dynamodb.Keys, {
-                    wrapNumbers: true,
-                  })
-                  : undefined,
-                NewImage: record.dynamodb.NewImage
-                  ? unmarshall(record.dynamodb.NewImage, {
-                    wrapNumbers: true,
-                  })
-                  : undefined,
-                OldImage: record.dynamodb.OldImage
-                  ? unmarshall(record.dynamodb.OldImage, {
-                    wrapNumbers: true,
-                  })
-                  : undefined,
-                SequenceNumber: record.dynamodb.SequenceNumber,
-                SizeBytes: record.dynamodb.SizeBytes,
-                StreamViewType: record.dynamodb.StreamViewType,
-              },
-            });
-          } catch (error) {
-            console.error("Error processing stream record:", error, record);
-          }
+        try {
+          await handler({
+            eventId: record.eventID,
+            eventName: record.eventName,
+            dynamodb: {
+              ApproximateCreationDateTime:
+                record.dynamodb.ApproximateCreationDateTime,
+              Keys: record.dynamodb.Keys,
+              NewImage: record.dynamodb.NewImage,
+              OldImage: record.dynamodb.OldImage,
+              SequenceNumber: record.dynamodb.SequenceNumber,
+              SizeBytes: record.dynamodb.SizeBytes,
+              StreamViewType: record.dynamodb.StreamViewType,
+            },
+          });
+        } catch (error) {
+          console.error("Error processing stream record:", error, record);
         }
       }
 

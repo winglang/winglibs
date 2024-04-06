@@ -33,27 +33,34 @@ table.setStreamConsumer(inflight (record) => {
 // Put and query.
 test "put and query" {
   table.put(
-    item: {
+    Item: {
       id: "1",
       body: "hello",
     },
   );
   let response = table.query(
-    keyConditionExpression: "id = :id",
-    expressionAttributeValues: {":id": "1"},
+    KeyConditionExpression: "id = :id",
+    ExpressionAttributeValues: {":id": "1"},
   );
-  assert(response.count == 1);
-  assert(response.items.at(0).get("id").asStr() == "1");
-  assert(response.items.at(0).get("body").asStr() == "hello");
+  assert(response.Count == 1);
+  assert(response.Items.at(0).get("id").asStr() == "1");
+  assert(response.Items.at(0).get("body").asStr() == "hello");
 }
 ```
 
 In case you want to instantiate your own DynamoDB SDK, you can get the connection details like this:
 
 ```wing
-let connection = table.connection();
-connection.endpoint;
-connection.tableName;
+table.connection.clientConfig.endpoint;
+table.connection.clientConfig.credentials;
+table.connection.clientConfig.region;
+table.connection.tableName;
+```
+
+So you can use the AWS SDK DynamoDB client like this:
+
+```js
+new DynamoDB(table.connection.clientConfig);
 ```
 
 ## License

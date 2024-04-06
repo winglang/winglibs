@@ -29,9 +29,9 @@ pull_request_rules:
       - "#changes-requested-reviews-by=0"
       - "#review-threads-unresolved=0"
       - -approved-reviews-by~=author
-      - check-success=Validate PR title
       - base=main
       - check-success=Validate PR title
+      - check-success=Check for mutations
       - -check-failure=build-bedrock
       - -check-pending=build-bedrock
       - -check-stale=build-bedrock
@@ -41,6 +41,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cognito
+      - -check-pending=build-cognito
+      - -check-stale=build-cognito
       - -check-failure=build-containers
       - -check-pending=build-containers
       - -check-stale=build-containers
@@ -56,6 +59,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
+      - -check-failure=build-jwt
+      - -check-pending=build-jwt
+      - -check-stale=build-jwt
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock
@@ -101,6 +107,7 @@ pull_request_rules:
       - -approved-reviews-by~=author
       - base=main
       - check-success=Validate PR title
+      - check-success=Check for mutations
       - -check-failure=build-bedrock
       - -check-pending=build-bedrock
       - -check-stale=build-bedrock
@@ -110,6 +117,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cognito
+      - -check-pending=build-cognito
+      - -check-stale=build-cognito
       - -check-failure=build-containers
       - -check-pending=build-containers
       - -check-stale=build-containers
@@ -125,6 +135,9 @@ pull_request_rules:
       - -check-failure=build-github
       - -check-pending=build-github
       - -check-stale=build-github
+      - -check-failure=build-jwt
+      - -check-pending=build-jwt
+      - -check-stale=build-jwt
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock

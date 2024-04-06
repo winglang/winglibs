@@ -1,0 +1,24 @@
+{
+  "name": "@winglibs/jwt",
+  "description": "Wing library for JWT authentication",
+  "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "jwt"
+  },
+  "author": {
+    "email": "eladc@wing.cloud",
+    "name": "Elad Cohen"
+  },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.1.0"
+  }
+}

@@ -1,7 +1,6 @@
 bring sim;
 bring util;
 bring cloud;
-bring containers;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
@@ -11,15 +10,9 @@ interface Client {
   inflight updateTimeToLive(input: Json): Json;
 }
 
-struct CreateClientOptions {
-  endpoint: str;
-  region: str;
-  credentials: Json;
-}
-
 class Util {
   extern "./dynamodb.mjs" pub static inflight getPort(): num;
-  extern "./dynamodb.mjs" pub static inflight createClient(options: CreateClientOptions): Client;
+  extern "./dynamodb.mjs" pub static inflight createClient(options: dynamodb_types.ClientConfig): Client;
   extern "./dynamodb.mjs" pub static inflight processRecordsAsync(
     endpoint: str,
     tableName: str,
@@ -33,15 +26,13 @@ class Host {
   pub endpoint: str;
 
   new() {
-    let containerName = "winglibs-dynamodb-{util.uuidv4()}";
-
-    let container = new containers.Workload(
-      name: containerName,
+    let container = new sim.Container(
+      name: "winglibs-dynamodb",
       image: "amazon/dynamodb-local",
-      port: 8000,
-      public: true,
+      containerPort: 8000,
     );
-    this.endpoint = container.publicUrl!;
+
+    this.endpoint = "http://localhost:{container.hostPort!}";
   }
 
   pub static of(scope: std.IResource): Host {
@@ -56,24 +47,38 @@ class Host {
 
 pub class Table_sim impl dynamodb_types.ITable {
   host: Host;
-  tableName: str;
+  pub tableName: str;
+  pub connection: dynamodb_types.Connection;
 
   new(props: dynamodb_types.TableProps) {
-    this.host = Host.of(this);
+    // Ideally, we would reuse the same host (and container) for all tables in
+    // the same application, but there seems to be a bug somewhere that prevents
+    // INSERT events from being processed when there's more than one table in
+    // the application.
+    //
+    // So, instead of `this.host = Host.of(this);`, we just:
+    this.host = new Host();
 
     let tableName = props.name ?? this.node.addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
+    let clientConfig = {
+      endpoint: this.host.endpoint,
+      region: "local",
+      credentials: {
+        accessKeyId: "local",
+        secretAccessKey: "local",
+      },
+    };
+
+    this.connection = {
+      tableName: tableName,
+      clientConfig: clientConfig
+    };
+
     new cloud.Service(inflight () => {
-      let client = Util.createClient({
-        endpoint: this.host.endpoint,
-        region: "local",
-        credentials: {
-          accessKeyId: "local",
-          secretAccessKey: "local",
-        },
-      });
+      let client = Util.createClient(clientConfig);
 
       let attributeDefinitions = MutArray<Json> [];
       for attributeDefinition in props.attributes {
@@ -135,6 +140,10 @@ pub class Table_sim impl dynamodb_types.ITable {
         return  nil;
       })();
 
+      // delete the table if it already exists because we might be reusing the container
+      try { client.deleteTable({ TableName: tableName }); } 
+      catch e { }
+
       util.waitUntil(() => {
         try {
           client.createTable({
@@ -166,13 +175,6 @@ pub class Table_sim impl dynamodb_types.ITable {
         }
       });
     });
-  }
-
-  pub connection(): dynamodb_types.Connection {
-    return {
-      endpoint: this.host.endpoint,
-      tableName: this.tableName,
-    };
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {

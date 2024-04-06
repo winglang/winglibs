@@ -9,17 +9,17 @@ pub class Bus impl types.IBus {
 
   eventBridge: cdk.aws_events.IEventBus;
 
-  new(props: types.BusProps) {
+  new(props: types.BusProps?) {
     let app = nodeof(this).app;
     // TODO: use typed properties when its available
-    if let eventBridgeName = unsafeCast(app)?.platformParameters?.getParameterValue("eventBridgeName") {
+    if let eventBridgeName = app.parameters.value("eventBridgeName") {
       this.eventBridge = cdk.aws_events.EventBus.fromEventBusName(this, "EventBridge", eventBridgeName);
     } else {
-      this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props.name) as "EventBridge";
+      this.eventBridge = new cdk.aws_events.EventBus(eventBusName: props?.name ?? "eventbridge-{this.node.addr.substring(0, 8)}") as "EventBridge";
     }
   }
 
-  pub subscribeFunction(name: str, handler: inflight (types.Event): void, pattern: Json): void {
+  pub onEvent(name: str, handler: inflight (types.Event): void, pattern: Json): void {
     // event will be json of type `types.Event`
     let funk = new cloud.Function(inflight (event) => {
       // since wing structs don't supoort custom serialization we need to do it manually

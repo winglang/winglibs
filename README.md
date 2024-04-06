@@ -10,19 +10,20 @@ publishing them for you.
 
 <!-- WINGLIBS_TOC_START -->
 
-## Table of contents
-
 | Library | npm package | Platforms |
 | --- | --- | --- |
 | [bedrock](./bedrock) | [@winglibs/bedrock](https://www.npmjs.com/package/@winglibs/bedrock) | sim, tf-aws |
 | [budget](./budget) | [@winglibs/budget](https://www.npmjs.com/package/@winglibs/budget) | sim, tf-aws |
 | [checks](./checks) | [@winglibs/checks](https://www.npmjs.com/package/@winglibs/checks) | * |
+| [cognito](./cognito) | [@winglibs/cognito](https://www.npmjs.com/package/@winglibs/cognito) | sim, tf-aws |
 | [containers](./containers) | [@winglibs/containers](https://www.npmjs.com/package/@winglibs/containers) | sim, tf-aws |
 | [dynamodb](./dynamodb) | [@winglibs/dynamodb](https://www.npmjs.com/package/@winglibs/dynamodb) | sim, tf-aws |
 | [eventbridge](./eventbridge) | [@winglibs/eventbridge](https://www.npmjs.com/package/@winglibs/eventbridge) | awscdk, sim, tf-aws |
 | [fifoqueue](./fifoqueue) | [@winglibs/fifoqueue](https://www.npmjs.com/package/@winglibs/fifoqueue) | sim, tf-aws |
 | [github](./github) | [@winglibs/github](https://www.npmjs.com/package/@winglibs/github) | * |
+| [jwt](./jwt) | [@winglibs/jwt](https://www.npmjs.com/package/@winglibs/jwt) | * |
 | [lock](./lock) | [@winglibs/lock](https://www.npmjs.com/package/@winglibs/lock) | * |
+| [messagefanout](./messagefanout) | [@winglibs/messagefanout](https://www.npmjs.com/package/@winglibs/messagefanout) | sim, tf-aws |
 | [ngrok](./ngrok) | [@winglibs/ngrok](https://www.npmjs.com/package/@winglibs/ngrok) | * |
 | [openai](./openai) | [@winglibs/openai](https://www.npmjs.com/package/@winglibs/openai) | * |
 | [postgres](./postgres) | [@winglibs/postgres](https://www.npmjs.com/package/@winglibs/postgres) | sim, tf-aws |
@@ -32,7 +33,7 @@ publishing them for you.
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
 | [websockets](./websockets) | [@winglibs/websockets](https://www.npmjs.com/package/@winglibs/websockets) | awscdk, sim, tf-aws |
 
-_Generated with `wing compile generate-workflows.w`._
+_Generated with `wing compile generate-workflows.w`. To update the list of supported platforms for a winglib, please update the "wing" section in its package.json file._
 
 <!-- WINGLIBS_TOC_END -->
 

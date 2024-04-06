@@ -3,6 +3,7 @@ bring "./canary.w" as canary;
 bring "./library.w" as l;
 bring "./mergify.w" as mergify;
 bring "./pr-lint.w" as prlint;
+bring "./pr-diff.w" as prdiff;
 bring "./stale.w" as stale;
 bring "./readme.w" as readme;
 
@@ -28,7 +29,8 @@ readme.update(libs.copy());
 
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
-new prlint.PullRequestLintWorkflow(workflowdir);
+new prdiff.PullRequestDiffWorkflow(workflowdir);
+new prlint.PullRequestLintWorkflow(workflowdir, libs.copy());
 
 let skipCanaryTests = [
   "containers" // https://github.com/winglang/wing/issues/5716
