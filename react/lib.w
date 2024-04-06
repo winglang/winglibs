@@ -2,27 +2,27 @@ bring cloud;
 bring ui;
 bring util;
 
-bring "./shared.w" as appShared;
+bring "./api.w" as appApi;
 bring "./sim.w" as appSim;
 bring "./tf-aws.w" as appTfAws;
 
 pub class App {
   pub url: str;
 
-  platform: appShared.IApp;
+  inner: appApi.IApp;
 
-  new(props: appShared.AppPros) {
+  new(props: appApi.AppPros) {
     let target = util.env("WING_TARGET");
 
     if target == "sim" {
-      this.platform = new appSim.AppSim(props);
+      this.inner = new appSim.AppSim(props);
     } elif target == "tf-aws" {
-      this.platform = new appTfAws.AppTfAws(props); 
+      this.inner = new appTfAws.AppTfAws(props); 
     } else {
       throw "unknown platform {target}";
     }
 
-    this.url = this.platform.getUrl();
+    this.url = this.inner.getUrl();
 
     new ui.Field("url", inflight () => {
       return this.url;
@@ -36,6 +36,6 @@ pub class App {
   }
 
   pub addEnvironment(key: str, value: str) {
-    this.platform.addEnvironment(key, value);
+    this.inner.addEnvironment(key, value);
   }
 }

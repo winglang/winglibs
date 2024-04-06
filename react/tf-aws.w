@@ -2,13 +2,13 @@ bring cloud;
 bring fs;
 bring util;
 
-bring "./shared.w" as shared;
+bring "./api.w" as api;
 bring "./utils.w" as utils;
 
-pub class AppTfAws extends shared.AppBase impl shared.IApp {
+pub class AppTfAws extends api.AppBase impl api.IApp {
   var website: cloud.Website;
 
-  new(props: shared.AppPros) {
+  new(props: api.AppPros) {
     super(props);
 
     utils.Utils.execSync(this.buildCommand, this.env, this.path);

@@ -3,13 +3,13 @@ bring fs;
 bring sim;
 bring util;
 
-bring "./shared.w" as shared;
+bring "./api.w" as api;
 bring "./utils.w" as utils;
 
-pub class AppSim extends shared.AppBase impl shared.IApp {
+pub class AppSim extends api.AppBase impl api.IApp {
   pub url: str;
 
-  new(props: shared.AppPros) {
+  new(props: api.AppPros) {
     super(props);
 
     let state = new sim.State();
