@@ -90,6 +90,10 @@ function App() {
 export default App;
 ```
 
+## Maintainers
+
+[@meirdev](https://github.com/meirdev)
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE).
