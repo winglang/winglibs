@@ -364,6 +364,27 @@ jobs:
       - name: Test
         run: wing test
         working-directory: simtools
+  canary-tsoa:
+    name: Test tsoa
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: tsoa
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: tsoa
+      - name: Test
+        run: wing test
+        working-directory: tsoa
   canary-vite:
     name: Test vite
     runs-on: ubuntu-latest
