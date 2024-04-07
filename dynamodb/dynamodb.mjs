@@ -53,21 +53,9 @@ const processStreamRecords = async (client, StreamArn, handler, options) => {
             dynamodb: {
               ApproximateCreationDateTime:
                 record.dynamodb.ApproximateCreationDateTime,
-              Keys: record.dynamodb.Keys
-                ? unmarshall(record.dynamodb.Keys, {
-                    wrapNumbers: true,
-                  })
-                : undefined,
-              NewImage: record.dynamodb.NewImage
-                ? unmarshall(record.dynamodb.NewImage, {
-                    wrapNumbers: true,
-                  })
-                : undefined,
-              OldImage: record.dynamodb.OldImage
-                ? unmarshall(record.dynamodb.OldImage, {
-                    wrapNumbers: true,
-                  })
-                : undefined,
+              Keys: record.dynamodb.Keys,
+              NewImage: record.dynamodb.NewImage,
+              OldImage: record.dynamodb.OldImage,
               SequenceNumber: record.dynamodb.SequenceNumber,
               SizeBytes: record.dynamodb.SizeBytes,
               StreamViewType: record.dynamodb.StreamViewType,
