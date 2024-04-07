@@ -34,6 +34,8 @@ service.liftClient("bucket", bucket, ["put"]);
 
 ```ts
 // someController.ts ...
+import { getClient } from "@winglibs/tsoa/clients.js";
+
 @Get("{userId}")
 public async getUser(
   @Path() userId: number,
