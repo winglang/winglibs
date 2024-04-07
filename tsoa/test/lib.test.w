@@ -1,3 +1,4 @@
+bring cloud;
 bring http;
 bring expect;
 bring "../lib.w" as tsoa;
@@ -7,11 +8,14 @@ struct User {
   name: str;
 }
 
+let bucket = new cloud.Bucket();
 let service = new tsoa.Service(
   controllerPathGlobs: ["../test-assets/*Controller.ts"],
   outputDirectory: "../test-assets/build",
   routesDir: "../test-assets/build",
 );
+
+service.liftClient("bucket", bucket, ["put"]);
 
 test "will start tsoa service" {
   let res = http.get("{service.url}/users/123?name=stam");
@@ -20,4 +24,5 @@ test "will start tsoa service" {
   let user = User.parseJson(res.body);
   expect.equal(user.id, 123);
   expect.equal(user.name, "stam");
+  expect.equal(bucket.get("123"), "stam");
 }

@@ -19,7 +19,8 @@
   "license": "MIT",
   "peerDependencies": {
     "express": "^4.19.2",
-    "ts-import": "^4.0.0-beta.10",
-    "tsoa": "^6.2.0"
+    "tsoa": "^6.2.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.4"
   }
 }

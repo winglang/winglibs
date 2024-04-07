@@ -1,10 +1,13 @@
 const express = require("express");
-const { mkdtemp } = require("fs/promises");
-const { join, resolve } = require("path");
-const tsImport = require("ts-import");
+const { setClients } = require("./clients");
 
-exports.runServer = async (workDir, buildDir) => {
+exports.runServer = async (routes, clients) => {
   const app = express();
+
+  app.use((req, res, next) => {
+    setClients(req, clients);
+    next();
+  });
 
   app.use(
     express.urlencoded({
@@ -14,15 +17,8 @@ exports.runServer = async (workDir, buildDir) => {
   app.use(express.json());
 
   try {
-    const outDir = await mkdtemp(join(resolve(workDir), "-cache-tsoa"))
-    const routes = tsImport.loadSync(`${buildDir}/routes.ts`, {
-      mode: "compile",
-      useCache: false,
-      compilerOptions: {
-        outDir,
-      }
-    });
-    routes.RegisterRoutes(app);
+    const { RegisterRoutes } = require(routes);
+    RegisterRoutes(app);
   } catch (e) {
     console.log(e);
     throw e;

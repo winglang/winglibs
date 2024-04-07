@@ -7,7 +7,11 @@ import {
 	Query,
 	Route,
 	SuccessResponse,
+	Request,
 } from "tsoa";
+
+import { getClient } from "../clients.js";
+import { Request as Req } from "express";
 
 interface User {
 	id: number;
@@ -29,8 +33,12 @@ export class UsersController extends Controller {
 	@Get("{userId}")
 	public async getUser(
 		@Path() userId: number,
+		@Request() request: Req,
 		@Query() name?: string,
 	): Promise<User> {
+		let bucket = getClient(request, "bucket");
+		bucket.put(userId.toString(), name ?? "not-a-name");
+
     return  {
       id :userId,
       name: name ?? "not-a-name",
