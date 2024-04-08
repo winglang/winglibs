@@ -27,7 +27,11 @@ pub class CanaryWorkflow {
         },
         {
           name: "Install winglang",
-          run: "npm i -g winglang",
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "npm i -g winglang --loglevel verbose"
+          },
         },
         {
           name: "Install dependencies",
