@@ -158,16 +158,6 @@ pub class Table_sim impl dynamodb_types.ITable {
             },
           });
 
-          if let timeToLiveAttribute = props.timeToLiveAttribute {
-            client.updateTimeToLive({
-              TableName: tableName,
-              TimeToLiveSpecification: {
-                AttributeName: timeToLiveAttribute,
-                Enabled: true,
-              },
-            });
-          }
-
           // Wait until we can describe the table. This is
           // to ensure that the table is ready to be used.
           util.waitUntil(() => {
@@ -180,6 +170,16 @@ pub class Table_sim impl dynamodb_types.ITable {
               return false;
             }
           });
+
+          if let timeToLiveAttribute = props.timeToLiveAttribute {
+            client.updateTimeToLive({
+              TableName: tableName,
+              TimeToLiveSpecification: {
+                AttributeName: timeToLiveAttribute,
+                Enabled: true,
+              },
+            });
+          }
 
           state.set("tableName", tableName);
           return true;
