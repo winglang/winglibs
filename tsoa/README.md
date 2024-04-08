@@ -58,8 +58,8 @@ public async getUser(
 ## Roadmap
 
 - [x] Support `sim` platform
-- [ ] Add Console support for http client (depdens on https://github.com/winglang/wing/issues/6131) 
-- [ ] Support `tf-aws` platform using [Amazon Api Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+- [ ] Add Console support for http client (depends on https://github.com/winglang/wing/issues/6131) 
+- [x] Support `tf-aws` platform using [Amazon Api Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
 - [ ] Support `gcp` platform using [GCP Api Gateway](https://cloud.google.com/api-gateway)
 
 ## License
