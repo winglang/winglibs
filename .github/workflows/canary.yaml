@@ -17,14 +17,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: bedrock
       - name: Test
         run: wing test
@@ -42,14 +46,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: budget
       - name: Test
         run: wing test
@@ -67,14 +75,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: checks
       - name: Test
         run: wing test
@@ -92,14 +104,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: cognito
       - name: Test
         run: wing test
@@ -117,14 +133,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: dynamodb
       - name: Test
         run: |
@@ -145,14 +165,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: eventbridge
       - name: Test
         run: wing test
@@ -170,14 +194,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: fifoqueue
       - name: Test
         run: wing test
@@ -195,14 +223,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: github
       - name: Test
         run: wing test
@@ -220,14 +252,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: jwt
       - name: Test
         run: wing test
@@ -245,14 +281,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: lock
       - name: Test
         run: wing test
@@ -270,14 +310,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: messagefanout
       - name: Test
         run: wing test
@@ -295,14 +339,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: ngrok
       - name: Test
         run: wing test
@@ -320,14 +368,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: openai
       - name: Test
         run: wing test
@@ -345,14 +397,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: postgres
       - name: Test
         run: wing test
@@ -370,14 +426,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: react
       - name: Test
         run: |
@@ -399,14 +459,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: redis
       - name: Test
         run: wing test
@@ -424,14 +488,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: sagemaker
       - name: Test
         run: wing test
@@ -449,14 +517,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: simtools
       - name: Test
         run: wing test
@@ -474,14 +546,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: tsoa
       - name: Test
         run: wing test
@@ -499,14 +575,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: vite
       - name: Test
         run: wing test
@@ -524,14 +604,18 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
-      - name: Install winglang
+      - name: Install winglang and dependencies
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: npm i -g winglang --loglevel verbose
           timeout_minutes: 3
       - name: Install dependencies
-        run: npm install --include=dev
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
         working-directory: websockets
       - name: Test
         run: wing test

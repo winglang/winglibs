@@ -26,7 +26,7 @@ pub class CanaryWorkflow {
           },
         },
         {
-          name: "Install winglang",
+          name: "Install winglang and dependencies",
           uses: "nick-fields/retry@v3",
           with: {
             max_attempts: 3,
@@ -36,7 +36,12 @@ pub class CanaryWorkflow {
         },
         {
           name: "Install dependencies",
-          run: "npm install --include=dev",
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "npm i --include=dev --loglevel verbose",
+            timeout_minutes: 3,
+          },
           "working-directory": lib,
         },
         {
