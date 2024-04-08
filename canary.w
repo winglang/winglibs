@@ -39,10 +39,9 @@ pub class CanaryWorkflow {
           uses: "nick-fields/retry@v3",
           with: {
             max_attempts: 3,
-            command: "npm i --include=dev --loglevel verbose",
+            command: "cd {lib} && npm i --include=dev --loglevel verbose",
             timeout_minutes: 3,
           },
-          "working-directory": lib,
         },
         {
           name: "Test",

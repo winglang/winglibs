@@ -27,9 +27,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd bedrock && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: bedrock
       - name: Test
         run: wing test
         working-directory: bedrock
@@ -56,9 +55,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd budget && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: budget
       - name: Test
         run: wing test
         working-directory: budget
@@ -85,9 +83,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd checks && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: checks
       - name: Test
         run: wing test
         working-directory: checks
@@ -114,9 +111,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd cognito && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: cognito
       - name: Test
         run: wing test
         working-directory: cognito
@@ -143,9 +139,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd dynamodb && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: dynamodb
       - name: Test
         run: |
           for testfile in tests/*.test.w; do
@@ -175,9 +170,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd eventbridge && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: eventbridge
       - name: Test
         run: wing test
         working-directory: eventbridge
@@ -204,9 +198,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd fifoqueue && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: fifoqueue
       - name: Test
         run: wing test
         working-directory: fifoqueue
@@ -233,9 +226,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd github && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: github
       - name: Test
         run: wing test
         working-directory: github
@@ -262,9 +254,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd jwt && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: jwt
       - name: Test
         run: wing test
         working-directory: jwt
@@ -291,9 +282,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd lock && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: lock
       - name: Test
         run: wing test
         working-directory: lock
@@ -320,9 +310,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd messagefanout && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: messagefanout
       - name: Test
         run: wing test
         working-directory: messagefanout
@@ -349,9 +338,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd ngrok && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: ngrok
       - name: Test
         run: wing test
         working-directory: ngrok
@@ -378,9 +366,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd openai && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: openai
       - name: Test
         run: wing test
         working-directory: openai
@@ -407,9 +394,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd postgres && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: postgres
       - name: Test
         run: wing test
         working-directory: postgres
@@ -436,9 +422,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd react && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: react
       - name: Test
         run: |
           cd test/react-project
@@ -469,9 +454,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd redis && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: redis
       - name: Test
         run: wing test
         working-directory: redis
@@ -498,9 +482,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd sagemaker && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: sagemaker
       - name: Test
         run: wing test
         working-directory: sagemaker
@@ -527,9 +510,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd simtools && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: simtools
       - name: Test
         run: wing test
         working-directory: simtools
@@ -556,9 +538,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd tsoa && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: tsoa
       - name: Test
         run: wing test
         working-directory: tsoa
@@ -585,9 +566,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd vite && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: vite
       - name: Test
         run: wing test
         working-directory: vite
@@ -614,9 +594,8 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: npm i --include=dev --loglevel verbose
+          command: cd websockets && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-        working-directory: websockets
       - name: Test
         run: wing test
         working-directory: websockets
