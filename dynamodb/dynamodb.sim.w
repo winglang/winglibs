@@ -8,6 +8,7 @@ interface Client {
   inflight createTable(input: Json): Json;
   inflight deleteTable(input: Json): Json;
   inflight updateTimeToLive(input: Json): Json;
+  inflight describeTable(input: Json): Json;
 }
 
 class Util {
@@ -140,7 +141,7 @@ pub class Table_sim impl dynamodb_types.ITable {
       })();
 
       // delete the table if it already exists because we might be reusing the container
-      try { client.deleteTable({ TableName: tableName }); } 
+      try { client.deleteTable({ TableName: tableName }); }
       catch e { }
 
       util.waitUntil(() => {
@@ -166,6 +167,19 @@ pub class Table_sim impl dynamodb_types.ITable {
               },
             });
           }
+
+          // Wait until we can describe the table. This is
+          // to ensure that the table is ready to be used.
+          util.waitUntil(() => {
+            try {
+              client.describeTable({
+                TableName: tableName,
+              });
+              return true;
+            } catch error {
+              return false;
+            }
+          });
 
           state.set("tableName", tableName);
           return true;
