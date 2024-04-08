@@ -30,7 +30,8 @@ pub class CanaryWorkflow {
           uses: "nick-fields/retry@v3",
           with: {
             max_attempts: 3,
-            command: "npm i -g winglang --loglevel verbose"
+            command: "npm i -g winglang --loglevel verbose",
+            timeout_minutes: 3,
           },
         },
         {
