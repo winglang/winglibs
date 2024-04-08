@@ -21,6 +21,19 @@ require("tsup").build({
   execSync(`node -e '${code}'`, { env: { HOME: homeEnv, PATH: pathEnv }, cwd });
 }
 exports.startService = async (props) => {
+  const { clients } = props;
+  try {
+    const outdir = await exports.buildService(props);
+    console.log("starting server...");
+    const { runServer } = require("./app.js");
+    return runServer(join(outdir, "routes.js"), clients);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+exports.buildService = async (props) => {
   const { basedir, workdir, options, homeEnv, pathEnv, clients } = props;
   try {
     const specOptions = {
@@ -50,9 +63,32 @@ exports.startService = async (props) => {
     console.log("compiling routes...");
     const outdir = mkdtempSync(join(resolve(workdir), "-cache-tsoa"))
     await build(require.resolve(join(routeOptions.routesDir, "./routes.ts")), outdir, basedir, homeEnv, pathEnv);
-    console.log("starting server...");
-    const { runServer } = require("./app.js");
-    return runServer(join(outdir, "routes.js"), clients);
+    return outdir;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+}
+
+exports.build = (props) => {
+  props.workdir = resolve(props.workdir);
+  const { currentdir, basedir, workdir, options, homeEnv, pathEnv, clients } = props;
+  console.log("building service...")
+  try {
+    const code = `
+require("${currentdir}/lib.js").buildService(${JSON.stringify(props)}).then((res) => {
+  console.log(\`output=\$\{res\}\`);
+})
+`
+    const output = execSync(`node -e '${code}'`, { env: { HOME: homeEnv, PATH: pathEnv }, cwd: basedir });
+    let outdir;
+    for (let line of output.toString().split(/\r?\n/)) {
+      if (line.startsWith("output=")) {
+        outdir = line.slice("output=".length);
+      }
+    }
+
+    return join(outdir, "routes.js");
   } catch (e) {
     console.log(e);
     throw e;

@@ -1,4 +1,5 @@
 export default interface extern {
+  build: (options: StartServiceOptions) => string,
   dirname: () => string,
   startService: (options: StartServiceOptions) => Promise<StartResponse$Inflight>,
 }
@@ -209,6 +210,7 @@ export interface ServiceProps {
 export interface StartServiceOptions {
   readonly basedir: string;
   readonly clients: Readonly<Record<string, Resource>>;
+  readonly currentdir: string;
   readonly homeEnv: string;
   readonly options: ServiceProps;
   readonly pathEnv: string;
