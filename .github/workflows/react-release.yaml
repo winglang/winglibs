@@ -25,7 +25,11 @@ jobs:
         run: npm install --include=dev
         working-directory: react
       - name: Test
-        run: wing test
+        run: |
+          cd test/react-project
+          npm install
+          cd ../..
+          wing test
         working-directory: react
       - name: Pack
         run: wing pack

@@ -21,11 +21,12 @@ jobs:
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: react
-      - name: Install React project dependencies
-        run: npm install
-        working-directory: react/test/react-project
       - name: Test
-        run: wing test
+        run: |
+          cd test/react-project
+          npm install
+          cd ../..
+          wing test
         working-directory: react
       - name: Pack
         run: wing pack
