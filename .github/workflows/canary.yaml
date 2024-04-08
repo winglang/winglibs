@@ -18,7 +18,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: bedrock
@@ -39,7 +42,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: budget
@@ -60,7 +66,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: checks
@@ -81,7 +90,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: cognito
@@ -102,7 +114,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: dynamodb
@@ -126,7 +141,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: eventbridge
@@ -147,7 +165,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: fifoqueue
@@ -168,7 +189,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: github
@@ -189,7 +213,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: jwt
@@ -210,7 +237,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: lock
@@ -231,7 +261,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: messagefanout
@@ -252,7 +285,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: ngrok
@@ -273,7 +309,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: openai
@@ -294,7 +333,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: postgres
@@ -315,7 +357,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: react
@@ -340,7 +385,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: redis
@@ -361,7 +409,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: sagemaker
@@ -382,7 +433,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: simtools
@@ -403,7 +457,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: tsoa
@@ -424,7 +481,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: vite
@@ -445,7 +505,10 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: Install winglang
-        run: npm i -g winglang
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
       - name: Install dependencies
         run: npm install --include=dev
         working-directory: websockets
