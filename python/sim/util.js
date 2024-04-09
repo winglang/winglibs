@@ -33,6 +33,10 @@ exports.dirname = function() {
   return __dirname;
 };
 
+exports.os = function() {
+  return process.platform;
+};
+
 exports.contentHash = function(patterns, cwd) {
   const hash = crypto.createHash('md5');
   const files = glob.sync(patterns, { nodir: true, cwd });

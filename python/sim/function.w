@@ -51,12 +51,18 @@ pub class Function impl types.IFunction {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
+      let platform = Function.os();
+      let var host = "http://host.docker.internal";
+      if platform != "darwin" && platform != "win32" {
+        host = "http://172.17.0.1";
+      }
+
       for e in Function.env().entries() {
         let var value = e.value;
         if value.contains("http://localhost") {
-          value = value.replace("http://localhost", "http://host.docker.internal");
+          value = value.replace("http://localhost", host);
         } elif value.contains("http://127.0.0.1") {
-          value = value.replace("http://127.0.0.1", "http://host.docker.internal");
+          value = value.replace("http://127.0.0.1", host);
         }
         env.set(e.key, value);
       }
@@ -78,9 +84,9 @@ pub class Function impl types.IFunction {
 
   pub inflight invoke(payload: str?): str? {
     let res = http.post(this.url, { body: payload ?? "\{}" });
-    log("Function response: {Json.stringify(res)}");
     return res.body;
   }
 
   extern "./util.js" inflight static env(): Map<str>;
+  extern "./util.js" inflight static os(): str;
 }
