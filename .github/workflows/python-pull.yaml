@@ -16,6 +16,11 @@ jobs:
         with:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
+      - name: Find Docker Host IP
+        uses: addnab/docker-run-action@v1
+        with:
+          image: alpine:latest
+          run: apk update > /dev/null && apk add iproute2 > /dev/null && ip -4 route show default | cut -d' ' -f3
       - name: Install winglang
         run: npm i -g winglang
       - name: Install dependencies
