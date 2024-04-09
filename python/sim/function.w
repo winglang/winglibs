@@ -43,6 +43,7 @@ pub class Function impl types.IFunction {
       public: true,
       port: 9001,
       args: [props.handler],
+      flags: flags.copy(),
     );
     
     this.service = new cloud.Service(inflight () => {
