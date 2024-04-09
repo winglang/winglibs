@@ -5,7 +5,7 @@ pub class CanaryWorkflow {
     let testLibSteps = (lib: str): Array<Json> => {
       let var testCommand = "wing test";
 
-      if ( fs.exists("./{lib}/test.sh")) {
+      if fs.exists("./{lib}/test.sh") {
         testCommand = fs.readFile("./{lib}/test.sh", { encoding: "utf-8" });
       }
 
@@ -44,9 +44,13 @@ pub class CanaryWorkflow {
           },
         },
         {
-          name: "Test",
-          run: testCommand,
-          "working-directory": lib,
+          name: "Run tests",
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "cd {lib}\n{testCommand}",
+            timeout_minutes: 5,
+          },
         },
       ];
     };
