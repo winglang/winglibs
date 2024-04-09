@@ -40,6 +40,7 @@ jobs:
             openai
             postgres
             python
+            react
             redis
             sagemaker
             simtools

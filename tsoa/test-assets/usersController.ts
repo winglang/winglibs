@@ -37,7 +37,7 @@ export class UsersController extends Controller {
 		@Query() name?: string,
 	): Promise<User> {
 		let bucket = getClient(request, "bucket");
-		bucket.put(userId.toString(), name ?? "not-a-name");
+		await bucket.put(userId.toString(), name ?? "not-a-name");
 
     return  {
       id :userId,

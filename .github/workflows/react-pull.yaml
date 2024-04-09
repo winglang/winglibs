@@ -1,0 +1,33 @@
+name: react-pull
+on:
+  pull_request:
+    paths:
+      - react/**
+jobs:
+  build-react:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: react
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: react
+      - name: Test
+        run: |
+          cd test/react-project
+          npm install
+          cd ../..
+          wing test
+        working-directory: react
+      - name: Pack
+        run: wing pack
+        working-directory: react
