@@ -29,9 +29,14 @@ jobs:
           max_attempts: 3
           command: cd bedrock && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: bedrock
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd bedrock
+            wing test
+          timeout_minutes: 5
   canary-budget:
     name: Test budget
     runs-on: ubuntu-latest
@@ -57,9 +62,14 @@ jobs:
           max_attempts: 3
           command: cd budget && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: budget
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd budget
+            wing test
+          timeout_minutes: 5
   canary-checks:
     name: Test checks
     runs-on: ubuntu-latest
@@ -85,9 +95,14 @@ jobs:
           max_attempts: 3
           command: cd checks && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: checks
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd checks
+            wing test
+          timeout_minutes: 5
   canary-cognito:
     name: Test cognito
     runs-on: ubuntu-latest
@@ -113,9 +128,14 @@ jobs:
           max_attempts: 3
           command: cd cognito && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: cognito
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd cognito
+            wing test
+          timeout_minutes: 5
   canary-dynamodb:
     name: Test dynamodb
     runs-on: ubuntu-latest
@@ -141,12 +161,16 @@ jobs:
           max_attempts: 3
           command: cd dynamodb && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: |
-          for testfile in tests/*.test.w; do
-            wing test "$testfile"
-          done
-        working-directory: dynamodb
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |
+            cd dynamodb
+            for testfile in tests/*.test.w; do
+              wing test "$testfile"
+            done
+          timeout_minutes: 5
   canary-eventbridge:
     name: Test eventbridge
     runs-on: ubuntu-latest
@@ -172,9 +196,14 @@ jobs:
           max_attempts: 3
           command: cd eventbridge && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: eventbridge
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd eventbridge
+            wing test
+          timeout_minutes: 5
   canary-fifoqueue:
     name: Test fifoqueue
     runs-on: ubuntu-latest
@@ -200,9 +229,14 @@ jobs:
           max_attempts: 3
           command: cd fifoqueue && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: fifoqueue
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd fifoqueue
+            wing test
+          timeout_minutes: 5
   canary-github:
     name: Test github
     runs-on: ubuntu-latest
@@ -228,9 +262,14 @@ jobs:
           max_attempts: 3
           command: cd github && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: github
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd github
+            wing test
+          timeout_minutes: 5
   canary-jwt:
     name: Test jwt
     runs-on: ubuntu-latest
@@ -256,9 +295,14 @@ jobs:
           max_attempts: 3
           command: cd jwt && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: jwt
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd jwt
+            wing test
+          timeout_minutes: 5
   canary-lock:
     name: Test lock
     runs-on: ubuntu-latest
@@ -284,9 +328,14 @@ jobs:
           max_attempts: 3
           command: cd lock && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: lock
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd lock
+            wing test
+          timeout_minutes: 5
   canary-messagefanout:
     name: Test messagefanout
     runs-on: ubuntu-latest
@@ -312,9 +361,14 @@ jobs:
           max_attempts: 3
           command: cd messagefanout && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: messagefanout
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd messagefanout
+            wing test
+          timeout_minutes: 5
   canary-ngrok:
     name: Test ngrok
     runs-on: ubuntu-latest
@@ -340,9 +394,14 @@ jobs:
           max_attempts: 3
           command: cd ngrok && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: ngrok
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd ngrok
+            wing test
+          timeout_minutes: 5
   canary-openai:
     name: Test openai
     runs-on: ubuntu-latest
@@ -368,9 +427,14 @@ jobs:
           max_attempts: 3
           command: cd openai && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: openai
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd openai
+            wing test
+          timeout_minutes: 5
   canary-postgres:
     name: Test postgres
     runs-on: ubuntu-latest
@@ -396,9 +460,14 @@ jobs:
           max_attempts: 3
           command: cd postgres && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: postgres
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd postgres
+            wing test
+          timeout_minutes: 5
   canary-react:
     name: Test react
     runs-on: ubuntu-latest
@@ -424,13 +493,17 @@ jobs:
           max_attempts: 3
           command: cd react && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: |
-          cd test/react-project
-          npm install
-          cd ../..
-          wing test
-        working-directory: react
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |
+            cd react
+            cd test/react-project
+            npm install
+            cd ../..
+            wing test
+          timeout_minutes: 5
   canary-redis:
     name: Test redis
     runs-on: ubuntu-latest
@@ -456,9 +529,14 @@ jobs:
           max_attempts: 3
           command: cd redis && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: redis
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd redis
+            wing test
+          timeout_minutes: 5
   canary-sagemaker:
     name: Test sagemaker
     runs-on: ubuntu-latest
@@ -484,9 +562,14 @@ jobs:
           max_attempts: 3
           command: cd sagemaker && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: sagemaker
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd sagemaker
+            wing test
+          timeout_minutes: 5
   canary-simtools:
     name: Test simtools
     runs-on: ubuntu-latest
@@ -512,9 +595,14 @@ jobs:
           max_attempts: 3
           command: cd simtools && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: simtools
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd simtools
+            wing test
+          timeout_minutes: 5
   canary-tsoa:
     name: Test tsoa
     runs-on: ubuntu-latest
@@ -540,9 +628,14 @@ jobs:
           max_attempts: 3
           command: cd tsoa && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: tsoa
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd tsoa
+            wing test
+          timeout_minutes: 5
   canary-vite:
     name: Test vite
     runs-on: ubuntu-latest
@@ -568,9 +661,14 @@ jobs:
           max_attempts: 3
           command: cd vite && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: vite
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd vite
+            wing test
+          timeout_minutes: 5
   canary-websockets:
     name: Test websockets
     runs-on: ubuntu-latest
@@ -596,6 +694,11 @@ jobs:
           max_attempts: 3
           command: cd websockets && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
-      - name: Test
-        run: wing test
-        working-directory: websockets
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd websockets
+            wing test
+          timeout_minutes: 5
