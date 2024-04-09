@@ -1,12 +1,21 @@
 bring aws;
 bring cloud;
-bring containers;
 bring http;
 bring util;
+bring sim;
 bring "constructs" as constructs;
 bring "cdktf" as cdktf;
 bring "@rybickic/cdktf-provider-neon" as rawNeon;
 bring "@cdktf/provider-aws" as tfaws;
+
+pub struct ConnectionOptions {
+  host: str;
+  port: num?; // default: 5432
+  user: str;
+  password: str;
+  database: str;
+  ssl: bool;
+}
 
 pub struct DatabaseProps {
   /**
@@ -22,9 +31,11 @@ pub struct DatabaseProps {
 
 pub interface IDatabase {
   inflight query(query: str): Array<Map<Json>>;
+  inflight connectionOptions(): ConnectionOptions;
 }
 
 pub class Database {
+
   inner: IDatabase;
   new(props: DatabaseProps) {
     let target = util.env("WING_TARGET");
@@ -40,35 +51,39 @@ pub class Database {
   pub inflight query(query: str): Array<Map<Json>> {
     return this.inner.query(query);
   }
+  pub inflight connectionOptions(): ConnectionOptions  {
+    return this.inner.connectionOptions();
+  }
 }
 
 class DatabaseSim impl IDatabase {
-  url: str?;
+  port: str;
   new(props: DatabaseProps) {
     let image = "postgres:{props.pgVersion ?? 15}";
-    let container = new containers.Workload(
+    let container = new sim.Container(
       name: "postgres",
       image: image,
       env: {
         POSTGRES_PASSWORD: "password"
       },
-      port: 5432,
-      public: true,
+      containerPort:5432
       // TODO: implement readiness check?
     );
-    this.url = container.publicUrl;
+    this.port = container.hostPort!;
   }
-
-  pub inflight query(query: str): Array<Map<Json>> {
-    let port = num.fromStr(http.parseUrl(this.url ?? "error").port);
-    return PgUtil._query(query, {
+  pub inflight connectionOptions(): ConnectionOptions  {
+    return {
       host: "localhost",
       password: "password",
       database: "postgres",
       user: "postgres",
-      port: port,
+      port: num.fromStr(this.port),
       ssl: false,
-    });
+    };
+  }
+
+  pub inflight query(query: str): Array<Map<Json>> {
+    return PgUtil._query(query, this.connectionOptions());
   }
 }
 
@@ -88,7 +103,8 @@ class DatabaseNeon impl IDatabase {
     // TODO: share a project between multiple databases
     let project = new rawNeon.project.Project(
       name: props.name,
-      pgVersion: props.pgVersion ?? 15,
+      historyRetentionSeconds: 1d.seconds, // Free tier limitation
+      pgVersion: props.pgVersion ?? 16,
     );
 
     let db = new rawNeon.database.Database(
@@ -96,9 +112,11 @@ class DatabaseNeon impl IDatabase {
       branchId: project.defaultBranchId,
       ownerName: project.databaseUser,
       name: props.name,
+
     );
 
     this.creds = new cloud.Secret() as "NeonCredentials";
+
 
     // TODO: avoid hard-coding for AWS
     let secretsManagerSecret: tfaws.secretsmanagerSecret.SecretsmanagerSecret = unsafeCast(this.creds.node.findChild("Default"));
@@ -123,26 +141,20 @@ class DatabaseNeon impl IDatabase {
 
     return new rawNeon.provider.NeonProvider() as singletonKey in stack;
   }
+  pub inflight connectionOptions(): ConnectionOptions {
+    let creds = DbCredentials.fromJson(this.creds.valueJson());
+    return {
+        host: creds.host,
+        user: creds.user,
+        password: creds.password,
+        database: creds.database,
+        ssl: true,
+    };
+  }
 
   pub inflight query(query: str): Array<Map<Json>> {
-    let creds = DbCredentials.fromJson(this.creds.valueJson());
-    return PgUtil._query(query, {
-      host: creds.host,
-      user: creds.user,
-      password: creds.password,
-      database: creds.database,
-      ssl: true,
-    });
+    return PgUtil._query(query, this.connectionOptions());
   }
-}
-
-struct ConnectionOptions {
-  host: str;
-  port: num?; // default: 5432
-  user: str;
-  password: str;
-  database: str;
-  ssl: bool;
 }
 
 class PgUtil {
