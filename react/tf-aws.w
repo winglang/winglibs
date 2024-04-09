@@ -20,6 +20,7 @@ pub class AppTfAws extends api.AppBase impl api.IApp {
     this.website = new cloud.Website(
       path: this.buildDir,
       errorDocument: "index.html",
+      domain: this.props.domain,
     );
   }
 
