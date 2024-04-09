@@ -2,11 +2,8 @@ const child_process = require("node:child_process");
 const http = require("node:http");
 
 const finalhandler = require("finalhandler");
-const getPort = require("get-port");
 const serveStatic = require("serve-static");
 const treeKill = require("tree-kill");
-
-exports.getPort = getPort;
 
 exports.exec = (command, env, cwd) => {
   process.env.NODE_NO_WARNINGS = "1"; // disable deprecation warnings

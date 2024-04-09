@@ -17,8 +17,6 @@ pub class AppSim extends api.AppBase impl api.IApp {
     this.url = state.token("url");
 
     let service = new cloud.Service(inflight () => {
-      // TODO: solution for test environment
-      // let var port = utils.Utils.getPort();
       let port = props.localPort ?? 3001;
 
       state.set("url", "http://localhost:{port}");
