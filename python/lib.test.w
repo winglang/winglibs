@@ -13,6 +13,7 @@ func.liftClient("bucket", bucket, ["get", "put"]);
 
 test "invokes the function" {
   let res = func.invoke();
+  log("res: {res ?? "null"}");
   expect.equal(Json.parse(res!).get("body"), "Hello!");
   expect.equal(bucket.get("test.txt"), "Hello, world!");
 }

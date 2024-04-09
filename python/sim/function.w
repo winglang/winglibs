@@ -78,6 +78,7 @@ pub class Function impl types.IFunction {
 
   pub inflight invoke(payload: str?): str? {
     let res = http.post(this.url, { body: payload ?? "\{}" });
+    log("Function response: {Json.stringify(res)}");
     return res.body;
   }
 
