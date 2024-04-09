@@ -25,12 +25,11 @@ pub class Function impl types.IFunction {
       pathEnv: pathEnv,
     );
 
-    let args = MutArray<str>[];
+    let flags = MutMap<str>{};
     let platform = Function.os();
     if platform != "darwin" && platform != "win32" {
-      args.push("--add-host=host.docker.internal:host-gateway");
+      flags.set("--add-host", "host.docker.internal:host-gateway");
     }
-    args.push(props.handler);
 
     let runner = new containers.Workload_sim(
       image: "lambci/lambda:python3.8",
@@ -43,7 +42,7 @@ pub class Function impl types.IFunction {
       },
       public: true,
       port: 9001,
-      args: args.copy(),
+      args: [props.handler],
     );
     
     this.service = new cloud.Service(inflight () => {

@@ -37,6 +37,7 @@ pub struct ContainerOpts {
   image: str;
 
   /** Internal container port to expose */
+  flags: Map<str>?;   // flags to pass to the docker run command
   port: num?;
   env: Map<str?>?;
   readiness: str?;    // http get
@@ -152,6 +153,14 @@ pub class Workload_sim {
       dockerRun.push("--rm");
 
       dockerRun.push("--name", containerName);
+
+      if let flags = opts.flags {
+        if flags.size() > 0 {
+          for k in flags.keys() {
+            dockerRun.push("{k}={flags.get(k)}");
+          }
+        }
+      }
 
       if let port = opts.port {
         dockerRun.push("-p");
