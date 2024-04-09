@@ -25,6 +25,13 @@ pub class Function impl types.IFunction {
       pathEnv: pathEnv,
     );
 
+    let args = MutArray<str>[];
+    let platform = Function.os();
+    if platform != "darwin" && platform != "win32" {
+      args.push("--add-host=host.docker.internal:host-gateway");
+    }
+    args.push(props.handler);
+
     let runner = new containers.Workload_sim(
       image: "lambci/lambda:python3.8",
       name: "python-runner",
@@ -51,11 +58,7 @@ pub class Function impl types.IFunction {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
-      let platform = Function.os();
       let var host = "http://host.docker.internal";
-      if platform != "darwin" && platform != "win32" {
-        host = "http://172.17.0.1";
-      }
 
       for e in Function.env().entries() {
         let var value = e.value;
@@ -88,5 +91,5 @@ pub class Function impl types.IFunction {
   }
 
   extern "./util.js" inflight static env(): Map<str>;
-  extern "./util.js" inflight static os(): str;
+  extern "./util.js" static os(): str;
 }
