@@ -17,6 +17,7 @@ jobs:
           node-version: 20.x
           registry-url: https://registry.npmjs.org
       - name: ip
+        id: ip
         run: |
           ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
           echo "ip=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')\n" >> $GITHUB_OUTPUT
@@ -30,6 +31,8 @@ jobs:
       - name: Test
         run: wing test
         working-directory: python
+        env:
+          DOCKER_HOST_IP: ${{steps.ip.outputs.ip}}
       - name: Pack
         run: wing pack
         working-directory: python
