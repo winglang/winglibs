@@ -31,7 +31,6 @@ pub class Inflight impl cloud.IFunctionHandler {
 
     let flags = MutMap<str>{};
     let platform = Inflight.os();
-    log(util.shell("ifconfig"));
     if platform != "darwin" && platform != "win32" {
       flags.set("--add-host", "host.docker.internal:host-gateway");
     }
