@@ -202,6 +202,8 @@ pub class Container {
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
       let res = util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
+
+      log("res={Json.stringify(res)}");
       let publicUrl = "http://localhost:{55566}";
 
         if let k = this.publicUrlKey {
