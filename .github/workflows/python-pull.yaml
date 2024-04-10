@@ -18,7 +18,10 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: ifconfig
         run: |
-          ifconfig eth0 | grep 'inet addr' | cut -d: -f2 | awk '{print $1}'
+          ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+          echo "ip=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')\n" >> $GITHUB_OUTPUT
+      - print ip
+        run: echo ${{steps.run_tests.outputs.ip}}
       - name: Install winglang
         run: npm i -g winglang
       - name: Install dependencies
