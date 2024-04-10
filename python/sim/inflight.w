@@ -33,6 +33,7 @@ pub class Inflight impl cloud.IFunctionHandler {
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
       if let ip = util.tryEnv("DOCKER_HOST_IP") {
+        log("Using DOCKER_HOST_IP: {ip}");
         flags.set("--add-host", "host.docker.internal:{ip}");
       } else {
         flags.set("--add-host", "host.docker.internal:host-gateway");

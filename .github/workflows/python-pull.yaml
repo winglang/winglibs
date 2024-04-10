@@ -20,7 +20,7 @@ jobs:
         id: ip
         run: |
           ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
-          echo "ip=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')\n" >> $GITHUB_OUTPUT
+          echo "ip=$(ip -4 addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')" >> $GITHUB_OUTPUT
       - name: print ip
         run: echo ${{steps.ip.outputs.ip}}
       - name: Install winglang
