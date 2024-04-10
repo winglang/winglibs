@@ -8,7 +8,7 @@ let func = new cloud.Function(python.Function.Inflight(this,
   path: "./test-assets",
   handler: "main.handler"
 ).lift("bucket", bucket, allow: ["get", "put"]));
-bring util;
+  bring util;
 test "invokes the function" {
   let res = func.invoke();
   log("calling wing simulator{util.env("WING_SIMULATOR_URL")}");
