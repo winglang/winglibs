@@ -90,7 +90,7 @@ class BucketClient_sim (SimClient):
     result = self.make_request("get", [key, options])
     return result
     
-def get_client(id: str):
+def lifted(id: str):
   envValue = os.getenv(f"WING_CLIENTS")
   if envValue:
     jsonValue = json.loads(envValue)

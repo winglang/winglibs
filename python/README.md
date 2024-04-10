@@ -1,6 +1,6 @@
 # python
 
-A Wing library for integrating with Python code.
+A Wing library for running Python code in inflight.
 
 ## Prerequisites
 
@@ -17,10 +17,10 @@ npm i @winglibs/python
 ```js
 bring python;
 
-let func = new python.Function(
+let func = new cloud.Function(python.Function.Inflight(this,
   path: "./test-assets",
-  handler: "main.handler",
-);
+  handler: "main.handler"
+).lift("bucket", bucket, allow: ["get", "put"]));
 
 test "invokes the function" {
   let res = func.invoke();
@@ -32,20 +32,20 @@ It is also possible to interact with Wing resources through the python code
 ```js
 // main.w
 let bucket = new cloud.Bucket();
-let func = new python.Function(
+let func = new cloud.Function(python.Function.Inflight(this,
   path: "./test-assets",
-  handler: "main.handler",
-);
+  handler: "main.handler"
+).lift("bucket", bucket, allow: ["get", "put"]));
 
 func.liftClient("bucket", bucket, ["get", "put"]);
 ```
 
 ```python
 # main.py
-from wing_helper import *
+from wing import *
 
 def handler(event, context):
-  client = get_client("bucket")
+  client = lifted("bucket")
   client.put("test.txt", "Hello, world!")
   
   return {

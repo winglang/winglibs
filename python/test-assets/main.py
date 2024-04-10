@@ -1,11 +1,10 @@
-import os
-from wing_helper import *
+from wing import *
 
 def handler(event, context):
   print(event)
   print(context)
   
-  client = get_client("bucket")
+  client = lifted("bucket")
   client.put("test.txt", "Hello, world!")
   
   return {

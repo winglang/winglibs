@@ -1,44 +1,39 @@
 bring cloud;
 bring util;
-bring ui;
-bring "./sim/function.w" as sim;
-bring "./tfaws/function.w" as tfaws;
+bring "constructs" as construct;
 bring "./types.w" as types;
+bring "./sim/inflight.w" as sim;
+bring "./tfaws/inflight.w" as aws;
 
-pub class Function impl types.IFunction {
-  pub url: str;
-  inner: types.IFunction;
-  new(props: types.FunctionProps) {
+pub class Inflight impl cloud.IFunctionHandler {
+  _inflightType: str;
+  inner: types.IInflight;
+
+  new(props: types.InflightProps) {
+    this._inflightType = "_inflightPython";
+
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      let implementation = new sim.Function(props);
-      this.inner = implementation;
-      this.url = implementation.url;
+      this.inner = new sim.Inflight(props);
     } elif target == "tf-aws" {
-      let implementation = new tfaws.Function(props);
-      this.inner = implementation;
-      this.url = implementation.url;
+      this.inner = new aws.Inflight_tfaws(props);
     } else {
       throw "Unsupported target ${target}";
     }
-
-    new cloud.Endpoint(this.url);
-    new ui.Field("URL", inflight () => {
-      return this.url;
-    });
-    new ui.Button("Invoke", inflight () => {
-      log("{this.invoke() ?? "<empty response>"}");
-    });
-
-    nodeof(this).color = "violet";
   }
 
-  pub liftClient(id: str, client: std.Resource, ops: Array<str>): void {
-    this.inner.liftClient(id, client, ops);
+  pub inflight handle(event: str?): str? {
+    return this.inner.handle(event);
   }
 
-  pub inflight invoke(payload: str?): str? {
-    return this.inner.invoke(payload);
+  pub lift(id: str, client: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
+    this.inner.lift(id, client, options);
+    return this;
   }
 }
 
+pub class Function {
+  pub static Inflight(scope: construct.Construct, props: types.InflightProps): Inflight {
+    return new Inflight(props) in scope;
+  }
+}

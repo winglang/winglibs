@@ -4,12 +4,10 @@ bring expect;
 bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
-let func = new python.Function(
+let func = new cloud.Function(python.Function.Inflight(this,
   path: "./test-assets",
-  handler: "main.handler",
-);
-
-func.liftClient("bucket", bucket, ["get", "put"]);
+  handler: "main.handler"
+).lift("bucket", bucket, allow: ["get", "put"]));
 
 test "invokes the function" {
   let res = func.invoke();

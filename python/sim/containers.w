@@ -5,10 +5,6 @@ bring sim;
 bring fs;
 
 pub class Util {
-  extern "./util.js" pub static inflight shell(command: str, args: Array<str>, pathEnv: str, cwd: str?): str;
-  extern "./util.js" pub static contentHash(files: Array<str>, cwd: str): str;
-  extern "./util.js" pub static dirname(): str;
-
   pub static entrypointDir(scope: std.IResource): str {
     return std.Node.of(scope).app.entrypointDir;
   }
@@ -21,14 +17,23 @@ pub class Util {
     return s.startsWith("/") || s.startsWith("./");
   }
 
-  pub static resolveContentHash(scope: std.IResource, props: WorkloadProps): str? {
+  pub static resolveContentHash(scope: std.IResource, props: ContainerOpts): str? {
     if !Util.isPath(props.image) {
       return nil;
     }
-    
-    let sources = props.sources ?? ["**/*"];
+
+    if let hash = props.sourceHash {
+      return hash;
+    }
+
+    let var hash = "";
     let imageDir = props.image;
-    return props.sourceHash ?? Util.contentHash(sources, imageDir);
+    let sources = props.sources ?? ["**/*"];
+    for source in sources {
+      hash += fs.md5(imageDir, source);
+    }
+
+    return util.sha256(hash);
   }
 }
 
@@ -42,7 +47,7 @@ pub struct ContainerOpts {
   env: Map<str?>?;
   readiness: str?;    // http get
   replicas: num?;     // number of replicas
-  public: bool?;      // whether the workload should have a public url (default: false)
+  public: bool?;      // whether the container should have a public url (default: false)
   args: Array<str>?;  // container arguments
   volumes: Map<str>?; // volumes to mount
 
@@ -60,18 +65,14 @@ pub struct ContainerOpts {
   sourceHash: str?;
 }
 
-pub struct WorkloadProps extends ContainerOpts {
-
-}
-
-pub class Workload_sim {
+pub class Container {
   publicUrlKey: str?;
   internalUrlKey: str?;
 
   pub publicUrl: str?;
   pub internalUrl: str?;
 
-  props: WorkloadProps;
+  props: ContainerOpts;
   appDir: str;
   imageTag: str;
   public: bool;
@@ -81,7 +82,7 @@ pub class Workload_sim {
   containerService: cloud.Service;
   readinessService: cloud.Service;
 
-  new(props: WorkloadProps) {
+  new(props: ContainerOpts) {
     this.appDir = Util.entrypointDir(this);
     this.props = props;
     this.state = new sim.State();
@@ -116,7 +117,7 @@ pub class Workload_sim {
     let pathEnv = util.tryEnv("PATH") ?? "";
 
     this.containerService = new cloud.Service(inflight () => {
-      log("starting workload...");
+      log("starting container...");
 
       let opts = this.props;
 
@@ -124,20 +125,20 @@ pub class Workload_sim {
       if Util.isPathInflight(opts.image) {
         // check if the image is already built
         try {
-          Util.shell("docker", ["inspect", this.imageTag], pathEnv);
+          util.exec("docker", ["inspect", this.imageTag], { env: { PATH: pathEnv } });
           log("image {this.imageTag} already exists");
         } catch {
           log("building locally from {opts.image} and tagging {this.imageTag}...");
-          Util.shell("docker", ["build", "-t", this.imageTag, opts.image], pathEnv, this.appDir);
+          util.exec("docker", ["build", "-t", this.imageTag, opts.image], { env: { PATH: pathEnv }, cwd: this.appDir });
         }
       } else {
         try {
-          Util.shell("docker", ["inspect", this.imageTag], pathEnv);
+          util.exec("docker", ["inspect", this.imageTag], { env: { PATH: pathEnv } });
           log("image {this.imageTag} already exists");
         } catch {
           log("pulling {this.imageTag}");
           try    {
-            Util.shell("docker", ["pull", this.imageTag], pathEnv);
+            util.exec("docker", ["pull", this.imageTag], { env: { PATH: pathEnv } });
           } catch e {
             log("failed to pull image {this.imageTag} {e}");
             throw e;
@@ -150,7 +151,7 @@ pub class Workload_sim {
       let dockerRun = MutArray<str>[];
       dockerRun.push("run");
       dockerRun.push("--detach");
-      dockerRun.push("--rm");
+      // dockerRun.push("--rm");
 
       dockerRun.push("--name", containerName);
 
@@ -200,13 +201,13 @@ pub class Workload_sim {
 
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
-      Util.shell("docker", dockerRun.copy(), pathEnv);
+      util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
 
       log("containerName={containerName}");
 
       return () => {
-        Util.shell("docker", ["rm", "-f", containerName], pathEnv);
-       };
+        util.exec("docker", ["rm", "-f", containerName], { env: { PATH: pathEnv } });
+      };
     }, {autoStart: false}) as "ContainerService";
     std.Node.of(this.containerService).hidden = true;
 
@@ -215,7 +216,7 @@ pub class Workload_sim {
       let var out: Json? = nil;
       util.waitUntil(inflight () => {
         try {
-          out = Json.parse(Util.shell("docker", ["inspect", containerName], pathEnv));
+          out = Json.parse(util.exec("docker", ["inspect", containerName], { env: { PATH: pathEnv } }).stdout);
           return true;
         } catch {
           log("something went wrong");

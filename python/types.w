@@ -1,3 +1,5 @@
+bring cloud;
+
 pub struct BuildOptions {
   entrypointDir: str;
   workDir: str;
@@ -6,12 +8,15 @@ pub struct BuildOptions {
   pathEnv: str;
 }
 
-pub struct FunctionProps {
+pub struct InflightProps {
   path: str;
   handler: str;
 }
 
-pub interface IFunction {
-  liftClient(id: str, client: std.Resource, ops: Array<str>): void;
-  inflight invoke(payload: str?): str?;
+pub struct LiftOptions {
+  allow: Array<str>;
+}
+
+pub interface IInflight extends cloud.IFunctionHandler {
+  lift(id: str, client: std.Resource, options: LiftOptions): cloud.IFunctionHandler;
 }

@@ -5,13 +5,17 @@ bring "./containers.w" as containers;
 bring "../types.w" as types;
 bring "../util.w" as libutil;
 
-pub class Function impl types.IFunction {
+pub struct LiftOptions {
+  allow: Array<str>;
+}
+
+pub class Inflight impl cloud.IFunctionHandler {
   pub url: str;
   service: cloud.Service;
   clients: MutMap<Json>;
   wingClients: MutMap<std.Resource>;
 
-  new(props: types.FunctionProps) {
+  new(props: types.InflightProps) {
     let entrypointDir = nodeof(this).app.entrypointDir;
     let workDir = nodeof(this).app.workdir;
     let homeEnv = util.tryEnv("HOME") ?? "";
@@ -26,12 +30,12 @@ pub class Function impl types.IFunction {
     );
 
     let flags = MutMap<str>{};
-    let platform = Function.os();
+    let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
       flags.set("--add-host", "host.docker.internal:host-gateway");
     }
 
-    let runner = new containers.Workload_sim(
+    let runner = new containers.Container(
       image: "lambci/lambda:python3.8",
       name: "python-runner",
       volumes: {
@@ -60,7 +64,7 @@ pub class Function impl types.IFunction {
 
       let var host = "http://host.docker.internal";
 
-      for e in Function.env().entries() {
+      for e in Inflight.env().entries() {
         let var value = e.value;
         if value.contains("http://localhost") {
           value = value.replace("http://localhost", host);
@@ -78,16 +82,21 @@ pub class Function impl types.IFunction {
     this.wingClients = MutMap<std.Resource>{};
   }
 
-  pub liftClient(id: str, client: std.Resource, ops: Array<str>) {
-    client.onLift(this.service, ops);
+  pub inflight handle(event: str?): str? {
+    let var body = event;
+    if event == nil || event == "" {
+      body = "\{}";
+    }
+    let res = http.post(this.url, { body: body });
+    return res.body;
+  }
+
+  pub lift(id: str, client: std.Resource, options: LiftOptions): cloud.IFunctionHandler {
+    client.onLift(this.service, options.allow);
     let lifted = libutil.liftSim(id, client);
     this.clients.set(id, lifted);
     this.wingClients.set(id, client);
-  }
-
-  pub inflight invoke(payload: str?): str? {
-    let res = http.post(this.url, { body: payload ?? "\{}" });
-    return res.body;
+    return this;
   }
 
   extern "./util.js" inflight static env(): Map<str>;
