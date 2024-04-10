@@ -50,6 +50,7 @@ pub struct ContainerOpts {
   public: bool?;      // whether the container should have a public url (default: false)
   args: Array<str>?;  // container arguments
   volumes: Map<str>?; // volumes to mount
+  network: str?;      // network to connect to
 
   /** 
    * A list of globs of local files to consider as input sources for the container.
@@ -163,6 +164,10 @@ pub class Container {
         }
       }
 
+      if let network = opts.network {
+        dockerRun.push("--network={network}");
+      }
+
       if let port = opts.port {
         dockerRun.push("-p");
         dockerRun.push("{port}");
@@ -201,14 +206,8 @@ pub class Container {
 
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
-      let res = util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
+      util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
 
-      log("res={Json.stringify(res)}");
-      let publicUrl = "http://localhost:{55566}";
-
-        if let k = this.publicUrlKey {
-          this.state.set(k, publicUrl);
-        }
       log("containerName={containerName}");
 
       return () => {
@@ -229,6 +228,20 @@ pub class Container {
           return false;
         }
       }, interval: 3s);
+
+      if let network = opts.network {
+        if network != "host" {
+          if let k = this.publicUrlKey {
+            this.state.set(k, "http://localhost:{opts.port!}");
+          }
+  
+          if let k = this.internalUrlKey {
+            this.state.set(k, "http://localhost:{opts.port!}");
+          }
+
+          return () => {};
+        }
+      }
 
       if let port = opts.port {
         let hostPort = out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();

@@ -30,9 +30,11 @@ pub class Inflight impl cloud.IFunctionHandler {
     );
 
     let flags = MutMap<str>{};
+    let var network: str? = nil;
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
-      flags.set("--network", "host");
+      network = "host";
+      // flags.set("--network", "host");
       // if let ip = util.tryEnv("DOCKER_HOST_IP") {
       //   log("Using DOCKER_HOST_IP: {ip}");
       //   flags.set("--add-host", "host.docker.internal:{ip}");
@@ -54,6 +56,7 @@ pub class Inflight impl cloud.IFunctionHandler {
       port: 9001,
       args: [props.handler],
       flags: flags.copy(),
+      network: network,
     );
     
     this.service = new cloud.Service(inflight () => {
@@ -68,7 +71,13 @@ pub class Inflight impl cloud.IFunctionHandler {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
-      let host = "http://host.docker.internal";
+      
+      let var host = "http://host.docker.internal";
+      if let network = network {
+        if network == "host" {
+          host = "http://127.0.0.1";
+        }
+      }
 
       for e in Inflight.env().entries() {
         let var value = e.value;
