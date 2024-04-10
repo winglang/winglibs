@@ -15,7 +15,7 @@ let service = new tsoa.Service(
   routesDir: "../test-assets/build",
 );
 
-service.liftClient("bucket", bucket, ["put"]);
+service.lift("bucket", bucket, allow: ["put"]);
 
 test "will start tsoa service" {
   let res = http.get("{service.url}/users/123?name=stam");

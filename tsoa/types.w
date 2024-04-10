@@ -40,8 +40,18 @@ pub struct ServiceProps {
 }
 
 /**
+ * Options for the lift method.
+ */
+pub struct LiftOptions {
+  /**
+   * List of operations to allow for this client
+   */
+  allow: Array<str>;
+}
+
+/**
  * Starts a new TSOA service.
  */
 pub interface IService {
-  liftClient(id: str, client: std.Resource, ops: Array<str>): void;
+  lift(id: str, client: std.Resource, ops: LiftOptions): void;
 }

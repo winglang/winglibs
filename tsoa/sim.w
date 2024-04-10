@@ -62,8 +62,8 @@ pub class Service_sim impl types.IService {
     }, link: true);
   }
 
-  pub liftClient(id: str, client: std.Resource, ops: Array<str>) {
-    client.onLift(this.service, ops);
+  pub lift(id: str, client: std.Resource, ops: types.LiftOptions) {
+    client.onLift(this.service, ops.allow);
     this.clients.set(id, client);
   }
 

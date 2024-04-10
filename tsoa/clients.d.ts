@@ -1,5 +1,3 @@
-import { Request } from 'express';
+declare const lifted: (id: string) => any;
 
-declare const getClient: (req: Request, id: string) => any;
-
-export { getClient };
+export { lifted };

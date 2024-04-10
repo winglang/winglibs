@@ -1,12 +1,12 @@
 const express = require("express");
-const { setClients } = require("./clients");
+const { setLifted } = require("./clients");
 const serverlessHttp = require("serverless-http");
 
 var _clients = undefined;
 
 const app = express();
 app.use((req, res, next) => {
-  setClients(req, _clients);
+  setLifted(_clients);
   next();
 });
 app.use(
