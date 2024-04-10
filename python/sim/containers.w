@@ -230,7 +230,7 @@ pub class Container {
       }, interval: 3s);
 
       if let network = opts.network {
-        if network != "host" {
+        if network == "host" {
           if let k = this.publicUrlKey {
             this.state.set(k, "http://localhost:{opts.port!}");
           }
