@@ -32,8 +32,7 @@ pub class Inflight impl cloud.IFunctionHandler {
     let flags = MutMap<str>{};
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
-      // flags.set("--add-host", "host.docker.internal:host-gateway");
-      flags.set("--network", "host");
+      flags.set("--add-host", "host.docker.internal:host-gateway");
     }
 
     let runner = new containers.Container(
@@ -63,18 +62,7 @@ pub class Inflight impl cloud.IFunctionHandler {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
-      log("calling wing simulator{util.env("WING_SIMULATOR_URL")}");
-      let res = http.post("{util.env("WING_SIMULATOR_URL")}/v1/call", { body: Json.stringify({
-        "caller": util.env("WING_SIMULATOR_CALLER"),
-        "handle": clients.get("bucket"),
-        "method": "put",
-        "args": ["aaa", "bbb"],
-      })});
-      log("called {Json.stringify(res)}");
-      let var host = "http://host.docker.internal";
-      if platform != "darwin" && platform != "win32" {
-        host = "http://127.0.0.1";
-      }
+      let host = "http://host.docker.internal";
 
       for e in Inflight.env().entries() {
         let var value = e.value;
