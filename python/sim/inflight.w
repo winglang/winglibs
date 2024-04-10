@@ -32,7 +32,8 @@ pub class Inflight impl cloud.IFunctionHandler {
     let flags = MutMap<str>{};
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
-      flags.set("--add-host", "host.docker.internal:host-gateway");
+      // flags.set("--add-host", "host.docker.internal:host-gateway");
+      flags.set("--network", "host");
     }
 
     let runner = new containers.Container(
@@ -71,6 +72,9 @@ pub class Inflight impl cloud.IFunctionHandler {
       })});
       log("called {Json.stringify(res)}");
       let var host = "http://host.docker.internal";
+      if platform != "darwin" && platform != "win32" {
+        host = "http://127.0.0.1";
+      }
 
       for e in Inflight.env().entries() {
         let var value = e.value;
