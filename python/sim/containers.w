@@ -151,7 +151,7 @@ pub class Container {
       let dockerRun = MutArray<str>[];
       dockerRun.push("run");
       dockerRun.push("--detach");
-      // dockerRun.push("--rm");
+      dockerRun.push("--rm");
 
       dockerRun.push("--name", containerName);
 
@@ -201,8 +201,8 @@ pub class Container {
 
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
-      util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
-
+      let res = util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
+      
       log("containerName={containerName}");
 
       return () => {
