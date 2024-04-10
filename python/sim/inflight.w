@@ -62,6 +62,13 @@ pub class Inflight impl cloud.IFunctionHandler {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
+      log("calling wing simulator{util.env("WING_SIMULATOR_URL")}");
+      http.post("{util.env("WING_SIMULATOR_URL")}/v1/call", { body: Json.stringify({
+        "caller": util.env("WING_SIMULATOR_CALLER"),
+        "handle": clients.get("bucket"),
+        "method": "put",
+        "args": ["aaa", "bbb"],
+      })});
       let var host = "http://host.docker.internal";
 
       for e in Inflight.env().entries() {
