@@ -34,13 +34,6 @@ pub class Inflight impl cloud.IFunctionHandler {
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
       network = "host";
-      // flags.set("--network", "host");
-      // if let ip = util.tryEnv("DOCKER_HOST_IP") {
-      //   log("Using DOCKER_HOST_IP: {ip}");
-      //   flags.set("--add-host", "host.docker.internal:{ip}");
-      // } else {
-      //   flags.set("--add-host", "host.docker.internal:host-gateway");
-      // }
     }
 
     let runner = new containers.Container(
@@ -71,7 +64,6 @@ pub class Inflight impl cloud.IFunctionHandler {
         "WING_CLIENTS" => Json.stringify(clients),
       };
 
-      
       let var host = "http://host.docker.internal";
       if let network = network {
         if network == "host" {

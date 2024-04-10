@@ -15,10 +15,3 @@ test "invokes the function" {
   expect.equal(Json.parse(res!).get("body"), "Hello!");
   expect.equal(bucket.get("test.txt"), "Hello, world!");
 }
-
-// bring fs;
-// bring util;
-// new cloud.Service(inflight () => {
-//   fs.appendFile("/tmp/outpuuut", util.env("WING_SIMULATOR_URL"));
-// });
-
