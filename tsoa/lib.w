@@ -29,7 +29,7 @@ pub class Service impl types.IService {
     new cloud.Endpoint(this.url);
   }
 
-  pub lift(id: str, client: std.Resource, ops: types.LiftOptions) {
-    this.inner.lift(id, client, ops);
+  pub lift(client: std.Resource, ops: types.LiftOptions) {
+    this.inner.lift(client, ops);
   }
 }

@@ -44,6 +44,11 @@ pub struct ServiceProps {
  */
 pub struct LiftOptions {
   /**
+   * Id of the client
+   */
+  id: str;
+
+  /**
    * List of operations to allow for this client
    */
   allow: Array<str>;
@@ -53,5 +58,5 @@ pub struct LiftOptions {
  * Starts a new TSOA service.
  */
 pub interface IService {
-  lift(id: str, client: std.Resource, ops: LiftOptions): void;
+  lift(client: std.Resource, ops: LiftOptions): void;
 }

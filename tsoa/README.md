@@ -29,7 +29,7 @@ It is also possible to use Wing resources from the TS code
 
 ```js
 let bucket = new cloud.Bucket();
-service.lift("bucket", bucket, allow: ["put"]);
+service.lift(bucket, id: "bucket", allow: ["put"]);
 ```
 
 ```ts

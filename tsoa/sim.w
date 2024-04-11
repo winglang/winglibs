@@ -62,9 +62,9 @@ pub class Service_sim impl types.IService {
     }, link: true);
   }
 
-  pub lift(id: str, client: std.Resource, ops: types.LiftOptions) {
+  pub lift(client: std.Resource, ops: types.LiftOptions) {
     client.onLift(this.service, ops.allow);
-    this.clients.set(id, client);
+    this.clients.set(ops.id, client);
   }
 
   extern "./lib.js" inflight static startService(options: types.StartServiceOptions): StartResponse;
