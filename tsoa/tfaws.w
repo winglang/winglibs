@@ -147,9 +147,9 @@ pub class Service_tfaws impl types.IService {
     this.url = deploy.invokeUrl;
   }
 
-  pub liftClient(id: str, client: std.Resource, ops: Array<str>) {
-    client.onLift(this.func.fn, ops);
-    this.clients.set(id, client);
+  pub lift(client: std.Resource, ops: types.LiftOptions) {
+    client.onLift(this.func.fn, ops.allow);
+    this.clients.set(ops.id, client);
   }
 
   extern "./lib.js" static build(options: types.StartServiceOptions): str;
