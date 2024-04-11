@@ -1,0 +1,54 @@
+name: workflows-release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - workflows/**
+      - "!workflows/package-lock.json"
+jobs:
+  build-workflows:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: workflows
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: workflows
+      - name: Test
+        run: wing test
+        working-directory: workflows
+      - name: Pack
+        run: wing pack
+        working-directory: workflows
+      - name: Get package version
+        run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
+          "$GITHUB_ENV"
+        working-directory: workflows
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: workflows
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Tag commit
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          tag: workflows-v${{ env.WINGLIB_VERSION }}
+      - name: GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: workflows v${{ env.WINGLIB_VERSION }}
+          tag_name: workflows-v${{ env.WINGLIB_VERSION }}
+          files: "*.tgz"
+          token: ${{ secrets.PROJEN_GITHUB_TOKEN }}

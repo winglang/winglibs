@@ -1,0 +1,16 @@
+{
+  "name": "@winglibs/workflows",
+  "description": "workflows library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "workflows"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
+  "license": "MIT"
+}

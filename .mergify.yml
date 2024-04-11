@@ -95,6 +95,9 @@ pull_request_rules:
       - -check-failure=build-websockets
       - -check-pending=build-websockets
       - -check-stale=build-websockets
+      - -check-failure=build-workflows
+      - -check-pending=build-workflows
+      - -check-stale=build-workflows
   - name: requires manual merge
     conditions:
       - files=.mergify.yml
@@ -174,6 +177,9 @@ pull_request_rules:
       - -check-failure=build-websockets
       - -check-pending=build-websockets
       - -check-stale=build-websockets
+      - -check-failure=build-workflows
+      - -check-pending=build-workflows
+      - -check-stale=build-workflows
     actions:
       comment:
         message: Thank you for contributing! Your pull request contains mergify

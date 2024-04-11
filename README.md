@@ -33,6 +33,7 @@ publishing them for you.
 | [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
 | [websockets](./websockets) | [@winglibs/websockets](https://www.npmjs.com/package/@winglibs/websockets) | awscdk, sim, tf-aws |
+| [workflows](./workflows) | [@winglibs/workflows](https://www.npmjs.com/package/@winglibs/workflows) | sim |
 
 _Generated with `wing compile generate-workflows.w`. To update the list of supported platforms for a winglib, please update the "wing" section in its package.json file._
 

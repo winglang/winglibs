@@ -427,3 +427,24 @@ jobs:
       - name: Test
         run: wing test
         working-directory: websockets
+  canary-workflows:
+    name: Test workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: workflows
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: workflows
+      - name: Test
+        run: wing test
+        working-directory: workflows
