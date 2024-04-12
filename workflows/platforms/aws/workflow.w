@@ -100,7 +100,7 @@ pub class Workflow impl api.IWorkflow {
           };
   
           if let nextStep = steps.tryAt(i + 1) {
-            state.set("Next", nextStep?.name);
+            state.set("Next", nextStep.name);
           } else {
             state.set("End", true);
           }
@@ -109,13 +109,18 @@ pub class Workflow impl api.IWorkflow {
   
         } elif step.type == api.StepType.CHECK {
           let checkStep: api.CheckStep = unsafeCast(step);
+
+          let predicateResult = "Result";
+          let originalContext = "Context";
   
           let handler = new cloud.Function(inflight (ctx) => {
-            let result = checkStep.predicate.handle(ctx);
-            return unsafeCast({
-              ctx: ctx,
-              result: result
-            });
+            let input: MutJson = ctx;
+            let result = checkStep.predicate.handle(input);
+
+            let out = MutJson {};
+            out.set(predicateResult, result);
+            out.set(originalContext, input);
+            return unsafeCast(out);
           }) as step.name;
   
           let choiceState = "{step.name} (choice)";
@@ -135,12 +140,13 @@ pub class Workflow impl api.IWorkflow {
             Type: "Choice",
             Choices: [
               {
-                Variable: "$.result",
+                Variable: "$.{predicateResult}",
                 BooleanEquals: true,
                 Next: addStates(checkStep.branches.ifTrue),
               },
             ],
-            Default: addStates(checkStep.branches.ifFalse ?? [])
+            Default: addStates(checkStep.branches.ifFalse ?? []),
+            OutputPath: "$.{originalContext}",
           });
 
         } else {

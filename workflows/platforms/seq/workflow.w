@@ -112,8 +112,8 @@ pub class Workflow impl api.IWorkflow {
 
       let merged = u.mergeJson(inp, output);
       log("{step.name} => {Json.stringify(merged, indent: 2)}");
-      this.store.set(merged);
-      this.sequencer.next(merged);
+
+      this.next(merged);
     }) as step.name;
 
     nodeof(handler).title = step.name;
@@ -133,10 +133,14 @@ pub class Workflow impl api.IWorkflow {
     let sequencer = this.sequencer;
     let trueWorkflow = new Workflow(checkStep.branches.ifTrue, opts) as "{step.name} - then";
     let falseWorkflow = new Workflow(checkStep.branches.ifFalse ?? [], opts) as "{step.name} - else";
-    trueWorkflow.onSuccess(inflight (ctx) => { sequencer.next(ctx); });
-    trueWorkflow.onError(inflight (err) => { this.fail(err); });
-    falseWorkflow.onSuccess(inflight (ctx) => { sequencer.next(ctx); });
-    falseWorkflow.onError(inflight (err) => { this.fail(err); });
+
+    let onSuccess = inflight (ctx) => { this.next(ctx); };
+    let onError = inflight (err) => { this.fail(err); };
+
+    trueWorkflow.onSuccess(onSuccess);
+    trueWorkflow.onError(onError);
+    falseWorkflow.onSuccess(onSuccess);
+    falseWorkflow.onError(onError);
 
     class Predicate {}
     let pred = new Predicate();
@@ -184,5 +188,10 @@ pub class Workflow impl api.IWorkflow {
     for cb in this.errorCallbacks {
       cb(err);
     }
+  }
+
+  inflight next(ctx: Json) {
+    this.store.set(ctx);
+    this.sequencer.next(ctx);
   }
 }
