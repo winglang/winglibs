@@ -1,7 +1,7 @@
 bring "../octokit/types.w" as octokit;
 bring "./types.w" as probot;
 
-pub interface IProbotAppCredentialsSupplier {
+pub inflight interface IProbotAppCredentialsSupplier {
   inflight getId(): str;
   inflight getWebhookSecret(): str;
   inflight getPrivateKey(): str;
@@ -31,7 +31,7 @@ pub class ProbotAdapter {
   inflight new() {
     this.instance = ProbotAdapter.createProbotAdapter(
       appId: this.credentialsSupplier.getId(),
-      privateKey: this.credentialsSupplier.getPrivateKey(), 
+      privateKey: this.credentialsSupplier.getPrivateKey(),
       webhookSecret: this.credentialsSupplier.getWebhookSecret()
     );
   }

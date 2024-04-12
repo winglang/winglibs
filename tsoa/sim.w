@@ -4,7 +4,7 @@ bring ui;
 bring util;
 bring "./types.w" as types;
 
-interface StartResponse {
+inflight interface StartResponse {
   inflight port(): num;
   inflight close(): void;
 }
