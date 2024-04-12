@@ -1,4 +1,5 @@
 bring "./seq.w" as seq;
+bring "../../api.w" as api;
 bring cloud;
 bring expect;
 bring util;
@@ -18,19 +19,19 @@ s.push(new cloud.Function(inflight () => {
 
 test "index is -1 before we start" {
   expect.equal(s.index(), -1);
-  expect.equal(s.status(), seq.Status.NOT_STARTED);
+  expect.equal(s.status(), api.Status.NOT_STARTED);
 }
 
 test "every next() call increments the index" {
-  expect.equal(s.status(), seq.Status.NOT_STARTED);
+  expect.equal(s.status(), api.Status.NOT_STARTED);
   s.next();
   util.waitUntil(() => { return c.peek() == 1; });
-  expect.equal(s.status(), seq.Status.IN_PROGRESS);
+  expect.equal(s.status(), api.Status.IN_PROGRESS);
   expect.equal(s.index(), 0);
   s.next();
   util.waitUntil(() => { return c.peek() == 2; });
   expect.equal(s.index(), 1);
-  expect.equal(s.status(), seq.Status.DONE);
+  expect.equal(s.status(), api.Status.DONE);
 }
 
 test "reset() will move back to -1" {

@@ -1,5 +1,6 @@
 bring cloud;
 bring ui;
+bring "../../api.w" as api;
 
 pub class Sequencer {
   curr: cloud.Counter;
@@ -61,21 +62,14 @@ pub class Sequencer {
     return this.handlers.length;
   }
 
-  pub inflight status(): Status {
+  pub inflight status(): api.Status {
     let index = this.index();
     if index == -1 {
-      return Status.NOT_STARTED;
+      return api.Status.NOT_STARTED;
     } elif index == this.length() - 1 {
-      return Status.DONE;
+      return api.Status.DONE;
     } else {
-      return Status.IN_PROGRESS;
+      return api.Status.IN_PROGRESS;
     }
   }
-}
-
-pub enum Status {
-  NOT_STARTED,
-  IN_PROGRESS,
-  ERROR,
-  DONE
 }

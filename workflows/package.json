@@ -12,5 +12,8 @@
       "sim"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cdktf": "^0.20.6"
+  }
 }
