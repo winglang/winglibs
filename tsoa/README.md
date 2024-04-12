@@ -29,12 +29,12 @@ It is also possible to use Wing resources from the TS code
 
 ```js
 let bucket = new cloud.Bucket();
-service.liftClient("bucket", bucket, ["put"]);
+service.lift(bucket, id: "bucket", allow: ["put"]);
 ```
 
 ```ts
 // someController.ts ...
-import { getClient } from "@winglibs/tsoa/clients.js";
+import { lifted } from "@winglibs/tsoa/clients.js";
 
 @Get("{userId}")
 public async getUser(
@@ -42,8 +42,8 @@ public async getUser(
   @Request() request: Req,
   @Query() name?: string,
 ): Promise<User> {
-  let bucket = getClient(request, "bucket");
-  bucket.put(userId.toString(), name ?? "not-a-name");
+  let bucket = lifted("bucket");
+  await bucket.put(userId.toString(), name ?? "not-a-name");
 
   return  {
     id :userId,
@@ -58,8 +58,8 @@ public async getUser(
 ## Roadmap
 
 - [x] Support `sim` platform
-- [ ] Add Console support for http client (depdens on https://github.com/winglang/wing/issues/6131) 
-- [ ] Support `tf-aws` platform using [Amazon Api Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+- [ ] Add Console support for http client (depends on https://github.com/winglang/wing/issues/6131) 
+- [x] Support `tf-aws` platform using [Amazon Api Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
 - [ ] Support `gcp` platform using [GCP Api Gateway](https://cloud.google.com/api-gateway)
 
 ## License

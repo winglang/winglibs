@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/tsoa",
   "description": "TSOA library for Wing",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": {
     "email": "eyalk@wing.cloud",
     "name": "Eyal Keren"
@@ -18,7 +18,9 @@
   },
   "license": "MIT",
   "peerDependencies": {
+    "@cdktf/provider-aws": "^19.13.0",
     "express": "^4.19.2",
+    "serverless-http": "^3.2.0",
     "tsoa": "^6.2.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.4"

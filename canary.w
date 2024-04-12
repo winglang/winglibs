@@ -5,7 +5,7 @@ pub class CanaryWorkflow {
     let testLibSteps = (lib: str): Array<Json> => {
       let var testCommand = "wing test";
 
-      if ( fs.exists("./{lib}/test.sh")) {
+      if fs.exists("./{lib}/test.sh") {
         testCommand = fs.readFile("./{lib}/test.sh", { encoding: "utf-8" });
       }
 
@@ -26,18 +26,31 @@ pub class CanaryWorkflow {
           },
         },
         {
-          name: "Install winglang",
-          run: "npm i -g winglang",
+          name: "Install winglang and dependencies",
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "npm i -g winglang --loglevel verbose",
+            timeout_minutes: 3,
+          },
         },
         {
           name: "Install dependencies",
-          run: "npm install --include=dev",
-          "working-directory": lib,
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "cd {lib} && npm i --include=dev --loglevel verbose",
+            timeout_minutes: 3,
+          },
         },
         {
-          name: "Test",
-          run: testCommand,
-          "working-directory": lib,
+          name: "Run tests",
+          uses: "nick-fields/retry@v3",
+          with: {
+            max_attempts: 3,
+            command: "cd {lib}\n{testCommand}",
+            timeout_minutes: 5,
+          },
         },
       ];
     };

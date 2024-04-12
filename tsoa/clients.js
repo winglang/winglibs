@@ -1,20 +1,22 @@
-module.exports.getClients = (req) => {
-  return req.__wing_clients;
-};
+const { AsyncLocalStorage } = require("node:async_hooks");
+
+// this might run in a different context in sim
+const asyncLocalStorage = new AsyncLocalStorage();
+global.asyncLocalStorage = asyncLocalStorage;
 
 /**
  * Get a Wing client from the request object.
- * @param {Object} req - The request object.
  * @param {string} id - The client Id.
  * @returns {Object} - The requested client.
  */
-module.exports.getClient = (req, id) => {
-  if (!req.__wing_clients || !req.__wing_clients[id]) {
+module.exports.lifted = (id) => {
+  const clients = global.asyncLocalStorage.getStore();
+  if (!clients || !clients[id]) {
     throw new Error(`Wing client ${id} not found`);
   }
-  return req.__wing_clients[id];
+  return clients[id];
 };
 
-module.exports.setClients = (req, clients) => {
-  req.__wing_clients = clients;
+module.exports.setLifted = (clients) => {
+  global.asyncLocalStorage.enterWith(clients);
 };
