@@ -1,6 +1,10 @@
 {
   "name": "@winglibs/tf",
-  "description": "tf library for Wing",
+  "description": "Terraform utilities library for Wing",
+  "author": {
+    "email": "eladb@wing.cloud",
+    "name": "Elad Ben-Israel"
+  },
   "version": "0.0.1",
   "repository": {
     "type": "git",
@@ -14,7 +18,7 @@
     ]
   },
   "license": "MIT",
-  "dependencies": {
-    "cdktf": "^0.20.6"
+  "peerDependencies": {
+    "cdktf": "*"
   }
 }
