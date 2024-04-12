@@ -48,15 +48,15 @@ struct IJwksClientOptions {
   jwksUri: str;
 }
 
-interface IJwksSigningKey {
+inflight interface IJwksSigningKey {
   inflight getPublicKey(): str;
 }
 
-interface IJwksClient {
+inflight interface IJwksClient {
   inflight getSigningKey(kid: str?): IJwksSigningKey;
 }
 
-interface IJwt {
+inflight interface IJwt {
   inflight jwksClient(options: IJwksClientOptions): IJwksClient;
   inflight sign(data: Json, secret: str, options: Json?): str;
   inflight verify(token: str, secret: inflight (JwtHeader, inflight (str, str): void): void, options: VerifyJwtOptions?): Json;
@@ -105,7 +105,7 @@ pub class Util {
       throw "Either secret or jwksUri must be provided";
     }
   }
-  
+
   pub inflight static decode(token: str, options: DecodeOptions?): Json {
     return JwtUtil._jwt().decode(token, options);
   }

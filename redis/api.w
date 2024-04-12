@@ -1,4 +1,4 @@
-pub interface IRedis extends std.IResource {
+pub inflight interface IRedis {
   inflight url(): str;
   inflight set(key:str, value: str): void;
   inflight get(key: str): str?;
@@ -9,7 +9,7 @@ pub interface IRedis extends std.IResource {
   inflight del(key: str): void;
 }
 
-pub interface IRedisClient extends IRedis {
+pub inflight interface IRedisClient extends IRedis {
   inflight connect(): void;
   inflight disconnect(): void;
 }

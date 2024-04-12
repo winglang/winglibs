@@ -4,7 +4,7 @@ bring util;
 bring fs;
 bring "./vite-types.w" as vite_types;
 
-interface DevOutput {
+inflight interface DevOutput {
   inflight url(): str;
   inflight kill(): void;
 }
