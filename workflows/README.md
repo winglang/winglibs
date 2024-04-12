@@ -73,6 +73,15 @@ accepts the last context as input and returns a new JSON object that is *merged*
 
 TODO DOCS
 
+## Backends
+
+### AWS
+
+When compiling to `tf-aws`, workflows are deployed to AWS Step Functions:
+
+![](./docs/sfn.png)
+
+
 ## License
 
 This library is licensed under the [MIT License](./LICENSE).
