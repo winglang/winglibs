@@ -2,7 +2,7 @@ bring cloud;
 bring util;
 bring sim;
 
-pub interface Process {
+pub inflight interface Process {
 	inflight kill(): void;
 }
 
