@@ -28,11 +28,11 @@ pub class PullRequestDiffWorkflow {
             },
             {
               "name": "Update config files",
-              "run": "wing compile generate-workflows.main.w",
+              "run": "./mkrepo.sh",
             },
             {
               "name": "Check for missing changes",
-              "run": "git diff --exit-code || (echo 'Please run \"wing compile generate-workflows.main.w\" from the root of the repository, and commit any changes to your branch.' && exit 1)",
+              "run": "git diff --exit-code || (echo 'Please run \"./mkrepo.sh\" from the root of the repository, and commit any changes to your branch.' && exit 1)",
             },
           ],
         },

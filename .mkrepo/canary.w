@@ -1,7 +1,8 @@
 bring fs;
+bring "./library.w" as l;
 
 pub class CanaryWorkflow {
-  new(workflowdir: str, libs: Array<str>, skipLibs: Array<str>?) {
+  new(workflowdir: str, libs: Array<l.Library>, skipLibs: Array<str>?) {
     let testLibSteps = (lib: str): Array<Json> => {
       let var testCommand = "wing test";
 
@@ -57,13 +58,13 @@ pub class CanaryWorkflow {
 
     let jobs = MutJson {};
     for lib in libs {
-      if (skipLibs ?? []).contains(lib) {
+      if (skipLibs ?? []).contains(lib.name) {
         continue;
       }
-      jobs.set("canary-{lib}", {
-        name: "Test {lib}",
+      jobs.set("canary-{lib.name}", {
+        name: "Test {lib.name}",
         "runs-on": "ubuntu-latest",
-        steps: testLibSteps(lib),
+        steps: testLibSteps(lib.name),
       });
     }
 
