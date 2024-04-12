@@ -1,6 +1,6 @@
 bring "./dynamodb-types.w" as dynamodb_types;
 
-interface DocumentClient {
+inflight interface DocumentClient {
   inflight batchGet(input: Json): Json;
   inflight batchWrite(input: Json): Json;
   inflight delete(input: Json): Json;
