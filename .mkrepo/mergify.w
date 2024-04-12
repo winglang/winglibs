@@ -1,14 +1,16 @@
 bring fs;
+bring "./library.w" as l;
 
 pub class MergifyWorkflow {
-  new(libs: Array<str>) {
+  new(libs: Array<l.Library>) {
     let buildChecks = MutArray<Json>[];
     buildChecks.push("check-success=Validate PR title");
     buildChecks.push("check-success=Check for mutations");
+
     for lib in libs {
-      buildChecks.push("-check-failure=build-{lib}");
-      buildChecks.push("-check-pending=build-{lib}");
-      buildChecks.push("-check-stale=build-{lib}");
+      buildChecks.push("-check-failure={lib.buildJob}");
+      buildChecks.push("-check-pending={lib.buildJob}");
+      buildChecks.push("-check-stale={lib.buildJob}");
     }
 
     fs.writeYaml(".mergify.yml", {
