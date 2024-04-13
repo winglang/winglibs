@@ -76,7 +76,7 @@ HERE
 
 cp ./LICENSE $1/
 
-wing compile generate-workflows.main.w
+./mkrepo.sh
 rm -fr target/
 
 cd $1

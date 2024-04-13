@@ -4,7 +4,7 @@ bring cloud;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
-interface Client {
+inflight interface Client {
   inflight createTable(input: Json): Json;
   inflight deleteTable(input: Json): Json;
   inflight updateTimeToLive(input: Json): Json;

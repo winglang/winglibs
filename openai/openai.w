@@ -13,7 +13,7 @@ pub struct OpenAIProps {
   orgSecret: cloud.Secret?;
 }
 
-interface IClient {
+inflight interface IClient {
   inflight createCompletion(params: Json): Json;
 }
 
@@ -40,7 +40,7 @@ pub class OpenAI {
   mock: bool;
 
   inflight openai: IClient;
-  
+
   new(props: OpenAIProps?) {
     this.apiKey = props?.apiKeySecret;
     this.org = props?.orgSecret;
