@@ -89,6 +89,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-tf
+      - -check-pending=build-tf
+      - -check-stale=build-tf
       - -check-failure=build-tsoa
       - -check-pending=build-tsoa
       - -check-stale=build-tsoa
@@ -171,6 +174,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-tf
+      - -check-pending=build-tf
+      - -check-stale=build-tf
       - -check-failure=build-tsoa
       - -check-pending=build-tsoa
       - -check-stale=build-tsoa
