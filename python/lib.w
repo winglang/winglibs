@@ -5,7 +5,7 @@ bring "./types.w" as types;
 bring "./sim/inflight.w" as sim;
 bring "./tfaws/inflight.w" as aws;
 
-pub class Inflight impl cloud.IFunctionHandler {
+pub class InflightFunction impl cloud.IFunctionHandler {
   _inflightType: str;
   inner: types.IInflight;
 
@@ -29,11 +29,5 @@ pub class Inflight impl cloud.IFunctionHandler {
   pub lift(id: str, client: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
     this.inner.lift(id, client, options);
     return this;
-  }
-}
-
-pub class Function {
-  pub static Inflight(scope: construct.Construct, props: types.InflightProps): Inflight {
-    return new Inflight(props) in scope;
   }
 }

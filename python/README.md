@@ -17,7 +17,7 @@ npm i @winglibs/python
 ```js
 bring python;
 
-let func = new cloud.Function(python.Function.Inflight(this,
+let func = new cloud.Function(new python.InflightFunction(
   path: "./test-assets",
   handler: "main.handler"
 ).lift("bucket", bucket, allow: ["get", "put"]));
@@ -32,7 +32,7 @@ It is also possible to interact with Wing resources through the python code
 ```js
 // main.w
 let bucket = new cloud.Bucket();
-let func = new cloud.Function(python.Function.Inflight(this,
+let func = new cloud.Function(new python.InflightFunction(
   path: "./test-assets",
   handler: "main.handler"
 ).lift("bucket", bucket, allow: ["get", "put"]));
