@@ -5,10 +5,6 @@ bring "./containers.w" as containers;
 bring "../types.w" as types;
 bring "../util.w" as libutil;
 
-pub struct LiftOptions {
-  allow: Array<str>;
-}
-
 pub class Inflight impl cloud.IFunctionHandler {
   pub url: str;
   service: cloud.Service;
@@ -87,6 +83,12 @@ pub class Inflight impl cloud.IFunctionHandler {
 
     this.clients = MutMap<Json>{};
     this.wingClients = MutMap<std.Resource>{};
+
+    if let lifts = props.lift {
+      for lift in lifts.entries() {
+        this.lift(lift.value.obj, { id: lift.key, allow: lift.value.allow });
+      }
+    }
   }
 
   pub inflight handle(event: str?): str? {
@@ -98,11 +100,11 @@ pub class Inflight impl cloud.IFunctionHandler {
     return res.body;
   }
 
-  pub lift(id: str, client: std.Resource, options: LiftOptions): cloud.IFunctionHandler {
-    client.onLift(this.service, options.allow);
-    let lifted = libutil.liftSim(id, client);
-    this.clients.set(id, lifted);
-    this.wingClients.set(id, client);
+  pub lift(obj: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
+    obj.onLift(this.service, options.allow);
+    let lifted = libutil.liftSim(options.id, obj);
+    this.clients.set(options.id, lifted);
+    this.wingClients.set(options.id, obj);
     return this;
   }
 

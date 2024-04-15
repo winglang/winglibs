@@ -26,8 +26,8 @@ pub class InflightFunction impl cloud.IFunctionHandler {
     return this.inner.handle(event);
   }
 
-  pub lift(id: str, client: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
-    this.inner.lift(id, client, options);
+  pub lift(obj: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
+    this.inner.lift(obj, options);
     return this;
   }
 }

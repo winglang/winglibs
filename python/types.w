@@ -11,12 +11,19 @@ pub struct BuildOptions {
 pub struct InflightProps {
   path: str;
   handler: str;
+  lift: Map<Lift>?;
+}
+
+pub struct Lift {
+  obj: std.Resource;
+  allow: Array<str>;
 }
 
 pub struct LiftOptions {
+  id: str;
   allow: Array<str>;
 }
 
 pub interface IInflight extends cloud.IFunctionHandler {
-  lift(id: str, client: std.Resource, options: LiftOptions): cloud.IFunctionHandler;
+  lift(obj: std.Resource, options: LiftOptions): cloud.IFunctionHandler;
 }
