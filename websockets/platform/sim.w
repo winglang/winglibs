@@ -4,7 +4,7 @@ bring sim;
 bring http;
 bring "../commons/api.w" as api;
 
-interface StartWebSocketApiResult {
+inflight interface StartWebSocketApiResult {
   inflight close(): inflight(): void;
   inflight url(): str;
   inflight local(): str;

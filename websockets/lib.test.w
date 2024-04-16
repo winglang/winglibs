@@ -36,7 +36,7 @@ wb.onMessage(inflight (id: str, body: str): void => {
   }
 });
 
-interface IWebSocketJS {
+inflight interface IWebSocketJS {
   inflight on(cmd: str, handler: inflight(str): void): void;
   inflight send(e: str): void;
   inflight close(): void;
@@ -55,7 +55,7 @@ let receiver = new cloud.Service(inflight () => {
     log("open socket (receiver)");
     ws.on("message", (data: str) => {
       let msg = Util._buffer_to_string(data);
-      
+
       let n = num.fromStr(msg);
       assert(n >= 1 && n < 10);
       if msg == "1" {
@@ -84,7 +84,7 @@ let sender = new cloud.Service(inflight () => {
 
     ws.on("message", (data: str) => {
       let msg = Util._buffer_to_string(data);
-      
+
       let n = num.fromStr(msg);
       assert(n >= 1 && n < 10);
       if msg == "1" {
@@ -106,7 +106,7 @@ let sender = new cloud.Service(inflight () => {
 
   return () => {
     ws.close();
-  };  
+  };
 }) as "send message";
 
 test "simple websocket test" {

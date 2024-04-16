@@ -4,9 +4,10 @@ bring ui;
 bring util;
 bring "./types.w" as types;
 
-interface StartResponse {
+inflight interface StartResponse {
   inflight port(): num;
   inflight close(): void;
+  inflight specFile(): str;
 }
 
 /**
@@ -14,6 +15,7 @@ interface StartResponse {
  */
 pub class Service_sim impl types.IService {
   pub url: str;
+  pub specFile: str;
   state: sim.State;
   service: cloud.Service;
   clients: MutMap<std.Resource>;
@@ -26,6 +28,7 @@ pub class Service_sim impl types.IService {
 
     this.state = new sim.State();
     this.url = "http://127.0.0.1:{this.state.token("port")}";
+    this.specFile = this.state.token("specFile");
 
     let currentdir = Service_sim.dirname();
     let entrypointDir = nodeof(this).app.entrypointDir;
@@ -45,6 +48,7 @@ pub class Service_sim impl types.IService {
         clients: this.clients.copy(),
       );
       this.state.set("port", "{res.port()}");
+      this.state.set("specFile", "{res.specFile()}");
 
       return inflight () => {
         res.close();

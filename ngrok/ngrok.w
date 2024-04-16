@@ -3,12 +3,12 @@ bring util;
 bring fs;
 bring sim;
 
-interface ChildProcess {
+inflight interface ChildProcess {
   inflight kill(): void;
   inflight url(): str;
 }
 
-pub interface OnConnectHandler {
+pub inflight interface OnConnectHandler {
   inflight handle(url: str): void;
 }
 
@@ -49,17 +49,17 @@ pub class Tunnel {
         } catch e {
           log("error: {e}");
 
-          // ugly: without this an exception will cause dependents to 
+          // ugly: without this an exception will cause dependents to
           // never be initialized and the app will fail to start
           this.state.set("url", "<error>");
-        }        
+        }
       });
- 
+
       // no need to show the ugly details
       nodeof(s).hidden = true;
       nodeof(this.state).hidden = true;
     } else {
-      // ugly: without this an exception will cause dependents to 
+      // ugly: without this an exception will cause dependents to
       // never be initialized and the app will fail to start
       new cloud.Service(inflight () => {
         this.state.set("url", "<test>");
