@@ -104,3 +104,52 @@ def lifted(id: str):
           return BucketClient_sim(idValue["handle"])
       
   raise Exception(f"Client not found (id={id}).")
+
+def from_function_event(event):
+  target = os.getenv(f"WING_TARGET")
+  if target == "tf-aws":
+    return str(event)
+  elif target == "sim":
+    return str(event["payload"])
+  else:
+    raise Exception(f"Unsupported target: {target}")
+  
+def from_topic_event(event):
+  target = os.getenv(f"WING_TARGET")
+  if target == "tf-aws":
+    return [event["Records"][0]["Sns"]["Message"]]
+  elif target == "sim":
+    return [str(event["payload"])]
+  else:
+    raise Exception(f"Unsupported target: {target}")
+  
+def from_queue_event(event):
+  target = os.getenv(f"WING_TARGET")
+  if target == "tf-aws":
+    return [event["Records"][0]["body"]]
+  elif target == "sim":
+    return [str(event["payload"])]
+  else:
+    raise Exception(f"Unsupported target: {target}")
+  
+class BucketEvent:
+  key: str
+  type: str
+
+def from_bucket_event(event):
+  target = os.getenv(f"WING_TARGET")
+  if target == "tf-aws":
+    bucket_event = BucketEvent()
+    data = json.loads(event["Records"][0]["Sns"]["Message"])
+    key = data["Records"][0]["s3"]["object"]["key"]
+    bucket_event.key = key
+    bucket_event.type = os.getenv("WING_BUCKET_EVENT")
+    return [bucket_event]
+  elif target == "sim":
+    data = event["payload"]
+    bucket_event = BucketEvent()
+    bucket_event.key = data["key"]
+    bucket_event.type = data["type"]
+    return [bucket_event]
+  else:
+    raise Exception(f"Unsupported target: {target}")

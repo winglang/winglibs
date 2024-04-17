@@ -1,6 +1,7 @@
 bring cloud;
 bring util;
 bring http;
+bring math;
 bring "./containers.w" as containers;
 bring "../types.w" as types;
 bring "../util.w" as libutil;
@@ -32,6 +33,7 @@ pub class Inflight impl cloud.IFunctionHandler {
       network = "host";
     }
 
+    let port = math.floor(math.random() * 1000 + 9000);
     let runner = new containers.Container(
       image: "lambci/lambda:python3.8",
       name: "python-runner",
@@ -40,9 +42,11 @@ pub class Inflight impl cloud.IFunctionHandler {
       },
       env: {
         DOCKER_LAMBDA_STAY_OPEN: "1",
+        DOCKER_LAMBDA_API_PORT: "{port}",
+        DOCKER_LAMBDA_RUNTIME_PORT: "{port}",
       },
       public: true,
-      port: 9001,
+      port: port,
       args: [props.handler],
       flags: flags.copy(),
       network: network,
@@ -92,10 +96,21 @@ pub class Inflight impl cloud.IFunctionHandler {
   }
 
   pub inflight handle(event: str?): str? {
+    return this._handle(event);
+  }
+
+  protected inflight _handle(event: str?): str? {
     let var body = event;
     if event == nil || event == "" {
-      body = "\{}";
+      body = Json.stringify({ payload: "" });
+    } else {
+      if let json = Json.tryParse(event) {
+        body = Json.stringify({ payload: json });
+      } else {
+        body = Json.stringify({ payload: event });
+      }
     }
+    
     let res = http.post(this.url, { body: body });
     return res.body;
   }

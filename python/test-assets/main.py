@@ -3,14 +3,56 @@ from wing import *
 def handler(event, context):
   print(event)
   print(context)
+
+  payload = from_function_event(event)
   
-  client_get = lifted("bucket-get")
-  value = client_get.get("test.txt")
-  
-  client_put = lifted("bucket-put")
-  client_put.put("test.txt", value)
+  client = lifted("bucket")
+  value = client.get("test.txt")
+  client.put("test.txt", value + payload)
   
   return {
     "statusCode": 200,
     "body": "Hello!"
+  }
+
+def queue_consumer_handler(event, context):
+  print(event)
+  print(context)
+
+  payload = from_queue_event(event)
+  for p in payload:
+    client_put = lifted("bucket")
+    client_put.put("queue.txt", p)
+  
+  return {
+    "statusCode": 200,
+    "body": "Hello from Queue Consumer!"
+  }
+
+def topic_onmessage_handler(event, context):
+  print(event)
+  print(context)
+
+  payload = from_topic_event(event)
+  for p in payload:
+    client_put = lifted("bucket")
+    client_put.put("topic.txt", p)
+
+  return {
+    "statusCode": 200,
+    "body": "Hello from Topic OnMessage!"
+  }
+
+def bucket_oncreate_handler(event, context):
+  print(event)
+  print(context)
+
+  payload = from_bucket_event(event)
+  for p in payload:
+    client_put = lifted("bucket")
+    client_put.put(p.key, p.type)
+
+  return {
+    "statusCode": 200,
+    "body": "Hello from Bucket OnCreate!"
   }

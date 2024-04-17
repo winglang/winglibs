@@ -5,6 +5,7 @@ const { Testing } = require("@winglang/sdk/lib/simulator");
 const { Function: AwsFunction } = require("@winglang/sdk/lib/shared-aws/function.js");
 const { Bucket: AwsBucket } = require("@winglang/sdk/lib/shared-aws/bucket.js");
 const { normalPath } = require("@winglang/sdk/lib/shared/misc.js");
+const { Duration } = require("@winglang/sdk/lib/std/duration.js");
 const cdktf = require("cdktf");
 const awsProvider = require("@cdktf/provider-aws");
 const { build } = require("../util.js");
@@ -14,10 +15,10 @@ module.exports.Function = class Function extends Construct {
     scope,
     id,
     inflight,
-    props,
+    props = {},
   ) {
     super(scope, id);
-    const dummy = new TfAwsFunction(this, "Dummy", Testing.makeHandler(`
+    this.dummy = new TfAwsFunction(this, "Dummy", Testing.makeHandler(`
       async handle(event) {
         return;
       }`
@@ -40,7 +41,7 @@ module.exports.Function = class Function extends Construct {
       type: cdktf.AssetType.ARCHIVE
     });
 
-    const roleArn = dummy.role.arn;
+    const roleArn = this.dummy.role.arn;
 
     const clients = {};
     for (let clientId of Object.keys(inflight.inner.lifts)) {
@@ -48,7 +49,7 @@ module.exports.Function = class Function extends Construct {
       const allow = options.allow;
       const bucket = AwsBucket.from(client);
       if (bucket !== undefined) {
-        bucket.onLift(dummy, allow);
+        bucket.onLift(this.dummy, allow);
         clients[clientId] = {
           type: "cloud.Bucket",
           bucketName: cdktf.Fn.replace(bucket.bucketName, ".s3.amazonaws.com", ""),
@@ -57,6 +58,11 @@ module.exports.Function = class Function extends Construct {
       }
     }
 
+    this.env = {
+      WING_TARGET: process.env["WING_TARGET"],
+      WING_CLIENTS: cdktf.Fn.jsonencode(clients),
+    };
+
     this.lambda = new awsProvider.lambdaFunction.LambdaFunction(this, "PyFunction", {
       functionName: `${id}-${this.node.addr.substring(42-8)}`,
       role: roleArn,
@@ -64,12 +70,15 @@ module.exports.Function = class Function extends Construct {
       runtime: "python3.11",
       filename: asset.path,
       sourceCodeHash: asset.assetHash,
-      timeout: 60,
+      timeout: props.timeout
+        ? props.timeout.seconds
+        : Duration.fromMinutes(1).seconds,
       environment: {
-        variables: {
-          WING_TARGET: process.env["WING_TARGET"],
-          WING_CLIENTS: cdktf.Fn.jsonencode(clients),
-        }
+        variables: cdktf.Lazy.anyValue({
+          produce: () => ({
+            ...this.env,
+          }),
+        }),
       }
     });
     this.lambdaArn = this.lambda.arn;
@@ -102,5 +111,9 @@ module.exports.Function = class Function extends Construct {
 
   envName() {
     return `FUNCTION_NAME_${this.node.addr.slice(-8)}`;
+  }
+
+  addEnvironment(key, value) {
+    this.env[key] = value;
   }
 }

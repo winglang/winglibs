@@ -175,8 +175,8 @@ pub class Container {
 
       if let env = opts.env {
         if env.size() > 0 {
-          dockerRun.push("-e");
           for k in env.keys() {
+            dockerRun.push("-e");
             dockerRun.push("{k}={env.get(k)!}");
           }
         }

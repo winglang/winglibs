@@ -27,3 +27,7 @@ pub struct LiftOptions {
 pub interface IInflight extends cloud.IFunctionHandler {
   lift(obj: std.Resource, options: LiftOptions): cloud.IFunctionHandler;
 }
+
+pub interface IBucketEventInflight extends cloud.IBucketEventHandler {
+  lift(obj: std.Resource, options: LiftOptions): cloud.IBucketEventHandler;
+}
