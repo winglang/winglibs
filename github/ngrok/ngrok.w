@@ -37,11 +37,11 @@ pub class Ngrok {
         while retries > 0 {
           try {
             let json = Json.parse(http.get("http://127.0.0.1:{ngrokAPIPort}/api/tunnels").body);
-            for tunnel in Json.values(json.get("tunnels")) {
-              let address = tunnel.get("config").get("addr").asStr();
+            for tunnel in Json.values(json["tunnels"]) {
+              let address = tunnel["config"]["addr"].asStr();
               log("Checking {address}");
               if address == props.url {
-                state.set("url", tunnel.get("public_url").asStr());
+                state.set("url", tunnel["public_url"].asStr());
                 return nil;
               }
             }

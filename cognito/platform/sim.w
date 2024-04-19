@@ -108,13 +108,13 @@ pub class Cognito_sim impl types.ICognito {
     for entry in api.handlers.entries() {
       let handler = entry.value;
       let func: cloud.Function = handler.func;
-      let route = handler.mapping.eventProps.subscriptionProps.routes.at(0);
+      let route = handler.mapping.eventProps.subscriptionProps.routes[0];
       if route.pathPattern == path && route.method == method.uppercase() {
-        let pathJson = MutJson api.apiSpec.get("paths").get(path);
+        let pathJson = MutJson api.apiSpec["paths"][path];
         pathJson.set(method, unsafeCast(nil));
 
         let api2: Json = unsafeCast(this.api);
-        let callable: ICallable = unsafeCast(api2?.get(method));
+        let callable: ICallable = unsafeCast(api2[method]);
         callable.call(this.api, path, inflight (req: cloud.ApiRequest) => {
           if req.headers?.tryGet("authorization") != "Bearer sim-auth-token" {
             if this.counter.peek() % 2 == 0 {
@@ -154,7 +154,7 @@ pub class Cognito_sim impl types.ICognito {
 
     this.table.update(email, {
       "email": email,
-      "password": row!.get("password").asStr(),
+      "password": row!["password"].asStr(),
       "confirmed": true,
     });
   }
@@ -165,11 +165,11 @@ pub class Cognito_sim impl types.ICognito {
       throw "User not found";
     }
 
-    if row!.get("email").asStr() != email || row!.get("password").asStr() != password {
+    if row!["email"].asStr() != email || row!["password"].asStr() != password {
       throw "Invalid credentials";
     }
 
-    if !row!.get("confirmed").asBool() {
+    if !row!["confirmed"].asBool() {
       throw "User not confirmed";
     }
 

@@ -3,7 +3,7 @@ pub inflight class LowkeysMap {
     let res = MutMap<str>{};
 
     for key in map.keys() {
-      res.set(key.lowercase(), map.get(key));
+      res.set(key.lowercase(), map[key]);
     }
 
     return res.copy();

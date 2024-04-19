@@ -42,8 +42,8 @@ test "GlobalSecondaryIndex" {
     ];
 
     for i in idCreated {
-        let id = i.get("id").asStr();
-        let createAt = i.get("createdAt").asNum();
+        let id = i["id"].asStr();
+        let createAt = i["createdAt"].asNum();
 
         table.put({
             Item: {
@@ -71,7 +71,8 @@ test "GlobalSecondaryIndex" {
     // returns all items order by id desc
     let ids = ["zuegksw", "pdkeruf", "dirnfhw", "azjekfw"];
     for i in 0..ids.length {
-        assert(items.Items.at(i).get("id") == ids.at(i));
+        let x = items.Items[i]["id"];
+        assert(items.Items[i]["id"] == ids[i]);
     }
 
     let itemsCreatedAtIndex = table.query(
@@ -91,6 +92,6 @@ test "GlobalSecondaryIndex" {
     // returns all items order by createdAt desc
     let idsOrderByCreatedAt = ["azjekfw", "pdkeruf", "dirnfhw", "zuegksw"];
     for i in 0..idsOrderByCreatedAt.length {
-        assert(itemsCreatedAtIndex.Items.at(i).get("id") == idsOrderByCreatedAt.at(i));
+        assert(itemsCreatedAtIndex.Items[i]["id"] == idsOrderByCreatedAt[i]);
     }
 }

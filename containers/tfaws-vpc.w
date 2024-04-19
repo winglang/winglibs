@@ -38,8 +38,8 @@ pub class Vpc {
       }
     );
 
-    this.id = vpc.get("vpc_id");
-    this.privateSubnets = vpc.get("private_subnets");
-    this.publicSubnets = vpc.get("public_subnets");
+    this.id = vpc["vpc_id"];
+    this.privateSubnets = vpc["private_subnets"];
+    this.publicSubnets = vpc["public_subnets"];
   }
 }

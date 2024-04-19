@@ -107,9 +107,9 @@ pub class Cluster extends ClusterBase impl ICluster {
     }
 
     return ClusterAttributes {
-      name: values.Values.get("eks.cluster_name"),
-      certificate: values.Values.get("eks.certificate"),
-      endpoint: values.Values.get("eks.endpoint"),
+      name: values.Values["eks.cluster_name"],
+      certificate: values.Values["eks.certificate"],
+      endpoint: values.Values["eks.endpoint"],
     };
 
   }
@@ -167,11 +167,11 @@ pub class Cluster extends ClusterBase impl ICluster {
 
     this._attributes = {
       name: clusterName,
-      certificate:  cluster.get("cluster_certificate_authority_data"),
-      endpoint: cluster.get("cluster_endpoint"),
+      certificate:  cluster["cluster_certificate_authority_data"],
+      endpoint: cluster["cluster_endpoint"],
     };
 
-    this._oidcProviderArn = cluster.get("oidc_provider_arn");
+    this._oidcProviderArn = cluster["oidc_provider_arn"];
 
     // output the cluster name
     new cdktf.TerraformOutput(value: this._attributes.name, description: "eks.cluster_name") as "eks.cluster_name";
@@ -216,7 +216,7 @@ pub class Cluster extends ClusterBase impl ICluster {
           "app.kubernetes.io/component"=> "controller"
         },
         annotations: {
-          "eks.amazonaws.com/role-arn" => lbRole.get("iam_role_arn"),
+          "eks.amazonaws.com/role-arn" => lbRole["iam_role_arn"],
           "eks.amazonaws.com/sts-regional-endpoints" => "true"
         },
       }
