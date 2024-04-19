@@ -71,7 +71,6 @@ test "GlobalSecondaryIndex" {
     // returns all items order by id desc
     let ids = ["zuegksw", "pdkeruf", "dirnfhw", "azjekfw"];
     for i in 0..ids.length {
-        let x = items.Items[i]["id"];
         assert(items.Items[i]["id"] == ids[i]);
     }
 
