@@ -11,6 +11,7 @@ pub struct StartServiceOptions {
   homeEnv: str;
   pathEnv: str;
   clients: Map<std.Resource>;
+  lastPort: str?;
 }
 
 /**

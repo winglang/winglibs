@@ -212,6 +212,7 @@ export interface StartServiceOptions {
   readonly clients: Readonly<Record<string, Resource>>;
   readonly currentdir: string;
   readonly homeEnv: string;
+  readonly lastPort?: (string) | undefined;
   readonly options: ServiceProps;
   readonly pathEnv: string;
   readonly workdir: string;
