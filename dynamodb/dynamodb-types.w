@@ -209,7 +209,7 @@ pub struct Connection {
   clientConfig: ClientConfig?;
 }
 
-pub interface IClient {
+pub inflight interface IClient {
   inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
   inflight put(options: PutOptions): PutOutput;

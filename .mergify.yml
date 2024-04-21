@@ -77,6 +77,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
+      - -check-failure=build-react
+      - -check-pending=build-react
+      - -check-stale=build-react
       - -check-failure=build-redis
       - -check-pending=build-redis
       - -check-stale=build-redis
@@ -86,6 +89,12 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-tf
+      - -check-pending=build-tf
+      - -check-stale=build-tf
+      - -check-failure=build-tsoa
+      - -check-pending=build-tsoa
+      - -check-stale=build-tsoa
       - -check-failure=build-vite
       - -check-pending=build-vite
       - -check-stale=build-vite
@@ -153,6 +162,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
+      - -check-failure=build-react
+      - -check-pending=build-react
+      - -check-stale=build-react
       - -check-failure=build-redis
       - -check-pending=build-redis
       - -check-stale=build-redis
@@ -162,6 +174,12 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-tf
+      - -check-pending=build-tf
+      - -check-stale=build-tf
+      - -check-failure=build-tsoa
+      - -check-pending=build-tsoa
+      - -check-stale=build-tsoa
       - -check-failure=build-vite
       - -check-pending=build-vite
       - -check-stale=build-vite

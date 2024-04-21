@@ -71,12 +71,12 @@ pub struct VerifyAndReceieveProps {
   payload: str;
 }
 
-pub interface IProbotWebhooks {
+pub inflight interface IProbotWebhooks {
   inflight on(name: str, handler: inflight (): void): void;
   inflight verifyAndReceive(props: VerifyAndReceieveProps): void;
 }
 
-pub interface IProbotAuth {
+pub inflight interface IProbotAuth {
   inflight call(instance: ProbotInstance, installationId: num): octokit.OctoKit;
 }
 

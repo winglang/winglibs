@@ -2,8 +2,8 @@
 
 Welcome! You've arrived to the warm and cozy home of the *Wing Trusted Library Ecosystem*.
 
-This repository hosts the code for [Wing](https://winglang.io) libraries that we consider trusted
-and that meet our community's quality bar.
+This repository hosts the code for [Wing](https://winglang.io) libraries (also called "winglibs")
+that we consider trusted and that meet our community's quality bar.
 
 One of the cool things about trusted libraries is that we take care of building, testing and
 publishing them for you.
@@ -27,15 +27,32 @@ publishing them for you.
 | [ngrok](./ngrok) | [@winglibs/ngrok](https://www.npmjs.com/package/@winglibs/ngrok) | * |
 | [openai](./openai) | [@winglibs/openai](https://www.npmjs.com/package/@winglibs/openai) | * |
 | [postgres](./postgres) | [@winglibs/postgres](https://www.npmjs.com/package/@winglibs/postgres) | sim, tf-aws |
+| [react](./react) | [@winglibs/react](https://www.npmjs.com/package/@winglibs/react) | sim, tf-aws |
 | [redis](./redis) | [@winglibs/redis](https://www.npmjs.com/package/@winglibs/redis) | sim |
 | [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
+| [tf](./tf) | [@winglibs/tf](https://www.npmjs.com/package/@winglibs/tf) | sim, tf-aws |
+| [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
 | [websockets](./websockets) | [@winglibs/websockets](https://www.npmjs.com/package/@winglibs/websockets) | awscdk, sim, tf-aws |
 
-_Generated with `wing compile generate-workflows.w`. To update the list of supported platforms for a winglib, please update the "wing" section in its package.json file._
+_Generated with `mkrepo.sh`. To update the list of supported platforms for a winglib, please update the "wing" section in its package.json file._
 
 <!-- WINGLIBS_TOC_END -->
+
+## How is this repository structured?
+
+The code for each library is located in a subdirectory named after the library. For example, the
+`websockets` library is located under [`./websockets`](./websockets/).
+
+Wing libraries are published to npm under the `@winglibs` scope, and there's a `package.json` file
+in the library's directory.
+
+A set of GitHub Workflows are maintained for each library under the [.github](./github/) directory.
+These workflows, as well as other artifacts in this repository (such as the table of contents in
+this README) are are generated using a tool called `mkrepo`, which can be executed using the
+`./mkrepo.sh` script at the root of this repository. The source code for this tool is can be found
+under [.mkrepo](./.mkrepo/) (and it is written in Wing of course).
 
 ## How do I add a new library?
 

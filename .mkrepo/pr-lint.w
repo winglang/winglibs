@@ -1,7 +1,8 @@
 bring fs;
+bring "./library.w" as l;
 
 pub class PullRequestLintWorkflow {
-  new(workflowdir: str, libs: Array<str>) {
+  new(workflowdir: str, libs: Array<l.Library>) {
     let var types = MutArray<str>[
       "feat",
       "fix",
@@ -10,7 +11,13 @@ pub class PullRequestLintWorkflow {
       "rfc",
       "revert",
     ];
-    types = types.concat(libs.copyMut());
+
+    let names = MutArray<str>[];
+    for l in libs {
+      names.push(l.name);
+    }
+
+    types = types.concat(names);
 
     fs.writeYaml("{workflowdir}/pull-request-lint.yaml", {
       name: "Pull Request Lint",

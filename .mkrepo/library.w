@@ -2,18 +2,40 @@ bring fs;
 
 struct PackageManifest {
   name: str;
+  wing: WingOptions?;
+}
+
+struct WingOptions {
+  platforms: Array<str>?;
 }
 
 pub class Library {
+  extern "./util.js" static sortedArray(arr: Array<str>): Array<str>;
+
+  pub name: str;
+  pub dir: str; // relative to root of the repo
+  pub platforms: Array<str>;
+  pub buildJob: str;
+  pub manifest: PackageManifest; // package.json
+
   new(workflowdir: str, libdir: str) {
+    this.dir = libdir;
+    this.name = fs.basename(libdir);
     let pkgjsonpath = "{libdir}/package.json";
     let pkgjson = fs.readJson(pkgjsonpath);
-    let manifest = PackageManifest.fromJson(pkgjson);
-    log(manifest.name);
-    let base = fs.basename(libdir);
-    let expected = "@winglibs/{base}";
-    if manifest.name != expected {
+    this.manifest = PackageManifest.fromJson(pkgjson);
+
+    log(this.manifest.name);
+    this.buildJob = "build-{this.name}";
+    let expected = "@winglibs/{this.name}";
+    if this.manifest.name != expected {
       throw "'name' in {pkgjsonpath} is expected to be {expected}";
+    }
+
+    
+    this.platforms = Library.sortedArray(this.manifest.wing?.platforms ?? []);
+    if this.platforms.length == 0 {
+      throw "\"{this.name}\" winglib does not have a `wing.platforms` field in its package.json.";
     }
 
     let addCommonSteps = (steps: MutArray<Json>) => {
@@ -62,7 +84,6 @@ pub class Library {
         run: "wing pack",
         "working-directory": libdir,
       });
-
     };
 
     let releaseSteps = MutArray<Json>[];
@@ -86,7 +107,7 @@ pub class Library {
       }
     });
 
-    let tagName = "{base}-v\$\{\{ env.WINGLIB_VERSION \}\}";
+    let tagName = "{this.name}-v\$\{\{ env.WINGLIB_VERSION \}\}";
     let githubTokenWithAuth = "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}";
 
     releaseSteps.push({
@@ -102,7 +123,7 @@ pub class Library {
       name: "GitHub release",
       uses: "softprops/action-gh-release@v1",
       with: {
-        name: "{base} v\$\{\{ env.WINGLIB_VERSION \}\}",
+        name: "{this.name} v\$\{\{ env.WINGLIB_VERSION \}\}",
         tag_name: tagName,
         files: "*.tgz",
         token: githubTokenWithAuth,
@@ -110,12 +131,12 @@ pub class Library {
     });
 
     let releaseJobs = MutJson {};
-    releaseJobs.set("build-{base}", {
+    releaseJobs.set(this.buildJob, {
       "runs-on": "ubuntu-latest",
       steps: releaseSteps.copy(),
     });
-    fs.writeYaml("{workflowdir}/{base}-release.yaml", {
-      name: "{base}-release",
+    fs.writeYaml("{workflowdir}/{this.name}-release.yaml", {
+      name: "{this.name}-release",
       on: {
         push: {
           branches: ["main"],
@@ -129,12 +150,14 @@ pub class Library {
     });
 
     let pullJobs = MutJson {};
-    pullJobs.set("build-{base}", {
+
+    pullJobs.set("build-{this.name}", {
       "runs-on": "ubuntu-latest",
       steps: pullSteps.copy(),
     });
-    fs.writeYaml("{workflowdir}/{base}-pull.yaml", {
-      name: "{base}-pull",
+
+    fs.writeYaml("{workflowdir}/{this.name}-pull.yaml", {
+      name: "{this.name}-pull",
       on: {
         pull_request: {
           paths: ["{libdir}/**"],

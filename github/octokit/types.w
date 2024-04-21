@@ -290,7 +290,7 @@ struct ListForOrgProps {
 	org: str;
 }
 
-interface OctoKitRepos {
+inflight interface OctoKitRepos {
 	inflight getContent(options: GetContentProps): GetContentResponse;
 	inflight getCommit(options: GetCommitProps): GetCommitResponse;
 	inflight compareCommits(options: CompareCommitsProps): CompareCommitsResponse;

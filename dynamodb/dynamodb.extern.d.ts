@@ -17,6 +17,7 @@ export interface ClientConfig {
 export interface Client$Inflight {
   readonly createTable: (input: Readonly<any>) => Promise<Readonly<any>>;
   readonly deleteTable: (input: Readonly<any>) => Promise<Readonly<any>>;
+  readonly describeTable: (input: Readonly<any>) => Promise<Readonly<any>>;
   readonly updateTimeToLive: (input: Readonly<any>) => Promise<Readonly<any>>;
 }
 export interface Credentials {

@@ -39,9 +39,12 @@ jobs:
             ngrok
             openai
             postgres
+            react
             redis
             sagemaker
             simtools
+            tf
+            tsoa
             vite
             websockets
           subjectPattern: ^[^A-Z][^:]+[^.]$

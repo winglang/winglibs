@@ -1,0 +1,28 @@
+{
+  "name": "@winglibs/tsoa",
+  "description": "TSOA library for Wing",
+  "version": "0.1.2",
+  "author": {
+    "email": "eyalk@wing.cloud",
+    "name": "Eyal Keren"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "tsoa"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^19.13.0",
+    "express": "^4.19.2",
+    "serverless-http": "^3.2.0",
+    "tsoa": "^6.2.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.4"
+  }
+}

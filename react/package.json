@@ -1,0 +1,27 @@
+{
+  "name": "@winglibs/react",
+  "description": "React library for Wing",
+  "version": "0.0.2",
+  "author": {
+    "name": "Meir Elbaz",
+    "email": "maornet@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "react"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "finalhandler": "^1.2.0",
+    "get-port": "^7.1.0",
+    "serve-static": "^1.15.0",
+    "tree-kill": "^1.2.2"
+  }
+}

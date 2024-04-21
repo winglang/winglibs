@@ -13,16 +13,19 @@ let workflowdir = ".github/workflows";
 fs.remove(workflowdir);
 fs.mkdir(workflowdir);
 
-let libs = MutArray<str>[];
+let libs = MutArray<l.Library>[];
 
 for file in fs.readdir(".") {
-  if !fs.exists("{file}/package.json") {
-    log("skipping {file}");
+  if file.startsWith(".") {
     continue;
   }
 
-  new l.Library(workflowdir, file) as file;
-  libs.push(file);
+  if !fs.exists("{file}/package.json") {
+    continue;
+  }
+
+  let lib = new l.Library(workflowdir, file) as file;
+  libs.push(lib);
 }
 
 readme.update(libs.copy());
