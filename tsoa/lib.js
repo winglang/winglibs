@@ -10,7 +10,7 @@ const build = async (file, outdir, cwd, homeEnv, pathEnv) => {
   const code = `
 require("tsup").build({
   entry: ["${file}"],
-  sourcemap: false,
+  sourcemap: true,
   dts: false,
   outDir: "${outdir}",
   target: "esnext",
