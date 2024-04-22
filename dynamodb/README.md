@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - [winglang](https://winglang.io).
+- [docker](https://www.docker.com/)
 
 ## Installation
 

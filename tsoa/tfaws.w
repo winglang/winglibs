@@ -6,6 +6,11 @@ bring fs;
 bring "@cdktf/provider-aws" as awsProvider;
 bring "./types.w" as types;
 
+struct BuildServiceResult {
+  routesFile: str;
+  specFile: str;
+}
+
 class IFunction impl std.IInflightHost  {
   pub var _getCodeLines: (cloud.IFunctionHandler): Array<str>;
   pub var addEnvironment: (str, str): void;
@@ -59,6 +64,7 @@ pub class Service_tfaws impl types.IService {
   func: TSOAFunction;
   api: awsProvider.apiGatewayRestApi.ApiGatewayRestApi;
   pub url: str;
+  pub specFile: str;
   clients: MutMap<std.Resource>;
 
   new(props: types.ServiceProps) {
@@ -79,7 +85,7 @@ pub class Service_tfaws impl types.IService {
       clients: this.clients.copy(),
     );
     
-    this.func = new TSOAFunction({ RegisterRoutes: res }, inflight (event, context) => {
+    this.func = new TSOAFunction({ RegisterRoutes: res.routesFile }, inflight (event, context) => {
       return Service_tfaws.runHandler(event, context, this.clients.copy());
     });
 
@@ -145,14 +151,15 @@ pub class Service_tfaws impl types.IService {
     );
 
     this.url = deploy.invokeUrl;
+    this.specFile = res.specFile;
   }
 
-  pub liftClient(id: str, client: std.Resource, ops: Array<str>) {
-    client.onLift(this.func.fn, ops);
-    this.clients.set(id, client);
+  pub lift(client: std.Resource, ops: types.LiftOptions) {
+    client.onLift(this.func.fn, ops.allow);
+    this.clients.set(ops.id, client);
   }
 
-  extern "./lib.js" static build(options: types.StartServiceOptions): str;
+  extern "./lib.js" static build(options: types.StartServiceOptions): BuildServiceResult;
   extern "./lib.js" static dirname(): str;
   extern "./app-aws.js" inflight static runHandler(event: Json, context: Json, clients: Map<std.Resource>): Json;
 }

@@ -16,6 +16,8 @@ pub struct AppPros {
   buildCommand: str?;
   // In sim, if `true` - will use the start command, and if `false` - the build command.
   useBuildCommand: bool?;
+  // The website's custom domain object.
+  domain: cloud.Domain?;
 }
 
 pub interface IApp {

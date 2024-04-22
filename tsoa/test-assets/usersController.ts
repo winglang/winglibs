@@ -10,7 +10,7 @@ import {
 	Request,
 } from "tsoa";
 
-import { getClient } from "../clients.js";
+import { lifted } from "../clients.js";
 import { Request as Req } from "express";
 
 interface User {
@@ -36,7 +36,7 @@ export class UsersController extends Controller {
 		@Request() request: Req,
 		@Query() name?: string,
 	): Promise<User> {
-		let bucket = getClient(request, "bucket");
+		let bucket = lifted("bucket");
 		await bucket.put(userId.toString(), name ?? "not-a-name");
 
     return  {

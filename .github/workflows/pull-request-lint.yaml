@@ -44,6 +44,7 @@ jobs:
             redis
             sagemaker
             simtools
+            tf
             tsoa
             vite
             websockets

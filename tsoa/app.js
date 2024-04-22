@@ -1,11 +1,11 @@
 const express = require("express");
-const { setClients } = require("./clients");
+const { setLifted } = require("./clients");
 
 exports.runServer = async (routes, clients) => {
   const app = express();
 
   app.use((req, res, next) => {
-    setClients(req, clients);
+    setLifted(clients);
     next();
   });
 
