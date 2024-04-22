@@ -27,8 +27,8 @@ test "transactWrite (put)" {
 
   let response = table.scan();
   assert(response.Count == 1);
-  assert(response.Items.at(0).get("id").asStr() == "1");
-  assert(response.Items.at(0).get("body").asStr() == "hello");
+  assert(response.Items[0]["id"].asStr() == "1");
+  assert(response.Items[0]["body"].asStr() == "hello");
 }
 
 test "transactWrite (delete)" {
@@ -93,8 +93,8 @@ test "transactWrite (update)" {
 
   let response = table.scan();
   assert(response.Count == 1);
-  assert(response.Items.at(0).get("id").asStr() == "1");
-  assert(response.Items.at(0).get("body").asStr() == "world");
+  assert(response.Items[0]["id"].asStr() == "1");
+  assert(response.Items[0]["body"].asStr() == "world");
 }
 
 test "transactWrite (conditionCheck)" {

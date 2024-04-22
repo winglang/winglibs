@@ -22,7 +22,7 @@ pub class Service {
 			let env = commonEnv.copyMut();
 			if let propsEnv = props.env {
 				for key in propsEnv.keys() {
-					env.set(key, propsEnv.get(key));
+					env.set(key, propsEnv[key]);
 				}
 			}
 			let child = Service.spawn(
