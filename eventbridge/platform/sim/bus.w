@@ -23,7 +23,7 @@ pub class EventBridgeBus {
           try {
             let parsedEventRaw = Json.parse(event);
             let jsonEvent = MutJson {
-              "detailType": parsedEventRaw.get("detail-type").asStr(),
+              "detailType": parsedEventRaw["detail-type"].asStr(),
             };
 
             for e in Json.entries(parsedEventRaw) {

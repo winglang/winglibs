@@ -41,7 +41,7 @@ pub class Workload_tfaws {
         let envVariables = MutMap<plus.EnvValue>{};
     
         for k in env.keys() {
-          if let v = env.get(k) {
+          if let v = env[k] {
             envVariables.set(k, plus.EnvValue.fromValue(v));
           }
         }
