@@ -114,7 +114,7 @@ pub class Cognito_sim impl types.ICognito {
         pathJson.set(method, unsafeCast(nil));
 
         let api2: Json = unsafeCast(this.api);
-        let callable: ICallable = unsafeCast(api2[method]);
+        let callable: ICallable = unsafeCast(api2?.get(method));
         callable.call(this.api, path, inflight (req: cloud.ApiRequest) => {
           if req.headers?.tryGet("authorization") != "Bearer sim-auth-token" {
             if this.counter.peek() % 2 == 0 {
