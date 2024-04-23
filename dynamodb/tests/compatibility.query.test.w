@@ -33,10 +33,10 @@ test "query" {
   );
 
   assert(result.Count == 2);
-  assert(result.Items.at(0).get("k1") == "key1");
-  assert(result.Items.at(0).get("k2") == "value1");
-  assert(result.Items.at(0).get("k3") == "other-value1");
-  assert(result.Items.at(1).get("k1") == "key1");
-  assert(result.Items.at(1).get("k2") == "value2");
-  assert(result.Items.at(1).get("k3") == "other-value2");
+  assert(result.Items[0]["k1"] == "key1");
+  assert(result.Items[0]["k2"] == "value1");
+  assert(result.Items[0]["k3"] == "other-value1");
+  assert(result.Items[1]["k1"] == "key1");
+  assert(result.Items[1]["k2"] == "value2");
+  assert(result.Items[1]["k3"] == "other-value2");
 }

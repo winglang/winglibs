@@ -20,6 +20,6 @@ pub class JokeMaker {
       anthropic_version: "bedrock-2023-05-31"
     });
 
-    return res.get("completion").asStr();
+    return res["completion"].asStr();
   }
 }

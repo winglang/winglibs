@@ -22,10 +22,10 @@ fanout.addConsumer(inflight (msg: str) => {
 }, name: "second");
 
 test "message fanout" {
-    fanout.publish("hello 👋");
-    
-    util.sleep(10s);
+  fanout.publish("hello 👋");
+  
+  util.sleep(10s);
 
-    assert(table.get("first").get("message") == "first hello 👋");  
-    assert(table.get("second").get("message") == "second hello 👋");
+  assert(table.get("first")["message"] == "first hello 👋");  
+  assert(table.get("second")["message"] == "second hello 👋");
 }

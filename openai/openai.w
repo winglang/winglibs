@@ -76,7 +76,7 @@ pub class OpenAI {
       messages: [ { role: "user", content: prompt } ]
     });
 
-    return resp.get("choices").getAt(0).get("message").get("content").asStr();
+    return resp["choices"][0]["message"]["content"].asStr();
   }
 
   extern "./openai.js" pub static inflight createNewInflightClient(apiKey: str, org: str?): IClient;

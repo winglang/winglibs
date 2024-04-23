@@ -68,7 +68,7 @@ test "publish to eventbridge" {
   log("after wait");
   let published = types.Event.fromJson(github.bucket.getJson("test-0"));
   expect.equal("pull-request.created", published.detailType);
-  expect.equal("test", published.resources.at(0));
+  expect.equal("test", published.resources[0]);
   expect.equal("github.com", published.source);
 
   expect.equal(0, env.bucket.list().length);
@@ -94,7 +94,7 @@ test "publish to eventbridge" {
 
   // cant deserialize events coming from queue (see https://github.com/winglang/wing/issues/3686)
   let published2 = env.bucket.getJson("environment");
-  expect.equal("myTest.check", published2.get("detail-type"));
-  expect.equal("test", published2.get("resources").getAt(0));
-  expect.equal("myTest", published2.get("source"));
+  expect.equal("myTest.check", published2["detail-type"]);
+  expect.equal("test", published2["resources"][0]);
+  expect.equal("myTest", published2["source"]);
 }
