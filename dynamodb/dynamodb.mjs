@@ -48,7 +48,7 @@ const processStreamRecords = async (client, StreamArn, handler, eventType, optio
       });
 
       for (const record of recordsData.Records) {
-        if (!event || record.eventName == event) {
+        if (!event || record.eventName === event) {
           try {
             await handler({
               eventId: record.eventID,
