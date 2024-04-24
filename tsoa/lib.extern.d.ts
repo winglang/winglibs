@@ -206,6 +206,7 @@ export interface ServiceProps {
   readonly outputDirectory: string;
   readonly routesDir: string;
   readonly spec?: (SpecProps) | undefined;
+  readonly watchDir?: (string) | undefined;
 }
 export interface StartServiceOptions {
   readonly basedir: string;
