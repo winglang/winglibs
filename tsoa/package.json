@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/tsoa",
   "description": "TSOA library for Wing",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "email": "eyalk@wing.cloud",
     "name": "Eyal Keren"

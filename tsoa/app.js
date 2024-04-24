@@ -42,7 +42,6 @@ exports.runServer = async (routes, clients, lastPort) => {
           port: () => port.port,
           close: () => {
             console.log("closing server...", port.port);
-            require("fs").appendFileSync("/tmp/tnode.log", `closing server...${port.port}\n`);
             server.close();
             server.closeAllConnections();
           }
