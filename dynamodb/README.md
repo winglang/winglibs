@@ -44,8 +44,8 @@ test "put and query" {
     ExpressionAttributeValues: {":id": "1"},
   );
   assert(response.Count == 1);
-  assert(response.Items.at(0).get("id").asStr() == "1");
-  assert(response.Items.at(0).get("body").asStr() == "hello");
+  assert(response.Items[0]["id"].asStr() == "1");
+  assert(response.Items[0]["body"].asStr() == "hello");
 }
 ```
 

@@ -101,15 +101,15 @@ pub class ProbotApp {
       throw "getVerifyProps: missing id header";
     }
 
-    let id = lowkeysHeaders.get("x-github-delivery");
+    let id = lowkeysHeaders["x-github-delivery"];
 
     if !lowkeysHeaders.has("x-github-event") {
       throw "getVerifyProps: missing name header";
     }
 
-    let name = lowkeysHeaders.get("x-github-event");
+    let name = lowkeysHeaders["x-github-event"];
 
-    let signature = lowkeysHeaders.get("x-hub-signature-256");
+    let signature = lowkeysHeaders["x-hub-signature-256"];
 
     if let payload = req.body {
       return {

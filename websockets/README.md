@@ -54,7 +54,7 @@ wb.onDisconnect(inflight(id: str): void => {
 wb.onMessage(inflight (id: str, body: str): void => {
   let connections = tb.scan();
   for item in connections.items {
-    wb.sendMessage(str.fromJson(item.get("connectionId")), body);
+    wb.sendMessage(str.fromJson(item["connectionId"]), body);
   }
 });
 

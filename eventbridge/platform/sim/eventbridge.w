@@ -29,7 +29,7 @@ pub class Bus impl types.IBus {
         let onMessageHandler = bus.subscribe(inflight (event) => {
           let json: MutJson = event;
           // make it look like it came from AWS
-          json.set("detail-type", json.get("detailType"));
+          json.set("detail-type", json["detailType"]);
           json.set("detailType", unsafeCast(nil));
           queue.push(Json.stringify(json));
         }, pattern);

@@ -37,5 +37,5 @@ test "delete (`returnValues=ALL_OLD`)" {
     ReturnValues: "ALL_OLD",
   );
 
-  assert(response.Attributes?.get("body")?.asStr() == "hello world");
+  assert(response.Attributes?.tryGet("body")?.asStr() == "hello world");
 }
