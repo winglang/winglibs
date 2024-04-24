@@ -22,12 +22,12 @@ require("tsup").build({
 }
 
 exports.startService = async (props) => {
-  const { clients } = props;
+  const { clients, lastPort } = props;
   try {
     const outdir = await exports.buildService(props);
     console.log("starting server...");
     const { runServer } = require("./app.js");
-    const res = await runServer(join(outdir.outdir, "routes.js"), clients);
+    const res = await runServer(join(outdir.outdir, "routes.js"), clients, lastPort);
     return {
       specFile: () => outdir.specFile,
       port: res.port,
@@ -62,10 +62,8 @@ exports.buildService = async (props) => {
       middlewareTemplate: join(require.resolve("@tsoa/cli"), "../routeGeneration/templates/express.hbs"),
     };
   
-    console.log("generating spec...");
-    await generateSpec(specOptions);
-    console.log("generating routes...");
-    await generateRoutes(routeOptions);
+    console.log("generating spec and routes...");
+    await Promise.all([generateSpec(specOptions), generateRoutes(routeOptions)]);
     console.log("compiling routes...");
     const outdir = mkdtempSync(join(resolve(workdir), "-cache-tsoa"))
     await build(require.resolve(join(routeOptions.routesDir, "./routes.ts")), outdir, basedir, homeEnv, pathEnv);

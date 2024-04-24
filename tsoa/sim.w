@@ -17,6 +17,7 @@ pub class Service_sim impl types.IService {
   pub url: str;
   pub specFile: str;
   state: sim.State;
+  bucket: cloud.Bucket;
   service: cloud.Service;
   clients: MutMap<std.Resource>;
 
@@ -27,6 +28,7 @@ pub class Service_sim impl types.IService {
     }
 
     this.state = new sim.State();
+    this.bucket = new cloud.Bucket();
     this.url = "http://127.0.0.1:{this.state.token("port")}";
     this.specFile = this.state.token("specFile");
 
@@ -38,6 +40,8 @@ pub class Service_sim impl types.IService {
 
     this.clients = MutMap<std.Resource>{};
     this.service = new cloud.Service(inflight () => {
+      let lastPort = this.bucket.tryGet("lastPort.txt");
+
       let res = Service_sim.startService(
         currentdir: currentdir,
         basedir: entrypointDir,
@@ -46,9 +50,11 @@ pub class Service_sim impl types.IService {
         homeEnv: homeEnv,
         pathEnv: pathEnv,
         clients: this.clients.copy(),
+        lastPort: lastPort,
       );
       this.state.set("port", "{res.port()}");
       this.state.set("specFile", "{res.specFile()}");
+      this.bucket.put("lastPort.txt", "{res.port()}");
 
       return inflight () => {
         res.close();
@@ -60,6 +66,7 @@ pub class Service_sim impl types.IService {
 
   addUi() {
     nodeof(this.state).hidden = true;
+    nodeof(this.bucket).hidden = true;
 
     new ui.Field("Url", inflight () => {
       return this.url;
