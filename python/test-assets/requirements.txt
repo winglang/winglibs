@@ -1,0 +1,7 @@
+urllib3 == 1.26.15
+requests
+boto3
+Faker
+pydantic
+fhirpy
+PyJWT

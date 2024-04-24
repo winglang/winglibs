@@ -39,6 +39,7 @@ jobs:
             ngrok
             openai
             postgres
+            python
             react
             redis
             sagemaker

@@ -1,0 +1,28 @@
+{
+  "name": "@winglibs/python",
+  "description": "python library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "python"
+  },
+  "author": {
+    "email": "eladc@wing.cloud",
+    "name": "Elad Cohen"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@aws-sdk/client-lambda": "^3.549.0",
+    "@cdktf/provider-aws": "^19.13.0",
+    "@smithy/util-utf8": "^2.3.0",
+    "cdktf": "^0.20.6",
+    "glob": "^10.3.12"
+  }
+}
