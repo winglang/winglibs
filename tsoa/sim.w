@@ -49,7 +49,7 @@ pub class Service_sim impl types.IService {
         options: props,
         homeEnv: homeEnv,
         pathEnv: pathEnv,
-        clients: this.clients.copy(),
+        clients: this.clients,
         lastPort: lastPort,
       );
       this.state.set("port", "{res.port()}");
