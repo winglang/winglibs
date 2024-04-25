@@ -4,7 +4,7 @@ const {
 } = require("tsoa");
 const { join, resolve } = require("node:path");
 const { execSync } = require("node:child_process");
-const { mkdtempSync } = require("node:fs");
+const { mkdtempSync, watch } = require("node:fs");
 
 const build = async (file, outdir, cwd, homeEnv, pathEnv) => {
   const code = `
@@ -21,17 +21,39 @@ require("tsup").build({
   execSync(`node -e '${code}'`, { env: { HOME: homeEnv, PATH: pathEnv }, cwd });
 }
 
+const buildAndStartServer = async (runServer, props, clients, lastPort) => {
+  const outdir = await exports.buildService(props);
+  console.log("starting server...");
+  const res = await runServer(join(outdir.outdir, "routes.js"), clients, lastPort);
+  return { port: res.port, close: res.close, outdir };
+};
+
 exports.startService = async (props) => {
-  const { clients } = props;
+  const { basedir, options, clients, lastPort } = props;
   try {
-    const outdir = await exports.buildService(props);
-    console.log("starting server...");
+    let res;
+    let port = lastPort;
     const { runServer } = require("./app.js");
-    const res = await runServer(join(outdir.outdir, "routes.js"), clients);
+    if (options.watchDir) {
+      console.log("watching directory...", join(basedir, options.watchDir))
+      watch(join(basedir, options.watchDir), { recursive: true }, async () => {
+        if (res) {
+          res.close();
+        }
+
+        res = await buildAndStartServer(runServer, props, clients, port);
+        port = res.port();
+      });
+    }
+
+    res = await buildAndStartServer(runServer, props, clients, port);
+    port = res.port();
     return {
-      specFile: () => outdir.specFile,
-      port: res.port,
-      close: res.close,
+      specFile: () => res.outdir.specFile,
+      port: () => port,
+      close: () => {
+        res.close();
+      },
     };
   } catch (e) {
     console.log(e);
@@ -62,10 +84,8 @@ exports.buildService = async (props) => {
       middlewareTemplate: join(require.resolve("@tsoa/cli"), "../routeGeneration/templates/express.hbs"),
     };
   
-    console.log("generating spec...");
-    await generateSpec(specOptions);
-    console.log("generating routes...");
-    await generateRoutes(routeOptions);
+    console.log("generating spec and routes...");
+    await Promise.all([generateSpec(specOptions), generateRoutes(routeOptions)]);
     console.log("compiling routes...");
     const outdir = mkdtempSync(join(resolve(workdir), "-cache-tsoa"))
     await build(require.resolve(join(routeOptions.routesDir, "./routes.ts")), outdir, basedir, homeEnv, pathEnv);

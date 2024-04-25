@@ -11,6 +11,7 @@ pub struct StartServiceOptions {
   homeEnv: str;
   pathEnv: str;
   clients: Map<std.Resource>;
+  lastPort: str?;
 }
 
 /**
@@ -37,6 +38,10 @@ pub struct ServiceProps {
    * Routes directory; generated routes.ts (which contains the generated code wiring up routes using middleware of choice) will be dropped here
    */
   routesDir: str;
+  /**
+   * Directory of source files to watch for changes
+   */
+  watchDir: str?;
 }
 
 /**

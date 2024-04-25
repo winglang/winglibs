@@ -1,7 +1,15 @@
 export default interface extern {
-  build: (options: StartServiceOptions) => BuildServiceResult,
+  build: (options: BuildOptions) => string,
   dirname: () => string,
-  startService: (options: StartServiceOptions) => Promise<StartResponse$Inflight>,
+  liftSim: (id: string, client: Resource) => string,
+  liftTfAws: (id: string, client: Resource) => string,
+}
+export interface BuildOptions {
+  readonly entrypointDir: string;
+  readonly homeEnv: string;
+  readonly path: string;
+  readonly pathEnv: string;
+  readonly workDir: string;
 }
 /** Trait marker for classes that can be depended upon.
 The presence of this interface indicates that an object has
@@ -195,35 +203,4 @@ export class Resource extends Construct implements IResource {
   you must call `super.bind(host, ops)` to ensure that the resource is
   actually bound. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
-}
-export interface SpecProps {
-  readonly outputDirectory?: (string) | undefined;
-  readonly specVersion?: (number) | undefined;
-}
-export interface ServiceProps {
-  readonly controllerPathGlobs: (readonly (string)[]);
-  readonly entryFile?: (string) | undefined;
-  readonly outputDirectory: string;
-  readonly routesDir: string;
-  readonly spec?: (SpecProps) | undefined;
-  readonly watchDir?: (string) | undefined;
-}
-export interface StartServiceOptions {
-  readonly basedir: string;
-  readonly clients: Readonly<Record<string, Resource>>;
-  readonly currentdir: string;
-  readonly homeEnv: string;
-  readonly lastPort?: (string) | undefined;
-  readonly options: ServiceProps;
-  readonly pathEnv: string;
-  readonly workdir: string;
-}
-export interface BuildServiceResult {
-  readonly routesFile: string;
-  readonly specFile: string;
-}
-export interface StartResponse$Inflight {
-  readonly close: () => Promise<void>;
-  readonly port: () => Promise<number>;
-  readonly specFile: () => Promise<string>;
 }
