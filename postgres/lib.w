@@ -67,7 +67,7 @@ class DatabaseSim impl IDatabase {
         POSTGRES_PASSWORD: "password"
       },
       containerPort: 5432,
-      volumes: ["$WING_STATE_DIR:/var/lib/postgresql/data"],
+      volumes: ["/var/lib/postgresql/data"],
       // TODO: implement readiness check?
     );
     this.port = container.hostPort!;
