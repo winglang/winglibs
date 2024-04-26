@@ -22,8 +22,7 @@ jobs:
         run: npm install --include=dev
         working-directory: postgres
       - name: Test
-        run: |
-          DEBUG=verbose wing test
+        run: wing test
         working-directory: postgres
       - name: Pack
         run: wing pack

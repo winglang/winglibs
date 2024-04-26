@@ -464,9 +464,9 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: |
+          command: |-
             cd postgres
-            DEBUG=verbose wing test
+            wing test
           timeout_minutes: 5
   canary-python:
     name: Test python

@@ -1,1 +1,0 @@
-DEBUG=verbose wing test
