@@ -23,8 +23,8 @@ pub class Values {
       if values != "undefined" {
         for v in values.split(",") {
           let kv = v.split("=");
-          let key = kv.at(0);
-          let value = kv.at(1);
+          let key = kv[0];
+          let value = kv[1];
           all.set(key, value);
         }
       }

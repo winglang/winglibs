@@ -58,6 +58,7 @@ test "run() with failure" {
   expect.equal(check.latest()?.ok, false);
 }
 
+let check_id = nodeof(check).id;
 test "check name is set" {
-  expect.equal("check {check.node.id}", "check {checkName}");
+  expect.equal("check {check_id}", "check {checkName}");
 }

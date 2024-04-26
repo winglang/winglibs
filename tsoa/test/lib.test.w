@@ -10,9 +10,10 @@ struct User {
 
 let bucket = new cloud.Bucket();
 let service = new tsoa.Service(
-  controllerPathGlobs: ["../test-assets/*Controller.ts"],
+  controllerPathGlobs: ["../test-assets/src/*Controller.ts"],
   outputDirectory: "../test-assets/build",
   routesDir: "../test-assets/build",
+  watchDir: "../test-assets/src",
 );
 
 service.lift(bucket, id: "bucket", allow: ["put"]);

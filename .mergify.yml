@@ -77,6 +77,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
+      - -check-failure=build-python
+      - -check-pending=build-python
+      - -check-stale=build-python
       - -check-failure=build-react
       - -check-pending=build-react
       - -check-stale=build-react
@@ -165,6 +168,9 @@ pull_request_rules:
       - -check-failure=build-postgres
       - -check-pending=build-postgres
       - -check-stale=build-postgres
+      - -check-failure=build-python
+      - -check-pending=build-python
+      - -check-stale=build-python
       - -check-failure=build-react
       - -check-pending=build-react
       - -check-stale=build-react

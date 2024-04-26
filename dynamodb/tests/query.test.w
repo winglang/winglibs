@@ -44,10 +44,10 @@ test "query" {
     ExpressionAttributeValues: {":id": "1"},
   );
   assert(response.Count == 2);
-  assert(response.Items.at(0).get("id").asStr() == "1");
-  assert(response.Items.at(0).get("sk").asStr() == "a");
-  assert(response.Items.at(0).get("body").asStr() == "hello a");
-  assert(response.Items.at(1).get("id").asStr() == "1");
-  assert(response.Items.at(1).get("sk").asStr() == "b");
-  assert(response.Items.at(1).get("body").asStr() == "hello b");
+  assert(response.Items[0]["id"].asStr() == "1");
+  assert(response.Items[0]["sk"].asStr() == "a");
+  assert(response.Items[0]["body"].asStr() == "hello a");
+  assert(response.Items[1]["id"].asStr() == "1");
+  assert(response.Items[1]["sk"].asStr() == "b");
+  assert(response.Items[1]["body"].asStr() == "hello b");
 }

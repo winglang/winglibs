@@ -10,7 +10,7 @@ import {
 	Request,
 } from "tsoa";
 
-import { lifted } from "../clients.js";
+import { lifted } from "../../clients.js";
 import { Request as Req } from "express";
 
 interface User {
