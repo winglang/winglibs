@@ -66,7 +66,8 @@ class DatabaseSim impl IDatabase {
       env: {
         POSTGRES_PASSWORD: "password"
       },
-      containerPort:5432
+      containerPort: 5432,
+      volumes: ["/var/lib/postgresql/data"],
       // TODO: implement readiness check?
     );
     this.port = container.hostPort!;
