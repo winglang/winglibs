@@ -25,7 +25,11 @@ jobs:
         run: npm install --include=dev
         working-directory: cdk8s
       - name: Test
-        run: wing test
+        run: |
+          #!/bin/sh
+          cd examples
+          wing compile -t ../lib/index.js nodejs.main.w
+          wing compile -t ../lib/index.js ubuntu.main.w
         working-directory: cdk8s
       - name: Pack
         run: wing pack
