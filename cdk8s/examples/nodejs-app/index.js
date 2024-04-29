@@ -1,0 +1,1 @@
+console.log("hello, k8s");
