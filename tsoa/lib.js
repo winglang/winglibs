@@ -1,24 +1,20 @@
-const {
-  generateRoutes,
-  generateSpec,
-} = require("tsoa");
 const { join, resolve } = require("node:path");
-const { execSync } = require("node:child_process");
+const { execFileSync } = require("node:child_process");
 const { mkdtempSync, watch } = require("node:fs");
 
-const build = async (file, outdir, cwd, homeEnv, pathEnv) => {
-  const code = `
-require("tsup").build({
-  entry: ["${file}"],
-  sourcemap: true,
-  dts: false,
-  outDir: "${outdir}",
-  target: "esnext",
-}).then((res) => {
-  console.log("build finished");
-})
-`
-  execSync(`node -e '${code}'`, { env: { HOME: homeEnv, PATH: pathEnv }, cwd });
+const build = async (file, outdir) => {
+  /**
+   * @type {typeof import("esbuild")}
+   */
+  const esbuild = eval(`require("esbuild")`);
+  await esbuild.build({
+    sourcemap: true,
+    target: "esnext",
+    platform: "node",
+    entryPoints: [file],
+    outdir,
+    bundle: true,
+  });
 }
 
 const buildAndStartServer = async (runServer, props, clients, lastPort) => {
@@ -62,7 +58,8 @@ exports.startService = async (props) => {
 }
 
 exports.buildService = async (props) => {
-  const { basedir, workdir, options, homeEnv, pathEnv, clients } = props;
+  const tsoa = eval(`require("tsoa")`);
+  const { basedir, workdir, options } = props;
   try {
     const specOptions = {
       entryFile: options.entryFile ? join(basedir, options.entryFile) : "./app.js",
@@ -83,12 +80,12 @@ exports.buildService = async (props) => {
       bodyCoercion: false,
       middlewareTemplate: join(require.resolve("@tsoa/cli"), "../routeGeneration/templates/express.hbs"),
     };
-  
+
     console.log("generating spec and routes...");
-    await Promise.all([generateSpec(specOptions), generateRoutes(routeOptions)]);
+    await Promise.all([tsoa.generateSpec(specOptions), tsoa.generateRoutes(routeOptions)]);
     console.log("compiling routes...");
     const outdir = mkdtempSync(join(resolve(workdir), "-cache-tsoa"))
-    await build(require.resolve(join(routeOptions.routesDir, "./routes.ts")), outdir, basedir, homeEnv, pathEnv);
+    await build(require.resolve(join(routeOptions.routesDir, "./routes.ts")), outdir);
     return { outdir, specFile: join(specOptions.outputDirectory, "swagger.json") };
   } catch (e) {
     console.log(e);
@@ -98,7 +95,7 @@ exports.buildService = async (props) => {
 
 exports.build = (props) => {
   props.workdir = resolve(props.workdir);
-  const { currentdir, basedir, workdir, options, homeEnv, pathEnv, clients } = props;
+  const { currentdir, basedir } = props;
   console.log("building service...")
   try {
     const code = `
@@ -107,7 +104,11 @@ require("${currentdir}/lib.js").buildService(${JSON.stringify(props)}).then((res
   console.log(\`specFile=\$\{res.specFile\}\`);
 })
 `
-    const output = execSync(`node -e '${code}'`, { env: { HOME: homeEnv, PATH: pathEnv }, cwd: basedir });
+    const output = execFileSync(process.execPath, ["-e", code], {
+      cwd: basedir,
+      encoding: "utf8",
+      windowsHide: true,
+    });
     let outdir;
     let specFile;
     for (let line of output.toString().split(/\r?\n/)) {
@@ -115,6 +116,10 @@ require("${currentdir}/lib.js").buildService(${JSON.stringify(props)}).then((res
         outdir = line.slice("output=".length);
         specFile = line.slice("specFile=".length);
       }
+    }
+
+    if (!outdir) {
+      throw new Error("output directory not provided");
     }
 
     return { routesFile: join(outdir, "routes.js"), specFile };
