@@ -8,6 +8,12 @@ let table = new dynamodb.Table(
   hashKey: "id",
 );
 
+// make sure streams works even with multiple tables
+let table2 = new dynamodb.Table(
+  attributes: [ { name: "id", type: "S" } ],
+  hashKey: "id",
+) as "table2";
+
 let c = new cloud.Counter();
 
 table.setStreamConsumer(inflight (record) => {
@@ -23,9 +29,14 @@ test "put()" {
     },
   );
 
-  util.waitUntil(() => {
-    return c.peek() > 0;
-  });
+  table.put(
+    Item: {
+      id: "2",
+      body: "hello {datetime.utcNow().toIso()}",
+    },
+  );
 
-  expect.equal(c.peek(), 1);
+  util.waitUntil(() => {
+    return c.peek() == 2;
+  });
 }
