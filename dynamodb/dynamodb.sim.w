@@ -125,6 +125,7 @@ pub class Table_sim impl dynamodb_types.ITable {
               KeySchema: keySchema.copy(),
               Projection: {
                 ProjectionType: gsi.projectionType,
+                NonKeyAttributes: gsi.nonKeyAttributes,
               },
               ProvisionedThroughput: provisionedThroughput,
             });
