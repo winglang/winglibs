@@ -11,7 +11,7 @@ struct BuildServiceResult {
   specFile: str;
 }
 
-class IFunction impl std.IInflightHost  {
+class Function impl std.IInflightHost {
   pub var _getCodeLines: (cloud.IFunctionHandler): Array<str>;
   pub var addEnvironment: (str, str): void;
 
@@ -21,9 +21,9 @@ class IFunction impl std.IInflightHost  {
   }
 }
 
-class TSOAFunction extends cloud.Function {
+class TSOAFunction {
   _env: MutMap<str>;
-  pub fn: IFunction;
+  pub fn: Function;
   requires: Map<str>;
 
   new(requires: Map<str>, handler: inflight (Json?, Json?, Map<std.Resource>?): Json?) {
@@ -86,7 +86,7 @@ pub class Service_tfaws impl types.IService {
     );
     
     this.func = new TSOAFunction({ RegisterRoutes: res.routesFile }, inflight (event, context) => {
-      return Service_tfaws.runHandler(event, context, this.clients.copy());
+      return Service_tfaws.runHandler(event, context, this.clients);
     });
 
     let awsFn = aws.Function.from(this.func.fn)!;

@@ -36,7 +36,7 @@ const processStreamRecords = async (client, StreamArn, handler, options) => {
     const shardIteratorData = await client.getShardIterator({
       StreamArn,
       ShardId,
-      ShardIteratorType: options?.startingPosition ?? "LATEST",
+      ShardIteratorType: options?.startingPosition ?? "TRIM_HORIZON",
     });
 
     let shardIterator = shardIteratorData.ShardIterator;

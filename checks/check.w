@@ -34,12 +34,12 @@ pub class Check impl ICheck {
   checkpath: str;
 
   new(handler: inflight (): void, props: CheckProps?) {
-    this.checkid = std.Node.of(this).addr;
-    this.checkpath = std.Node.of(this).path;
+    this.checkid = nodeof(this).addr;
+    this.checkpath = nodeof(this).path;
     this.results = r.Results.of(this);
 
     let wrapper = inflight (): str => {
-      log("running check {this.node.path} ({this.checkid})...");
+      log("running check {this.checkpath} ({this.checkid})...");
       let ts = datetime.utcNow().toIso();
 
       let var result: r.CheckResult = {

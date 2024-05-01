@@ -26,6 +26,7 @@ jobs:
             revert
             bedrock
             budget
+            cdk8s
             checks
             cognito
             containers
