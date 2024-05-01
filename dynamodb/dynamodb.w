@@ -36,9 +36,9 @@ pub class Table impl dynamodb_types.ITable {
     }) as "Table Name";
 
     if let adminEndpoint = this.adminEndpoint {
-      new ui.Field("DbAdmin Endpoint", inflight () => {
+      new ui.Field("Admin", inflight () => {
         return "{adminEndpoint}/tables/{this.tableName}";
-      }, link: true) as "DbAdmin Endpoint";
+      }, link: true) as "Admin";
     }
   }
 
