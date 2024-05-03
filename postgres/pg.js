@@ -6,6 +6,27 @@ exports._query = async function(query, opts) {
   await client.end();
   return res.rows;
 }
+exports._queryWithConnectionString = async function(query, connectionString) {
+  const client = await connectWithRetry({ connectionString: encodePasswordInConnectionString(connectionString) });
+  const res = await client.query(query);
+  await client.end();
+  return res.rows;
+}
+
+function encodePasswordInConnectionString(connectionString) {
+  const regex = /^(postgresql:\/\/)([^:]+):([^@]+)@([^:\/]+):(\d+)\/(.+)$/;
+  const match = connectionString.match(regex);
+
+  if (!match) {
+    throw new Error('Invalid connection string format');
+  }
+
+  const [, protocol, username, password, host, port, database] = match;
+
+  const encodedPassword = encodeURIComponent(password);
+
+  return `${protocol}${username}:${encodedPassword}@${host}:${port}/${database}`;
+}
 
 // workaround for readiness probe
 async function connectWithRetry(opts, maxRetries = 5, interval = 1000) {
