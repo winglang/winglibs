@@ -83,14 +83,13 @@ class DatabaseSim impl IDatabase {
     this.port = state.token("port");
 
     new cloud.Service(inflight () => {
-      log("waiting for port {container.hostPort!} to open...");
+      log("Waiting for Postgres to listen on {container.hostPort!}...");
 
       util.waitUntil(() => {
-        log("ping...");
         return PgUtil.isPortOpen(container.hostPort!);
       });
 
-      log("postgres port {container.hostPort!} is open");
+      log("Postgres is ready on port {container.hostPort!}");
       state.set("port", container.hostPort!);
     });
 
