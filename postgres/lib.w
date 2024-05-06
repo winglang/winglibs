@@ -8,7 +8,6 @@ bring "constructs" as constructs;
 bring "cdktf" as cdktf;
 bring "@rybickic/cdktf-provider-neon" as rawNeon;
 bring "@cdktf/provider-aws" as tfaws;
-bring "@cdktf/provider-random" as random;
 
 pub struct AwsParameters {
   postgresEngine: str?;
