@@ -34,8 +34,8 @@ pub class Table impl dynamodb_types.ITable {
     });
   }
 
-  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void) {
-    this.implementation.setStreamConsumer(handler);
+  pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, opts: dynamodb_types.StreamConsumerOptions?) {
+    this.implementation.setStreamConsumer(handler, opts);
   }
 
   pub inflight delete(options: dynamodb_types.DeleteOptions): dynamodb_types.DeleteOutput {

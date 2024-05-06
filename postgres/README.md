@@ -27,6 +27,7 @@ let db = new postgres.Database(
 );
 
 let api = new cloud.Api();
+
 api.get("/users", inflight (req) => {
   let users = db.query("select * from users");
   return {
@@ -36,9 +37,35 @@ api.get("/users", inflight (req) => {
 });
 ```
 
+You can find connection information in `db.connection`:
+
+- `host` - the host to connect to
+- `port` - the external port to use (a token that will resolve at runtime)
+- `user` - user name
+- `password` - password
+- `database` - the database name
+- `ssl` - use SSL or not
+
 ## `sim`
 
 When executed in the Wing Simulator, postgres is run within a local Docker container.
+
+### Connecting to Postgres from `sim.Container`
+
+If you are connecting from a `sim.Container`, you should use `host.docker.internal` as the `host` in
+order to be able to access the host network:
+
+Example:
+
+```js
+new sim.Container(
+  // ...
+  env: {
+    DB_HOST: "host.docker.internal",
+    DB_PORT: db.connection.port
+  }
+)
+```
 
 ## `tf-aws`
 

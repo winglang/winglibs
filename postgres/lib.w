@@ -3,6 +3,7 @@ bring cloud;
 bring http;
 bring util;
 bring sim;
+bring ui;
 bring "constructs" as constructs;
 bring "cdktf" as cdktf;
 bring "@rybickic/cdktf-provider-neon" as rawNeon;
@@ -15,7 +16,7 @@ pub struct AwsParameters {
 
 pub struct ConnectionOptions {
   host: str;
-  port: num?; // default: 5432
+  port: str;
   user: str;
   password: str;
   database: str;
@@ -58,7 +59,7 @@ struct RequiredRDSParameters {
 }
 
 pub class Database {
-
+  pub connection: ConnectionOptions;
   inner: IDatabase;
   new(props: DatabaseProps) {
     let app = nodeof(this).app;
@@ -66,19 +67,27 @@ pub class Database {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new DatabaseSim(props);
+      let sim = new DatabaseSim(props);
+      this.connection = sim.connection;
+      this.inner = sim;
     } elif target == "tf-aws" {
       let tfawsParams = RequiredTFAwsProps.fromJson(app.parameters.read(schema: RequiredTFAwsProps.schema()));
       if tfawsParams.postgresEngine == "rds" {
         let rdsParams = RequiredRDSParameters.fromJson(app.parameters.read(schema: RequiredRDSParameters.schema()));
         if (rdsParams.existing) {
-          this.inner = new DatabseRDSExisting(props);
+          let rds = new DatabseRDSExisting(props);
+          this.connection = rds.connection;
+          this.inner = rds;
         } else {
-          this.inner = new DatabaseAurora(props);
+          let aurora = new DatabaseAurora(props);
+          this.connection = aurora.connection;
+          this.inner = aurora;
         }
 
       } elif tfawsParams.postgresEngine == "neon" {
-        this.inner = new DatabaseNeon(props);
+        let neon = new DatabaseNeon(props);
+        this.connection = neon.connection;
+        this.inner = neon;
       } else {
         throw "Unsupported postgres engine for tf-aws: " + tfawsParams.postgresEngine;
       }
@@ -261,6 +270,9 @@ class DatabaseAurora impl IDatabase {
 
 class DatabaseSim impl IDatabase {
   port: str;
+
+  pub connection: ConnectionOptions;
+
   new(props: DatabaseProps) {
     let image = "postgres:{props.pgVersion ?? 15}";
     let container = new sim.Container(
@@ -273,21 +285,39 @@ class DatabaseSim impl IDatabase {
       volumes: ["/var/lib/postgresql/data"],
       // TODO: implement readiness check?
     );
-    this.port = container.hostPort!;
-  }
-  pub inflight connectionOptions(): ConnectionOptions  {
-    return {
+
+    let state = new sim.State();
+    this.port = state.token("port");
+
+    new cloud.Service(inflight () => {
+      log("Waiting for Postgres to listen on {container.hostPort!}...");
+
+      util.waitUntil(() => {
+        return PgUtil.isPortOpen(container.hostPort!);
+      });
+
+      log("Postgres is ready on port {container.hostPort!}");
+      state.set("port", container.hostPort!);
+    });
+
+    this.connection = {
       host: "localhost",
       password: "password",
       database: "postgres",
       user: "postgres",
-      port: num.fromStr(this.port),
+      port: this.port,
       ssl: false,
     };
+
+    new ui.ValueField("Postgres Port", this.port);
+  }
+
+  pub inflight connectionOptions(): ConnectionOptions {
+    return this.connection;
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
-    return PgUtil._query(query, this.connectionOptions());
+    return PgUtil._query(query, this.connection);
   }
 }
 
@@ -299,7 +329,7 @@ struct DbCredentials {
 }
 
 class DatabaseNeon impl IDatabase {
-  creds: cloud.Secret;
+  pub connection: ConnectionOptions;
 
   new(props: DatabaseProps) {
     this.neonProvider();
@@ -316,23 +346,16 @@ class DatabaseNeon impl IDatabase {
       branchId: project.defaultBranchId,
       ownerName: project.databaseUser,
       name: props.name,
-
     );
 
-    this.creds = new cloud.Secret() as "NeonCredentials";
-
-
-    // TODO: avoid hard-coding for AWS
-    let secretsManagerSecret: tfaws.secretsmanagerSecret.SecretsmanagerSecret = unsafeCast(this.creds.node.findChild("Default"));
-    let secretVersion = new tfaws.secretsmanagerSecretVersion.SecretsmanagerSecretVersion(
-      secretId: secretsManagerSecret.id,
-      secretString: cdktf.Fn.jsonencode({
-        host: project.databaseHost,
-        user: project.databaseUser,
-        password: project.databasePassword,
-        database: project.databaseName,
-      })
-    ) as "NeonCredentialsVersion";
+    this.connection = {
+      database: project.databaseName,
+      host: project.databaseHost,
+      password: project.databasePassword,
+      port: "5432",
+      ssl: true,
+      user: project.databaseUser,
+    };
   }
 
   neonProvider(): cdktf.TerraformProvider {
@@ -345,15 +368,9 @@ class DatabaseNeon impl IDatabase {
 
     return new rawNeon.provider.NeonProvider() as singletonKey in stack;
   }
+
   pub inflight connectionOptions(): ConnectionOptions {
-    let creds = DbCredentials.fromJson(this.creds.valueJson());
-    return {
-        host: creds.host,
-        user: creds.user,
-        password: creds.password,
-        database: creds.database,
-        ssl: true,
-    };
+    return this.connection;
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
@@ -364,4 +381,5 @@ class DatabaseNeon impl IDatabase {
 class PgUtil {
   pub extern "./pg.js" static inflight _query(query: str, creds: ConnectionOptions): Array<Map<Json>>;
   pub extern "./pg.js" static inflight _queryWithConnectionString(query: str, connectionString: str): Array<Map<Json>>;
+  pub extern "./util.ts" static inflight isPortOpen(port: str): bool;
 }
