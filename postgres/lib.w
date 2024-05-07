@@ -75,7 +75,14 @@ pub class Database {
         let rdsParams = RequiredRDSParameters.fromJson(app.parameters.read(schema: RequiredRDSParameters.schema()));
         if (rdsParams.existing) {
           let rds = new DatabseRDSExisting(props);
-          this.connection = rds.connection;
+          this.connection = rds.connection ?? {
+            host: "UNABLE TO RETRIEVE HOST FOR EXISTING RDS DB",
+            port: "UNABLE TO RETREIVE PORT FOR EXISTING RDS DB",
+            database: "UNABLE TO RETRIEVE DATABSE FOR EXISTING RDS DB",
+            user: "UNABLE TO RETRIEVE USERNAME FOR EXISTING RDS DB",
+            password: "UNABLE TO RETRIEVE PASSWORD FOR EXISTING RDS DB",
+            ssl: false
+          };
           this.inner = rds;
         } else {
           let aurora = new DatabaseAurora(props);
@@ -115,9 +122,12 @@ struct TfawsAppSubnets {
 
 class DatabseRDSExisting impl IDatabase {
   connectionSecret: cloud.Secret;
+  pub connection: ConnectionOptions?;
 
   new(props: DatabaseProps) {
     this.connectionSecret = new cloud.Secret(name: "connectionString{this.node.addr}");
+    // TODO: Find a way to provide this when using existing RDS instance
+    this.connection = nil;
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
@@ -134,6 +144,7 @@ class DatabaseAurora impl IDatabase {
   var endpoint: str;
   params: RequiredRDSParameters;
   databaseName: str;
+  pub connection: ConnectionOptions;
 
   new (props: DatabaseProps) {
     this.databaseName = props.name;
@@ -245,10 +256,20 @@ class DatabaseAurora impl IDatabase {
       dbClusterIdentifier: cluster.id,
       targetGroupName: targetGroup.name
     );
+
     
     this.endpoint = proxy.endpoint;
     this.secretRef = new aws.SecretRef(cluster.masterUserSecret.get(0).secretArn);
     new cdktf.TerraformOutput(value: cluster.masterUserSecret);
+
+    this.connection = {
+      host: proxy.endpoint,
+      user: this.params.masterUsername ?? "postgres",
+      password: cluster.masterPassword,
+      database: this.databaseName,
+      ssl: true,
+      port: "5432"
+    };
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
@@ -263,6 +284,7 @@ class DatabaseAurora impl IDatabase {
       password: databaseSecrets.get("password").asStr(),
       database: this.databaseName,
       ssl: true,
+      port: "5432"
     };
   }
 }
