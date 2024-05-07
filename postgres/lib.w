@@ -40,14 +40,13 @@ pub interface IDatabase {
 }
 
 struct RequiredTFAwsProps {
+  /**
+  * Supported: [neon, rds]
+  */
   postgresEngine: str;
 }
 
 struct RequiredRDSParameters {
-  /** 
-  * Whether or not to create a new RDS cluster or use existing one
-  */
-  existing: bool;
   instanceCount: num;
   /**
    * See: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html 
@@ -55,6 +54,34 @@ struct RequiredRDSParameters {
   instanceClass: str;
   /** Deault postgres */
   masterUsername: str?;
+}
+
+struct AWSDatabaseRefParameters {
+  vpcId: str;
+}
+
+pub class DatabaseRef {
+  connectionSecret: cloud.Secret;
+
+  new() {
+    // For database refs, we just need to have a secret connection string to use for queries
+    this.connectionSecret = new cloud.Secret(name: "connectionString_{this.node.id}");
+
+    let target = util.env("WING_TARGET");
+    if target == "tf-aws" {
+      let params = nodeof(this).app.parameters;
+
+      let allParams = params.read();
+      if !allParams.has("tf-aws") {
+        // TODO: find a good way to enforce this with parameters. (currently cant duplicate required params schemas)
+        log("WARNING: Unless your database is accessible from the public internet, you must provide vpc info under `tf-aws` in your wing.toml file\nFor more info see: https://www.winglang.io/docs/platforms/tf-aws#parameters");
+      }
+    }
+  }
+
+  pub inflight query(query: str): Array<Map<Json>> {
+    return PgUtil._queryWithConnectionString(query, this.connectionSecret?.value()!);
+  }
 }
 
 pub class Database {
@@ -72,23 +99,9 @@ pub class Database {
     } elif target == "tf-aws" {
       let tfawsParams = RequiredTFAwsProps.fromJson(app.parameters.read(schema: RequiredTFAwsProps.schema()));
       if tfawsParams.postgresEngine == "rds" {
-        let rdsParams = RequiredRDSParameters.fromJson(app.parameters.read(schema: RequiredRDSParameters.schema()));
-        if (rdsParams.existing) {
-          let rds = new DatabseRDSExisting(props);
-          this.connection = rds.connection ?? {
-            host: "UNABLE TO RETRIEVE HOST FOR EXISTING RDS DB",
-            port: "UNABLE TO RETREIVE PORT FOR EXISTING RDS DB",
-            database: "UNABLE TO RETRIEVE DATABSE FOR EXISTING RDS DB",
-            user: "UNABLE TO RETRIEVE USERNAME FOR EXISTING RDS DB",
-            password: "UNABLE TO RETRIEVE PASSWORD FOR EXISTING RDS DB",
-            ssl: false
-          };
-          this.inner = rds;
-        } else {
-          let aurora = new DatabaseAurora(props);
-          this.connection = aurora.connection;
-          this.inner = aurora;
-        }
+        let aurora = new DatabaseRDS(props);
+        this.connection = aurora.connection;
+        this.inner = aurora;
 
       } elif tfawsParams.postgresEngine == "neon" {
         let neon = new DatabaseNeon(props);
@@ -120,26 +133,7 @@ struct TfawsAppSubnets {
   public: Array<tfaws.subnet.Subnet>;
 }
 
-class DatabseRDSExisting impl IDatabase {
-  connectionSecret: cloud.Secret;
-  pub connection: ConnectionOptions?;
-
-  new(props: DatabaseProps) {
-    this.connectionSecret = new cloud.Secret(name: "connectionString{this.node.addr}");
-    // TODO: Find a way to provide this when using existing RDS instance
-    this.connection = nil;
-  }
-
-  pub inflight query(query: str): Array<Map<Json>> {
-    return PgUtil._queryWithConnectionString(query, this.connectionSecret?.value()!);
-  }
-
-  pub inflight connectionOptions(): ConnectionOptions? {
-    return nil;
-  }
-}
-
-class DatabaseAurora impl IDatabase {
+class DatabaseRDS impl IDatabase {
   var secretRef: aws.SecretRef;
   var endpoint: str;
   params: RequiredRDSParameters;

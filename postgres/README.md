@@ -67,6 +67,34 @@ new sim.Container(
 )
 ```
 
+### Reference Existing Postgres Database
+If you want to import a reference to an existing postgres database, you can use the `DatabaseRef` class:
+
+```js
+bring postgres;
+
+let db = new postgres.DatabaseRef() as "somedatabase";
+
+
+new cloud.Function(inflight() => {
+  let users = db.query("select * from users");
+});
+```
+This will automatically create a secret resource that is required for the database connection. To seed this secret simply run the following command:
+
+```sh
+❯ wing secrets main.w
+1 secret(s) found
+
+? Enter the secret value for connectionString_somedatabase: [input is hidden] 
+```
+
+> When referencing an existing database for the `tf-aws` target you will also need to specify VPC information in your `wing.toml` file (unless your Database is publicly accessible). Or you will see an warning like this:
+```sh
+WARNING: Unless your database is accessible from the public internet, you must provide vpc info under `tf-aws` in your wing.toml file
+For more info see: https://www.winglang.io/docs/platforms/tf-aws#parameters
+```
+
 ## `tf-aws`
 
 On the `tf-aws` target, the postgres database is managed using [Neon](https://neon.tech/), a serverless postgres offering.
