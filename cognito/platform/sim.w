@@ -41,9 +41,11 @@ pub class Cognito_sim impl types.ICognito {
   api: cloud.Api;
   counter: cloud.Counter;
   table: ex.Table;
+  props: types.CognitoProps?;
 
   new(api: cloud.Api, props: types.CognitoProps?) {
     this.api = api;
+    this.props = props;
     this.counter = new cloud.Counter();
     nodeof(this.counter).hidden = true;
 
@@ -116,12 +118,42 @@ pub class Cognito_sim impl types.ICognito {
         let api2: Json = unsafeCast(this.api);
         let callable: ICallable = unsafeCast(api2?.get(method));
         callable.call(this.api, path, inflight (req: cloud.ApiRequest) => {
-          if req.headers?.tryGet("authorization") != "Bearer sim-auth-token" {
-            if this.counter.peek() % 2 == 0 {
+          let passAll = this.counter.peek() % 2 == 0;
+          let authHeader = req.headers?.tryGet("authorization");
+          let authType = this.props?.authenticationType ?? types.AuthenticationType.COGNITO_USER_POOLS;
+          if !passAll {
+            return {
+              status: 401,
+              body: "Unauthorized"
+            };
+          }
+
+          if !authHeader? {
+            return {
+              status: () => {
+                if authType == types.AuthenticationType.COGNITO_USER_POOLS {
+                  return 401;
+                } elif authType == types.AuthenticationType.AWS_IAM {
+                  return 403;
+                }
+              }(),
+              body: "Unauthorized"
+            };
+          }
+
+          if authType == types.AuthenticationType.COGNITO_USER_POOLS {
+            if req.headers?.tryGet("authorization") != "Bearer sim-auth-token" {
               return {
                 status: 401,
                 body: "Unauthorized"
-              };            
+              };
+            }
+          } elif authType == types.AuthenticationType.AWS_IAM {
+            if !authHeader!.contains("AWS4-HMAC-SHA256 Credential=sim-access") {
+              return {
+                status: 403,
+                body: "Unauthorized"
+              };
             }
           }
 
@@ -174,5 +206,17 @@ pub class Cognito_sim impl types.ICognito {
     }
 
     return "sim-auth-token";
+  }
+
+  pub inflight getId(poolId: str, identityPoolId: str, token: str): str {
+    return token;
+  }
+
+  pub inflight getCredentialsForIdentity(token: str, identityId: str): Json {
+    return {
+      AccessKeyId: "sim-access",
+      SecretKey: "sim-secret",
+      SessionToken: "sim-session",
+    };
   }
 }
