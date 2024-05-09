@@ -27,11 +27,14 @@ pub class Inflight impl cloud.IFunctionHandler {
     );
 
     let port = math.floor(math.random() * 1000 + 9000);
+    let runtimePort = math.floor(math.random() * 1000 + 9000);
     let args = Array<str>[
       "/var/runtime/bootstrap",
       props.handler,
       "--runtime-interface-emulator-address",
-      "0.0.0.0:{port}"
+      "0.0.0.0:{port}",
+      "--runtime-api-address",
+      "127.0.0.1:{runtimePort}"
     ];
     let flags = MutMap<str>{};
     let var network: str? = nil;
