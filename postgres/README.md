@@ -80,7 +80,7 @@ new cloud.Function(inflight() => {
   let users = db.query("select * from users");
 });
 ```
-This will automatically create a secret resource that is required for the database connection. To seed this secret simply run the following command:
+This will automatically create a secret resource that is required for the database connection. To seed this secret, use the `secrets` subcommand:
 
 ```sh
 ❯ wing secrets main.w
