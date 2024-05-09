@@ -26,14 +26,20 @@ pub class Inflight impl cloud.IFunctionHandler {
       pathEnv: pathEnv,
     );
 
+    let port = math.floor(math.random() * 1000 + 9000);
+    let args = Array<str>[
+      "/var/runtime/bootstrap",
+      props.handler,
+      "--runtime-interface-emulator-address",
+      "0.0.0.0:{port}"
+    ];
     let flags = MutMap<str>{};
     let var network: str? = nil;
     let platform = Inflight.os();
-    // if platform != "darwin" && platform != "win32" {
-      // network = "host";
-    // }
+    if platform != "darwin" && platform != "win32" {
+      network = "host";
+    }
 
-    let port = math.floor(math.random() * 1000 + 9000);
     let runner = new containers.Container(
       image: "public.ecr.aws/lambda/python:3.12",
       name: "python-runner",
@@ -44,11 +50,12 @@ pub class Inflight impl cloud.IFunctionHandler {
         DOCKER_LAMBDA_STAY_OPEN: "1",
       },
       public: true,
-      port: 8080,
+      port: port,
       exposedPort: port,
-      args: [props.handler],
+      args: args,
       flags: flags.copy(),
       network: network,
+      entrypoint: "/usr/local/bin/aws-lambda-rie",
     );
     
     this.service = new cloud.Service(inflight () => {
@@ -64,14 +71,11 @@ pub class Inflight impl cloud.IFunctionHandler {
       };
 
       let var host = "http://host.docker.internal";
-      if platform != "darwin" && platform != "win32" {
-        host = "http://172.17.0.1";
+      if let network = network {
+        if network == "host" {
+          host = "http://127.0.0.1";
+        }
       }
-      // if let network = network {
-      //   if network == "host" {
-      //     host = "http://127.0.0.1";
-      //   }
-      // }
 
       for e in Inflight.env().entries() {
         let var value = e.value;

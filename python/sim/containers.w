@@ -52,6 +52,7 @@ pub struct ContainerOpts {
   args: Array<str>?;  // container arguments
   volumes: Map<str>?; // volumes to mount
   network: str?;      // network to connect to
+  entrypoint: str?;   // entrypoint to run
 
   /** 
    * A list of globs of local files to consider as input sources for the container.
@@ -155,8 +156,6 @@ pub class Container {
       dockerRun.push("--detach");
       dockerRun.push("--rm");
 
-      dockerRun.push("--privileged");
-
       dockerRun.push("--name", containerName);
 
       if let flags = opts.flags {
@@ -201,6 +200,11 @@ pub class Container {
             dockerRun.push("{volume.value}:{volume.key}");
           }
         }
+      }
+
+      if let entrypoint = opts.entrypoint {
+        dockerRun.push("--entrypoint");
+        dockerRun.push(entrypoint);
       }
 
       dockerRun.push(this.imageTag);
