@@ -1,0 +1,23 @@
+{
+  "name": "@winglibs/slack",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "slack"
+  },
+  "author": {
+    "email": "hasana@wing.cloud",
+    "name": "Hasan Abu-Rayyan"
+  },
+  "peerDependencies": {
+    "cdktf": "0.20.7"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
+  "license": "MIT"
+}
