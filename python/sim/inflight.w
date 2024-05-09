@@ -29,9 +29,9 @@ pub class Inflight impl cloud.IFunctionHandler {
     let flags = MutMap<str>{};
     let var network: str? = nil;
     let platform = Inflight.os();
-    if platform != "darwin" && platform != "win32" {
-      network = "host";
-    }
+    // if platform != "darwin" && platform != "win32" {
+      // network = "host";
+    // }
 
     let port = math.floor(math.random() * 1000 + 9000);
     let runner = new containers.Container(
@@ -64,11 +64,14 @@ pub class Inflight impl cloud.IFunctionHandler {
       };
 
       let var host = "http://host.docker.internal";
-      if let network = network {
-        if network == "host" {
-          host = "http://127.0.0.1";
-        }
+      if platform != "darwin" && platform != "win32" {
+        host = "http://172.17.0.1";
       }
+      // if let network = network {
+      //   if network == "host" {
+      //     host = "http://127.0.0.1";
+      //   }
+      // }
 
       for e in Inflight.env().entries() {
         let var value = e.value;
