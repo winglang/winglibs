@@ -7,9 +7,14 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "ses"
   },
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
   "wing": {
     "platforms": [
-      "sim"
+      "sim",
+      "tf-aws"
     ]
   },
   "license": "MIT",
