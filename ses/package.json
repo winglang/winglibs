@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/ses",
-  "description": "ses library for Wing",
+  "description": "Wing library for interacting with AWS SES",
   "version": "0.0.1",
   "repository": {
     "type": "git",
@@ -12,5 +12,9 @@
       "sim"
     ]
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@aws-sdk/client-ses": "^3.572.0",
+    "@cdktf/provider-aws": "^19.17.0"
+  }
 }

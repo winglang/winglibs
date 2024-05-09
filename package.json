@@ -1,6 +1,0 @@
-{
-  "peerDependencies": {
-    "@aws-sdk/client-ses": "^3.569.0",
-    "@cdktf/provider-aws": "^19.17.0"
-  }
-}
