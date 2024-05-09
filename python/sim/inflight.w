@@ -35,18 +35,17 @@ pub class Inflight impl cloud.IFunctionHandler {
 
     let port = math.floor(math.random() * 1000 + 9000);
     let runner = new containers.Container(
-      image: "lambci/lambda:python3.8",
+      image: "public.ecr.aws/lambda/python:3.12",
       name: "python-runner",
       volumes: {
         "/var/task:ro,delegated": outdir,
       },
       env: {
         DOCKER_LAMBDA_STAY_OPEN: "1",
-        DOCKER_LAMBDA_API_PORT: "{port}",
-        DOCKER_LAMBDA_RUNTIME_PORT: "{port}",
       },
       public: true,
-      port: port,
+      port: 8080,
+      exposedPort: port,
       args: [props.handler],
       flags: flags.copy(),
       network: network,
@@ -83,7 +82,7 @@ pub class Inflight impl cloud.IFunctionHandler {
       runner.start(env.copy());
     });
 
-    this.url = "{runner.publicUrl!}/2015-03-31/functions/myfunction/invocations";
+    this.url = "{runner.publicUrl!}/2015-03-31/functions/function/invocations";
 
     this.clients = MutMap<Json>{};
     this.wingClients = MutMap<std.Resource>{};

@@ -44,6 +44,7 @@ pub struct ContainerOpts {
   /** Internal container port to expose */
   flags: Map<str>?;   // flags to pass to the docker run command
   port: num?;
+  exposedPort: num?;  // internal port to expose
   env: Map<str?>?;
   readiness: str?;    // http get
   replicas: num?;     // number of replicas
@@ -170,7 +171,11 @@ pub class Container {
 
       if let port = opts.port {
         dockerRun.push("-p");
-        dockerRun.push("{port}");
+        if let exposedPort = opts.exposedPort {
+          dockerRun.push("{exposedPort}:{port}");
+        } else {
+          dockerRun.push("{port}");
+        }
       }
 
       if let env = opts.env {
