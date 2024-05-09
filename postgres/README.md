@@ -89,7 +89,7 @@ This will automatically create a secret resource that is required for the databa
 ? Enter the secret value for connectionString_somedatabase: [input is hidden] 
 ```
 
-> When referencing an existing database for the `tf-aws` target you will also need to specify VPC information in your `wing.toml` file (unless your Database is publicly accessible). Or you will see an warning like this:
+> When referencing an existing database for the `tf-aws` target you will also need to specify VPC information in your `wing.toml` file (unless your database is publicly accessible). Or you will see an warning like this:
 ```sh
 WARNING: Unless your database is accessible from the public internet, you must provide vpc info under `tf-aws` in your wing.toml file
 For more info see: https://www.winglang.io/docs/platforms/tf-aws#parameters
