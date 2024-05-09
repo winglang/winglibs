@@ -155,6 +155,8 @@ pub class Container {
       dockerRun.push("--detach");
       dockerRun.push("--rm");
 
+      dockerRun.push("--privileged");
+
       dockerRun.push("--name", containerName);
 
       if let flags = opts.flags {
