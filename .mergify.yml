@@ -92,6 +92,9 @@ pull_request_rules:
       - -check-failure=build-sagemaker
       - -check-pending=build-sagemaker
       - -check-stale=build-sagemaker
+      - -check-failure=build-ses
+      - -check-pending=build-ses
+      - -check-stale=build-ses
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
@@ -183,6 +186,9 @@ pull_request_rules:
       - -check-failure=build-sagemaker
       - -check-pending=build-sagemaker
       - -check-stale=build-sagemaker
+      - -check-failure=build-ses
+      - -check-pending=build-ses
+      - -check-stale=build-ses
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
