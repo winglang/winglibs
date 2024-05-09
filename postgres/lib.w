@@ -80,7 +80,7 @@ pub class DatabaseRef {
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
-    return PgUtil._queryWithConnectionString(query, this.connectionSecret?.value()!);
+    return PgUtil._queryWithConnectionString(query, this.connectionSecret.value());
   }
 }
 

@@ -97,7 +97,13 @@ For more info see: https://www.winglang.io/docs/platforms/tf-aws#parameters
 
 ## `tf-aws`
 
-On the `tf-aws` target, the postgres database is managed using [Neon](https://neon.tech/), a serverless postgres offering.
+On the `tf-aws` target, the postgres database can be created and hosted by either AWS RDS or Neon. To configure which one to use, simply specify the parameter `postgresEngine` in your `wing.toml` file:
+
+```toml
+postgresEngine = "rds" # or "neon"
+```
+
+### Neon Setup
 
 Neon has a [free tier](https://neon.tech/docs/introduction/free-tier) that can be used for personal projects and prototyping.
 
