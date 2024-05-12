@@ -154,3 +154,42 @@ def from_bucket_event(event):
     return [bucket_event]
   else:
     raise Exception(f"Unsupported target: {target}")
+
+class ApiRequest:
+  method: str
+  path: str
+  query: dict
+  headers: dict
+  body: str
+  vars: dict
+
+  def toJSON(self):
+    return json.dumps(
+      self,
+      default=lambda o: o.__dict__, 
+      sort_keys=True,
+      indent=2)
+
+def from_api_event(event):
+  target = os.getenv(f"WING_TARGET")
+  if target == "tf-aws":
+    req = ApiRequest()
+    req.method = event["httpMethod"]
+    req.path = event["path"]
+    req.query = event["queryStringParameters"]
+    req.headers = event["headers"]
+    req.body = event["body"]
+    req.vars = event["pathParameters"]
+    return req
+  elif target == "sim":
+    data = event["payload"]
+    req = ApiRequest()
+    req.method = data["method"]
+    req.path = data["path"]
+    req.query = data["query"]
+    req.headers = data["headers"]
+    req.body = data["body"]
+    req.vars = data["vars"]
+    return req
+  else:
+    raise Exception(f"Unsupported target: {target}")

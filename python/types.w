@@ -31,3 +31,7 @@ pub interface IInflight extends cloud.IFunctionHandler {
 pub interface IBucketEventInflight extends cloud.IBucketEventHandler {
   lift(obj: std.Resource, options: LiftOptions): cloud.IBucketEventHandler;
 }
+
+pub interface IApiOnRequest extends cloud.IApiEndpointHandler {
+  lift(obj: std.Resource, options: LiftOptions): cloud.IApiEndpointHandler;
+}

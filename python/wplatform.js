@@ -3,11 +3,13 @@ const { Function: TfAwsFunction } = require("./tfaws/function.js");
 const { Queue: TfAwsQueue } = require("./tfaws/queue.js");
 const { Topic: TfAwsTopic } = require("./tfaws/topic.js");
 const { Bucket: TfAwsBucket } = require("./tfaws/bucket.js");
+const { Api: TfAwsApi } = require("./tfaws/api.js");
 
 const FUNCTION_FQN = "@winglang/sdk.cloud.Function";
 const QUEUE_FQN = "@winglang/sdk.cloud.Queue";
 const TOPIC_FQN = "@winglang/sdk.cloud.Topic";
 const BUCKET_FQN = "@winglang/sdk.cloud.Bucket";
+const API_FQN = "@winglang/sdk.cloud.Api";
 
 const createFunction = (target, scope, id, inflight, props) => {
   if (inflight._inflightType === "_inflightPython") {
@@ -35,6 +37,10 @@ module.exports.Platform = class Platform {
     } else if (type === BUCKET_FQN) {
       if (target === "tf-aws") {
         return new TfAwsBucket(scope, id, ...props);
+      }
+    } else if (type === API_FQN) {
+      if (target === "tf-aws") {
+        return new TfAwsApi(scope, id, ...props);
       }
     }
   }

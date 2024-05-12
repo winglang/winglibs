@@ -58,3 +58,19 @@ def bucket_oncreate_handler(event, context):
     "statusCode": 200,
     "body": "Hello from Bucket OnCreate!"
   }
+
+def api_handler(event, context):
+  print(event)
+  print(context)
+
+  req = from_api_event(event)
+  client_put = lifted("bucket")
+  client_put.put(req.path, req.toJSON())
+
+  return {
+    "statusCode": 200,
+    "body": "Hello from Api Handler!",
+    "headers": {
+      "header1": "value1"
+    }
+  }
