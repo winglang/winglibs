@@ -39,7 +39,7 @@ class BucketClient_aws:
       if e.response['Error']['Code'] == 'NoSuchKey':
         raise Exception(f'Object does not exist (key={key}).')
       raise e
-    
+
 class SimClient:
   def __init__(self, handle: str):
     self.handle = handle
@@ -89,19 +89,51 @@ class BucketClient_sim (SimClient):
   def get(self, key: str, options: Optional[dict] = None) -> str:
     result = self.make_request("get", [key, options])
     return result
-    
+
+class DynamodbTableClient_base:
+  def __init__(self, connection: dict, dynamodb_client: boto3.client):
+    self.table_name = connection["tableName"]
+    self.connection = connection
+    self.dynamodb_client = dynamodb_client or boto3.client('dynamodb')
+
+  def get(self, **kwargs):
+    return self.dynamodb_client.get_item(TableName=self.table_name, **kwargs)
+
+  def put(self, **kwargs):
+    return self.dynamodb_client.put_item(TableName=self.table_name, **kwargs)
+
+class DynamodbTableClient_aws(DynamodbTableClient_base):
+  def __init__(self, props: dict):
+    connection = props["connection"]
+    super().__init__(connection, boto3.client('dynamodb'))
+  
+class DynamodbTableClient_sim(DynamodbTableClient_base):
+  def __init__(self, props: dict):
+    connection = props["connection"]
+    super().__init__(connection, boto3.client(
+      'dynamodb', 
+      region_name=connection["clientConfig"]["region"],
+      aws_access_key_id=connection["clientConfig"]["credentials"]["accessKeyId"],
+      aws_secret_access_key=connection["clientConfig"]["credentials"]["secretAccessKey"],
+    ))
+  
 def lifted(id: str):
   envValue = os.getenv(f"WING_CLIENTS")
   if envValue:
     jsonValue = json.loads(envValue)
     if id in jsonValue:
       idValue = jsonValue[id]
+      target = idValue["target"]
       if idValue["type"] == "cloud.Bucket":
-        target = idValue["target"]
         if target == "aws":
           return BucketClient_aws(idValue["bucketName"])
         elif target == "sim":
           return BucketClient_sim(idValue["handle"])
+      if idValue["type"] == "cloud.Bucket":
+        if target == "aws":
+          return DynamodbTableClient_aws(idValue["props"])
+        elif target == "sim":
+          return DynamodbTableClient_sim(idValue["props"])
       
   raise Exception(f"Client not found (id={id}).")
 

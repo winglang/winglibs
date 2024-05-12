@@ -24,5 +24,8 @@
     "@smithy/util-utf8": "^2.3.0",
     "cdktf": "^0.20.6",
     "glob": "^10.3.12"
+  },
+  "dependencies": {
+    "@winglibs/dynamodb": "^0.1.7"
   }
 }

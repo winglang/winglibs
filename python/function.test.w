@@ -2,7 +2,19 @@ bring cloud;
 bring http;
 bring expect;
 bring util;
+bring dynamodb;
 bring "./lib.w" as python;
+
+let table = new dynamodb.Table(
+  attributes: [
+    {
+      name: "id",
+      type: "S",
+    },
+  ],
+  hashKey: "id",
+) as "table1";
+
 
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
@@ -13,7 +25,11 @@ let func = new cloud.Function(new python.InflightFunction(
     "bucket": {
       obj: bucket,
       allow: ["get", "put"],
-    }
+    },
+    "table": {
+      obj: table,
+      allow: ["get", "put"],
+    },
   },
 ), { env: { "FOO": "bar" } });
 

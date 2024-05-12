@@ -47,6 +47,8 @@ module.exports.Function = class Function extends Construct {
     for (let clientId of Object.keys(inflight.inner.lifts)) {
       const { client, options } = inflight.inner.lifts[clientId];
       const allow = options.allow;
+
+      // SDK resources
       const bucket = AwsBucket.from(client);
       if (bucket !== undefined) {
         bucket.onLift(this.dummy, allow);
@@ -55,6 +57,16 @@ module.exports.Function = class Function extends Construct {
           bucketName: cdktf.Fn.replace(bucket.bucketName, ".s3.amazonaws.com", ""),
           target: "aws",
         };
+      }
+
+      // Custom resources
+      if (typeof client.tableName === "string" &&
+          typeof client.connection === "object" ) {
+        clients[clientId] = {
+          type: "@winglibs.Dyanmodb.Table",
+          target: "aws",
+          props: { connection: client.connection },
+        }
       }
     }
 

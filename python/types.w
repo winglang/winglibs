@@ -31,3 +31,18 @@ pub interface IInflight extends cloud.IFunctionHandler {
 pub interface IBucketEventInflight extends cloud.IBucketEventHandler {
   lift(obj: std.Resource, options: LiftOptions): cloud.IBucketEventHandler;
 }
+
+pub struct LiftedSim {
+  path: str;
+  type: str;
+  target: str;
+  handle: str;
+}
+
+pub struct LiftedSimResolved {
+  path: str;
+  type: str;
+  target: str;
+  handle: str?;
+  props: Json?;
+}

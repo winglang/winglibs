@@ -9,7 +9,7 @@ bring "../util.w" as libutil;
 pub class Inflight impl cloud.IFunctionHandler {
   pub url: str;
   service: cloud.Service;
-  clients: MutMap<Json>;
+  clients: MutMap<types.LiftedSim>;
   wingClients: MutMap<std.Resource>;
 
   new(props: types.InflightProps) {
@@ -62,11 +62,26 @@ pub class Inflight impl cloud.IFunctionHandler {
     );
     
     this.service = new cloud.Service(inflight () => {
-      let clients = MutMap<Json>{};
+      let clients = MutMap<types.LiftedSimResolved>{};
       for client in this.wingClients.entries() {
-        let value = MutJson this.clients.get(client.key);
-        value.set("handle", util.env(value.get("handle").asStr()));
-        clients.set(client.key, value);
+        let value = this.clients.get(client.key);
+
+        // sdk resources
+        if let handle = util.tryEnv(value.handle) {
+          clients.set(client.key, {
+            path: value.path,
+            type: value.type,
+            target: value.target,
+            handle: handle,
+          });
+        }
+
+        // custom resources
+        if value.type == "@winglibs.Dyanmodb.Table" {
+          if let lifted = libutil.liftSimInflight(client.value, value) {
+            clients.set(client.key, lifted);  
+          }
+        }
       }
 
       let env = MutMap<str>{
@@ -94,7 +109,7 @@ pub class Inflight impl cloud.IFunctionHandler {
 
     this.url = "{runner.publicUrl!}/2015-03-31/functions/function/invocations";
 
-    this.clients = MutMap<Json>{};
+    this.clients = MutMap<types.LiftedSim>{};
     this.wingClients = MutMap<std.Resource>{};
 
     if let lifts = props.lift {

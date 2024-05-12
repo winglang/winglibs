@@ -3,7 +3,6 @@ const { cpSync, existsSync, mkdtempSync } = require("node:fs");
 const { execSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const glob = require("glob");
-
 exports.dirname = () => __dirname;
 
 exports.resolve = (path1, path2) => {
@@ -60,6 +59,29 @@ exports.liftSim = (id, resource) => {
       handle: makeEnvVarName("bucket", resource),
       type: "cloud.Bucket",
       target: "sim",
+    }
+  } else if (typeof resource.tableName === "string" &&
+             typeof resource.connection === "object" ) {
+    return { 
+      path: resource.node.path,
+      handle: makeEnvVarName("DYNAMODB_TABLE", resource),
+      type: "@winglibs.Dyanmodb.Table",
+      target: "sim",
+    }
+  }
+
+  return undefined;
+};
+
+exports.liftSimInflight = (client, lifted) => {
+  if (lifted.type === "@winglibs.Dyanmodb.Table") {
+    return {
+      path: lifted.path,
+      type: lifted.type,
+      target: lifted.target,
+      props: {
+        connection: client.connection,
+      }
     }
   }
 
