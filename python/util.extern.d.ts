@@ -192,7 +192,14 @@ export interface IHostedLiftable extends ILiftable {
 }
 /** Abstract interface for `Resource`. */
 export interface IResource extends IConstruct, IHostedLiftable {
+  /** The tree node. */
   readonly node: Node;
+  /** A hook called by the Wing compiler once for each inflight host that needs to use this object inflight.
+  The list of requested inflight methods
+  needed by the inflight host are given by `ops`.
+  
+  This method is commonly used for adding permissions, environment variables, or
+  other capabilities to the inflight host. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
 }
 /** Shared behavior between all Wing SDK resources. */

@@ -110,7 +110,8 @@ def from_function_event(event):
   if target == "tf-aws":
     return str(event)
   elif target == "sim":
-    return str(event["payload"])
+    payload = event["payload"]
+    return payload if isinstance(payload, str) else json.dumps(payload)
   else:
     raise Exception(f"Unsupported target: {target}")
   

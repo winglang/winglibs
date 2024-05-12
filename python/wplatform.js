@@ -1,3 +1,4 @@
+const { Function: SimFunction } = require("./sim/function.js");
 const { Function: TfAwsFunction } = require("./tfaws/function.js");
 const { Queue: TfAwsQueue } = require("./tfaws/queue.js");
 const { Topic: TfAwsTopic } = require("./tfaws/topic.js");
@@ -8,26 +9,32 @@ const QUEUE_FQN = "@winglang/sdk.cloud.Queue";
 const TOPIC_FQN = "@winglang/sdk.cloud.Topic";
 const BUCKET_FQN = "@winglang/sdk.cloud.Bucket";
 
+const createFunction = (target, scope, id, inflight, props) => {
+  if (inflight._inflightType === "_inflightPython") {
+    if (target === "tf-aws") {
+      return new TfAwsFunction(scope, id, inflight, props);
+    } else if (target === "sim") {
+      return new SimFunction(scope, id, inflight, props);
+    }
+  }
+};
+
 module.exports.Platform = class Platform {
-  newInstance(type, scope, id, props) {
+  newInstance(type, scope, id, ...props) {
     const target = process.env["WING_TARGET"];
     if (type === FUNCTION_FQN) {
-      if (props._inflightType === "_inflightPython") {
-        if (target === "tf-aws") {
-          return new TfAwsFunction(scope, id, props);
-        }
-      }
+      return createFunction(target, scope, id, ...props);
     } else if (type === QUEUE_FQN) {
       if (target === "tf-aws") {
-        return new TfAwsQueue(scope, id, props);
+        return new TfAwsQueue(scope, id, ...props);
       }
     } else if (type === TOPIC_FQN) {
       if (target === "tf-aws") {
-        return new TfAwsTopic(scope, id, props);
+        return new TfAwsTopic(scope, id, ...props);
       }
     } else if (type === BUCKET_FQN) {
       if (target === "tf-aws") {
-        return new TfAwsBucket(scope, id, props);
+        return new TfAwsBucket(scope, id, ...props);
       }
     }
   }
