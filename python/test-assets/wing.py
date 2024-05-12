@@ -193,3 +193,29 @@ def from_api_event(event):
     return req
   else:
     raise Exception(f"Unsupported target: {target}")
+  
+def from_api_response(res = None):
+  if not res:
+    return {
+      "statusCode": 200,
+      "body": "",
+      "headers": {}
+    }
+
+  response = {}
+  if not res.get("status"):
+    response["statusCode"] = 200
+  else:
+    response["statusCode"] = res["status"]
+
+  if not res.get("body"):
+    response["body"] = ""
+  else:
+    response["body"] = res["body"]
+
+  if not res.get("headers"):
+    response["headers"] = {}
+  else:
+    response["headers"] = res["headers"]
+
+  return response

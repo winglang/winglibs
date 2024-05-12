@@ -67,10 +67,10 @@ def api_handler(event, context):
   client_put = lifted("bucket")
   client_put.put(req.path, req.toJSON())
 
-  return {
-    "statusCode": 200,
+  return from_api_response({
+    "status": 200,
     "body": "Hello from Api Handler!",
     "headers": {
       "header1": "value1"
     }
-  }
+  })
