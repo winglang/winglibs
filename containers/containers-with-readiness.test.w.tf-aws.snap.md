@@ -1,4 +1,4 @@
-# `containers.test.w.tf-aws.snap.md`
+# `containers-with-readiness.test.w.tf-aws.snap.md`
 
 ## main.tf.json
 
@@ -62,18 +62,18 @@
       }
     },
     "kubernetes_ingress_v1": {
-      "http-echo_DataKubernetesIngressV1_14943683": {
+      "hello_DataKubernetesIngressV1_7138FD92": {
         "//": {
           "metadata": {
-            "path": "root/Default/Default/http-echo/http-echo/DataKubernetesIngressV1",
-            "uniqueId": "http-echo_DataKubernetesIngressV1_14943683"
+            "path": "root/Default/Default/hello/hello/DataKubernetesIngressV1",
+            "uniqueId": "hello_DataKubernetesIngressV1_7138FD92"
           }
         },
         "depends_on": [
-          "helm_release.http-echo_Release_2E4AC011"
+          "helm_release.hello_Release_00E5935C"
         ],
         "metadata": {
-          "name": "http-echo"
+          "name": "hello"
         },
         "provider": "kubernetes"
       }
@@ -92,7 +92,7 @@
       "enable_dns_hostnames": true,
       "enable_nat_gateway": true,
       "private_subnet_tags": {
-        "kubernetes.io/cluster/wing-eks-c81852": "shared",
+        "kubernetes.io/cluster/wing-eks-c888f0": "shared",
         "kubernetes.io/role/internal-elb": "1"
       },
       "private_subnets": [
@@ -101,7 +101,7 @@
         "10.0.3.0/24"
       ],
       "public_subnet_tags": {
-        "kubernetes.io/cluster/wing-eks-c81852": "shared",
+        "kubernetes.io/cluster/wing-eks-c888f0": "shared",
         "kubernetes.io/role/elb": "1"
       },
       "public_subnets": [
@@ -130,7 +130,7 @@
         }
       },
       "cluster_endpoint_public_access": true,
-      "cluster_name": "wing-eks-c81852",
+      "cluster_name": "wing-eks-c888f0",
       "cluster_version": "1.27",
       "create_cluster_security_group": false,
       "create_node_security_group": false,
@@ -179,7 +179,7 @@
     },
     "WingEksCluster_ekscluster_name_E1D79024": {
       "description": "eks.cluster_name",
-      "value": "wing-eks-c81852"
+      "value": "wing-eks-c888f0"
     },
     "WingEksCluster_eksendpoint_FD8710BA": {
       "description": "eks.endpoint",
@@ -201,7 +201,7 @@
               "eks",
               "get-token",
               "--cluster-name",
-              "wing-eks-c81852"
+              "wing-eks-c888f0"
             ],
             "command": "aws"
           },
@@ -218,7 +218,7 @@
             "eks",
             "get-token",
             "--cluster-name",
-            "wing-eks-c81852"
+            "wing-eks-c888f0"
           ],
           "command": "aws"
         },
@@ -262,24 +262,24 @@
           },
           {
             "name": "clusterName",
-            "value": "wing-eks-c81852"
+            "value": "wing-eks-c888f0"
           }
         ]
       },
-      "http-echo_Release_2E4AC011": {
+      "hello_Release_00E5935C": {
         "//": {
           "metadata": {
-            "path": "root/Default/Default/http-echo/http-echo/Release",
-            "uniqueId": "http-echo_Release_2E4AC011"
+            "path": "root/Default/Default/hello/hello/Release",
+            "uniqueId": "hello_Release_00E5935C"
           }
         },
-        "chart": ".wing/helm/http-echo-273a4641f9f305c101f6b0ae07761c77",
+        "chart": ".wing/helm/hello-2dc5ca0312851a277e2c2334138c2f4a",
         "depends_on": [
         ],
-        "name": "http-echo",
+        "name": "hello",
         "provider": "helm",
         "values": [
-          "image: hashicorp/http-echo"
+          "image: paulbouwer/hello-kubernetes:1"
         ]
       }
     },

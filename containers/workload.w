@@ -5,6 +5,7 @@ bring "./api.w" as api;
 bring "./helm.w" as helm;
 bring http;
 bring fs;
+bring ui;
 
 pub class Workload {
   /** internal url, `nil` if there is no exposed port */
@@ -20,6 +21,16 @@ pub class Workload {
       let w = new sim.Workload_sim(props) as props.name;
       this.internalUrl = w.internalUrl;
       this.publicUrl = w.publicUrl;
+      nodeof(w).hidden = true;
+
+      if let url = w.internalUrl {
+        new ui.ValueField("Internal URL", url) as "internal_url";
+      }
+
+      if let url = w.publicUrl {
+        new ui.ValueField("Public URL", url) as "public_url";
+      }
+
       return this;
     }
     
