@@ -22,8 +22,6 @@ interface ICluster extends std.IResource {
 pub class ClusterBase impl ICluster {
   pub attributes(): ClusterAttributes { 
     throw "Not implemented"; 
-    // WORKAROUND: Compiler doesn't recognize that this will never return, so we need to return something
-    return { certificate: "", endpoint: "", name: "" }; 
   }
 
   pub kubernetesProvider(): cdktf.TerraformProvider {
