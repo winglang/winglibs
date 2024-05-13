@@ -24,6 +24,8 @@ jobs:
       - name: Test
         run: wing test
         working-directory: containers
+        env:
+          DEBUG: 1
       - name: Pack
         run: wing pack
         working-directory: containers
