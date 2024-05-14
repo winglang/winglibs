@@ -44,14 +44,14 @@ pub inflight class Channel impl IThread {
 
 /// Represents the context of a slack thread
 pub inflight class Thread impl IThread {
-  /// The channel id
-  pub channelId: str;
+  /// The channel context
+  pub channel: Channel;
   /// The thread timestamp
   pub timestamp: str;
   botToken: str;
 
   new(channel: str, thread_ts: str, botToken: str) {
-    this.channelId = channel;
+    this.channel = new Channel(channel, botToken);
     this.timestamp = thread_ts;
     this.botToken = botToken;
   }
@@ -60,7 +60,7 @@ pub inflight class Thread impl IThread {
   pub inflight postMessage(message: msg.Message) {
     helpers.SlackUtils.post(
       {
-        channel: this.channelId,
+        channel: this.channel.id,
         thread_ts: this.timestamp,
         blocks: message.toJson()
       },
@@ -72,7 +72,7 @@ pub inflight class Thread impl IThread {
   pub inflight post(message: str) {
     helpers.SlackUtils.post(
       {
-        channel: this.channelId,
+        channel: this.channel.id,
         thread_ts: this.timestamp,
         text: message
       },

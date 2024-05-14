@@ -30,7 +30,7 @@ pub class App {
     this.api = new cloud.Api();
 
     if util.env("WING_TARGET") == "tf-aws" {
-      new cdktf.TerraformOutput(value: "{this.api.url}/slack/events", description: "Slack Request URL");
+      new cdktf.TerraformOutput(value: "{this.api.url}/slack/events", description: "Slack Request URL") as "Slack_Request_Url";
     }
 
     this.api.post("/slack/events", inflight (req) => {
@@ -54,6 +54,7 @@ pub class App {
           }
         }
         if let handler = this.eventHandlers.tryGet(callBackEvent.type) {
+          // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
           handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
         }
       }
