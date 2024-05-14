@@ -9,21 +9,24 @@ bring util;
 bring ui;
 
 /// Properties for Slack bot
-pub struct SlackbotProps {
+pub struct AppProps {
+  /// The bot token secret to use for the app
+  botToken: cloud.Secret;
+  /// Whether events from bot users should be ignored (default: true)
   ignoreBots: bool?;
 }
 
 
-pub class Slackbot {
+pub class App {
   api: cloud.Api;
-  onEventHandlers: MutMap<inflight(context.CtxEventCallBack, Json):void>;
+  eventHandlers: MutMap<inflight(context.EventContext, Json):void>;
   ignoreBots: bool;
   botToken: cloud.Secret;
 
-  new(props: SlackbotProps) {
-    this.onEventHandlers = MutMap<inflight (context.CtxEventCallBack, Json): void>{};
+  new(props: AppProps) {
+    this.eventHandlers = MutMap<inflight (context.EventContext, Json): void>{};
     this.ignoreBots = props?.ignoreBots ?? true;
-    this.botToken = new cloud.Secret(name: "{this.node.id}_botToken");
+    this.botToken = props.botToken;
     this.api = new cloud.Api();
 
     if util.env("WING_TARGET") == "tf-aws" {
@@ -31,9 +34,9 @@ pub class Slackbot {
     }
 
     this.api.post("/slack/events", inflight (req) => {
-      let eventRequest = events.SlackEvent.fromJson(Json.parse(req.body!));
+      let eventRequest = events.SlackEvent.parseJson(req.body!);
       if eventRequest.type == "url_verification" {
-        let verificationEvent = events.VerificationEvent.fromJson(Json.parse(req.body!));
+        let verificationEvent = events.VerificationEvent.parseJson(req.body!);
         return {
           status: 200,
           body: Json.stringify({
@@ -46,27 +49,24 @@ pub class Slackbot {
         let callBackEvent = events.CallBackEvent.fromJson(Json.parse(req.body!)["event"]);
 
         if this.ignoreBots {
-          if let bot_id = callBackEvent.bot_id {
-            return {};
-          }
-          if let app_id = callBackEvent.app_id {
+          if callBackEvent.bot_id == nil  || callBackEvent.app_id == nil {
             return {};
           }
         }
-        if let handler = this.onEventHandlers.tryGet(callBackEvent.type) {
-          handler(new context.CtxEventCallBack(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+        if let handler = this.eventHandlers.tryGet(callBackEvent.type) {
+          handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
         }
       }
     });
   }
 
   /// Register an event handler
-  pub onEvent(eventName: str, handler: inflight(context.CtxEventCallBack, Json): void) {
-    this.onEventHandlers.set(eventName, handler);
+  pub onEvent(eventName: str, handler: inflight(context.EventContext, Json): void) {
+    this.eventHandlers.set(eventName, handler);
   }
 
   /// Retrieve a channel object from a channel Id
-  pub inflight getChannel(channelId: str): context.Channel {
+  pub inflight channel(channelId: str): context.Channel {
     return new context.Channel(channelId, this.botToken.value());
   }
 }

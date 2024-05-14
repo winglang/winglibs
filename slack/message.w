@@ -34,9 +34,8 @@ pub inflight class Message {
     this.sections.push(section);
   }
 
-  /// Returns string representation of message for 
-  /// over the wire transmission
-  pub buildMessage(): str {
+  /// Returns Json representation of message
+  pub toJson(): Json {
     let blocks = MutArray<Block>[];
     for section in this.sections {
       blocks.push({
@@ -44,6 +43,6 @@ pub inflight class Message {
         fields: section.fields
       });
     }
-    return Json.stringify(blocks);
+    return Json.parse(Json.stringify(blocks));
   }
 }
