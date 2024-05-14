@@ -37,19 +37,19 @@ slackbot.onEvent("app_mention", inflight (ctx, event) => {
 
 ### Create your Slack App
 
-1. Go to [Slack API](https://api.slack.com/apps) and create a new app.
-2. Select Create from scratch
-3. For the README example ensure you provide the following permissions:
-  - "app_mentions:read",
-  - "chat:write",
-  - "chat:write.public",
-  - "channels:read"
-4. Navigate to events and subscribe to the following events:
-  - app_mention
-5. Navigate to OAuth & Permissions and install the app to your workspace
-6. Copy the Bot User OAuth Token
-7. Navigate `Event Subscriptions` and enable events, then subscribe to bot events:
-  - app_mention
+1. Go to the [Slack API Dashboard](https://api.slack.com/apps) and create a new app.
+2. Select **Create from Scratch**.
+3. For the README example above, ensure you provide the following permissions:
+  - `app_mentions:read`
+  - `chat:write`
+  - `chat:write.public`
+  - `channels:read`
+4. Navigate to **Events** and subscribe to the following events:
+  - `app_mention`
+5. Navigate to **OAuth & Permissions** and install the app to your workspace
+6. Copy the **Bot User OAuth Token** to your clipboard
+7. Navigate to **Event Subscriptions** and enable events, then subscribe to bot events:
+  - `app_mention`
 
 ### Configuring Application Secrets
 
