@@ -13,15 +13,10 @@ inflight interface DocumentClient {
   inflight update(input: Json): Json;
 }
 
-struct Credentials {
-  accessKeyId: str;
-  secretAccessKey: str;
-}
-
 struct CreateDocumentClientOptions {
   endpoint: str?;
   region: str?;
-  credentials: Credentials?;
+  credentials: dynamodb_types.Credentials?;
 }
 
 class Util {
@@ -32,7 +27,7 @@ pub struct ClientProps {
   tableName: str;
   endpoint: str?;
   region: str?;
-  credentials: Credentials?;
+  credentials: dynamodb_types.Credentials?;
 }
 
 pub inflight class Client impl dynamodb_types.IClient {
