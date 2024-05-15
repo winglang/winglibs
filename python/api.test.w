@@ -6,7 +6,7 @@ bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
 let api = new cloud.Api();
-api.get("/test", new python.InflightApiOnRequest(
+api.get("/test", new python.InflightApiEndpointHandler(
   path: "./test-assets",
   handler: "main.api_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));

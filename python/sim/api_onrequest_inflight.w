@@ -2,7 +2,7 @@ bring cloud;
 bring "./inflight.w" as inflyght;
 bring "../types.w" as types;
 
-pub class ApiOnRequestInflight extends inflyght.Inflight impl cloud.IApiEndpointHandler {
+pub class InflightApiEndpointHandler extends inflyght.Inflight impl cloud.IApiEndpointHandler {
   new(props: types.InflightProps) {
     super(props);
   }

@@ -115,7 +115,7 @@ pub class InflightBucketEvent impl cloud.IBucketEventHandler {
   }
 }
 
-pub class InflightApiOnRequest impl cloud.IApiEndpointHandler {
+pub class InflightApiEndpointHandler impl cloud.IApiEndpointHandler {
   _inflightType: str;
   inner: types.IApiOnRequest;
 
@@ -124,7 +124,7 @@ pub class InflightApiOnRequest impl cloud.IApiEndpointHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new simapi.ApiOnRequestInflight(props);
+      this.inner = new simapi.InflightApiEndpointHandler(props);
     } elif target == "tf-aws" {
       this.inner = new tfawsapi.Inflight_tfaws(props);
     } else {
@@ -136,7 +136,7 @@ pub class InflightApiOnRequest impl cloud.IApiEndpointHandler {
     return this.inner.handle(req);
   }
 
-  pub lift(obj: std.Resource, options: types.LiftOptions): InflightApiOnRequest {
+  pub lift(obj: std.Resource, options: types.LiftOptions): InflightApiEndpointHandler {
     this.inner.lift(obj, options);
     return this;
   }

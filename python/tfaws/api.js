@@ -5,14 +5,6 @@ const awsProvider = require("@cdktf/provider-aws");
 const { Function } = require("./function.js");
 
 module.exports.Api = class Api extends TfAwsApi {
-  constructor(
-    scope,
-    id,
-    props,
-  ) {
-    super(scope, id, props);
-  }
-
   addHandler(inflight, method, path) {
     if (inflight._inflightType !== "_inflightPython") {
       return super.addHandler(inflight, method, path);
