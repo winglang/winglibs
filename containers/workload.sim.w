@@ -36,27 +36,31 @@ pub class Workload_sim {
         return this.publicUrl!;
       });
 
-      let s1 = new cloud.Service(inflight () => {
-        state.set(publicUrlKey, "http://localhost:{c.hostPort!}");
-        state.set(internalUrlKey, "http://host.docker.internal:{c.hostPort!}");
-      }) as "urls";
+      let readiness = new cloud.Service(inflight () => {
+        let publicUrl = "http://localhost:{c.hostPort!}";
 
-      let s2 = new cloud.Service(inflight () => {
         if let readiness = props.readiness {
-          let readinessUrl = "{this.publicUrl!}{readiness}";
-          log("waiting for container to be ready: {readinessUrl}...");
+          // if we have a readiness check, wait for the container to be ready
+          let readinessUrl = "{publicUrl}{readiness}";
+
           util.waitUntil(inflight () => {
             try {
+              log("Readiness check: GET {readinessUrl}");
               return http.get(readinessUrl).ok;
             } catch {
               return false;
             }
-          }, interval: 0.1s);
+          }, interval: 0.5s);
+
+          log("Container is ready!");
         }
+
+        // ready!
+        state.set(publicUrlKey, publicUrl);
+        state.set(internalUrlKey, "http://host.docker.internal:{c.hostPort!}");
       }) as "readiness";
 
-      nodeof(s1).hidden = true;
-      nodeof(s2).hidden = true;
+      nodeof(readiness).hidden = true;
     }
   }
 

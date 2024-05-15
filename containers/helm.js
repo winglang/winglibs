@@ -3,11 +3,19 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+class LazyResolver {
+  resolve(context) {
+    if (typeof(context.value.produce) === "function") {
+      const resolved = context.value.produce();
+      context.replaceValue(resolved);
+    }
+  }
+}
 
 exports.toHelmChart = function (wingdir, chart) {
   const app = cdk8s.App.of(chart);
 
-  app.resolvers = [new cdk8s.LazyResolver(), new cdk8s.ImplicitTokenResolver(), new cdk8s.NumberStringUnionResolver()];
+  app.resolvers = [new LazyResolver(), new cdk8s.LazyResolver(), new cdk8s.ImplicitTokenResolver(), new cdk8s.NumberStringUnionResolver()];
   const docs = cdk8s.App._synthChart(chart);
   const yaml = cdk8s.Yaml.stringify(...docs);
 
