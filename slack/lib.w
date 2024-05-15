@@ -49,7 +49,7 @@ pub class App {
         let callBackEvent = events.CallBackEvent.fromJson(Json.parse(req.body!)["event"]);
 
         if this.ignoreBots {
-          if callBackEvent.bot_id == nil  || callBackEvent.app_id == nil {
+          if callBackEvent.bot_id != nil  || callBackEvent.app_id != nil {
             return {};
           }
         }
