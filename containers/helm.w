@@ -37,7 +37,7 @@ pub class Chart extends cdk8s.Chart {
     );
 
     deployment.addContainer(
-      image: "\{\{ .Values.image }}",
+      image: #"{{ .Values.image }}",
       envVariables: envVariables.copy(),
       ports: ports.copy(),
       readiness: readiness,
