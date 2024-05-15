@@ -5,6 +5,12 @@ import {
   SignUpCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
+import {
+  CognitoIdentityClient,
+  GetIdCommand,
+  GetCredentialsForIdentityCommand
+} from "@aws-sdk/client-cognito-identity";
+
 /**
  * @param {string} clientId
  * @param {string} username
@@ -70,4 +76,38 @@ export const _initiateAuth = async (
 
   const res = await client.send(command);
   return res.AuthenticationResult?.IdToken;
+};
+
+export const _getId = async (
+  poolId,
+  identityPoolId,
+  token
+) => {
+  const client = new CognitoIdentityClient();
+  const command = new GetIdCommand({
+    IdentityPoolId: identityPoolId,
+    Logins: {
+      [`cognito-idp.${await client.config.region()}.amazonaws.com/${poolId}`]: token,
+    },
+  });
+
+  const res = await client.send(command);
+  return res.IdentityId;
+};
+
+export const _getCredentialsForIdentity = async (
+  poolId,
+  token,
+  identityId,
+) => {
+  const client = new CognitoIdentityClient();
+  const command = new GetCredentialsForIdentityCommand({
+    IdentityId: identityId,
+    Logins: {
+      [`cognito-idp.${await client.config.region()}.amazonaws.com/${poolId}`]: token,
+    },
+  });
+
+  const res = await client.send(command);
+  return res.Credentials;
 };

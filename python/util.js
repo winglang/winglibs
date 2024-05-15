@@ -1,6 +1,8 @@
-const { resolve, join } = require("node:path");
+const { join } = require("node:path");
 const { cpSync, existsSync, mkdtempSync } = require("node:fs");
 const { execSync } = require("node:child_process");
+const { tmpdir } = require("node:os");
+const glob = require("glob");
 
 exports.dirname = () => __dirname;
 
@@ -13,8 +15,16 @@ exports.build = (options) => {
   const { entrypointDir, workDir, path, homeEnv, pathEnv } = options;
 
   // create an output directory and copy the path to it
-  const outdir = mkdtempSync(join(resolve(workDir), "py-func-"));
+  const outdir = mkdtempSync(join(tmpdir(), "py-func-"));
   const resolvedPath = join(entrypointDir, path);
+
+  const copyFiles = (src, dest) => {
+    const files = glob.sync(join(src, "**/*.py"));
+    for (let file of files) {
+      const newFile = file.replace(src, `${dest}/`);
+      cpSync(file, newFile);
+    }
+  };
 
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(resolvedPath, "requirements.txt");
@@ -22,10 +32,10 @@ exports.build = (options) => {
     cpSync(requirementsPath, join(outdir, "requirements.txt"));
     execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
       { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
-    cpSync(resolvedPath, join(outdir, "python"), { recursive: true });
+    copyFiles(resolvedPath, join(outdir, "python"));
     return join(outdir, "python");
   } else {
-    cpSync(resolvedPath, outdir, { recursive: true });
+    copyFiles(resolvedPath, outdir);
     return outdir;
   }
 };

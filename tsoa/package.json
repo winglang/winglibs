@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/tsoa",
   "description": "TSOA library for Wing",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "author": {
     "email": "eyalk@wing.cloud",
     "name": "Eyal Keren"
@@ -22,7 +22,7 @@
     "express": "^4.19.2",
     "serverless-http": "^3.2.0",
     "tsoa": "^6.2.0",
-    "tsup": "^8.0.2",
+    "esbuild": "^0.20.2",
     "typescript": "^5.4.4"
   }
 }

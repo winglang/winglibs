@@ -3,7 +3,8 @@ bring expect;
 bring http;
 bring util;
 bring aws;
-bring "./lib.w" as l;
+bring "./lib.w" as cognito;
+bring "./types.w" as types;
 
 let api = new cloud.Api();
 api.get("/hello", inflight (req) => {
@@ -30,7 +31,7 @@ api.put("/hello", inflight (req) => {
   };
 });
 
-let auth = new l.Cognito(api);
+let auth = new cognito.Cognito(api);
 auth.get("/hello");
 auth.post("/hello");
 
@@ -66,4 +67,32 @@ test "throw error when credentials are invalid" {
   }
 
   expect.equal(err, true);
+}
+
+let api2 = new cloud.Api() as "api with IAM auth";
+api2.get("/hello", inflight (req) => {
+  log("GET - This route is protected");
+
+  return  {
+    status: 200
+  };
+});
+
+let authWithIAM = new cognito.Cognito(api2, authenticationType: types.AuthenticationType.AWS_IAM) as "IAM Auth";
+authWithIAM.get("/hello");
+
+test "access endpoint with IAM auth" {
+  expect.equal(http.get("{api2.url}/hello").status, 403);
+
+  authWithIAM.signUp("fakeId@monada.co", "This-is-my-test-99!");
+  authWithIAM.adminConfirmUser("fakeId@monada.co");
+  let token = authWithIAM.initiateAuth("fakeId@monada.co", "This-is-my-test-99!");
+  let id = authWithIAM.getId(authWithIAM.userPoolId, authWithIAM.identityPoolId, token);
+  let creds = authWithIAM.getCredentialsForIdentity(token, id);
+  let res = Util.fetch("{api2.url}/hello", creds);
+  expect.equal(res, 200);
+}
+
+class Util {
+  pub extern "./test.js" static inflight fetch(url: str, credentials: Json): num;
 }

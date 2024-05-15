@@ -5,7 +5,7 @@ export interface ConnectionOptions {
   readonly database: string;
   readonly host: string;
   readonly password: string;
-  readonly port?: (number) | undefined;
+  readonly port: string;
   readonly ssl: boolean;
   readonly user: string;
 }

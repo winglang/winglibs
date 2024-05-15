@@ -44,6 +44,7 @@ pub struct ContainerOpts {
   /** Internal container port to expose */
   flags: Map<str>?;   // flags to pass to the docker run command
   port: num?;
+  exposedPort: num?;  // internal port to expose
   env: Map<str?>?;
   readiness: str?;    // http get
   replicas: num?;     // number of replicas
@@ -51,6 +52,7 @@ pub struct ContainerOpts {
   args: Array<str>?;  // container arguments
   volumes: Map<str>?; // volumes to mount
   network: str?;      // network to connect to
+  entrypoint: str?;   // entrypoint to run
 
   /** 
    * A list of globs of local files to consider as input sources for the container.
@@ -170,7 +172,11 @@ pub class Container {
 
       if let port = opts.port {
         dockerRun.push("-p");
-        dockerRun.push("{port}");
+        if let exposedPort = opts.exposedPort {
+          dockerRun.push("{exposedPort}:{port}");
+        } else {
+          dockerRun.push("{port}");
+        }
       }
 
       if let env = opts.env {
@@ -194,6 +200,11 @@ pub class Container {
             dockerRun.push("{volume.value}:{volume.key}");
           }
         }
+      }
+
+      if let entrypoint = opts.entrypoint {
+        dockerRun.push("--entrypoint");
+        dockerRun.push(entrypoint);
       }
 
       dockerRun.push(this.imageTag);

@@ -1,14 +1,16 @@
 from wing import *
+import os
 
 def handler(event, context):
   print(event)
   print(context)
 
+  fooEnv = os.getenv("FOO")
   payload = from_function_event(event)
   
   client = lifted("bucket")
   value = client.get("test.txt")
-  client.put("test.txt", value + payload)
+  client.put("test.txt", value + payload + fooEnv)
   
   return {
     "statusCode": 200,
