@@ -38,7 +38,11 @@ if (command === "dev") {
   );
 
   if (options.openBrowser) {
-    server.openBrowser();
+    try {
+      server.openBrowser();
+    } catch (error) {
+      console.error("Failed to open browser:", error);
+    }
   }
 } else if (command === "build") {
   const resolvedConfig = await resolveConfig(config);
