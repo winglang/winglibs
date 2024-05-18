@@ -27,3 +27,7 @@ pub struct ContainerOpts {
 pub struct WorkloadProps extends ContainerOpts {
 
 }
+
+pub interface IWorkload {
+  
+}
