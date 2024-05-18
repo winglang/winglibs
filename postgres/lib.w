@@ -96,13 +96,19 @@ pub class Database {
       let sim = new DatabaseSim(props);
       this.connection = sim.connection;
       this.inner = sim;
+      new ui.ValueField("Port", sim.port) as "port";
+      
+      new ui.Field("Connection", inflight () => {
+        return "postgresql://{sim.connection.user}:{sim.connection.password}@localhost:{sim.port}/{sim.connection.database}";
+      }, link: true) as "connection";
+
+      nodeof(sim).hidden = true;
     } elif target == "tf-aws" {
       let tfawsParams = RequiredTFAwsProps.fromJson(app.parameters.read(schema: RequiredTFAwsProps.schema()));
       if tfawsParams.postgresEngine == "rds" {
         let aurora = new DatabaseRDS(props);
         this.connection = aurora.connection;
         this.inner = aurora;
-
       } elif tfawsParams.postgresEngine == "neon" {
         let neon = new DatabaseNeon(props);
         this.connection = neon.connection;
@@ -284,7 +290,7 @@ class DatabaseRDS impl IDatabase {
 }
 
 class DatabaseSim impl IDatabase {
-  port: str;
+  pub port: str;
 
   pub connection: ConnectionOptions;
 
@@ -323,8 +329,6 @@ class DatabaseSim impl IDatabase {
       port: this.port,
       ssl: false,
     };
-
-    new ui.ValueField("Postgres Port", this.port);
   }
 
   pub inflight connectionOptions(): ConnectionOptions {
