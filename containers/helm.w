@@ -2,7 +2,7 @@ bring "./api.w" as api;
 bring "cdk8s-plus-27" as plus;
 bring "cdk8s" as cdk8s;
 
-pub class Chart extends cdk8s.Chart {
+pub class Chart extends cdk8s.Chart impl api.IWorkload {
   name: str;
 
   new(props: api.WorkloadProps) {
@@ -81,6 +81,10 @@ pub class Chart extends cdk8s.Chart {
 
   pub toHelm(workdir: str): str {
     return Chart.toHelmChart(workdir, this);
+  }
+
+  pub forward(opts: api.ForwardOptions?): api.IForward {
+    throw "Not implemented";
   }
 
   extern "./helm.js" pub static toHelmChart(wingdir: str, chart: cdk8s.Chart): str;

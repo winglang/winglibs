@@ -46,7 +46,7 @@ export interface MetadataEntry {
 export class Node {
   /** Add an ordering dependency on another construct.
   An `IDependable` */
-  readonly addDependency: (deps?: ((readonly (IDependable)[])) | undefined) => void;
+  readonly addDependency: (deps: (readonly (IDependable)[])) => void;
   /** Adds a metadata entry to this construct.
   Entries are arbitrary values and will also include a stack trace to allow tracing back to
   the code location for when the entry was added. It can be used, for example, to include source
@@ -202,7 +202,7 @@ export class ApiObjectMetadataDefinition {
   /** Add an annotation. */
   readonly addAnnotation: (key: string, value: string) => void;
   /** Add one or more finalizers. */
-  readonly addFinalizers: (finalizers?: ((readonly (string)[])) | undefined) => void;
+  readonly addFinalizers: (finalizers: (readonly (string)[])) => void;
   /** Add a label. */
   readonly addLabel: (key: string, value: string) => void;
   /** Add an owner. */
@@ -224,10 +224,10 @@ export class ApiObjectMetadataDefinition {
 export class ApiObject extends Construct {
   /** Create a dependency between this ApiObject and other constructs.
   These can be other ApiObjects, Charts, or custom. */
-  readonly addDependency: (dependencies?: ((readonly (IConstruct)[])) | undefined) => void;
+  readonly addDependency: (dependencies: (readonly (IConstruct)[])) => void;
   /** Applies a set of RFC-6902 JSON-Patch operations to the manifest synthesized for this API object.
     kubePod.addJsonPatch(JsonPatch.replace('/spec/enableServiceLinks', true)); */
-  readonly addJsonPatch: (ops?: ((readonly (JsonPatch)[])) | undefined) => void;
+  readonly addJsonPatch: (ops: (readonly (JsonPatch)[])) => void;
   /** The group portion of the API version (e.g. `authorization.k8s.io`). */
   readonly apiGroup: string;
   /** The object's API version (e.g. `authorization.k8s.io/v1`). */
@@ -252,7 +252,7 @@ export class ApiObject extends Construct {
 export class Chart extends Construct {
   /** Create a dependency between this Chart and other constructs.
   These can be other ApiObjects, Charts, or custom. */
-  readonly addDependency: (dependencies?: ((readonly (IConstruct)[])) | undefined) => void;
+  readonly addDependency: (dependencies: (readonly (IConstruct)[])) => void;
   /** Returns all the included API objects. */
   readonly apiObjects: (readonly (ApiObject)[]);
   /** Generates a app-unique name for an object given it's construct node path.

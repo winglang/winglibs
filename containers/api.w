@@ -1,3 +1,4 @@
+bring cloud;
 
 pub struct ContainerOpts {
   name: str;
@@ -26,4 +27,21 @@ pub struct ContainerOpts {
 
 pub struct WorkloadProps extends ContainerOpts {
 
+}
+
+pub struct ForwardOptions {
+  route: str?;
+  method: cloud.HttpMethod?;
+}
+
+pub interface IWorkload {
+  forward(opts: ForwardOptions?): IForward;
+}
+
+pub interface IForward {
+  fromApi(): cloud.IApiEndpointHandler;
+  fromQueue(): cloud.IQueueSetConsumerHandler;
+  fromTopic(): cloud.ITopicOnMessageHandler;
+  fromSchedule(): cloud.IScheduleOnTickHandler;
+  fromBucketEvent(): cloud.IBucketEventHandler;
 }
