@@ -7,12 +7,14 @@ bring http;
 bring fs;
 bring ui;
 
-pub class Workload {
+pub class Workload impl api.IWorkload {
   /** internal url, `nil` if there is no exposed port */
   pub internalUrl: str?;
 
   /** extern url, `nil` if there is no exposed port or if `public` is `false` */
   pub publicUrl: str?;
+
+  inner: api.IWorkload;
 
   new(props: api.WorkloadProps) {
     let target = util.env("WING_TARGET");
@@ -21,6 +23,7 @@ pub class Workload {
       let w = new sim.Workload_sim(props) as props.name;
       this.internalUrl = w.internalUrl;
       this.publicUrl = w.publicUrl;
+      this.inner = w;
       nodeof(w).hidden = true;
 
       if let url = w.internalUrl {
@@ -39,11 +42,13 @@ pub class Workload {
       let w = new tfaws.Workload_tfaws(props) as props.name;
       this.internalUrl = w.internalUrl;
       this.publicUrl = w.publicUrl;
+      this.inner = w;
       return this;
     }
 
     if provider == "helm" {
       let w = new helm.Chart(props);
+      this.inner = w;
       this.internalUrl = "http://dummy";
       this.publicUrl = "http://dummy";
       w.toHelm(fs.join(nodeof(this).app.workdir, ".."));
@@ -51,6 +56,10 @@ pub class Workload {
     }
 
     throw "unsupported provider {provider}";
+  }
+
+  pub forward(opts: api.ForwardOptions?): api.IForward {
+    return this.inner.forward(opts);
   }
 
   resolveProvider(target: str): str {

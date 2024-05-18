@@ -8,8 +8,9 @@ bring "@cdktf/provider-kubernetes" as k8s;
 bring "@cdktf/provider-helm" as helm_provider;
 bring "./helm.w" as helm;
 bring fs;
+bring cloud;
 
-pub class Workload_tfaws {
+pub class Workload_tfaws impl api.IWorkload {
   pub internalUrl: str?;
   pub publicUrl: str?;
 
@@ -73,6 +74,10 @@ pub class Workload_tfaws {
     }
 
     return props.sourceHash ?? fs.md5(props.image, props.sources);
+  }
+
+  pub forward(opts: api.ForwardOptions?): api.IForward {
+    throw "Not implemented";
   }
 }
 

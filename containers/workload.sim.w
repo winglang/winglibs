@@ -5,7 +5,7 @@ bring sim;
 bring ui;
 bring "./api.w" as api;
 
-pub class Workload_sim {
+pub class Workload_sim impl api.IWorkload {
   pub publicUrl: str?;
   pub internalUrl: str?;
 
@@ -64,6 +64,14 @@ pub class Workload_sim {
     }
   }
 
+  pub forward(opts: api.ForwardOptions?): api.IForward {
+    if this.publicUrl == nil {
+      throw "Cannot forward requests to a non-public container";
+    }
+
+    return new Forward(this.publicUrl!, opts) as "forward_{util.nanoid()}";
+  }
+
   toEnv(input: Map<str?>?): Map<str> {
     let env = MutMap<str>{};
     let i = input ?? {};
@@ -75,4 +83,96 @@ pub class Workload_sim {
 
     return env.copy();
   }
+}
+
+class Forward impl api.IForward {
+  containerUrl: str;
+  route: str?;
+  method: cloud.HttpMethod?;
+
+  new(containerUrl: str, opts: api.ForwardOptions?) {
+    this.containerUrl = containerUrl;
+    this.route = opts?.route;
+    this.method = opts?.method;
+
+    if let r = this.route {
+      if !r.startsWith("/") {
+        throw "Route must start with '/'";
+      }
+    }
+  }
+
+  pub fromApi(): cloud.IApiEndpointHandler {
+    return inflight (request) => {
+      let var body = request.body;
+      if request.method == cloud.HttpMethod.GET || request.method == cloud.HttpMethod.HEAD {
+        body = nil;
+      }
+
+      let response = http.fetch("{this.containerUrl}{request.path}", {
+        body: body,
+        headers: request.headers,
+        method: request.method,
+      });
+
+      return {
+        body: response.body,
+        status: response.status,
+        headers: response.headers
+      };
+    };
+  }
+
+  pub fromQueue(): cloud.IQueueSetConsumerHandler {
+    return inflight (message) => {
+      let route = this.route ?? "/";
+      let method = this.method ?? cloud.HttpMethod.POST;
+      http.fetch("{this.containerUrl}{route}", {
+        body: message,
+        method: method,
+      });
+    };
+  }
+
+  pub fromTopic(): cloud.ITopicOnMessageHandler {
+    return inflight (message) => {
+      let route = this.route ?? "/";
+      let method = this.method ?? cloud.HttpMethod.POST;
+      http.fetch("{this.containerUrl}{route}", {
+        body: message,
+        method: method,
+      });
+    };
+  }
+
+  pub fromSchedule(): cloud.IScheduleOnTickHandler {
+    return inflight () => {
+      let route = this.route ?? "/";
+      let method = this.method ?? cloud.HttpMethod.GET;
+
+      http.fetch("{this.containerUrl}{route}", {
+        method: method,
+      });
+    };
+  }
+
+  pub fromBucketEvent(): cloud.IBucketEventHandler {
+    return inflight (key, type) => {
+      let route = this.route ?? "/";
+      let method = this.method ?? cloud.HttpMethod.POST;
+      let stype = () => {
+        if type == cloud.BucketEventType.CREATE { return "create"; }
+        if type == cloud.BucketEventType.UPDATE { return "update"; }
+        if type == cloud.BucketEventType.DELETE { return "delete"; }
+      }();
+
+      http.fetch("{this.containerUrl}{route}", {
+        method: method,
+        body: Json.stringify({
+          key: key,
+          type: stype
+        })
+      });
+    };
+  }  
 }
