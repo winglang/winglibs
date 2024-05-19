@@ -208,4 +208,5 @@ pub inflight interface IClient {
 
 pub interface ITable extends IClient {
   setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
+  inflight readWriteConnection(): Connection;
 }
