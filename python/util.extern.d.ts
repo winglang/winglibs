@@ -1,7 +1,7 @@
 export default interface extern {
   build: (options: BuildOptions) => string,
   dirname: () => string,
-  liftSim: (id: string, client: Resource) => string,
+  liftSim: (id: string, client: Resource) => LiftedSim,
   liftTfAws: (id: string, client: Resource) => string,
 }
 export interface BuildOptions {
@@ -210,4 +210,11 @@ export class Resource extends Construct implements IResource {
   you must call `super.bind(host, ops)` to ensure that the resource is
   actually bound. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
+}
+export interface LiftedSim {
+  readonly handle: string;
+  readonly path: string;
+  readonly props?: (Readonly<any>) | undefined;
+  readonly target: string;
+  readonly type: string;
 }

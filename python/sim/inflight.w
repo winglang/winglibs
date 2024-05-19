@@ -62,25 +62,22 @@ pub class Inflight impl cloud.IFunctionHandler {
     );
     
     this.service = new cloud.Service(inflight () => {
-      let clients = MutMap<types.LiftedSimResolved>{};
+      let clients = MutMap<types.LiftedSim>{};
       for client in this.wingClients.entries() {
         let value = this.clients.get(client.key);
 
-        // sdk resources
         if let handle = util.tryEnv(value.handle) {
+          // sdk resources
           clients.set(client.key, {
-            path: value.path,
             type: value.type,
+            path: value.path,
             target: value.target,
+            props: value.props,
             handle: handle,
           });
-        }
-
-        // custom resources
-        if value.type == "@winglibs.Dyanmodb.Table" {
-          if let lifted = libutil.liftSimInflight(client.value, value) {
-            clients.set(client.key, lifted);  
-          }
+          } else {
+          // custom resources
+          clients.set(client.key, value);
         }
       }
 
@@ -96,14 +93,19 @@ pub class Inflight impl cloud.IFunctionHandler {
       }
 
       for e in Inflight.env().entries() {
+        env.set(e.key, e.value);
+      }
+
+      for e in env.entries() {
         let var value = e.value;
         if value.contains("http://localhost") {
-          value = value.replace("http://localhost", host);
+          value = value.replaceAll("http://localhost", host);
         } elif value.contains("http://127.0.0.1") {
-          value = value.replace("http://127.0.0.1", host);
+          value = value.replaceAll("http://127.0.0.1", host);
         }
         env.set(e.key, value);
       }
+
       runner.start(env.copy());
     });
 

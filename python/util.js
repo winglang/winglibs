@@ -67,20 +67,8 @@ exports.liftSim = (id, resource) => {
       handle: makeEnvVarName("DYNAMODB_TABLE", resource),
       type: "@winglibs.Dyanmodb.Table",
       target: "sim",
-    }
-  }
-
-  return undefined;
-};
-
-exports.liftSimInflight = (client, lifted) => {
-  if (lifted.type === "@winglibs.Dyanmodb.Table") {
-    return {
-      path: lifted.path,
-      type: lifted.type,
-      target: lifted.target,
       props: {
-        connection: client.connection,
+        connection: resource.connection,
       }
     }
   }

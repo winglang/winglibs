@@ -37,12 +37,5 @@ pub struct LiftedSim {
   type: str;
   target: str;
   handle: str;
-}
-
-pub struct LiftedSimResolved {
-  path: str;
-  type: str;
-  target: str;
-  handle: str?;
   props: Json?;
 }

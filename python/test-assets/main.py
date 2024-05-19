@@ -5,12 +5,16 @@ def handler(event, context):
   print(event)
   print(context)
 
-  fooEnv = os.getenv("FOO")
+  foo_env = os.getenv("FOO")
   payload = from_function_event(event)
   
-  client = lifted("bucket")
-  value = client.get("test.txt")
-  client.put("test.txt", value + payload + fooEnv)
+  table = lifted("table")
+  response = table.get(Key={'id':{'S':"test"}})
+  table_value = response.get("Item").get("body").get("S")
+
+  bucket = lifted("bucket")
+  value = bucket.get("test.txt")
+  bucket.put("test.txt", value + payload + foo_env + table_value)
   
   return {
     "statusCode": 200,

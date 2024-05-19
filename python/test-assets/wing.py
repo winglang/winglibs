@@ -113,6 +113,7 @@ class DynamodbTableClient_sim(DynamodbTableClient_base):
     super().__init__(connection, boto3.client(
       'dynamodb', 
       region_name=connection["clientConfig"]["region"],
+      endpoint_url=connection["clientConfig"]["endpoint"],
       aws_access_key_id=connection["clientConfig"]["credentials"]["accessKeyId"],
       aws_secret_access_key=connection["clientConfig"]["credentials"]["secretAccessKey"],
     ))
@@ -129,7 +130,7 @@ def lifted(id: str):
           return BucketClient_aws(idValue["bucketName"])
         elif target == "sim":
           return BucketClient_sim(idValue["handle"])
-      if idValue["type"] == "cloud.Bucket":
+      if idValue["type"] == "@winglibs.Dyanmodb.Table":
         if target == "aws":
           return DynamodbTableClient_aws(idValue["props"])
         elif target == "sim":
