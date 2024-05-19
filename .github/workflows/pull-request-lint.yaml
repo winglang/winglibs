@@ -45,6 +45,7 @@ jobs:
             redis
             sagemaker
             simtools
+            sns
             tf
             tsoa
             vite

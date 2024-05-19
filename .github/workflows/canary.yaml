@@ -672,6 +672,39 @@ jobs:
             cd simtools
             wing test
           timeout_minutes: 5
+  canary-sns:
+    name: Test sns
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: sns
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang and dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
+          timeout_minutes: 3
+      - name: Install dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: cd sns && npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd sns
+            wing test
+          timeout_minutes: 5
   canary-tf:
     name: Test tf
     runs-on: ubuntu-latest

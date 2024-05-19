@@ -1,0 +1,24 @@
+{
+  "name": "@winglibs/sns",
+  "description": "Wing library for interacting with AWS SNS",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "sns"
+  },
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
+  "wing": {
+    "platforms": [
+      "tf-aws",
+      "sim"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@aws-sdk/client-sns": "^3.577.0"
+  }
+}
