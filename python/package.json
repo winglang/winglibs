@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/python",
   "description": "python library for Wing",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -22,10 +22,8 @@
     "@aws-sdk/client-lambda": "^3.549.0",
     "@cdktf/provider-aws": "^19.13.0",
     "@smithy/util-utf8": "^2.3.0",
+    "@winglibs/dynamodb": "^0.1.7",
     "cdktf": "^0.20.6",
     "glob": "^10.3.12"
-  },
-  "dependencies": {
-    "@winglibs/dynamodb": "^0.1.7"
   }
 }
