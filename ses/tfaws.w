@@ -11,6 +11,31 @@ pub class EmailService_tfaws impl types.IEmailService {
         ) as "emailIdentity-{email.replaceAll("@", "_")}";
       }
     }
+
+    if let configurationSet = props.configurationSet {
+      new aws.sesConfigurationSet.SesConfigurationSet(
+        name: configurationSet.name,
+      ) as "configurationSet";
+
+      if let eventDestination = props.eventDestination {
+        let var cloudwatch: Json? = nil;
+        if let cloudwatchDestination = eventDestination.cloudwatchDestination {
+          cloudwatch = {
+            default_value: cloudwatchDestination.defaultValue,
+            dimension_name: cloudwatchDestination.dimensionName,
+            value_source: cloudwatchDestination.valueSource,
+          };
+        }
+        new aws.sesEventDestination.SesEventDestination(
+          name: eventDestination.name,
+          configurationSetName: configurationSet.name,
+          enabled: true,
+          matchingTypes: eventDestination.matchingTypes,
+          cloudwatchDestination: cloudwatch,
+        ) as "eventDestination";
+      }
+    }
+
   }
 
   pub inflight sendEmail(options: types.SendEmailOptions): str? {

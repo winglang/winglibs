@@ -1,5 +1,23 @@
+pub struct ConfigurationSet {
+  name: str;
+}
+
+pub struct CloudWatchDestination {
+  defaultValue: str;
+  dimensionName: str;
+  valueSource: str;
+}
+
+pub struct EventDestination {
+  name: str;
+  matchingTypes: Array<str>;
+  cloudwatchDestination: CloudWatchDestination?;
+}
+
 pub struct EmailServiceProps {
   emailIdentities: Array<str>?;
+  configurationSet: ConfigurationSet?;
+  eventDestination: EventDestination?;
 }
 
 pub struct Destination {
