@@ -15,11 +15,11 @@ let func = new cloud.Function(new python.InflightFunction(
       allow: ["get", "put"],
     }
   },
-));
+), { env: { "FOO": "bar" } });
 
 test "invokes the function" {
   let res = func.invoke("function1");
   log("res: {res ?? "null"}");
   expect.equal(Json.parse(res!).get("body"), "Hello!");
-  expect.equal(bucket.get("test.txt"), "Hello, world!function1");
+  expect.equal(bucket.get("test.txt"), "Hello, world!function1bar");
 }

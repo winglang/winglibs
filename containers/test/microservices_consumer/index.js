@@ -7,7 +7,7 @@ if (!PRODUCER_URL) {
   process.exit(1);
 }
 
-process.on('SIGINT', () => {
+process.on('SIGTERM', () => {
   console.info("Interrupted")
   process.exit(0)
 });

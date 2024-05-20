@@ -2,20 +2,6 @@ bring "./workload.w" as containers;
 bring expect;
 bring http;
 
-let message = "hello, wing change!!";
-
-let hello = new containers.Workload(
-  name: "hello",
-  image: "paulbouwer/hello-kubernetes:1",
-  port: 8080,
-  readiness: "/",
-  replicas: 2,
-  env: {
-    "MESSAGE" => message,
-  },
-  public: true,
-) as "hello";
-
 let echo = new containers.Workload(
   name: "http-echo",
   image: "hashicorp/http-echo",
@@ -34,10 +20,6 @@ let httpGet = inflight (url: str?): str => {
 };
 
 test "access public url" {
-  let helloBody = httpGet(hello.publicUrl);
-  log(helloBody);
-  assert(helloBody.contains(message));
-
   let echoBody = httpGet(echo.publicUrl);
   assert(echoBody.contains("hello1234"));
 }

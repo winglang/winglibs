@@ -26,4 +26,11 @@ pub struct ViteProps {
    * The name of the file that will be used to generate type definitions.
    */
    typeDefinitionsFilename: str?;
+
+   /**
+    * Whether to open the browser or not.
+    *
+    * @default `false`
+    */
+   openBrowser: bool?;
 }
