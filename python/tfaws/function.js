@@ -76,6 +76,7 @@ module.exports.Function = class Function extends Construct {
       environment: {
         variables: cdktf.Lazy.anyValue({
           produce: () => ({
+            ...props.env,
             ...this.env,
           }),
         }),

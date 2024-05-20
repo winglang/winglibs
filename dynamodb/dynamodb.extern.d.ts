@@ -22,12 +22,8 @@ export interface Client$Inflight {
   readonly describeTable: (input: Readonly<any>) => Promise<Readonly<any>>;
   readonly updateTimeToLive: (input: Readonly<any>) => Promise<Readonly<any>>;
 }
-export interface Credentials {
-  readonly accessKeyId: string;
-  readonly secretAccessKey: string;
-}
 export interface CreateDocumentClientOptions {
-  readonly credentials?: (Credentials1) | undefined;
+  readonly credentials?: (Credentials) | undefined;
   readonly endpoint?: (string) | undefined;
   readonly region?: (string) | undefined;
 }

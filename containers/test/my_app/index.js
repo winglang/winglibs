@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const http = require('http');
 
-process.on('SIGINT', () => {
+process.on('SIGTERM', () => {
   console.info("Interrupted")
   process.exit(0)
 });

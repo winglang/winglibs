@@ -29,6 +29,25 @@ new containers.Workload(
 );
 ```
 
+## Forwarding
+
+The `workload.forward()` method returns an `IForward` object with a `fromXxx()` method for each
+supported handler type.
+
+For example, this is how you can forward `cloud.Api` requests:
+
+```js
+let work = new containers.Workload(...);
+let api = new cloud.Api();
+api.get("/my_request", work.forward().fromApi());
+```
+
+You can pass an optional `route` and `method` to `forward()` in order to customize the behavior:
+
+```js
+work.forward(route: "/your_request", method: cloud.HttpMethod.PUT);
+```
+
 ## `sim`
 
 When executed in the Wing Simulator, the workload is started within a local Docker container.

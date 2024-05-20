@@ -69,5 +69,9 @@ pub class Table impl dynamodb_types.ITable {
   pub inflight query(options: dynamodb_types.QueryOptions): dynamodb_types.QueryOutput {
     return this.implementation.query(options);
   }
+
+  pub inflight readWriteConnection(): dynamodb_types.Connection {
+    return this.implementation.readWriteConnection();
+  }
 }
 

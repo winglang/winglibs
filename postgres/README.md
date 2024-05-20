@@ -27,6 +27,7 @@ let db = new postgres.Database(
 );
 
 let api = new cloud.Api();
+
 api.get("/users", inflight (req) => {
   let users = db.query("select * from users");
   return {
@@ -36,13 +37,73 @@ api.get("/users", inflight (req) => {
 });
 ```
 
+You can find connection information in `db.connection`:
+
+- `host` - the host to connect to
+- `port` - the external port to use (a token that will resolve at runtime)
+- `user` - user name
+- `password` - password
+- `database` - the database name
+- `ssl` - use SSL or not
+
 ## `sim`
 
 When executed in the Wing Simulator, postgres is run within a local Docker container.
 
+### Connecting to Postgres from `sim.Container`
+
+If you are connecting from a `sim.Container`, you should use `host.docker.internal` as the `host` in
+order to be able to access the host network:
+
+Example:
+
+```js
+new sim.Container(
+  // ...
+  env: {
+    DB_HOST: "host.docker.internal",
+    DB_PORT: db.connection.port
+  }
+)
+```
+
+### Reference Existing Postgres Database
+If you want to import a reference to an existing postgres database, you can use the `DatabaseRef` class:
+
+```js
+bring postgres;
+
+let db = new postgres.DatabaseRef() as "somedatabase";
+
+
+new cloud.Function(inflight() => {
+  let users = db.query("select * from users");
+});
+```
+This will automatically create a secret resource that is required for the database connection. To seed this secret, use the `secrets` subcommand:
+
+```sh
+❯ wing secrets main.w
+1 secret(s) found
+
+? Enter the secret value for connectionString_somedatabase: [input is hidden] 
+```
+
+> When referencing an existing database for the `tf-aws` target you will also need to specify VPC information in your `wing.toml` file (unless your database is publicly accessible). Or you will see an warning like this:
+```sh
+WARNING: Unless your database is accessible from the public internet, you must provide vpc info under `tf-aws` in your wing.toml file
+For more info see: https://www.winglang.io/docs/platforms/tf-aws#parameters
+```
+
 ## `tf-aws`
 
-On the `tf-aws` target, the postgres database is managed using [Neon](https://neon.tech/), a serverless postgres offering.
+On the `tf-aws` target, the postgres database can be created and hosted by either AWS RDS or Neon. To configure which one to use, simply specify the parameter `postgresEngine` in your `wing.toml` file:
+
+```toml
+postgresEngine = "rds" # or "neon"
+```
+
+### Neon Setup
 
 Neon has a [free tier](https://neon.tech/docs/introduction/free-tier) that can be used for personal projects and prototyping.
 

@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/cognito",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A wing library to work with AWS Cognito",
   "author": {
     "name": "Elad Cohen",
@@ -12,8 +12,10 @@
     "directory": "cognito"
   },
   "peerDependencies": {
+    "@aws-sdk/client-cognito-identity": "^3.564.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.530.0",
     "@cdktf/provider-aws": "^19.12.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.530.0"
+    "aws-sigv4-fetch": "^3.1.0"
   },
   "wing": {
     "platforms": [
