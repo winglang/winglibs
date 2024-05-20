@@ -1,8 +1,10 @@
 export default interface extern {
   createClient: (options: ClientConfig) => Promise<Client$Inflight>,
   createDocumentClient: (options?: (CreateDocumentClientOptions) | undefined) => Promise<DocumentClient$Inflight>,
+  dirname: () => string,
   getPort: () => Promise<number>,
   processRecordsAsync: (endpoint: string, tableName: string, handler: (arg0: StreamRecord) => Promise<void>, options?: (StreamConsumerOptions) | undefined) => Promise<void>,
+  startDbAdmin: (options: StartDbAdminOptions) => Promise<StartDbAdminResponse$Inflight>,
   unmarshall: (item: Readonly<any>, options?: (Readonly<any>) | undefined) => Promise<Readonly<any>>,
 }
 export interface Credentials {
@@ -54,4 +56,14 @@ export interface StreamRecord {
 export interface StreamConsumerOptions {
   readonly batchSize?: (number) | undefined;
   readonly startingPosition?: (string) | undefined;
+}
+export interface StartDbAdminOptions {
+  readonly currentdir: string;
+  readonly endpoint: string;
+  readonly homeEnv: string;
+  readonly pathEnv: string;
+}
+export interface StartDbAdminResponse$Inflight {
+  readonly close: () => Promise<void>;
+  readonly port: () => Promise<number>;
 }

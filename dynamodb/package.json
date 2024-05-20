@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/dynamodb",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "DynamoDB library for Wing",
   "author": {
     "name": "Cristian Pallarés",
@@ -28,6 +28,8 @@
     "@aws-sdk/lib-dynamodb": "^3.462.0",
     "@aws-sdk/util-dynamodb": "^3.529.1",
     "@cdktf/provider-aws": "^19.9.0",
+    "aws-sdk": "^2.1610.0",
+    "dynamodb-admin": "^4.6.1",
     "get-port": "^7.0.0"
   }
 }

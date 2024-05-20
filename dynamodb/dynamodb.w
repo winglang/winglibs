@@ -10,6 +10,7 @@ pub class Table impl dynamodb_types.ITable {
 
   pub connection: dynamodb_types.Connection;
   pub tableName: str;
+  pub adminEndpoint: str?;
 
   new(props: dynamodb_types.TableProps) {
     let target = util.env("WING_TARGET");
@@ -17,6 +18,7 @@ pub class Table impl dynamodb_types.ITable {
       let sim = new dynamodb_sim.Table_sim(props);
       this.connection = sim.connection;
       this.tableName = sim.tableName;
+      this.adminEndpoint = sim.adminEndpoint;
       this.implementation = sim;
       nodeof(sim).hidden = true;
     } elif target == "tf-aws" {
@@ -31,7 +33,13 @@ pub class Table impl dynamodb_types.ITable {
 
     new ui.Field("Table Name", inflight () => {
       return this.tableName;
-    });
+    }) as "Table Name";
+
+    if let adminEndpoint = this.adminEndpoint {
+      new ui.Field("Admin", inflight () => {
+        return "{adminEndpoint}/tables/{this.tableName}";
+      }, link: true) as "Admin";
+    }
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, opts: dynamodb_types.StreamConsumerOptions?) {
