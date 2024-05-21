@@ -33,6 +33,7 @@ publishing them for you.
 | [redis](./redis) | [@winglibs/redis](https://www.npmjs.com/package/@winglibs/redis) | sim |
 | [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
+| [sns](./sns) | [@winglibs/sns](https://www.npmjs.com/package/@winglibs/sns) | awscdk, sim, tf-aws |
 | [tf](./tf) | [@winglibs/tf](https://www.npmjs.com/package/@winglibs/tf) | sim, tf-aws |
 | [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
