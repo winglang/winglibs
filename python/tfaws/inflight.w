@@ -9,7 +9,7 @@ struct Lifted {
 
 pub class Inflight_tfaws impl types.IInflight {
   props: types.InflightProps;
-  lifts: MutMap<Lifted>;
+  protected lifts: MutMap<Lifted>;
 
   new(props: types.InflightProps) {
     this.props = props;
