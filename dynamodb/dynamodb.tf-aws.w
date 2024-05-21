@@ -147,6 +147,11 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           "dynamodb:GetItem",
         );
       }
+      if ops.contains("readWriteConnection") {
+        actions.push(
+          "dynamodb:*",
+        );
+      }
       if ops.length > 0 {
         lambda.addPolicyStatements({
           actions: actions.copy(),
@@ -189,5 +194,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight query(options: dynamodb_types.QueryOptions): dynamodb_types.QueryOutput {
     return this.client.query(options);
+  }
+
+  pub inflight readWriteConnection(): dynamodb_types.Connection {
+    return this.connection;
   }
 }

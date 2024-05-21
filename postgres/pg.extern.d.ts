@@ -1,5 +1,6 @@
 export default interface extern {
   _query: (query: string, creds: ConnectionOptions) => Promise<(readonly (Readonly<Record<string, Readonly<any>>>)[])>,
+  _queryWithConnectionString: (query: string, connectionString: string) => Promise<(readonly (Readonly<Record<string, Readonly<any>>>)[])>,
 }
 export interface ConnectionOptions {
   readonly database: string;

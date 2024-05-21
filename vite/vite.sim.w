@@ -19,7 +19,13 @@ pub class Vite_sim {
     let cliFilename = Vite_sim.cliFilename();
     let homeEnv = util.tryEnv("HOME") ?? "";
     let pathEnv = util.tryEnv("PATH") ?? "";
-    let openBrowser = util.env("WING_IS_TEST") != "true";
+    let openBrowser = (() => {
+      if util.env("WING_IS_TEST") == "true" {
+        return false;
+      }
+
+      return props.openBrowser ?? false;
+    })();
 
     new cloud.Service(inflight () => {
       let output = Vite_sim.dev({

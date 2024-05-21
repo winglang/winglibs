@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/postgres",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Postgres support for Wing",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
   "peerDependencies": {
     "@rybickic/cdktf-provider-neon": "^2.0.0",
     "@cdktf/provider-aws": "^19.12.0",
-    "@winglibs/containers": "^0.0.27",
+    "@winglibs/containers": "^0.1.0",
     "pg": "^8.11.3",
     "cdktf": "^0.20.6"
   },

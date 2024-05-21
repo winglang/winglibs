@@ -32,6 +32,10 @@ pub interface IBucketEventInflight extends cloud.IBucketEventHandler {
   lift(obj: std.Resource, options: LiftOptions): cloud.IBucketEventHandler;
 }
 
+pub interface IApiOnRequest extends cloud.IApiEndpointHandler {
+  lift(obj: std.Resource, options: LiftOptions): cloud.IApiEndpointHandler;
+}
+
 pub struct LiftedSim {
   path: str;
   type: str;

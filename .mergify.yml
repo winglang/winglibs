@@ -95,6 +95,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-sns
+      - -check-pending=build-sns
+      - -check-stale=build-sns
       - -check-failure=build-tf
       - -check-pending=build-tf
       - -check-stale=build-tf
@@ -186,6 +189,9 @@ pull_request_rules:
       - -check-failure=build-simtools
       - -check-pending=build-simtools
       - -check-stale=build-simtools
+      - -check-failure=build-sns
+      - -check-pending=build-sns
+      - -check-stale=build-sns
       - -check-failure=build-tf
       - -check-pending=build-tf
       - -check-stale=build-tf

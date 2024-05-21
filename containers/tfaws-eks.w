@@ -5,7 +5,6 @@ bring "cdktf" as cdktf;
 bring "@cdktf/provider-helm" as helm;
 bring "@cdktf/provider-kubernetes" as eks;
 bring "./tfaws-vpc.w" as vpc;
-bring "./values.w" as values;
 bring "./aws.w" as aws_info;
 
 struct ClusterAttributes {
@@ -23,8 +22,6 @@ interface ICluster extends std.IResource {
 pub class ClusterBase impl ICluster {
   pub attributes(): ClusterAttributes { 
     throw "Not implemented"; 
-    // WORKAROUND: Compiler doesn't recognize that this will never return, so we need to return something
-    return { certificate: "", endpoint: "", name: "" }; 
   }
 
   pub kubernetesProvider(): cdktf.TerraformProvider {
@@ -81,6 +78,7 @@ class ClusterRef extends ClusterBase impl ICluster {
   }
 }
 
+
 pub class Cluster extends ClusterBase impl ICluster {
 
   /** singleton */
@@ -88,11 +86,12 @@ pub class Cluster extends ClusterBase impl ICluster {
     let root = nodeof(scope).root;
     let uid = "WingEksCluster";
     let existing: ICluster? = unsafeCast(root.node.tryFindChild(uid));
+
     let newCluster = (): ICluster => {
-      if let attrs = Cluster.tryGetClusterAttributes() {
+      if let attrs = Cluster.tryReadParameters(scope) {
         return new ClusterRef(attrs) as uid in root;
       } else {
-        let clusterName = "wing-eks-{std.Node.of(scope).addr.substring(0, 6)}";
+        let clusterName = "wing-eks-{nodeof(scope).addr.substring(0, 6)}";
         return new Cluster(clusterName) as uid in root;
       }
     };
@@ -100,18 +99,15 @@ pub class Cluster extends ClusterBase impl ICluster {
     return existing ?? newCluster();
   }
 
-
-  static tryGetClusterAttributes(): ClusterAttributes? {
-    if !values.Values.has("eks.cluster_name") {
-      return nil;
+  static tryReadParameters(scope: std.IResource): ClusterAttributes? {
+    if let json = nodeof(scope).app.parameters.value("eks") {
+      log(json);
+      if let attrs = ClusterAttributes.tryParseJson(json) {
+        return attrs;
+      }
     }
 
-    return ClusterAttributes {
-      name: values.Values.get("eks.cluster_name"),
-      certificate: values.Values.get("eks.certificate"),
-      endpoint: values.Values.get("eks.endpoint"),
-    };
-
+    return nil;
   }
 
   _attributes: ClusterAttributes;
