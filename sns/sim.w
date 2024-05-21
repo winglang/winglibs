@@ -2,7 +2,7 @@ bring cloud;
 bring util;
 bring "./types.w" as types;
 
-pub class MobileClient impl types.IMobileClient {
+pub class MobileClient_sim impl types.IMobileClient {
   store: cloud.Bucket;
   new() {
     this.store = new cloud.Bucket() as "Inbox";

@@ -2,9 +2,9 @@ bring cloud;
 bring "./types.w" as types;
 bring aws;
 
-pub class MobileClient impl types.IMobileClient {
+pub class MobileClient_aws impl types.IMobileClient {
   pub inflight publish(options: types.PublishOptions): types.PublishResult {
-    return MobileClient._publish(options);
+    return MobileClient_aws._publish(options);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
