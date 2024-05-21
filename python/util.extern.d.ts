@@ -1,7 +1,7 @@
 export default interface extern {
   build: (options: BuildOptions) => string,
   dirname: () => string,
-  liftSim: (id: string, client: Resource) => LiftedSim,
+  liftSim: (obj: Resource, options: LiftOptions, host: IInflightHost, clients: Record<string, LiftedSim>) => void,
   liftTfAws: (id: string, client: Resource) => string,
 }
 export interface BuildOptions {
@@ -56,7 +56,7 @@ export interface MetadataEntry {
 export class Node {
   /** Add an ordering dependency on another construct.
   An `IDependable` */
-  readonly addDependency: (deps?: ((readonly (IDependable)[])) | undefined) => void;
+  readonly addDependency: (deps: (readonly (IDependable)[])) => void;
   /** Adds a metadata entry to this construct.
   Entries are arbitrary values and will also include a stack trace to allow tracing back to
   the code location for when the entry was added. It can be used, for example, to include source
@@ -211,8 +211,14 @@ export class Resource extends Construct implements IResource {
   actually bound. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
 }
+export interface LiftOptions {
+  readonly allow: (readonly (string)[]);
+  readonly id: string;
+}
 export interface LiftedSim {
+  readonly children?: (Readonly<Record<string, LiftedSim>>) | undefined;
   readonly handle: string;
+  readonly id: string;
   readonly path: string;
   readonly props?: (Readonly<any>) | undefined;
   readonly target: string;

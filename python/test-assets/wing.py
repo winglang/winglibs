@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 import json
 from typing import Optional, List
 import os
+import random
 
 class BucketClient_aws:
   def __init__(self, bucket_name: str, s3_client: boto3.client = None):
@@ -118,26 +119,58 @@ class DynamodbTableClient_sim(DynamodbTableClient_base):
       aws_secret_access_key=connection["clientConfig"]["credentials"]["secretAccessKey"],
     ))
   
+class PublishOptions:
+  TopicArn: str
+  Message: str
+  PhoneNumber: str
+  Subject: str
+  MessageAttributes: dict
+
+class SNSMobileClient_sim:
+  def __init__(self, store: BucketClient_sim):
+    self.store = store
+
+  def publish(self, **kwargs):
+    id = str(random.randint(10000000, 99999999))
+    self.store.put(id + "-" + kwargs["Subject"] or '', json.dumps(kwargs));
+    return {
+      "MessageId": id,
+    }
+  
+class SNSMobileClient_aws:
+  def __init__(self, client: boto3.client = None):
+    self.client = client or boto3.client('sns')
+
+  def publish(self, **kwargs):
+    return self.client.publish(**kwargs)
+
 def lifted(id: str):
   envValue = os.getenv(f"WING_CLIENTS")
   if envValue:
     jsonValue = json.loads(envValue)
     if id in jsonValue:
-      idValue = jsonValue[id]
-      target = idValue["target"]
-      if idValue["type"] == "cloud.Bucket":
-        if target == "aws":
-          return BucketClient_aws(idValue["bucketName"])
-        elif target == "sim":
-          return BucketClient_sim(idValue["handle"])
-      if idValue["type"] == "@winglibs.Dyanmodb.Table":
-        if target == "aws":
-          return DynamodbTableClient_aws(idValue["props"])
-        elif target == "sim":
-          return DynamodbTableClient_sim(idValue["props"])
+      return create_client(jsonValue[id])
       
   raise Exception(f"Client not found (id={id}).")
 
+def create_client(idValue: dict):
+  target = idValue["target"]
+  if idValue["type"] == "cloud.Bucket":
+    if target == "aws":
+      return BucketClient_aws(idValue["bucketName"])
+    elif target == "sim":
+      return BucketClient_sim(idValue["handle"])
+  if idValue["type"] == "@winglibs.dyanmodb.Table":
+    if target == "aws":
+      return DynamodbTableClient_aws(idValue["props"])
+    elif target == "sim":
+      return DynamodbTableClient_sim(idValue["props"])
+  if idValue["type"] == "@winglibs.sns.MobileClient":
+    if target == "aws":
+      return SNSMobileClient_aws(idValue["props"])
+    elif target == "sim":
+      return SNSMobileClient_sim(create_client(idValue["children"]["store"]))
+        
 def from_function_event(event):
   target = os.getenv(f"WING_TARGET")
   if target == "tf-aws":

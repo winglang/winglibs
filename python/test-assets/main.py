@@ -8,6 +8,13 @@ def handler(event, context):
   foo_env = os.getenv("FOO")
   payload = from_function_event(event)
   
+  mobile_client = lifted("sms")
+  mobile_client.publish(
+    Message="Hello from Python!",
+    Subject="Test Subject",
+    PhoneNumber="1234567890",
+  )
+
   table = lifted("table")
   response = table.get(Key={'id':{'S':"test"}})
   table_value = response.get("Item").get("body").get("S")

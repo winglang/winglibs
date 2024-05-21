@@ -68,9 +68,15 @@ module.exports.Function = class Function extends Construct {
       if (typeof client.tableName === "string" &&
           typeof client.connection === "object" ) {
         clients[clientId] = {
-          type: "@winglibs.Dyanmodb.Table",
+          type: "@winglibs.dyanmodb.Table",
           target: "aws",
           props: { connection: client.connection },
+        }
+      } else if (client.constructor?.name === "MobileClient") {
+        clients[clientId] = {
+          type: "@winglibs.sns.MobileClient",
+          target: "aws",
+          props: {},
         }
       }
     }

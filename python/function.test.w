@@ -3,6 +3,7 @@ bring http;
 bring expect;
 bring util;
 bring dynamodb;
+bring "./node_modules/@winglibs/sns/lib.w" as sns;
 bring "./lib.w" as python;
 
 let table = new dynamodb.Table(
@@ -15,9 +16,11 @@ let table = new dynamodb.Table(
   hashKey: "id",
 ) as "table1";
 
+let mobileClient = new sns.MobileClient();
 
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
+
 let func = new cloud.Function(new python.InflightFunction(
   path: "./test-assets",
   handler: "main.handler",
@@ -29,6 +32,10 @@ let func = new cloud.Function(new python.InflightFunction(
     "table": {
       obj: table,
       allow: ["get", "put"],
+    },
+    "sms": {
+      obj: mobileClient,
+      allow: ["publish"],
     },
   },
 ), { env: { "FOO": "bar" } });

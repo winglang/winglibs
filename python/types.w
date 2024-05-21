@@ -37,9 +37,11 @@ pub interface IApiOnRequest extends cloud.IApiEndpointHandler {
 }
 
 pub struct LiftedSim {
+  id: str;
   path: str;
   type: str;
   target: str;
   handle: str;
   props: Json?;
+  children: Map<LiftedSim>?;
 }
