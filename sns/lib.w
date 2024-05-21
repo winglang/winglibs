@@ -1,9 +1,10 @@
 bring util;
 bring "./types.w" as types;
 bring "./sim.w" as sim;
-bring "./tfaws.w" as tfaws;
+bring "./aws.w" as aws;
 
 /// MobileClient is a client for interacting with SNS mobile service.
+/// No cloud resources are created when using this class.
 /// When running the simulator in a non test environment, it will use the
 /// actual cloud implementation.
 pub class MobileClient impl types.IMobileClient {
@@ -14,10 +15,12 @@ pub class MobileClient impl types.IMobileClient {
       if std.Node.of(this).app.isTestEnvironment {
         this.inner = new sim.MobileClient();
       } else {
-        this.inner = new tfaws.MobileClient();  
+        this.inner = new aws.MobileClient();  
       }
     } elif target == "tf-aws" {
-      this.inner = new tfaws.MobileClient();
+      this.inner = new aws.MobileClient();
+    } elif target == "awscdk" {
+      this.inner = new aws.MobileClient();
     } else {
       throw "Unsupported target {target}";
     }

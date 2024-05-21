@@ -1,6 +1,6 @@
 # sns
 
-This library allows you to interact with the AWS SNS Service
+This library allows you to interact with the AWS SNS Service.
 
 ## Prerequisites
 
@@ -18,6 +18,10 @@ npm i @winglibs/sns
 bring sns;
 
 let client = new sns.MobileClient();
+
+test "sending an SMS" {
+  client.publish(PhoneNumber: "+14155552671", Message: "Hello");
+}
 ```
 
 ## License
