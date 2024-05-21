@@ -135,9 +135,11 @@ pub inflight class EventContext {
 /// Internally used for mocking event context
 pub inflight class EventContext_Mock extends EventContext {
   pub thread: Thread;
+  pub channel: Channel;
   new (rawContext: Json, botToken: str) {
-    super({}, "");
+    super(rawContext, "");
     let callBackEvent = events.CallBackEvent.fromJson(rawContext["event"]);
     this.thread = new Thread_Mock(callBackEvent.channel, callBackEvent.event_ts, botToken);
+    this.channel = new Channel_Mock(callBackEvent.channel, botToken);
   }
 }

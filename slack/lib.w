@@ -18,15 +18,15 @@ pub struct AppProps {
 
 
 pub class App {
-  api: cloud.Api;
-  eventHandlers: MutMap<inflight(context.EventContext, Json):void>;
+  pub api: cloud.Api;
+  eventHandlers: MutMap<inflight(context.EventContext, Json):Json?>;
   ignoreBots: bool;
   botToken: cloud.Secret;
 
   isTest: bool;
 
   new(props: AppProps) {
-    this.eventHandlers = MutMap<inflight (context.EventContext, Json): void>{};
+    this.eventHandlers = MutMap<inflight (context.EventContext, Json): Json?>{};
     this.ignoreBots = props?.ignoreBots ?? true;
     this.botToken = props.botToken;
     this.api = new cloud.Api();
@@ -52,18 +52,24 @@ pub class App {
 
       if eventRequest.type == "event_callback" {
         let callBackEvent = events.CallBackEvent.fromJson(Json.parse(req.body!)["event"]);
-
         if this.ignoreBots {
           if callBackEvent.bot_id != nil  || callBackEvent.app_id != nil {
             return {};
           }
         }
+
         if let handler = this.eventHandlers.tryGet(callBackEvent.type) {
           if this.isTest {
-            handler(new context.EventContext_Mock(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+            return {
+              status: 200,
+              body: Json.stringify(handler(new context.EventContext_Mock(Json.parse(req.body!), ""), Json.parse(req.body!)))
+            };
           } else {
             // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
-            handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+            return {
+              status: 200,
+              body: Json.stringify(handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!)))
+            };
           }
         }
       }
@@ -71,7 +77,7 @@ pub class App {
   }
 
   /// Register an event handler
-  pub onEvent(eventName: str, handler: inflight(context.EventContext, Json): void) {
+  pub onEvent(eventName: str, handler: inflight(context.EventContext, Json): Json?) {
     this.eventHandlers.set(eventName, handler);
   }
 

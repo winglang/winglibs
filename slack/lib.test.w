@@ -1,10 +1,46 @@
 bring cloud;
 bring expect;
+bring http;
 bring "./lib.w" as slack;
 bring "./message.w" as msg;
+bring "./events.w" as events;
 
 let token = new cloud.Secret();
 let app = new slack.App(botToken: token);
+
+app.onEvent("app_mention", inflight (ctx, event) => {
+  // Have the call just return the response from posting to thread (for testing)
+  let res = ctx.thread.post("message");
+  return res;
+});
+
+test "app_mention event" {
+  let endpoint = app.api.url;
+  let callbackEvent: events.CallBackEvent = {
+    user: "FakeUser",
+    type: "app_mention",
+    ts: "00000000",
+    team: "FakeTeam",
+    event_ts: "0000000",
+    channel: "FakeChannel"
+  };
+
+  let slackEvent = {
+    type: "event_callback",
+    event: callbackEvent
+  };
+
+  let res = http.post("{endpoint}/slack/events", {
+    body: Json.stringify(slackEvent)
+  });
+  
+  expect.equal(Json.parse(res.body), 
+    {
+      status: 200,
+      body: "Totally sent that string to the thread :)"
+    }
+  );
+}
 
 test "test sending plain text to channel" {
   let channel = app.channel("ABC123");
