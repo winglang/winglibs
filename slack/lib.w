@@ -23,15 +23,20 @@ pub class App {
   ignoreBots: bool;
   botToken: cloud.Secret;
 
+  isTest: bool;
+
   new(props: AppProps) {
     this.eventHandlers = MutMap<inflight (context.EventContext, Json): void>{};
     this.ignoreBots = props?.ignoreBots ?? true;
     this.botToken = props.botToken;
     this.api = new cloud.Api();
 
-    if util.env("WING_TARGET") == "tf-aws" {
+    let target = util.env("WING_TARGET");
+    if target == "tf-aws" {
       new cdktf.TerraformOutput(value: "{this.api.url}/slack/events", description: "Slack Request URL") as "Slack_Request_Url";
     }
+
+    this.isTest = nodeof(this).app.isTestEnvironment;
 
     this.api.post("/slack/events", inflight (req) => {
       let eventRequest = events.SlackEvent.parseJson(req.body!);
@@ -54,8 +59,12 @@ pub class App {
           }
         }
         if let handler = this.eventHandlers.tryGet(callBackEvent.type) {
-          // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
-          handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+          if this.isTest {
+            handler(new context.EventContext_Mock(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+          } else {
+            // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
+            handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!));
+          }
         }
       }
     });
@@ -68,6 +77,9 @@ pub class App {
 
   /// Retrieve a channel object from a channel Id
   pub inflight channel(channelId: str): context.Channel {
+    if this.isTest {
+      return new context.Channel_Mock(channelId, "");
+    }
     return new context.Channel(channelId, this.botToken.value());
   }
 }

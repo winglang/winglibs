@@ -4,8 +4,8 @@ bring "./events.w" as events;
 
 /// The bahvioral interface of a thread
 pub inflight interface IThread {
-  inflight postMessage(message: msg.Message): void;
-  inflight post(message: str): void;
+  inflight postMessage(message: msg.Message): Json;
+  inflight post(message: str): Json;
 }
 
 /// Represents the context of a slack channel
@@ -20,8 +20,8 @@ pub inflight class Channel impl IThread {
   }
 
   /// Post a message block to a channel
-  pub inflight postMessage(message: msg.Message): void {
-    helpers.SlackUtils.post(
+  pub inflight postMessage(message: msg.Message): Json {
+    return helpers.SlackUtils.post(
       {
         channel: this.id,
         blocks: message.toJson(),
@@ -31,8 +31,8 @@ pub inflight class Channel impl IThread {
   }
 
   /// Post raw text to a channel
-  pub inflight post(message: str): void {
-    helpers.SlackUtils.post(
+  pub inflight post(message: str): Json {
+    return helpers.SlackUtils.post(
       {
         channel: this.id,
         text: message
@@ -57,8 +57,8 @@ pub inflight class Thread impl IThread {
   }
 
   /// Post a message to a thread
-  pub inflight postMessage(message: msg.Message) {
-    helpers.SlackUtils.post(
+  pub inflight postMessage(message: msg.Message): Json {
+    return helpers.SlackUtils.post(
       {
         channel: this.channel.id,
         thread_ts: this.timestamp,
@@ -69,8 +69,8 @@ pub inflight class Thread impl IThread {
   } 
 
   /// Post raw text to a thread
-  pub inflight post(message: str) {
-    helpers.SlackUtils.post(
+  pub inflight post(message: str): Json {
+    return helpers.SlackUtils.post(
       {
         channel: this.channel.id,
         thread_ts: this.timestamp,
@@ -78,6 +78,46 @@ pub inflight class Thread impl IThread {
       },
       this.botToken
     );
+  }
+}
+
+pub inflight class Channel_Mock extends Channel {
+  new(channel: str, botToken: str) {
+    super(channel, botToken);
+  }
+
+  pub inflight post(message: str): Json {
+    return {
+      status: 200,
+      body: "Totally sent that string to the channel: {this.id} :)"
+    };
+  }
+
+  pub inflight postMessage(message: msg.Message): Json {
+    return {
+      status: 200,
+      body: "Totally sent that message to the channel: {this.id} :)"
+    };
+  }
+}
+
+pub inflight class Thread_Mock extends Thread {
+  new(channel: str, thread_ts: str, botToken: str) {
+    super(channel, thread_ts, botToken);
+  }
+
+  pub inflight post(message: str): Json {
+    return {
+      status: 200,
+      body: "Totally sent that string to the thread :)"
+    };
+  }
+
+  pub inflight postMessage(message: msg.Message): Json {
+    return {
+      status: 200,
+      body: "Totally sent that message to the thread :)"
+    };
   }
 }
 
@@ -89,5 +129,15 @@ pub inflight class EventContext {
     let callBackEvent = events.CallBackEvent.fromJson(rawContext["event"]);
     this.thread = new Thread(callBackEvent.channel, callBackEvent.event_ts, botToken);
     this.channel = new Channel(callBackEvent.channel, botToken);
+  }
+}
+
+/// Internally used for mocking event context
+pub inflight class EventContext_Mock extends EventContext {
+  pub thread: Thread;
+  new (rawContext: Json, botToken: str) {
+    super({}, "");
+    let callBackEvent = events.CallBackEvent.fromJson(rawContext["event"]);
+    this.thread = new Thread_Mock(callBackEvent.channel, callBackEvent.event_ts, botToken);
   }
 }

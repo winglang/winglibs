@@ -1,9 +1,9 @@
 bring http;
 
 pub class SlackUtils {
-  pub static inflight post(body: Json, botToken: str) {
+  pub static inflight post(body: Json, botToken: str): Json {
     let slackApi = "https://slack.com/api/chat.postMessage";
-    http.post(
+    return http.post(
       slackApi,
       headers: {
         Authorization: "Bearer {botToken}",
