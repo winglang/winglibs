@@ -3,7 +3,7 @@ bring http;
 bring expect;
 bring util;
 bring dynamodb;
-bring "./node_modules/@winglibs/sns/lib.w" as sns;
+bring sns;
 bring "./lib.w" as python;
 
 let table = new dynamodb.Table(

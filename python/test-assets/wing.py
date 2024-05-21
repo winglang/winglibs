@@ -118,13 +118,6 @@ class DynamodbTableClient_sim(DynamodbTableClient_base):
       aws_access_key_id=connection["clientConfig"]["credentials"]["accessKeyId"],
       aws_secret_access_key=connection["clientConfig"]["credentials"]["secretAccessKey"],
     ))
-  
-class PublishOptions:
-  TopicArn: str
-  Message: str
-  PhoneNumber: str
-  Subject: str
-  MessageAttributes: dict
 
 class SNSMobileClient_sim:
   def __init__(self, store: BucketClient_sim):
