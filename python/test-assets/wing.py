@@ -2,7 +2,7 @@ import requests
 import boto3
 from botocore.exceptions import ClientError
 import json
-from typing import Optional, List
+from typing import Optional, List, TypedDict
 import os
 import random
 
@@ -91,8 +91,21 @@ class BucketClient_sim (SimClient):
     result = self.make_request("get", [key, options])
     return result
 
+class Credentials(TypedDict):
+  accessKeyId: str
+  secretAccessKey: str
+
+class ClientConfig(TypedDict):
+  region: str
+  endpoint: str
+  credentials: Credentials
+
+class Connection(TypedDict):
+  tableName: str
+  clientConfig: ClientConfig
+
 class DynamodbTableClient_base:
-  def __init__(self, connection: dict, dynamodb_client: boto3.client):
+  def __init__(self, connection: Connection, dynamodb_client: boto3.client):
     self.table_name = connection["tableName"]
     self.connection = connection
     self.dynamodb_client = dynamodb_client or boto3.client('dynamodb')
@@ -102,15 +115,18 @@ class DynamodbTableClient_base:
 
   def put(self, **kwargs):
     return self.dynamodb_client.put_item(TableName=self.table_name, **kwargs)
+  
+  def read_write_connection(self):
+    return self.connection
 
 class DynamodbTableClient_aws(DynamodbTableClient_base):
   def __init__(self, props: dict):
-    connection = props["connection"]
+    connection: Connection = props["connection"]
     super().__init__(connection, boto3.client('dynamodb'))
   
 class DynamodbTableClient_sim(DynamodbTableClient_base):
   def __init__(self, props: dict):
-    connection = props["connection"]
+    connection: Connection = props["connection"]
     super().__init__(connection, boto3.client(
       'dynamodb', 
       region_name=connection["clientConfig"]["region"],
