@@ -126,7 +126,7 @@ pub class InflightApiEndpointHandler impl cloud.IApiEndpointHandler {
     if target == "sim" {
       this.inner = new simapi.InflightApiEndpointHandler(props);
     } elif target == "tf-aws" {
-      this.inner = new tfawsapi.Inflight_tfaws(props);
+      this.inner = new tfawsapi.InflightApiEndpointHandler_aws(props);
     } else {
       throw "Unsupported target ${target}";
     }
