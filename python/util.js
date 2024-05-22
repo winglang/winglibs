@@ -117,6 +117,31 @@ const getLifted = (resource, id) => {
         props: {},
       }
     }
+  } else if (resource.constructor?.name === "EmailService") {
+    if (App.of(resource).isTestEnvironment) {
+      lifted = {
+        id,
+        path: resource.node.path,
+        handle: makeEnvVarName("EMAIL_SERVICE", resource),
+        type: "@winglibs.ses.EmailService",
+        target: "sim",
+        resource,
+        props: {},
+        children: {
+          store: getLifted(resource.inner.store, "store"),
+        }
+      }
+    } else {
+      lifted = {
+        id,
+        path: resource.node.path,
+        handle: makeEnvVarName("EMAIL_SERVICE", resource),
+        type: "@winglibs.ses.EmailService",
+        target: "aws",
+        resource,
+        props: {},
+      }
+    }
   }
   
   return lifted;

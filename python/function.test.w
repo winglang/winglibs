@@ -4,6 +4,7 @@ bring expect;
 bring util;
 bring dynamodb;
 bring sns;
+bring ses;
 bring "./lib.w" as python;
 
 let table = new dynamodb.Table(
@@ -15,9 +16,8 @@ let table = new dynamodb.Table(
   ],
   hashKey: "id",
 ) as "table1";
-
+let emailClient = new ses.EmailService({});
 let mobileClient = new sns.MobileClient();
-
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
 
@@ -36,6 +36,10 @@ let func = new cloud.Function(new python.InflightFunction(
     "sms": {
       obj: mobileClient,
       allow: ["publish"],
+    },
+    "email": {
+      obj: emailClient,
+      allow: ["sendEmail"],
     },
   },
 ), { env: { "FOO": "bar" } });

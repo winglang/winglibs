@@ -78,6 +78,12 @@ module.exports.Function = class Function extends Construct {
           target: "aws",
           props: {},
         }
+      } else if (client.constructor?.name === "EmailService") {
+        clients[clientId] = {
+          type: "@winglibs.ses.EmailService",
+          target: "aws",
+          props: {},
+        }
       }
     }
 

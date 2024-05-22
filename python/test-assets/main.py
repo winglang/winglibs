@@ -8,6 +8,9 @@ def handler(event, context):
   foo_env = os.getenv("FOO")
   payload = from_function_event(event)
   
+  email_client = lifted("email")
+  email_client.send_email(Source="bot@wing.cloud", Destination={'ToAddresses': ['bot@monada.co',],},Message={'Subject': {'Data': 'Winglang Test Email!',},'Body': {'Text': {'Data': 'Hello from Python!',},}},)
+
   mobile_client = lifted("sms")
   mobile_client.publish(
     Message="Hello from Python!",

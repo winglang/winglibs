@@ -23,6 +23,7 @@
     "@cdktf/provider-aws": "^19.13.0",
     "@smithy/util-utf8": "^2.3.0",
     "@winglibs/dynamodb": "^0.1.7",
+    "@winglibs/ses": "^0.0.1",
     "@winglibs/sns": "^0.0.2",
     "cdktf": "^0.20.6",
     "glob": "^10.3.12"

@@ -125,7 +125,7 @@ class SNSMobileClient_sim:
 
   def publish(self, **kwargs):
     id = str(random.randint(10000000, 99999999))
-    self.store.put(id + "-" + kwargs["Subject"] or '', json.dumps(kwargs));
+    self.store.put(id, json.dumps(kwargs));
     return {
       "MessageId": id,
     }
@@ -136,6 +136,30 @@ class SNSMobileClient_aws:
 
   def publish(self, **kwargs):
     return self.client.publish(**kwargs)
+  
+class SESEmailService_sim:
+  def __init__(self, store: BucketClient_sim):
+    self.store = store
+
+  def send_email(self, **kwargs):
+    id = str(random.randint(10000000, 99999999))
+    self.store.put(id, json.dumps(kwargs));
+    return id
+  
+  def send_raw_email(self, **kwargs):
+    id = str(random.randint(10000000, 99999999))
+    self.store.put(id, json.dumps(kwargs));
+    return id
+  
+class SESEmailService_aws:
+  def __init__(self, client: boto3.client = None):
+    self.client = client or boto3.client('ses')
+
+  def send_email(self, **kwargs):
+    return self.client.send_email(**kwargs)
+  
+  def send_raw_email(self, **kwargs):
+    return self.client.send_raw_email(**kwargs)
 
 def lifted(id: str):
   envValue = os.getenv(f"WING_CLIENTS")
@@ -163,6 +187,11 @@ def create_client(idValue: dict):
       return SNSMobileClient_aws(idValue["props"])
     elif target == "sim":
       return SNSMobileClient_sim(create_client(idValue["children"]["store"]))
+  if idValue["type"] == "@winglibs.ses.EmailService":
+    if target == "aws":
+      return SESEmailService_aws(idValue["props"])
+    elif target == "sim":
+      return SESEmailService_sim(create_client(idValue["children"]["store"]))
         
 def from_function_event(event):
   target = os.getenv(f"WING_TARGET")
