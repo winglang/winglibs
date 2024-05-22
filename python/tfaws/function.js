@@ -44,6 +44,15 @@ module.exports.Function = class Function extends Construct {
       path: outdir,
       type: cdktf.AssetType.ARCHIVE
     });
+    const bucket = App.of(this).codeBucket;
+    const objectKey = `asset.${this.node.addr}.${asset.assetHash}.zip`;
+
+    // Upload Lambda zip file to newly created S3 bucket
+    const lambdaArchive = new awsProvider.s3Object.S3Object(this, "S3Object", {
+      bucket: bucket.bucket,
+      key: objectKey,
+      source: asset.path,
+    });
 
     const roleArn = this.dummy.role.arn;
     const roleName = this.dummy.role.name;
@@ -116,8 +125,8 @@ module.exports.Function = class Function extends Construct {
       role: roleArn,
       handler: inflight.inner.props.handler,
       runtime: "python3.11",
-      filename: asset.path,
-      sourceCodeHash: asset.assetHash,
+      s3Bucket: bucket.bucket,
+      s3Key: lambdaArchive.key,
       timeout: props.timeout
         ? props.timeout.seconds
         : Duration.fromMinutes(1).seconds,
