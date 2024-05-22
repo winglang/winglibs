@@ -80,7 +80,7 @@ wing secrets -t tf-aws
 
 When prompted, paste the Bot User OAuth Token you copied earlier.
 
-Next lets run the following command to deploy our app to AWS.
+Next, let's run the following command to deploy our app to AWS.
 
 ```sh
 wing compile -t tf-aws
