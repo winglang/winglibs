@@ -2,7 +2,7 @@ pub struct SlackEvent {
   type: str;
 }
 
-pub struct CallBackEvent {
+pub struct CallbackEvent {
   user: str;
   type: str;
   ts: str;
@@ -13,7 +13,7 @@ pub struct CallBackEvent {
   app_id: str?;
 }
 
-pub struct MessageCallBackEvent extends CallBackEvent {
+pub struct MessageCallbackEvent extends CallbackEvent {
   text: str;
 }
 

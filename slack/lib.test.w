@@ -16,7 +16,7 @@ app.onEvent("app_mention", inflight (ctx, event) => {
 
 test "app_mention event" {
   let endpoint = app.api.url;
-  let callbackEvent: events.CallBackEvent = {
+  let callbackEvent: events.CallbackEvent = {
     user: "FakeUser",
     type: "app_mention",
     ts: "00000000",

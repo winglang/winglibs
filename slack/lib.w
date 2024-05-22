@@ -51,7 +51,7 @@ pub class App {
       }
 
       if eventRequest.type == "event_callback" {
-        let callBackEvent = events.CallBackEvent.fromJson(Json.parse(req.body!)["event"]);
+        let callBackEvent = events.CallbackEvent.fromJson(Json.parse(req.body!)["event"]);
         if this.ignoreBots {
           if callBackEvent.bot_id != nil  || callBackEvent.app_id != nil {
             return {};
@@ -59,16 +59,17 @@ pub class App {
         }
 
         if let handler = this.eventHandlers.tryGet(callBackEvent.type) {
+          let event = Json.parse(req.body!);
           if this.isTest {
             return {
               status: 200,
-              body: Json.stringify(handler(new context.EventContext_Mock(Json.parse(req.body!), ""), Json.parse(req.body!)))
+              body: Json.stringify(handler(new context.EventContext_Mock(event, ""), event))
             };
           } else {
             // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
             return {
               status: 200,
-              body: Json.stringify(handler(new context.EventContext(Json.parse(req.body!), this.botToken.value()), Json.parse(req.body!)))
+              body: Json.stringify(handler(new context.EventContext(event, this.botToken.value()), event))
             };
           }
         }

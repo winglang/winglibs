@@ -126,7 +126,7 @@ pub inflight class EventContext {
   pub thread: Thread;
   pub channel: Channel;
   new (rawContext: Json, botToken: str) {
-    let callBackEvent = events.CallBackEvent.fromJson(rawContext["event"]);
+    let callBackEvent = events.CallbackEvent.fromJson(rawContext["event"]);
     this.thread = new Thread(callBackEvent.channel, callBackEvent.event_ts, botToken);
     this.channel = new Channel(callBackEvent.channel, botToken);
   }
@@ -138,7 +138,7 @@ pub inflight class EventContext_Mock extends EventContext {
   pub channel: Channel;
   new (rawContext: Json, botToken: str) {
     super(rawContext, "");
-    let callBackEvent = events.CallBackEvent.fromJson(rawContext["event"]);
+    let callBackEvent = events.CallbackEvent.fromJson(rawContext["event"]);
     this.thread = new Thread_Mock(callBackEvent.channel, callBackEvent.event_ts, botToken);
     this.channel = new Channel_Mock(callBackEvent.channel, botToken);
   }
