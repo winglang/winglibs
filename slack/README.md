@@ -89,7 +89,7 @@ terraform -chdir=target/main.tfaws apply
 ```
 
 
-After compiling and deploying your app using `tf-aws` you there will be an endpoint called `Slack_Request_Url` that is part of the terraform output. The URL should end with `/slack/events`. It will look somehting like this:
+After compiling and deploying your app using `tf-aws` you there will be an endpoint called `Slack_Request_Url` that is part of the terraform output. The URL should end with `/slack/events`. It will look something like this:
 
 ```sh
 Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
