@@ -13,14 +13,14 @@ pub class MobileClient impl types.IMobileClient {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       if std.Node.of(this).app.isTestEnvironment {
-        this.inner = new sim.MobileClient();
+        this.inner = new sim.MobileClient_sim();
       } else {
-        this.inner = new aws.MobileClient();  
+        this.inner = new aws.MobileClient_aws();  
       }
     } elif target == "tf-aws" {
-      this.inner = new aws.MobileClient();
+      this.inner = new aws.MobileClient_aws();
     } elif target == "awscdk" {
-      this.inner = new aws.MobileClient();
+      this.inner = new aws.MobileClient_aws();
     } else {
       throw "Unsupported target {target}";
     }
