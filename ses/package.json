@@ -1,0 +1,25 @@
+{
+  "name": "@winglibs/ses",
+  "description": "Wing library for interacting with AWS SES",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "ses"
+  },
+  "author": {
+    "name": "Elad Cohen",
+    "email": "eladc@wing.cloud"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@aws-sdk/client-ses": "^3.572.0",
+    "@cdktf/provider-aws": "^19.17.0"
+  }
+}
