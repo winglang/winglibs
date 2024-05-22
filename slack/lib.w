@@ -10,8 +10,8 @@ bring ui;
 
 /// Properties for Slack bot
 pub struct AppProps {
-  /// The bot token secret to use for the app
-  botToken: cloud.Secret;
+  /// The token secret to use for the app
+  token: cloud.Secret;
   /// Whether events from bot users should be ignored (default: true)
   ignoreBots: bool?;
 }
@@ -21,14 +21,14 @@ pub class App {
   pub api: cloud.Api;
   eventHandlers: MutMap<inflight(context.EventContext, Json):Json?>;
   ignoreBots: bool;
-  botToken: cloud.Secret;
+  token: cloud.Secret;
 
   isTest: bool;
 
   new(props: AppProps) {
     this.eventHandlers = MutMap<inflight (context.EventContext, Json): Json?>{};
     this.ignoreBots = props?.ignoreBots ?? true;
-    this.botToken = props.botToken;
+    this.token = props.token;
     this.api = new cloud.Api();
 
     let target = util.env("WING_TARGET");
@@ -69,7 +69,7 @@ pub class App {
             // TODO: pass bot token as cloud.Secret rather than str once: https://github.com/winglang/winglibs/pull/229 is complete
             return {
               status: 200,
-              body: Json.stringify(handler(new context.EventContext(event, this.botToken.value()), event))
+              body: Json.stringify(handler(new context.EventContext(event, this.token.value()), event))
             };
           }
         }
@@ -82,11 +82,11 @@ pub class App {
     this.eventHandlers.set(eventName, handler);
   }
 
-  /// Retrieve a channel object from a channel Id
-  pub inflight channel(channelId: str): context.Channel {
+  /// Retrieve a channel object from a channel Id or name
+  pub inflight channel(id: str): context.Channel {
     if this.isTest {
-      return new context.Channel_Mock(channelId, "");
+      return new context.MockChannel(id, "");
     }
-    return new context.Channel(channelId, this.botToken.value());
+    return new context.Channel(id, this.token.value());
   }
 }

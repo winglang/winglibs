@@ -4,19 +4,19 @@ bring "./events.w" as events;
 
 /// The bahvioral interface of a thread
 pub inflight interface IThread {
-  inflight postMessage(message: msg.Message): Json;
-  inflight post(message: str): Json;
+  postMessage(message: msg.Message): Json;
+  post(message: str): Json;
 }
 
 /// Represents the context of a slack channel
 pub inflight class Channel impl IThread {
   /// The channel id
   pub id: str;
-  botToken: str;
+  token: str;
   
-  new (channel: str, botToken: str) {
+  new(channel: str, token: str) {
     this.id = channel;
-    this.botToken = botToken;
+    this.token = token;
   }
 
   /// Post a message block to a channel
@@ -26,7 +26,7 @@ pub inflight class Channel impl IThread {
         channel: this.id,
         blocks: message.toJson(),
       },
-      this.botToken
+      this.token
     );
   }
 
@@ -37,7 +37,7 @@ pub inflight class Channel impl IThread {
         channel: this.id,
         text: message
       },
-      this.botToken
+      this.token
     );
   }
 }
@@ -48,12 +48,12 @@ pub inflight class Thread impl IThread {
   pub channel: Channel;
   /// The thread timestamp
   pub timestamp: str;
-  botToken: str;
+  token: str;
 
-  new(channel: str, thread_ts: str, botToken: str) {
-    this.channel = new Channel(channel, botToken);
+  new(channel: str, thread_ts: str, token: str) {
+    this.channel = new Channel(channel, token);
     this.timestamp = thread_ts;
-    this.botToken = botToken;
+    this.token = token;
   }
 
   /// Post a message to a thread
@@ -64,7 +64,7 @@ pub inflight class Thread impl IThread {
         thread_ts: this.timestamp,
         blocks: message.toJson()
       },
-      this.botToken
+      this.token
     );
   } 
 
@@ -76,14 +76,15 @@ pub inflight class Thread impl IThread {
         thread_ts: this.timestamp,
         text: message
       },
-      this.botToken
+      this.token
     );
   }
 }
 
-pub inflight class Channel_Mock extends Channel {
-  new(channel: str, botToken: str) {
-    super(channel, botToken);
+/// Only used for internal testing
+pub inflight class MockChannel extends Channel {
+  new(channel: str, token: str) {
+    super(channel, token);
   }
 
   pub inflight post(message: str): Json {
@@ -101,9 +102,10 @@ pub inflight class Channel_Mock extends Channel {
   }
 }
 
-pub inflight class Thread_Mock extends Thread {
-  new(channel: str, thread_ts: str, botToken: str) {
-    super(channel, thread_ts, botToken);
+/// Only used for internal testing
+inflight class MockThread extends Thread {
+  new(channel: str, thread_ts: str, token: str) {
+    super(channel, thread_ts, token);
   }
 
   pub inflight post(message: str): Json {
@@ -125,10 +127,10 @@ pub inflight class Thread_Mock extends Thread {
 pub inflight class EventContext {
   pub thread: Thread;
   pub channel: Channel;
-  new (rawContext: Json, botToken: str) {
+  new(rawContext: Json, token: str) {
     let callBackEvent = events.CallbackEvent.fromJson(rawContext["event"]);
-    this.thread = new Thread(callBackEvent.channel, callBackEvent.event_ts, botToken);
-    this.channel = new Channel(callBackEvent.channel, botToken);
+    this.thread = new Thread(callBackEvent.channel, callBackEvent.event_ts, token);
+    this.channel = new Channel(callBackEvent.channel, token);
   }
 }
 
@@ -136,10 +138,10 @@ pub inflight class EventContext {
 pub inflight class EventContext_Mock extends EventContext {
   pub thread: Thread;
   pub channel: Channel;
-  new (rawContext: Json, botToken: str) {
+  new(rawContext: Json, token: str) {
     super(rawContext, "");
     let callBackEvent = events.CallbackEvent.fromJson(rawContext["event"]);
-    this.thread = new Thread_Mock(callBackEvent.channel, callBackEvent.event_ts, botToken);
-    this.channel = new Channel_Mock(callBackEvent.channel, botToken);
+    this.thread = new MockThread(callBackEvent.channel, callBackEvent.event_ts, token);
+    this.channel = new MockChannel(callBackEvent.channel, token);
   }
 }

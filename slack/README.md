@@ -23,6 +23,9 @@ let myBotToken = new cloud.Secret(name: "mybot_token");
 
 let slackbot = new slack.App(botToken: myBotToken);
 
+/// When registering events, the inflight function will be called with the context and event
+/// The `ctx` is a reference to the context of the event, and provides client methods to interact with channels, threads, etc..
+/// The `event` is the raw Json event data from Slack and can be used to extract information from the event
 slackbot.onEvent("app_mention", inflight (ctx, event) => {
   let message = new slack.Message();
   message.addSection({
@@ -114,7 +117,7 @@ bring cloud;
 let slackbot = new slack.Slackbot();
 
 let postMessage = new cloud.Function(inflight () => {
-  let channel = slackbot.getChannel("C072T52EZ3Q");
+  let channel = slackbot.getChannel("NAME|ID");
 
   channel.postText("hello world!");
 });

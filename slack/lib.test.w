@@ -6,7 +6,7 @@ bring "./message.w" as msg;
 bring "./events.w" as events;
 
 let token = new cloud.Secret();
-let app = new slack.App(botToken: token);
+let app = new slack.App(token: token);
 
 app.onEvent("app_mention", inflight (ctx, event) => {
   // Have the call just return the response from posting to thread (for testing)
