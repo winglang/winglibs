@@ -32,6 +32,7 @@ publishing them for you.
 | [react](./react) | [@winglibs/react](https://www.npmjs.com/package/@winglibs/react) | sim, tf-aws |
 | [redis](./redis) | [@winglibs/redis](https://www.npmjs.com/package/@winglibs/redis) | sim |
 | [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
+| [ses](./ses) | [@winglibs/ses](https://www.npmjs.com/package/@winglibs/ses) | sim, tf-aws |
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
 | [slack](./slack) | [@winglibs/slack](https://www.npmjs.com/package/@winglibs/slack) | sim, tf-aws |
 | [sns](./sns) | [@winglibs/sns](https://www.npmjs.com/package/@winglibs/sns) | awscdk, sim, tf-aws |

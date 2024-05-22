@@ -3,7 +3,7 @@ bring util;
 bring "../types.w" as types;
 bring "./inflight.w" as inflyght;
 
-pub class Inflight_tfaws extends inflyght.Inflight_tfaws impl types.IApiOnRequest {
+pub class InflightApiEndpointHandler_aws extends inflyght.Inflight_tfaws impl types.IApiOnRequest {
   new(props: types.InflightProps) {
     super(props);
   }
