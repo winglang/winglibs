@@ -11,10 +11,11 @@ This library allows using Slack with Wing.
 - Direct Channel Messages
 
 ### Unsupported Features (TODO)
+- Distribution Management
 - Interactive Components
 - Slash Commands
 - Workflows
-- Incomming Webhooks
+- Incoming Webhooks
 
 ## Installation
 
