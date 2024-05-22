@@ -77,7 +77,7 @@ pub class App {
     });
   }
 
-  /// Register an event handler
+  /// Register an event handler (for available events see: https://api.slack.com/events)
   pub onEvent(eventName: str, handler: inflight(context.EventContext, Json): Json?) {
     this.eventHandlers.set(eventName, handler);
   }
