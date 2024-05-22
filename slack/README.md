@@ -6,6 +6,16 @@ This library allows using Slack with Wing.
 
 * [winglang](https://winglang.io)
 
+## Supported Features
+- Events
+- Direct Channel Messages
+
+### Unsupported Features (TODO)
+- Interactive Components
+- Slash Commands
+- Workflows
+- Incomming Webhooks
+
 ## Installation
 
 Use `npm` to install this library:
