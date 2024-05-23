@@ -46,6 +46,7 @@ jobs:
             sagemaker
             ses
             simtools
+            slack
             sns
             tf
             tsoa
