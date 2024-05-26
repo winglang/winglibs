@@ -177,6 +177,12 @@ class SESEmailService_aws:
   def send_raw_email(self, **kwargs):
     return self.client.send_raw_email(**kwargs)
 
+def try_lifted(id: str):
+  try:
+    return lifted(id)
+  except Exception as e:
+    return None
+
 def lifted(id: str):
   envValue = os.getenv(f"WING_CLIENTS")
   if envValue:
