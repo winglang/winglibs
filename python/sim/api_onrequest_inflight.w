@@ -11,13 +11,15 @@ pub class InflightApiEndpointHandler extends inflyght.Inflight impl cloud.IApiEn
     let response = this._handle(Json.stringify(req));
     if let res = Json.tryParse(response) {
       let headers = MutMap<str>{};
-      for entry in Json.entries(res["headers"]) {
-        headers.set(entry.key, entry.value.asStr());
+      if let h = res.tryGet("headers") {
+        for entry in Json.entries(h) {
+          headers.set(entry.key, entry.value.asStr());
+        }
       }
       return {
-        status: res["statusCode"].asNum(),
+        status: res.tryGet("statusCode")?.tryAsNum(),
         headers: headers.copy(),
-        body: res["body"].tryAsStr(),
+        body: res.tryGet("body")?.tryAsStr(),
       };
     } else {
       return nil;

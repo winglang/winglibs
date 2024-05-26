@@ -9,7 +9,7 @@ let api = new cloud.Api();
 api.get("/test", new python.InflightApiEndpointHandler(
   path: "./test-assets",
   handler: "main.api_handler",
-).lift(bucket, id: "bucket", allow: ["put"]));
+).lift(bucket, id: "bucket", allow: ["put"]), env: { FOO: "bar" });
 
 test "invokes api handler" {
   let res = http.get("{api.url}/test");
@@ -17,6 +17,7 @@ test "invokes api handler" {
   expect.equal(res.status, 200);
   expect.equal(res.body, "Hello from Api Handler!");
   expect.equal(res.headers["header1"], "value1");
+  expect.equal(res.headers["foo"], "bar");
 
   util.waitUntil(inflight () => {
     return bucket.exists("/test");

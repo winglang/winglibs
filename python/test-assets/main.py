@@ -77,6 +77,8 @@ def api_handler(event, context):
   print(event)
   print(context)
 
+  foo = os.environ["FOO"]
+
   req = from_api_event(event)
   client_put = lifted("bucket")
   client_put.put(req.path, req.toJSON())
@@ -85,6 +87,7 @@ def api_handler(event, context):
     "status": 200,
     "body": "Hello from Api Handler!",
     "headers": {
-      "header1": "value1"
+      "header1": "value1",
+      "foo": foo
     }
   })
