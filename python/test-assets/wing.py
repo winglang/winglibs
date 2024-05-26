@@ -259,7 +259,7 @@ def from_bucket_event(event):
   else:
     raise Exception(f"Unsupported target: {target}")
 
-class ApiRequest:
+class ApiRequest(TypedDict):
   method: str
   path: str
   query: dict
@@ -277,23 +277,25 @@ class ApiRequest:
 def from_api_event(event):
   target = os.getenv(f"WING_TARGET")
   if target == "tf-aws":
-    req = ApiRequest()
-    req.method = event["httpMethod"]
-    req.path = event["path"]
-    req.query = event["queryStringParameters"]
-    req.headers = event["headers"]
-    req.body = event["body"]
-    req.vars = event["pathParameters"]
+    req: ApiRequest = {
+      'method': event["httpMethod"],
+      'path': event["path"],
+      'query': event["queryStringParameters"],
+      'headers': event["headers"],
+      'body': event["body"],
+      'vars': event["pathParameters"]
+    }
     return req
   elif target == "sim":
     data = event["payload"]
-    req = ApiRequest()
-    req.method = data["method"]
-    req.path = data["path"]
-    req.query = data["query"]
-    req.headers = data["headers"]
-    req.body = data["body"]
-    req.vars = data["vars"]
+    req: ApiRequest = {
+      'method': data["method"],
+      'path': data["path"],
+      'query': data["query"],
+      'headers': data["headers"],
+      'body': data["body"],
+      'vars': data["vars"]
+    }
     return req
   else:
     raise Exception(f"Unsupported target: {target}")
