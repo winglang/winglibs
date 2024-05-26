@@ -31,8 +31,6 @@ exports.build = (options) => {
   const requirementsPath = join(resolvedPath, "requirements.txt");
   if (existsSync(requirementsPath)) {
     cpSync(requirementsPath, join(outdir, "requirements.txt"));
-    // execSync(`docker run --rm -v ${outdir}:/var/task:rw,delegated --entrypoint python public.ecr.aws/lambda/python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
-    //   { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
     execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
       { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
     copyFiles(resolvedPath, join(outdir, "python"));
