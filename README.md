@@ -34,6 +34,7 @@ publishing them for you.
 | [sagemaker](./sagemaker) | [@winglibs/sagemaker](https://www.npmjs.com/package/@winglibs/sagemaker) | sim, tf-aws |
 | [ses](./ses) | [@winglibs/ses](https://www.npmjs.com/package/@winglibs/ses) | sim, tf-aws |
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
+| [slack](./slack) | [@winglibs/slack](https://www.npmjs.com/package/@winglibs/slack) | sim, tf-aws |
 | [sns](./sns) | [@winglibs/sns](https://www.npmjs.com/package/@winglibs/sns) | awscdk, sim, tf-aws |
 | [tf](./tf) | [@winglibs/tf](https://www.npmjs.com/package/@winglibs/tf) | sim, tf-aws |
 | [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
