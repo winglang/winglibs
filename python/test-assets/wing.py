@@ -273,13 +273,6 @@ class ApiRequest(TypedDict):
   body: str
   vars: dict
 
-  def toJSON(self):
-    return json.dumps(
-      self,
-      default=lambda o: o.__dict__, 
-      sort_keys=True,
-      indent=2)
-
 def from_api_event(event):
   target = os.getenv(f"WING_TARGET")
   if target == "tf-aws":

@@ -77,11 +77,11 @@ def api_handler(event, context):
   print(event)
   print(context)
 
-  foo = os.environ["FOO"]
+  foo = os.getenv("FOO")
 
   req = from_api_event(event)
   client_put = lifted("bucket")
-  client_put.put(req.path, req.toJSON())
+  client_put.put(req["path"], json.dumps(req))
 
   return from_api_response({
     "status": 200,
