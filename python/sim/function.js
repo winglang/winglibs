@@ -1,4 +1,4 @@
-const { App } = require("@winglang/sdk/lib/core/app.js");
+const { App } = require("@winglang/sdk/lib/core");
 
 module.exports.handleSimInflight = (inflight, props) => {
   for (let e in props.env) {

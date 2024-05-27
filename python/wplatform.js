@@ -16,9 +16,11 @@ const tryGetPythonInflight = (inflight) => {
     return inflight; 
   } else {
     // inflight was lifted to another inflight
-    const lifted = inflight._liftMap?.handle?.find(l => tryGetPythonInflight(l[0]));
-    if (lifted) {
-      return lifted[0];
+    for (let l of inflight._liftMap?.handle || []) {
+      const lifted = tryGetPythonInflight(l[0]);
+      if (lifted) {
+        return lifted;
+      }
     }
   }
 };
