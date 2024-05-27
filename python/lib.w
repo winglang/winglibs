@@ -16,7 +16,9 @@ pub class InflightFunction impl cloud.IFunctionHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.Inflight(props);
+      let implementation = new sim.Inflight(props);
+      nodeof(implementation).hidden = true;
+      this.inner = implementation;
     } elif target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
@@ -43,7 +45,9 @@ pub class InflightQueueConsumer impl cloud.IQueueSetConsumerHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.Inflight(props);
+      let implementation = new sim.Inflight(props);
+      nodeof(implementation).hidden = true;
+      this.inner = implementation;
     } elif target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
@@ -70,7 +74,9 @@ pub class InflightTopicOnMessage impl cloud.ITopicOnMessageHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.Inflight(props);
+      let implementation = new sim.Inflight(props);
+      nodeof(implementation).hidden = true;
+      this.inner = implementation;
     } elif target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
@@ -97,7 +103,9 @@ pub class InflightBucketEvent impl cloud.IBucketEventHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new sim.BucketEventInflight(props);
+      let implementation = new sim.BucketEventInflight(props);
+      nodeof(implementation).hidden = true;
+      this.inner = implementation;
     } elif target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
@@ -124,7 +132,9 @@ pub class InflightApiEndpointHandler impl cloud.IApiEndpointHandler {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      this.inner = new simapi.InflightApiEndpointHandler(props);
+      let implementation = new simapi.InflightApiEndpointHandler(props);
+      nodeof(implementation).hidden = true;
+      this.inner = implementation;
     } elif target == "tf-aws" {
       this.inner = new tfawsapi.InflightApiEndpointHandler_aws(props);
     } else {

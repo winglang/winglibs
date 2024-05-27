@@ -4,6 +4,7 @@ const { execSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
+const { Node } = require("@winglang/sdk/lib/std");
 
 exports.dirname = () => __dirname;
 
@@ -50,6 +51,13 @@ exports.liftSim = (resource, options, host, clients, wingClients) => {
 
   if (lifted) {
     Lifting.lift(resource, host, options.allow);
+    for (let op of options.allow) {
+      Node.of(resource).addConnection({
+        name: op.endsWith("()") ? op : `${op}()`,
+        source: host,
+        target: resource,
+      });
+    }
     clients[options.id] = lifted;
   }
 };
