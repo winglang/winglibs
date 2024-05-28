@@ -19,8 +19,8 @@ def handler(event, context):
   )
 
   table = lifted("table")
-  response = table.get(Key={'id':{'S':"test"}})
-  table_value = response.get("Item").get("body").get("S")
+  response = table.get(Key={"id":"test"})
+  table_value = response["Item"]["body"]
 
   bucket = lifted("bucket")
   value = bucket.get("test.txt")

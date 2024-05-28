@@ -2,7 +2,7 @@ import requests
 import boto3
 from botocore.exceptions import ClientError
 import json
-from typing import Optional, List, TypedDict
+from typing import Optional, List, TypedDict, Any
 import os
 import random
 
@@ -105,16 +105,17 @@ class Connection(TypedDict):
   clientConfig: ClientConfig
 
 class DynamodbTableClient_base:
-  def __init__(self, connection: Connection, dynamodb_client: boto3.client):
+  def __init__(self, connection: Connection, resource: boto3.resource = None):
     self.table_name = connection["tableName"]
     self.connection = connection
-    self.dynamodb_client = dynamodb_client or boto3.client('dynamodb')
+    self.resource = resource or boto3.resource('dynamodb')
+    self.table = self.resource.Table(self.table_name)
 
   def get(self, **kwargs):
-    return self.dynamodb_client.get_item(TableName=self.table_name, **kwargs)
+    return self.table.get_item(**kwargs)
 
   def put(self, **kwargs):
-    return self.dynamodb_client.put_item(TableName=self.table_name, **kwargs)
+    return self.table.put_item(**kwargs)
   
   def read_write_connection(self):
     return self.connection
@@ -122,12 +123,12 @@ class DynamodbTableClient_base:
 class DynamodbTableClient_aws(DynamodbTableClient_base):
   def __init__(self, props: dict):
     connection: Connection = props["connection"]
-    super().__init__(connection, boto3.client('dynamodb'))
+    super().__init__(connection, boto3.resource('dynamodb'))
   
 class DynamodbTableClient_sim(DynamodbTableClient_base):
   def __init__(self, props: dict):
     connection: Connection = props["connection"]
-    super().__init__(connection, boto3.client(
+    super().__init__(connection, boto3.resource(
       'dynamodb', 
       region_name=connection["clientConfig"]["region"],
       endpoint_url=connection["clientConfig"]["endpoint"],
@@ -324,3 +325,37 @@ def from_api_response(res = None):
     response["headers"] = res["headers"]
 
   return response
+
+class Aws:
+  @staticmethod
+  def try_from_api_event(event: dict[str, Any]):
+    try:
+      return Aws.from_api_event(event)
+    except Exception as e:
+      return event
+
+  @staticmethod
+  def from_api_event(event: dict[str, Any]):
+    target = os.getenv(f"WING_TARGET")
+    if target == "tf-aws":
+      return req
+    elif target == "sim":
+      data = event["payload"]
+      body = data["body"]
+      req = {
+        'httpMethod': data["method"],
+        'path': data["path"],
+        'queryStringParameters': data["query"],
+        'headers': data["headers"],
+        'body': None if body == "" else body,
+        'pathParameters': data["vars"],
+        'requestContext': {
+          'http': {
+            'method': data["method"],
+            'path': data["path"]
+          }
+        },
+      }
+      return req
+    else:
+      raise Exception(f"Unsupported target: {target}")
