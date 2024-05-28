@@ -32,7 +32,7 @@ bring cloud;
 
 let myBotToken = new cloud.Secret(name: "mybot_token");
 
-let slackbot = new slack.App(botToken: myBotToken);
+let slackbot = new slack.App(token: myBotToken);
 
 /// When registering events, the inflight function will be called with the context and event
 /// The `ctx` is a reference to the context of the event, and provides client methods to interact with channels, threads, etc..
