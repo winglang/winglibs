@@ -11,7 +11,7 @@ pub class App {
 
   inner: appApi.IApp;
 
-  new(props: appApi.AppPros) {
+  new(props: appApi.AppProps) {
     let target = util.env("WING_TARGET");
 
     if target == "sim" {
