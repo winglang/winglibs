@@ -12,14 +12,10 @@ pub class Inflight impl cloud.IFunctionHandler {
   clients: MutMap<types.LiftedSim>;
 
   new(props: types.InflightProps) {
-    let entrypointDir = nodeof(this).app.entrypointDir;
-    let workDir = nodeof(this).app.workdir;
     let homeEnv = util.tryEnv("HOME") ?? "";
     let pathEnv = util.tryEnv("PATH") ?? "";
 
     let outdir = libutil.build(
-      entrypointDir: entrypointDir,
-      workDir: workDir,
       path: props.path,
       homeEnv: homeEnv,
       pathEnv: pathEnv,

@@ -1,13 +1,13 @@
 bring cloud;
 
 pub struct BuildOptions {
-  entrypointDir: str;
-  workDir: str;
   path: str;
   homeEnv: str;
   pathEnv: str;
 }
 
+/// Props to construct a new python inflight handler.
+/// `path` should be an absolute path to source of the code.
 pub struct InflightProps {
   path: str;
   handler: str;

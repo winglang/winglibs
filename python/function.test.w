@@ -5,6 +5,7 @@ bring util;
 bring dynamodb;
 bring sns;
 bring ses;
+bring fs;
 bring "./lib.w" as python;
 
 let table = new dynamodb.Table(
@@ -22,7 +23,7 @@ let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
 
 let func = new cloud.Function(new python.InflightFunction(
-  path: "./test-assets",
+  path: fs.join(@dirname, "./test-assets"),
   handler: "main.handler",
   lift: {
     "bucket": {

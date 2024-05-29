@@ -328,14 +328,7 @@ def from_api_response(res = None):
 
 class Aws:
   @staticmethod
-  def try_from_api_event(event: dict[str, Any]):
-    try:
-      return Aws.from_api_event(event)
-    except Exception as e:
-      return event
-
-  @staticmethod
-  def from_api_event(event: dict[str, Any]):
+  def to_aws_api_event(event: dict[str, Any]):
     target = os.getenv(f"WING_TARGET")
     if target == "tf-aws":
       return req
@@ -358,4 +351,4 @@ class Aws:
       }
       return req
     else:
-      raise Exception(f"Unsupported target: {target}")
+      return None

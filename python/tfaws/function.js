@@ -27,14 +27,10 @@ module.exports.Function = class Function extends Construct {
     super(scope, id);
     
     this.dummy = new TfAwsFunction(this, "Dummy", createInflight(async (ctx) => {}));
-    const entrypointDir = App.of(this).entrypointDir;
-    const workDir = App.of(this).workdir;
     const pathEnv = process.env["PATH"] || "";
     const homeEnv = process.env["HOME"] || "";
     
     const outdir = build({
-      entrypointDir: entrypointDir,
-      workDir: workDir,
       path: inflight.inner.props.path,
       homeEnv: homeEnv,
       pathEnv: pathEnv,

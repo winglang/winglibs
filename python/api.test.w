@@ -2,12 +2,13 @@ bring cloud;
 bring http;
 bring expect;
 bring util;
+bring fs;
 bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
 let api = new cloud.Api();
 api.get("/test", new python.InflightApiEndpointHandler(
-  path: "./test-assets",
+  path: fs.join(@dirname, "./test-assets"),
   handler: "main.api_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]), env: { FOO: "bar" });
 

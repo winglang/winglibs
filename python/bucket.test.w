@@ -2,11 +2,12 @@ bring cloud;
 bring http;
 bring expect;
 bring util;
+bring fs;
 bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
 bucket.onCreate(new python.InflightBucketEvent(
-  path: "./test-assets",
+  path: fs.join(@dirname, "./test-assets"),
   handler: "main.bucket_oncreate_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));
 

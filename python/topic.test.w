@@ -2,13 +2,14 @@ bring cloud;
 bring http;
 bring expect;
 bring util;
+bring fs;
 bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
 
 let topic = new cloud.Topic();
 topic.onMessage(new python.InflightTopicOnMessage(
-  path: "./test-assets",
+  path: fs.join(@dirname, "./test-assets"),
   handler: "main.topic_onmessage_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));
 

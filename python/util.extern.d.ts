@@ -5,11 +5,9 @@ export default interface extern {
   liftTfAws: (id: string, client: Resource) => string,
 }
 export interface BuildOptions {
-  readonly entrypointDir: string;
   readonly homeEnv: string;
   readonly path: string;
   readonly pathEnv: string;
-  readonly workDir: string;
 }
 /** Trait marker for classes that can be depended upon.
 The presence of this interface indicates that an object has

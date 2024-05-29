@@ -14,11 +14,10 @@ exports.resolve = (path1, path2) => {
 };
 
 exports.build = (options) => {
-  const { entrypointDir, workDir, path, homeEnv, pathEnv } = options;
+  const { path, homeEnv, pathEnv } = options;
 
   // create an output directory and copy the path to it
   const outdir = mkdtempSync(join(tmpdir(), "py-func-"));
-  const resolvedPath = join(entrypointDir, path);
 
   const copyFiles = (src, dest) => {
     const files = glob.sync(join(src, "**/*.py"));
@@ -29,15 +28,15 @@ exports.build = (options) => {
   };
 
   // if there is a requirements.txt file, install the dependencies
-  const requirementsPath = join(resolvedPath, "requirements.txt");
+  const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
     cpSync(requirementsPath, join(outdir, "requirements.txt"));
     execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
       { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
-    copyFiles(resolvedPath, join(outdir, "python"));
+    copyFiles(path, join(outdir, "python"));
     return join(outdir, "python");
   } else {
-    copyFiles(resolvedPath, outdir);
+    copyFiles(path, outdir);
     return outdir;
   }
 };
