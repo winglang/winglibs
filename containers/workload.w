@@ -17,9 +17,6 @@ pub class Workload impl api.IWorkload {
   inner: api.IWorkload;
 
   new(props: api.WorkloadProps) {
-    nodeof(this).icon = "cpu-chip";
-    nodeof(this).color = "cyan";
-
     let target = util.env("WING_TARGET");
 
     if target == "sim" {
