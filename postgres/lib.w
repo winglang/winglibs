@@ -119,6 +119,9 @@ pub class Database {
     } else {
       throw "Unsupported target: " + target;
     }
+
+    nodeof(this).icon = "table-cells";
+    nodeof(this).color = "purple";
   }
 
   pub inflight query(query: str): Array<Map<Json>> {
