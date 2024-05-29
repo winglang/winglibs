@@ -15,5 +15,8 @@ pub class Alert {
     } else {
       throw "unknown platform";
     }
+
+    nodeof(this).icon = "bell";
+    nodeof(this).color = "red";
   }
 }

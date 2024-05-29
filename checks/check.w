@@ -82,6 +82,9 @@ pub class Check impl ICheck {
     }
 
     this.invoker = new cloud.Function(wrapper) as "run";
+
+    nodeof(this).icon = "shield-check";
+    nodeof(this).color = "amber";
   }
 
   /**

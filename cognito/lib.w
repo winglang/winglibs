@@ -25,6 +25,9 @@ pub class Cognito impl types.ICognito {
     } else {
       throw "Unsupported target {target}";
     }
+
+    nodeof(this).icon = "lock-closed";
+    nodeof(this).color = "emerald";
   }
 
   pub get(path: str) {
