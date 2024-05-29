@@ -9,7 +9,7 @@ bring "./utils.w" as utils;
 pub class AppSim extends api.AppBase impl api.IApp {
   pub url: str;
 
-  new(props: api.AppPros) {
+  new(props: api.AppProps) {
     super(props);
 
     let state = new sim.State();

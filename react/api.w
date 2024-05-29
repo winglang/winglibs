@@ -3,7 +3,7 @@ bring fs;
 
 bring "./utils.w" as utils;
 
-pub struct AppPros {
+pub struct AppProps {
   // The path to the React app root folder - can be absolute or relative to the wing folder.
   projectPath: str;
   // A port to start a local build of the React app on.
@@ -26,7 +26,7 @@ pub interface IApp {
 }
 
 pub class AppBase {
-  protected props: AppPros;
+  protected props: AppProps;
 
   protected path: str;
 
@@ -36,7 +36,7 @@ pub class AppBase {
   protected buildCommand: str;
   protected buildDir: str;
 
-  new(props: AppPros) {
+  new(props: AppProps) {
     this.path = fs.absolute(nodeof(this).app.entrypointDir, props.projectPath);
 
     if !fs.exists(this.path) {
