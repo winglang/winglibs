@@ -122,15 +122,9 @@ Navigate back to your Slack App, under the Event Subscriptions section, paste th
 If you want to post directly to a channel, you can do so by using the following code:
 
 ```js
-bring slack;
-bring cloud;
-
-let slackbot = new slack.Slackbot();
-
 let postMessage = new cloud.Function(inflight () => {
-  let channel = slackbot.getChannel("NAME|ID");
-
-  channel.postText("hello world!");
+  let channel = bot.channel("NAME|ID");
+  channel.post("hello world!");
 });
 ```
 
