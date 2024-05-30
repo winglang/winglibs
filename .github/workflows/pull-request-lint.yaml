@@ -52,6 +52,7 @@ jobs:
             tsoa
             vite
             websockets
+            yaml
           subjectPattern: ^[^A-Z][^:]+[^.]$
           subjectPatternError: Subject must start with a lowercase, should not include ':'
             and should not end with a period

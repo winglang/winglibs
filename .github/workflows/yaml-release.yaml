@@ -1,0 +1,54 @@
+name: yaml-release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - yaml/**
+      - "!yaml/package-lock.json"
+jobs:
+  build-yaml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: yaml
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: yaml
+      - name: Test
+        run: wing test
+        working-directory: yaml
+      - name: Pack
+        run: wing pack
+        working-directory: yaml
+      - name: Get package version
+        run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
+          "$GITHUB_ENV"
+        working-directory: yaml
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: yaml
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Tag commit
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          tag: yaml-v${{ env.WINGLIB_VERSION }}
+      - name: GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: yaml v${{ env.WINGLIB_VERSION }}
+          tag_name: yaml-v${{ env.WINGLIB_VERSION }}
+          files: "*.tgz"
+          token: ${{ secrets.PROJEN_GITHUB_TOKEN }}

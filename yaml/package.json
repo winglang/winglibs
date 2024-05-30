@@ -1,0 +1,23 @@
+{
+  "name": "@winglibs/yaml",
+  "description": "yaml library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "yaml"
+  },
+  "author": {
+    "email": "eladc@wing.cloud",
+    "name": "Elad Cohen"
+  },
+  "wing": {
+    "platforms": [
+      "*"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "yaml": "^2.4.2"
+  }
+}
