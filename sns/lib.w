@@ -24,6 +24,10 @@ pub class MobileClient impl types.IMobileClient {
     } else {
       throw "Unsupported target {target}";
     }
+
+    nodeof(this.inner).hidden = true;
+    nodeof(this).icon = "chat-bubble-left";
+    nodeof(this).color = "sky";
   }
 
   pub inflight publish(options: types.PublishOptions): types.PublishResult {
