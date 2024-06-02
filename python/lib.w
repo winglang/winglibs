@@ -24,6 +24,9 @@ pub class InflightFunction impl cloud.IFunctionHandler {
     } else {
       throw "Unsupported target ${target}";
     }
+
+    nodeof(this).icon = "bolt";
+    nodeof(this).color = "lime";
   }
 
   pub inflight handle(event: str?): str? {
@@ -53,6 +56,9 @@ pub class InflightQueueConsumer impl cloud.IQueueSetConsumerHandler {
     } else {
       throw "Unsupported target ${target}";
     }
+
+    nodeof(this).icon = "bolt";
+    nodeof(this).color = "lime";
   }
 
   pub inflight handle(message: str): void {
@@ -82,6 +88,9 @@ pub class InflightTopicOnMessage impl cloud.ITopicOnMessageHandler {
     } else {
       throw "Unsupported target ${target}";
     }
+
+    nodeof(this).icon = "bolt";
+    nodeof(this).color = "lime";
   }
 
   pub inflight handle(message: str): void {
@@ -111,6 +120,9 @@ pub class InflightBucketEvent impl cloud.IBucketEventHandler {
     } else {
       throw "Unsupported target ${target}";
     }
+
+    nodeof(this).icon = "bolt";
+    nodeof(this).color = "lime";
   }
 
   pub inflight handle(message: str, type: cloud.BucketEventType): void {
@@ -140,6 +152,9 @@ pub class InflightApiEndpointHandler impl cloud.IApiEndpointHandler {
     } else {
       throw "Unsupported target ${target}";
     }
+
+    nodeof(this).icon = "bolt";
+    nodeof(this).color = "lime";
   }
 
   pub inflight handle(req: cloud.ApiRequest): cloud.ApiResponse? {

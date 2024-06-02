@@ -16,6 +16,6 @@ pub struct PublishResult {
   SequenceNumber: str?;
 }
 
-pub interface IMobileClient {
+pub interface IMobileNotifications {
   inflight publish(options: PublishOptions): PublishResult;
 }

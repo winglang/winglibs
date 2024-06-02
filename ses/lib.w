@@ -23,6 +23,8 @@ pub class EmailService impl types.IEmailService {
     }
 
     nodeof(this.inner).hidden = true;
+    nodeof(this).icon = "inbox";
+    nodeof(this).color = "pink";
   }
 
   pub inflight sendEmail(options: types.SendEmailOptions): str? {

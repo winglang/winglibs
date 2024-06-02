@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/checks",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Cloud checks",
   "publishConfig": {
     "access": "public",

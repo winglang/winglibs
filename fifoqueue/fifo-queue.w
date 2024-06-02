@@ -14,6 +14,9 @@ pub class FifoQueue impl api.IFifoQueue {
     } else {
       throw "Unsupported target {target}";
     }
+
+    nodeof(this).icon = "queue-list";
+    nodeof(this).color = "violet";
   }
 
   pub setConsumer(fn: inflight (str): void, options: api.SetConsumerOptions?) {

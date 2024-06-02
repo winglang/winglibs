@@ -22,6 +22,9 @@ pub class Bus impl types.IBus {
     } else {
       throw "Unsupported target {target}";
     }
+
+    nodeof(this).icon = "signal";
+    nodeof(this).color = "red";
   }
 
   pub inflight putEvents(...events: Array<types.PublishEvent>): void {

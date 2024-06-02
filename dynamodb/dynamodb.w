@@ -40,6 +40,9 @@ pub class Table impl dynamodb_types.ITable {
         return "{adminEndpoint}/tables/{this.tableName}";
       }, link: true) as "Admin";
     }
+
+    nodeof(this).icon = "table-cells";
+    nodeof(this).color = "sky";
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, opts: dynamodb_types.StreamConsumerOptions?) {

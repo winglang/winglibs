@@ -8,7 +8,7 @@ bring "./utils.w" as utils;
 pub class AppTfAws extends api.AppBase impl api.IApp {
   var website: cloud.Website;
 
-  new(props: api.AppPros) {
+  new(props: api.AppProps) {
     super(props);
 
     utils.Utils.execSync(this.buildCommand, this.env, this.path);

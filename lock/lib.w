@@ -18,6 +18,9 @@ pub class Lock {
   counter: cloud.Counter;
   new() {
     this.counter = new cloud.Counter();
+
+    nodeof(this).icon = "lock-open";
+    nodeof(this).color = "orange";
   }
 
   /** 
