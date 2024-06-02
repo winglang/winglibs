@@ -1,6 +1,6 @@
 export default interface extern {
-  _sendEmail: (options: SendEmailOptions) => Promise<(string) | undefined>,
-  _sendRawEmail: (options: SendRawEmailOptions) => Promise<(string) | undefined>,
+  _sendEmail: (options: SendEmailOptions) => Promise<string | void>,
+  _sendRawEmail: (options: SendRawEmailOptions) => Promise<string | void>,
 }
 export interface Destination {
   readonly BccAddresses?: ((readonly (string)[])) | undefined;
