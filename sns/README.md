@@ -17,7 +17,7 @@ npm i @winglibs/sns
 ```js
 bring sns;
 
-let client = new sns.MobileClient();
+let client = new sns.MobileNotifications();
 
 test "sending an SMS" {
   client.publish(PhoneNumber: "+14155552671", Message: "Hello");
