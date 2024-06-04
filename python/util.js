@@ -1,10 +1,22 @@
 const { join } = require("node:path");
-const { cpSync, existsSync, mkdtempSync } = require("node:fs");
+const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync } = require("node:fs");
 const { execSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
+const crypto = require("node:crypto");
 const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
+
+const createMD5ForProject = (filePath, path, handler) => {
+  const hash = crypto.createHash('md5');
+  hash.update(path);
+  hash.update(handler);
+  
+  const file = readFileSync(filePath, "utf8");
+  hash.update(file);
+
+  return hash.digest("hex");
+};
 
 exports.dirname = () => __dirname;
 
@@ -14,10 +26,7 @@ exports.resolve = (path1, path2) => {
 };
 
 exports.build = (options) => {
-  const { path, homeEnv, pathEnv } = options;
-
-  // create an output directory and copy the path to it
-  const outdir = mkdtempSync(join(tmpdir(), "py-func-"));
+  const { path, handler, homeEnv, pathEnv } = options;
 
   const copyFiles = (src, dest) => {
     const files = glob.sync(join(src, "**/*.py"));
@@ -30,12 +39,18 @@ exports.build = (options) => {
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
-    cpSync(requirementsPath, join(outdir, "requirements.txt"));
-    execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
-      { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
+    const md5 = createMD5ForProject(requirementsPath, path, handler);
+    const outdir = join(tmpdir(), "py-func-", md5);
+    if (!existsSync(outdir)) {
+      mkdirSync(outdir, { recursive: true });
+      cpSync(requirementsPath, join(outdir, "requirements.txt"));
+      execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
+        { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
+    }
     copyFiles(path, join(outdir, "python"));
     return join(outdir, "python");
   } else {
+    const outdir = mkdtempSync(join(tmpdir(), "py-func-"));
     copyFiles(path, outdir);
     return outdir;
   }

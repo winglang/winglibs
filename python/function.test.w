@@ -45,11 +45,11 @@ let func = new cloud.Function(new python.InflightFunction(
   },
 ), { env: { "FOO": "bar" } });
 
-test "invokes the function" {
+new std.Test(inflight () => {
   table.put(Item: { id: "test", body: "dynamoDbValue" });
 
   let res = func.invoke("function1");
   log("res: {res ?? "null"}");
   expect.equal(Json.parse(res!).get("body"), "Hello!");
   expect.equal(bucket.get("test.txt"), "Hello, world!function1bardynamoDbValue");
-}
+}, timeout: 3m) as "invokes the function";

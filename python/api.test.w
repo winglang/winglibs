@@ -12,7 +12,7 @@ api.get("/test", new python.InflightApiEndpointHandler(
   handler: "main.api_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]), env: { FOO: "bar" });
 
-test "invokes api handler" {
+new std.Test(inflight () => {
   let res = http.get("{api.url}/test");
   log(Json.stringify(res));
   expect.equal(res.status, 200);
@@ -23,4 +23,4 @@ test "invokes api handler" {
   util.waitUntil(inflight () => {
     return bucket.exists("/test");
   });
-}
+}, timeout: 3m) as "invokes api handler";

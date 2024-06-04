@@ -17,6 +17,7 @@ pub class Inflight impl cloud.IFunctionHandler {
 
     let outdir = libutil.build(
       path: props.path,
+      handler: props.handler,
       homeEnv: homeEnv,
       pathEnv: pathEnv,
     );

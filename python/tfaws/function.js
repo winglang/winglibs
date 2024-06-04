@@ -32,6 +32,7 @@ module.exports.Function = class Function extends Construct {
     
     const outdir = build({
       path: inflight.inner.props.path,
+      handler: inflight.inner.props.handler,
       homeEnv: homeEnv,
       pathEnv: pathEnv,
     });

@@ -5,6 +5,7 @@ export default interface extern {
   liftTfAws: (id: string, client: Resource) => string,
 }
 export interface BuildOptions {
+  readonly handler: string;
   readonly homeEnv: string;
   readonly path: string;
   readonly pathEnv: string;

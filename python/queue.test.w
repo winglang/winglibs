@@ -13,10 +13,10 @@ queue.setConsumer(new python.InflightQueueConsumer(
   handler: "main.queue_consumer_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));
 
-test "invokes a queue consumer" {
+new std.Test(inflight () => {
   queue.push("message1");
   util.waitUntil(inflight () => {
     return bucket.exists("queue.txt");
   });
   expect.equal(bucket.get("queue.txt"), "message1");
-}
+}, timeout: 3m) as "invokes a queue consumer";

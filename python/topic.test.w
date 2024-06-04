@@ -13,11 +13,11 @@ topic.onMessage(new python.InflightTopicOnMessage(
   handler: "main.topic_onmessage_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));
 
-test "invokes the topic subscriber" {
+new std.Test(inflight () => {
   topic.publish("topic1");
   util.waitUntil(inflight () => {
     return bucket.exists("topic.txt");
   });
 
   expect.equal(bucket.get("topic.txt"), "topic1");
-}
+}, timeout: 3m) as "invokes the topic subscriber";
