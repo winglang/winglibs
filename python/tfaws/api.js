@@ -1,11 +1,10 @@
 const { Api: TfAwsApi } = require("@winglang/sdk/lib/target-tf-aws/api.js");
 const { App } = require("@winglang/sdk/lib/target-tf-aws/app.js");
 const { Node } = require("@winglang/sdk/lib/std/node.js");
-const awsProvider = require("@cdktf/provider-aws");
 const { Function } = require("./function.js");
 
 module.exports.Api = class Api extends TfAwsApi {
-  addHandler(inflight, method, path) {
+  addHandler(inflight, method, path, props) {
     if (inflight._inflightType !== "_inflightPython") {
       return super.addHandler(inflight, method, path);
     }
@@ -16,7 +15,7 @@ module.exports.Api = class Api extends TfAwsApi {
         this,
         App.of(this).makeId(this, `${this.node.id}-OnMessage`),
         inflight,
-        {},
+        props,
       );
       Node.of(handler).hidden = true;
       this.handlers[inflight._id] = handler;

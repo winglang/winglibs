@@ -1,15 +1,15 @@
 export default interface extern {
   build: (options: BuildOptions) => string,
   dirname: () => string,
-  liftSim: (id: string, client: Resource) => string,
+  liftSim: (obj: Resource, options: LiftOptions, host: IInflightHost, clients: Record<string, LiftedSim>) => void,
   liftTfAws: (id: string, client: Resource) => string,
 }
 export interface BuildOptions {
-  readonly entrypointDir: string;
+  readonly handler: string;
   readonly homeEnv: string;
+  readonly nodePath: string;
   readonly path: string;
   readonly pathEnv: string;
-  readonly workDir: string;
 }
 /** Trait marker for classes that can be depended upon.
 The presence of this interface indicates that an object has
@@ -210,4 +210,17 @@ export class Resource extends Construct implements IResource {
   you must call `super.bind(host, ops)` to ensure that the resource is
   actually bound. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
+}
+export interface LiftOptions {
+  readonly allow: (readonly (string)[]);
+  readonly id: string;
+}
+export interface LiftedSim {
+  readonly children?: (Readonly<Record<string, LiftedSim>>) | undefined;
+  readonly handle: string;
+  readonly id: string;
+  readonly path: string;
+  readonly props?: (Readonly<any>) | undefined;
+  readonly target: string;
+  readonly type: string;
 }
