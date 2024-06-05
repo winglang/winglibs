@@ -1,4 +1,4 @@
-urllib3 == 1.26.15
+wingsdk == 0.0.2
 requests
 boto3
 Faker

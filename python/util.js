@@ -7,8 +7,9 @@ const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
 
-const createMD5ForProject = (filePath, path, handler) => {
+const createMD5ForProject = (nodePath, filePath, path, handler) => {
   const hash = crypto.createHash('md5');
+  hash.update(nodePath);
   hash.update(path);
   hash.update(handler);
   
@@ -26,20 +27,20 @@ exports.resolve = (path1, path2) => {
 };
 
 exports.build = (options) => {
-  const { path, handler, homeEnv, pathEnv } = options;
+  const { nodePath, path, handler, homeEnv, pathEnv } = options;
 
   const copyFiles = (src, dest) => {
     const files = glob.sync(join(src, "**/*.py"));
     for (let file of files) {
       const newFile = file.replace(src, `${dest}/`);
-      cpSync(file, newFile);
+      cpSync(file, newFile, { force: true });
     }
   };
 
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
-    const md5 = createMD5ForProject(requirementsPath, path, handler);
+    const md5 = createMD5ForProject(nodePath, requirementsPath, path, handler);
     const outdir = join(tmpdir(), "py-func-", md5);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
@@ -67,7 +68,7 @@ exports.liftSim = (resource, options, host, clients, wingClients) => {
     Lifting.lift(resource, host, options.allow);
     for (let op of options.allow) {
       Node.of(resource).addConnection({
-        name: op.endsWith("()") ? op : `${op}()`,
+        name: op,
         source: host,
         target: resource,
       });
@@ -114,13 +115,13 @@ const getLifted = (resource, id) => {
         connection: resource.connection,
       }
     }
-  } else if (resource.constructor?.name === "MobileClient") {
+  } else if (resource.constructor?.name === "MobileNotifications") {
     if (App.of(resource).isTestEnvironment) {
       lifted = {
         id,
         path: resource.node.path,
         handle: makeEnvVarName("MOBILE_CLIENT", resource),
-        type: "@winglibs.sns.MobileClient",
+        type: "@winglibs.sns.MobileNotifications",
         target: "sim",
         resource,
         props: {},
@@ -133,7 +134,7 @@ const getLifted = (resource, id) => {
         id,
         path: resource.node.path,
         handle: makeEnvVarName("MOBILE_CLIENT", resource),
-        type: "@winglibs.sns.MobileClient",
+        type: "@winglibs.sns.MobileNotifications",
         target: "aws",
         resource,
         props: {},

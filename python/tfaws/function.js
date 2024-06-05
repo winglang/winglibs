@@ -1,6 +1,7 @@
 const { Construct } = require("constructs");
 const { Function: TfAwsFunction } = require("@winglang/sdk/lib/target-tf-aws/function.js");
 const { App } = require("@winglang/sdk/lib/target-tf-aws/app.js");
+const { Node } = require("@winglang/sdk/lib/std/node.js");
 const { inflight: createInflight } = require("@winglang/sdk/lib/core");
 const { Function: AwsFunction } = require("@winglang/sdk/lib/shared-aws/function.js");
 const { Bucket: AwsBucket } = require("@winglang/sdk/lib/shared-aws/bucket.js");
@@ -31,6 +32,7 @@ module.exports.Function = class Function extends Construct {
     const homeEnv = process.env["HOME"] || "";
     
     const outdir = build({
+      nodePath: Node.of(handler).path,
       path: inflight.inner.props.path,
       handler: inflight.inner.props.handler,
       homeEnv: homeEnv,

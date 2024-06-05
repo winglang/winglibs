@@ -1,6 +1,7 @@
 bring cloud;
 
 pub struct BuildOptions {
+  nodePath: str;
   path: str;
   handler: str;
   homeEnv: str;

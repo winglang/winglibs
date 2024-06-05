@@ -18,7 +18,7 @@ let table = new dynamodb.Table(
   hashKey: "id",
 ) as "table1";
 let emailClient = new ses.EmailService({});
-let mobileClient = new sns.MobileClient();
+let mobileClient = new sns.MobileNotifications();
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
 

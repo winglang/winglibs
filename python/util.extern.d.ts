@@ -7,6 +7,7 @@ export default interface extern {
 export interface BuildOptions {
   readonly handler: string;
   readonly homeEnv: string;
+  readonly nodePath: string;
   readonly path: string;
   readonly pathEnv: string;
 }
