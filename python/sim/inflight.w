@@ -9,19 +9,16 @@ bring "../util.w" as libutil;
 pub class Inflight impl cloud.IFunctionHandler {
   pub url: str;
   service: cloud.Service;
-  clients: MutMap<Json>;
-  wingClients: MutMap<std.Resource>;
+  clients: MutMap<types.LiftedSim>;
 
   new(props: types.InflightProps) {
-    let entrypointDir = nodeof(this).app.entrypointDir;
-    let workDir = nodeof(this).app.workdir;
     let homeEnv = util.tryEnv("HOME") ?? "";
     let pathEnv = util.tryEnv("PATH") ?? "";
 
     let outdir = libutil.build(
-      entrypointDir: entrypointDir,
-      workDir: workDir,
+      nodePath: nodeof(this).path,
       path: props.path,
+      handler: props.handler,
       homeEnv: homeEnv,
       pathEnv: pathEnv,
     );
@@ -63,10 +60,43 @@ pub class Inflight impl cloud.IFunctionHandler {
     
     this.service = new cloud.Service(inflight () => {
       let clients = MutMap<Json>{};
-      for client in this.wingClients.entries() {
-        let value = MutJson this.clients.get(client.key);
-        value.set("handle", util.env(value.get("handle").asStr()));
-        clients.set(client.key, value);
+      for client in this.clients.entries() {
+        let value = client.value;
+
+        // TODO: move it to a function (there's a weird bug going on here)
+        let collect = inflight (value: types.LiftedSim) => {
+          let c = MutMap<Json>{};
+          if let children = value.children {
+            for child in children.entries() {
+              c.set(child.key, collect(child.value));
+            }
+          }
+
+          if let handle = util.tryEnv(value.handle) {
+            // sdk resources
+            return {
+              id: value.id,
+              type: value.type,
+              path: value.path,
+              target: value.target,
+              props: value.props,
+              children: c.copy(),
+              handle: handle,
+            };
+          } else {
+            // custom resources
+            return {
+              id: value.id,
+              type: value.type,
+              path: value.path,
+              target: value.target,
+              props: value.props,
+              children: c.copy(),
+              handle: value.handle,
+            };
+          }
+        };
+        clients.set(client.key, collect(value));
       }
 
       let env = MutMap<str>{
@@ -81,21 +111,24 @@ pub class Inflight impl cloud.IFunctionHandler {
       }
 
       for e in Inflight.env().entries() {
+        env.set(e.key, e.value);
+      }
+
+      for e in env.entries() {
         let var value = e.value;
         if value.contains("http://localhost") {
-          value = value.replace("http://localhost", host);
+          value = value.replaceAll("http://localhost", host);
         } elif value.contains("http://127.0.0.1") {
-          value = value.replace("http://127.0.0.1", host);
+          value = value.replaceAll("http://127.0.0.1", host);
         }
         env.set(e.key, value);
       }
+
       runner.start(env.copy());
     });
 
     this.url = "{runner.publicUrl!}/2015-03-31/functions/function/invocations";
-
-    this.clients = MutMap<Json>{};
-    this.wingClients = MutMap<std.Resource>{};
+    this.clients = MutMap<types.LiftedSim>{};
 
     if let lifts = props.lift {
       for lift in lifts.entries() {
@@ -125,10 +158,7 @@ pub class Inflight impl cloud.IFunctionHandler {
   }
 
   pub lift(obj: std.Resource, options: types.LiftOptions): cloud.IFunctionHandler {
-    obj.onLift(this.service, options.allow);
-    let lifted = libutil.liftSim(options.id, obj);
-    this.clients.set(options.id, lifted);
-    this.wingClients.set(options.id, obj);
+    libutil.liftSim(obj, options, this.service, this.clients);
     return this;
   }
 

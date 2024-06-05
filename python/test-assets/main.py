@@ -5,12 +5,26 @@ def handler(event, context):
   print(event)
   print(context)
 
-  fooEnv = os.getenv("FOO")
+  foo_env = os.getenv("FOO")
   payload = from_function_event(event)
   
-  client = lifted("bucket")
-  value = client.get("test.txt")
-  client.put("test.txt", value + payload + fooEnv)
+  email_client = lifted("email")
+  email_client.send_email(Source="bot@wing.cloud", Destination={'ToAddresses': ['bot@monada.co',],},Message={'Subject': {'Data': 'Winglang Test Email!',},'Body': {'Text': {'Data': 'Hello from Python!',},}},)
+
+  mobile_client = lifted("sms")
+  mobile_client.publish(
+    Message="Hello from Python!",
+    Subject="Test Subject",
+    PhoneNumber="1234567890",
+  )
+
+  table = lifted("table")
+  response = table.get(Key={"id":"test"})
+  table_value = response["Item"]["body"]
+
+  bucket = lifted("bucket")
+  value = bucket.get("test.txt")
+  bucket.put("test.txt", value + payload + foo_env + table_value)
   
   return {
     "statusCode": 200,
@@ -63,14 +77,17 @@ def api_handler(event, context):
   print(event)
   print(context)
 
+  foo = os.getenv("FOO")
+
   req = from_api_event(event)
   client_put = lifted("bucket")
-  client_put.put(req.path, req.toJSON())
+  client_put.put(req["path"], json.dumps(req))
 
   return from_api_response({
     "status": 200,
     "body": "Hello from Api Handler!",
     "headers": {
-      "header1": "value1"
+      "header1": "value1",
+      "foo": foo
     }
   })
