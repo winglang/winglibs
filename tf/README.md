@@ -103,6 +103,65 @@ And the output will be:
 }
 ```
 
+## `tf.Provider`
+
+Represents an arbitrary Terraform provider.
+
+> `tf.Provider` can only be used when compiling your Wing program to a `tf-*` target.
+
+It takes `name`, `source`, `version`, and `attributes` properties:
+
+```js
+bring tf;
+
+let role = new tf.Resource({
+  name: "dnsimple",
+  source: "dnsimple/dnsimple",
+  version: "1.6.0",
+  attributes: {
+    token: "dnsimple_token",
+  }
+}) as "DnsimpleProvider";
+```
+
+Now, we can compile this to Terraform:
+
+```sh
+wing compile -t tf-aws
+```
+
+And the output will be:
+
+```json
+{
+  "provider": {
+    "aws": [{}],
+    "dnsimple": [
+      {
+        "token": "dnsimple_token"
+      }
+    ]
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "./terraform.tfstate"
+      }
+    },
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.31.0"
+      },
+      "dnsimple": {
+        "source": "dnsimple/dnsimple",
+        "version": "1.6.0"
+      }
+    }
+  }
+}
+```
+
 ## Maintainers
 
 * [Elad Ben-Israel](@eladb)

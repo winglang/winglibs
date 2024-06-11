@@ -1,4 +1,5 @@
 bring "cdktf" as cdktf;
+bring util;
 
 pub struct ProviderProps {
   /// The name of the provider in Terraform - this is the prefix used for all resources in the provider.
@@ -27,6 +28,10 @@ pub class Provider extends cdktf.TerraformProvider {
       },
       terraformProviderSource: props.source,
     );
+
+    if !util.env("WING_TARGET").startsWith("tf") {
+      throw "tf.Provider can only be used in a Terraform target.";
+    }
 
     this.attributes = props.attributes ?? {};
   }
