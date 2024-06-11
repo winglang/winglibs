@@ -114,7 +114,7 @@ It takes `name`, `source`, `version`, and `attributes` properties:
 ```js
 bring tf;
 
-let role = new tf.Resource({
+new tf.Provider({
   name: "dnsimple",
   source: "dnsimple/dnsimple",
   version: "1.6.0",
