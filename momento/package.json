@@ -1,0 +1,20 @@
+{
+  "name": "@winglibs/momento",
+  "description": "momento library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "momento"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@gomomento/sdk": "^1.87.0",
+    "@winglibs/tf": "^0.0.2"
+  }
+}
