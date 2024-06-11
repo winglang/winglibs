@@ -7,13 +7,20 @@
     "url": "https://github.com/winglang/winglibs.git",
     "directory": "momento"
   },
+  "author": {
+    "email": "chrisr@wing.cloud",
+    "name": "Chris Rybicki"
+  },
   "wing": {
     "platforms": [
-      "sim"
+      "sim",
+      "tf-aws",
+      "tf-gcp",
+      "tf-azure"
     ]
   },
   "license": "MIT",
-  "dependencies": {
+  "peerDependencies": {
     "@gomomento/sdk": "^1.87.0",
     "@winglibs/tf": "^0.0.2"
   }
