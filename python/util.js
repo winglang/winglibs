@@ -7,7 +7,7 @@ const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
 
-const createMD5ForProject = (nodePath, filePath, path, handler) => {
+const createMD5ForProject = (filePath, nodePath = "", path = "", handler = "") => {
   const hash = crypto.createHash('md5');
   hash.update(nodePath);
   hash.update(path);
@@ -40,13 +40,23 @@ exports.build = (options) => {
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
-    const md5 = createMD5ForProject(nodePath, requirementsPath, path, handler);
+    if (process.env["WING_TARGET"] === "sim") {
+      const md5 = createMD5ForProject(requirementsPath);
+      const imageName = `wing-py:${md5}`;
+      execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
+        { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } }
+      );
+      return imageName;
+    }
+
+    const md5 = createMD5ForProject(requirementsPath, nodePath, path, handler);
     const outdir = join(tmpdir(), "py-func-", md5);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
       cpSync(requirementsPath, join(outdir, "requirements.txt"));
-      execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
-        { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
+      execSync(`docker run --rm -v ${outdir}:/var/task:rw --entrypoint python python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
+        { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } }
+      );
     }
     copyFiles(path, join(outdir, "python"));
     return join(outdir, "python");
@@ -61,7 +71,7 @@ exports.liftTfAws = (id, resource) => {
   
 };
 
-exports.liftSim = (resource, options, host, clients, wingClients) => {
+exports.liftSim = (resource, options, host, clients) => {
   let lifted = getLifted(resource, options.id);
 
   if (lifted) {

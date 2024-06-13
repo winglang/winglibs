@@ -5,8 +5,8 @@ def handler(event, context):
   print(event)
   print(context)
 
-  foo_env = os.getenv("FOO")
   payload = from_function_event(event)
+  foo_env = os.getenv("FOO")
   
   email_client = lifted("email")
   email_client.send_email(Source="bot@wing.cloud", Destination={'ToAddresses': ['bot@monada.co',],},Message={'Subject': {'Data': 'Winglang Test Email!',},'Body': {'Text': {'Data': 'Hello from Python!',},}},)
@@ -77,9 +77,9 @@ def api_handler(event, context):
   print(event)
   print(context)
 
+  req = from_api_event(event)
   foo = os.getenv("FOO")
 
-  req = from_api_event(event)
   client_put = lifted("bucket")
   client_put.put(req["path"], json.dumps(req))
 

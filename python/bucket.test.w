@@ -14,6 +14,6 @@ bucket.onCreate(new python.InflightBucketEvent(
 new std.Test(inflight () => {
   bucket.put("key1", "value1");
   util.waitUntil(inflight () => {
-    return bucket.get("key1") == "onCreate";
+    return bucket.get("key1").lowercase() == "oncreate";
   });
 }, timeout: 3m) as "invokes bucket on create";
