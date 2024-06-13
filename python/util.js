@@ -35,6 +35,7 @@ exports.buildSim = (options) => {
   }
   const md5 = createMD5ForProject(requirements, nodePath, path, handler);
   const imageName = `wing-py:${md5}`;
+  console.log("building docker image", imageName, nodePath)
   execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
     {
       cwd: __dirname,
@@ -44,7 +45,9 @@ exports.buildSim = (options) => {
 
   const tryInspect = () => {
     try {
+      console.log("inspecting docker image", imageName, nodePath)
       execSync(`docker inspect ${imageName}`, { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } });
+      console.log("inspected docker image", imageName, nodePath)
       return true;
     } catch {}
   };
