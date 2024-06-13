@@ -1,6 +1,6 @@
 const { join } = require("node:path");
-const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync } = require("node:fs");
-const { execSync, spawnSync } = require("node:child_process");
+const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } = require("node:fs");
+const { execSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const crypto = require("node:crypto");
 const glob = require("glob");
@@ -35,7 +35,17 @@ exports.buildSim = (options) => {
   }
   const md5 = createMD5ForProject(requirements, nodePath, path, handler);
   const imageName = `wing-py:${md5}`;
-  execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
+
+  const dockerfile = join(tmpdir(), `Dockerfile-${md5}`);
+  if (!existsSync(dockerfile)) {
+    const dockerfileContent = `
+FROM public.ecr.aws/lambda/python:3.12
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt`
+    writeFileSync(dockerfile, dockerfileContent);
+  }
+
+  execSync(`docker build -t ${imageName} -f ${dockerfile} ${path}`,
     {
       cwd: __dirname,
       env: { HOME: homeEnv, PATH: pathEnv }
