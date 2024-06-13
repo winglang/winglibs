@@ -22,7 +22,7 @@ jobs:
         run: npm install --include=dev
         working-directory: python
       - name: Test
-        run: DEBUG=1 wing test
+        run: wing test
         working-directory: python
       - name: Pack
         run: wing pack
