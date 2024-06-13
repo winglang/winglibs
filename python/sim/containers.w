@@ -155,7 +155,7 @@ pub class Container {
       // start the new container
       let dockerRun = MutArray<str>[];
       dockerRun.push("run");
-      dockerRun.push("--detach");
+      dockerRun.push("-i");
       dockerRun.push("--rm");
 
       dockerRun.push("--name", containerName);
