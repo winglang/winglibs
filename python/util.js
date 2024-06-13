@@ -41,7 +41,7 @@ exports.build = (options) => {
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
     if (process.env["WING_TARGET"] === "sim") {
-      const md5 = createMD5ForProject(requirementsPath);
+      const md5 = createMD5ForProject(requirementsPath, nodePath, path, handler);
       const imageName = `wing-py:${md5}`;
       execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
         { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } }
