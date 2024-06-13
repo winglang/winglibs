@@ -11,7 +11,7 @@ const { ResourceNames } = require("@winglang/sdk/lib/shared/resource-names");
 const { DEFAULT_MEMORY_SIZE } = require("@winglang/sdk/lib/shared/function");
 const cdktf = require("cdktf");
 const awsProvider = require("@cdktf/provider-aws");
-const { build } = require("../util.js");
+const { buildAws } = require("../util.js");
 
 const FUNCTION_NAME_OPTS = {
   maxLen: 64,
@@ -24,6 +24,7 @@ module.exports.Function = class Function extends Construct {
     id,
     inflight,
     props = {},
+    pythonInflight,
   ) {
     super(scope, id);
     
@@ -31,10 +32,10 @@ module.exports.Function = class Function extends Construct {
     const pathEnv = process.env["PATH"] || "";
     const homeEnv = process.env["HOME"] || "";
     
-    const outdir = build({
+    const outdir = buildAws({
       nodePath: Node.of(handler).path,
-      path: inflight.inner.props.path,
-      handler: inflight.inner.props.handler,
+      path: pythonInflight.inner.props.path,
+      handler: pythonInflight.inner.props.handler,
       homeEnv: homeEnv,
       pathEnv: pathEnv,
     });
@@ -57,8 +58,8 @@ module.exports.Function = class Function extends Construct {
     const roleName = this.dummy.role.name;
 
     const clients = {};
-    for (let clientId of Object.keys(inflight.inner.lifts)) {
-      const { client, options } = inflight.inner.lifts[clientId];
+    for (let clientId of Object.keys(pythonInflight.inner.lifts)) {
+      const { client, options } = pythonInflight.inner.lifts[clientId];
       const allow = options.allow;
 
       // SDK resources
@@ -122,7 +123,7 @@ module.exports.Function = class Function extends Construct {
     this.lambda = new awsProvider.lambdaFunction.LambdaFunction(this, "PyFunction", {
       functionName: this.name,
       role: roleArn,
-      handler: inflight.inner.props.handler,
+      handler: pythonInflight.inner.props.handler,
       runtime: "python3.11",
       s3Bucket: bucket.bucket,
       s3Key: lambdaArchive.key,

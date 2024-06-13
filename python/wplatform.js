@@ -1,4 +1,4 @@
-const { handleSimInflight } = require("./sim/function.js");
+const { Function: SimFunction } = require("./sim/function.js");
 const { Function: TfAwsFunction } = require("./tfaws/function.js");
 const { Queue: TfAwsQueue } = require("./tfaws/queue.js");
 const { Topic: TfAwsTopic } = require("./tfaws/topic.js");
@@ -29,9 +29,9 @@ const createFunction = (target, scope, id, inflight, props) => {
   const pythonInflight = tryGetPythonInflight(inflight);
   if (pythonInflight) {
     if (target === "tf-aws") {
-      return new TfAwsFunction(scope, id, pythonInflight, props);
+      return new TfAwsFunction(scope, id, inflight, props);
     } else if (target === "sim") {
-      handleSimInflight(pythonInflight, props);
+      return new SimFunction(scope, id, inflight, props, pythonInflight);
     }
   }
 };
