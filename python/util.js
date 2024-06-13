@@ -44,7 +44,10 @@ exports.build = (options) => {
       const md5 = createMD5ForProject(requirementsPath, nodePath, path, handler);
       const imageName = `wing-py:${md5}`;
       execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
-        { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } }
+        {
+          cwd: __dirname,
+          env: { HOME: homeEnv, PATH: pathEnv }
+        }
       );
       return imageName;
     }
@@ -55,7 +58,10 @@ exports.build = (options) => {
       mkdirSync(outdir, { recursive: true });
       cpSync(requirementsPath, join(outdir, "requirements.txt"));
       execSync(`docker run --rm -v ${outdir}:/var/task:rw --entrypoint python python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
-        { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } }
+        {
+          cwd: outdir, 
+          env: { HOME: homeEnv, PATH: pathEnv }
+        }
       );
     }
     copyFiles(path, join(outdir, "python"));
