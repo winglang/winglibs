@@ -235,18 +235,15 @@ pub class Container {
       let var out: Json? = nil;
       util.waitUntil(inflight () => {
         try {
-          if util.tryEnv("CI")? {
-            util.sleep(10s);
-          }
-
           out = Json.parse(util.exec("docker", ["inspect", containerName], { env: { PATH: pathEnv } }).stdout);
-          if let network = opts.network {
-            if network == "host" {
-              return true;
-            }
-          }
 
           if let port = opts.port {
+            if let network = opts.network {
+              if network == "host" {
+                util.sleep(10s);
+                return out?.tryGetAt(0)?.tryGet("Config")?.tryGet("ExposedPorts")?.tryGet("{port}/tcp") != nil;
+              }
+            }
             return out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr() != nil;
           }
           return true;
