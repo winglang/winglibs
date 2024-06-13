@@ -7,14 +7,12 @@ const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
 
-const createMD5ForProject = (filePath, nodePath = "", path = "", handler = "") => {
+const createMD5ForProject = (requirementsFile, nodePath = "", path = "", handler = "") => {
   const hash = crypto.createHash('md5');
   hash.update(nodePath);
   hash.update(path);
   hash.update(handler);
-  
-  const file = readFileSync(filePath, "utf8");
-  hash.update(file);
+  hash.update(requirementsFile);
 
   return hash.digest("hex");
 };
@@ -26,7 +24,26 @@ exports.resolve = (path1, path2) => {
   return join(path1, path2);
 };
 
-exports.build = (options) => {
+exports.buildSim = (options) => {
+  const { nodePath, path, handler, homeEnv, pathEnv } = options;
+
+  const requirementsPath = join(path, "requirements.txt");
+  let requirements = "";
+  if (existsSync(requirementsPath)) {
+    requirements = readFileSync(requirementsPath, "utf8");
+  }
+  const md5 = createMD5ForProject(requirements, nodePath, path, handler);
+  const imageName = `wing-py:${md5}`;
+  execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
+    {
+      cwd: __dirname,
+      env: { HOME: homeEnv, PATH: pathEnv }
+    }
+  );
+  return imageName;
+};
+
+exports.buildAws = (options) => {
   const { nodePath, path, handler, homeEnv, pathEnv } = options;
 
   const copyFiles = (src, dest) => {
@@ -40,19 +57,8 @@ exports.build = (options) => {
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
-    if (process.env["WING_TARGET"] === "sim") {
-      const md5 = createMD5ForProject(requirementsPath, nodePath, path, handler);
-      const imageName = `wing-py:${md5}`;
-      execSync(`docker build -t ${imageName} -f ${join(__dirname, "./builder/Dockerfile")} ${path}`,
-        {
-          cwd: __dirname,
-          env: { HOME: homeEnv, PATH: pathEnv }
-        }
-      );
-      return imageName;
-    }
-
-    const md5 = createMD5ForProject(requirementsPath, nodePath, path, handler);
+    const requirements = readFileSync(requirementsPath, "utf8");
+    const md5 = createMD5ForProject(requirements, nodePath, path, handler);
     const outdir = join(tmpdir(), "py-func-", md5);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });

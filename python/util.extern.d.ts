@@ -1,5 +1,6 @@
 export default interface extern {
-  build: (options: BuildOptions) => string,
+  buildAws: (options: BuildOptions) => string,
+  buildSim: (options: BuildOptions) => string,
   dirname: () => string,
   liftSim: (obj: Resource, options: LiftOptions, host: IInflightHost, clients: Record<string, LiftedSim>) => void,
   liftTfAws: (id: string, client: Resource) => string,

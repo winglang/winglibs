@@ -11,7 +11,7 @@ const { ResourceNames } = require("@winglang/sdk/lib/shared/resource-names");
 const { DEFAULT_MEMORY_SIZE } = require("@winglang/sdk/lib/shared/function");
 const cdktf = require("cdktf");
 const awsProvider = require("@cdktf/provider-aws");
-const { build } = require("../util.js");
+const { buildAws } = require("../util.js");
 
 const FUNCTION_NAME_OPTS = {
   maxLen: 64,
@@ -32,7 +32,7 @@ module.exports.Function = class Function extends Construct {
     const pathEnv = process.env["PATH"] || "";
     const homeEnv = process.env["HOME"] || "";
     
-    const outdir = build({
+    const outdir = buildAws({
       nodePath: Node.of(handler).path,
       path: pythonInflight.inner.props.path,
       handler: pythonInflight.inner.props.handler,

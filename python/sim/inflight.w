@@ -16,7 +16,7 @@ pub class Inflight impl cloud.IFunctionHandler {
     let homeEnv = util.tryEnv("HOME") ?? "";
     let pathEnv = util.tryEnv("PATH") ?? "";
 
-    let outdir = libutil.build(
+    let outdir = libutil.buildSim(
       nodePath: nodeof(this).path,
       path: props.path,
       handler: props.handler,
