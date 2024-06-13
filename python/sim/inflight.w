@@ -155,6 +155,9 @@ pub class Inflight impl cloud.IFunctionHandler {
     }
     
     let res = http.post(this.url, { body: body });
+    if !res.ok {
+      log("Failed to invoke the function: {Json.stringify(res)}");
+    }
     return res.body;
   }
 
