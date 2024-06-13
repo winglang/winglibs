@@ -240,7 +240,6 @@ pub class Container {
           if let port = opts.port {
             if let network = opts.network {
               if network == "host" {
-                util.sleep(10s);
                 return out?.tryGetAt(0)?.tryGet("Config")?.tryGet("ExposedPorts")?.tryGet("{port}/tcp") != nil;
               }
             }
