@@ -1,6 +1,6 @@
 const { join } = require("node:path");
 const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync } = require("node:fs");
-const { execSync } = require("node:child_process");
+const { execSync, spawnSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const crypto = require("node:crypto");
 const glob = require("glob");
@@ -46,8 +46,14 @@ exports.buildSim = (options) => {
   const tryInspect = () => {
     try {
       console.log("inspecting docker image", imageName, nodePath)
-      execSync(`docker inspect ${imageName}`, { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } });
-      console.log("inspected docker image", imageName, nodePath)
+      const res = spawnSync("docker", ["inspect", imageName]);
+      if (res.status === 0)  {
+        console.log("inspected docker image", imageName, nodePath)
+        return true;
+      }
+
+      // execSync(`docker inspect ${imageName}`, { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } });
+      
       return true;
     } catch {}
   };
