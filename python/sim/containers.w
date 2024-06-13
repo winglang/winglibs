@@ -235,6 +235,10 @@ pub class Container {
       let var out: Json? = nil;
       util.waitUntil(inflight () => {
         try {
+          if util.tryEnv("CI")? {
+            util.sleep(10s);
+          }
+
           out = Json.parse(util.exec("docker", ["inspect", containerName], { env: { PATH: pathEnv } }).stdout);
           if let network = opts.network {
             if network == "host" {
