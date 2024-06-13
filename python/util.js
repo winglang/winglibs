@@ -6,6 +6,7 @@ const crypto = require("node:crypto");
 const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
+const { Util } = require("@winglang/sdk/lib/util");
 
 const createMD5ForProject = (requirementsFile, nodePath = "", path = "", handler = "") => {
   const hash = crypto.createHash('md5');
@@ -40,6 +41,16 @@ exports.buildSim = (options) => {
       env: { HOME: homeEnv, PATH: pathEnv }
     }
   );
+
+  const tryInspect = () => {
+    try {
+      execSync(`docker inspect ${imageName}`, { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } });
+      return true;
+    } catch {}
+  };
+
+  Util.waitUntil(tryInspect);
+
   return imageName;
 };
 
