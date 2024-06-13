@@ -1,5 +1,5 @@
 const { join } = require("node:path");
-const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync } = require("node:fs");
+const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync } = require("node:fs");
 const { execSync, spawnSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const crypto = require("node:crypto");
@@ -49,6 +49,7 @@ exports.buildSim = (options) => {
       execSync(`docker inspect ${imageName}`);
       execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
       execSync(`docker load -i ${join(tmpdir(), imageName)}`);
+      rmSync(join(tmpdir(), imageName));
       console.log("inspected docker image", imageName, nodePath)
       return true;
     } catch {}
