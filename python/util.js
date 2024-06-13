@@ -46,19 +46,17 @@ exports.buildSim = (options) => {
   const tryInspect = () => {
     try {
       console.log("inspecting docker image", imageName, nodePath)
-      const res = spawnSync("docker", ["inspect", imageName]);
-      if (res.status === 0)  {
-        console.log("inspected docker image", imageName, nodePath)
-        return true;
-      }
-
-      // execSync(`docker inspect ${imageName}`, { cwd: __dirname, env: { HOME: homeEnv, PATH: pathEnv } });
-      
+      execSync(`docker inspect ${imageName}`);
+      execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
+      execSync(`docker load -i ${join(tmpdir(), imageName)}`);
+      console.log("inspected docker image", imageName, nodePath)
       return true;
     } catch {}
   };
 
-  Util.waitUntil(tryInspect);
+  if (process.env.CI) {
+    Util.waitUntil(tryInspect);
+  }
 
   return imageName;
 };
