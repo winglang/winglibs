@@ -27,7 +27,7 @@ const tryInspect = (imageName) => {
 
 const forceReloadImage = (imageName) => {
   try {
-    tryInspect();
+    tryInspect(imageName);
     execSync(`docker inspect ${imageName}`);
     execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
     execSync(`docker load -i ${join(tmpdir(), imageName)}`);

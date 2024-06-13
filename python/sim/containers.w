@@ -236,6 +236,12 @@ pub class Container {
       util.waitUntil(inflight () => {
         try {
           out = Json.parse(util.exec("docker", ["inspect", containerName], { env: { PATH: pathEnv } }).stdout);
+          if let network = opts.network {
+            if network == "host" {
+              return true;
+            }
+          }
+
           if let port = opts.port {
             return out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr() != nil;
           }
