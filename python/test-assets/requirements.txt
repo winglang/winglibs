@@ -1,4 +1,4 @@
-wingsdk == 0.0.3
+wingsdk == 0.0.4
 requests
 boto3
 Faker

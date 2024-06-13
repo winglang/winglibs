@@ -13,18 +13,17 @@ module.exports.Function = class Function extends SimFunction {
 
     this.pythonInflight = pythonInflight;
 
+    for (let e in props.env) {
+      this.pythonInflight.inner.service.addEnvironment(e, props.env[e]);
+    }
+
     if (!App.of(this).isTestEnvironment) {
       for (let key of ["AWS_REGION", "AWS_DEFAULT_REGION", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]) {
         let value = process.env[key];
         if (value) {
-          this.addEnvironment(key, value);
+          this.pythonInflight.inner.service.addEnvironment(key, value);
         }
       }
     }
-  }
-
-  _preSynthesize() {
-    this.pythonInflight.inner.preLift(this);
-    return super._preSynthesize();
   }
 }
