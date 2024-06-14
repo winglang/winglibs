@@ -1,6 +1,4 @@
 bring fs;
-bring "./library.w" as l;
-bring "./util.w" as myutil;
 
 pub class GitAttributes {
   new() {
