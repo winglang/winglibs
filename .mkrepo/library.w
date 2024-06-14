@@ -1,4 +1,5 @@
 bring fs;
+bring "./util.w" as myutil;
 
 struct PackageManifest {
   name: str;
@@ -10,8 +11,6 @@ struct WingOptions {
 }
 
 pub class Library {
-  extern "./util.js" static sortedArray(arr: Array<str>): Array<str>;
-
   pub name: str;
   pub dir: str; // relative to root of the repo
   pub platforms: Array<str>;
@@ -33,7 +32,7 @@ pub class Library {
     }
 
     
-    this.platforms = Library.sortedArray(this.manifest.wing?.platforms ?? []);
+    this.platforms = myutil.sortedArray(this.manifest.wing?.platforms ?? []);
     if this.platforms.length == 0 {
       throw "\"{this.name}\" winglib does not have a `wing.platforms` field in its package.json.";
     }
