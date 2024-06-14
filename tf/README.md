@@ -162,6 +162,29 @@ And the output will be:
 }
 ```
 
+You can create a singleton provider like so:
+
+```js
+class DnsimpleProvider {
+  pub static getOrCreate(scope: std.IResource): tf.Provider {
+    let root = nodeof(scope).root;
+    let singletonKey = "WingDnsimpleProvider";
+    let existing = root.node.tryFindChild(singletonKey);
+    if existing? {
+      return unsafeCast(existing);
+    }
+
+    return new tf.Provider(
+      name: "dnsimple",
+      source: "dnsimple/dnsimple",
+      version: "1.6.0",
+    ) as singletonKey in root;
+  }
+}
+```
+
+Use `DnsimpleProvider.getOrCreate(scope)` to get the provider instance.
+
 ## Maintainers
 
 * [Elad Ben-Israel](@eladb)
