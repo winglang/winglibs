@@ -18,6 +18,24 @@ const createMD5ForProject = (requirementsFile, nodePath = "", path = "", handler
   return hash.digest("hex");
 };
 
+const tryInspect = (imageName) => {
+  try {
+    execSync(`docker inspect ${imageName}`);
+    return true;
+  } catch {}
+};
+
+const forceReloadImage = (imageName) => {
+  try {
+    tryInspect(imageName);
+    execSync(`docker inspect ${imageName}`);
+    execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
+    execSync(`docker load -i ${join(tmpdir(), imageName)}`);
+    rmSync(join(tmpdir(), imageName));
+    return true;
+  } catch {}
+};
+
 exports.dirname = () => __dirname;
 
 exports.resolve = (path1, path2) => {
@@ -36,6 +54,10 @@ exports.buildSim = (options) => {
   const md5 = createMD5ForProject(requirements, nodePath, path, handler);
   const imageName = `wing-py:${md5}`;
 
+  if (tryInspect(imageName)) {
+    return imageName;
+  }
+
   const dockerfile = join(tmpdir(), `Dockerfile-${md5}`);
   if (!existsSync(dockerfile)) {
     const dockerfileContent = `
@@ -52,18 +74,8 @@ RUN pip install -r /app/requirements.txt`
     }
   );
 
-  const forceReloadImage = () => {
-    try {
-      execSync(`docker inspect ${imageName}`);
-      execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
-      execSync(`docker load -i ${join(tmpdir(), imageName)}`);
-      rmSync(join(tmpdir(), imageName));
-      return true;
-    } catch {}
-  };
-
   if (process.env.CI) {
-    Util.waitUntil(forceReloadImage);
+    Util.waitUntil(() => forceReloadImage(imageName));
   }
 
   return imageName;
