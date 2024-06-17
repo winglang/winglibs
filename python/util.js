@@ -1,22 +1,39 @@
 const { join } = require("node:path");
-const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync } = require("node:fs");
+const { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } = require("node:fs");
 const { execSync } = require("node:child_process");
 const { tmpdir } = require("node:os");
 const crypto = require("node:crypto");
 const glob = require("glob");
 const { App, Lifting } = require("@winglang/sdk/lib/core");
 const { Node } = require("@winglang/sdk/lib/std");
+const { Util } = require("@winglang/sdk/lib/util");
 
-const createMD5ForProject = (nodePath, filePath, path, handler) => {
+const createMD5ForProject = (requirementsFile, nodePath = "", path = "", handler = "") => {
   const hash = crypto.createHash('md5');
   hash.update(nodePath);
   hash.update(path);
   hash.update(handler);
-  
-  const file = readFileSync(filePath, "utf8");
-  hash.update(file);
+  hash.update(requirementsFile);
 
   return hash.digest("hex");
+};
+
+const tryInspect = (imageName) => {
+  try {
+    execSync(`docker inspect ${imageName}`);
+    return true;
+  } catch {}
+};
+
+const forceReloadImage = (imageName) => {
+  try {
+    tryInspect(imageName);
+    execSync(`docker inspect ${imageName}`);
+    execSync(`docker save ${imageName} -o ${join(tmpdir(), imageName)}`);
+    execSync(`docker load -i ${join(tmpdir(), imageName)}`);
+    rmSync(join(tmpdir(), imageName));
+    return true;
+  } catch {}
 };
 
 exports.dirname = () => __dirname;
@@ -26,7 +43,45 @@ exports.resolve = (path1, path2) => {
   return join(path1, path2);
 };
 
-exports.build = (options) => {
+exports.buildSim = (options) => {
+  const { nodePath, path, handler, homeEnv, pathEnv } = options;
+
+  const requirementsPath = join(path, "requirements.txt");
+  let requirements = "";
+  if (existsSync(requirementsPath)) {
+    requirements = readFileSync(requirementsPath, "utf8");
+  }
+  const md5 = createMD5ForProject(requirements, nodePath, path, handler);
+  const imageName = `wing-py:${md5}`;
+
+  if (tryInspect(imageName)) {
+    return imageName;
+  }
+
+  const dockerfile = join(tmpdir(), `Dockerfile-${md5}`);
+  if (!existsSync(dockerfile)) {
+    const dockerfileContent = `
+FROM public.ecr.aws/lambda/python:3.12
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt`
+    writeFileSync(dockerfile, dockerfileContent);
+  }
+
+  execSync(`docker build -t ${imageName} -f ${dockerfile} ${path}`,
+    {
+      cwd: __dirname,
+      env: { HOME: homeEnv, PATH: pathEnv }
+    }
+  );
+
+  if (process.env.CI) {
+    Util.waitUntil(() => forceReloadImage(imageName));
+  }
+
+  return imageName;
+};
+
+exports.buildAws = (options) => {
   const { nodePath, path, handler, homeEnv, pathEnv } = options;
 
   const copyFiles = (src, dest) => {
@@ -40,13 +95,18 @@ exports.build = (options) => {
   // if there is a requirements.txt file, install the dependencies
   const requirementsPath = join(path, "requirements.txt");
   if (existsSync(requirementsPath)) {
-    const md5 = createMD5ForProject(nodePath, requirementsPath, path, handler);
+    const requirements = readFileSync(requirementsPath, "utf8");
+    const md5 = createMD5ForProject(requirements, nodePath, path, handler);
     const outdir = join(tmpdir(), "py-func-", md5);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
       cpSync(requirementsPath, join(outdir, "requirements.txt"));
-      execSync(`python -m pip install -r ${join(outdir, "requirements.txt")} -t python`, 
-        { cwd: outdir, env: { HOME: homeEnv, PATH: pathEnv } });
+      execSync(`docker run --rm -v ${outdir}:/var/task:rw --entrypoint python python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
+        {
+          cwd: outdir, 
+          env: { HOME: homeEnv, PATH: pathEnv }
+        }
+      );
     }
     copyFiles(path, join(outdir, "python"));
     return join(outdir, "python");
@@ -61,7 +121,7 @@ exports.liftTfAws = (id, resource) => {
   
 };
 
-exports.liftSim = (resource, options, host, clients, wingClients) => {
+exports.liftSim = (resource, options, host, clients) => {
   let lifted = getLifted(resource, options.id);
 
   if (lifted) {

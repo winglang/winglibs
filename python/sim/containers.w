@@ -5,6 +5,8 @@ bring sim;
 bring fs;
 
 pub class Util {
+  pub extern "./util.js" inflight static _spawn(command: str, args: Array<str>, options: Map<Json>): void;
+
   pub static entrypointDir(scope: std.IResource): str {
     return std.Node.of(scope).app.entrypointDir;
   }
@@ -153,7 +155,7 @@ pub class Container {
       // start the new container
       let dockerRun = MutArray<str>[];
       dockerRun.push("run");
-      dockerRun.push("--detach");
+      dockerRun.push("-i");
       dockerRun.push("--rm");
 
       dockerRun.push("--name", containerName);
@@ -217,7 +219,8 @@ pub class Container {
 
       log("starting container from image {this.imageTag}");
       log("docker {dockerRun.join(" ")}");
-      util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
+      Util._spawn("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
+      // util.exec("docker", dockerRun.copy(), { env: { PATH: pathEnv } });
 
       log("containerName={containerName}");
 
@@ -233,6 +236,15 @@ pub class Container {
       util.waitUntil(inflight () => {
         try {
           out = Json.parse(util.exec("docker", ["inspect", containerName], { env: { PATH: pathEnv } }).stdout);
+
+          if let port = opts.port {
+            if let network = opts.network {
+              if network == "host" {
+                return out?.tryGetAt(0)?.tryGet("Config")?.tryGet("ExposedPorts")?.tryGet("{port}/tcp") != nil;
+              }
+            }
+            return out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr() != nil;
+          }
           return true;
         } catch {
           log("something went wrong");

@@ -2,6 +2,7 @@ bring cloud;
 bring util;
 bring http;
 bring math;
+bring sim;
 bring "./containers.w" as containers;
 bring "../types.w" as types;
 bring "../util.w" as libutil;
@@ -9,13 +10,14 @@ bring "../util.w" as libutil;
 pub class Inflight impl cloud.IFunctionHandler {
   pub url: str;
   service: cloud.Service;
+  network: str?;
   clients: MutMap<types.LiftedSim>;
 
   new(props: types.InflightProps) {
     let homeEnv = util.tryEnv("HOME") ?? "";
     let pathEnv = util.tryEnv("PATH") ?? "";
 
-    let outdir = libutil.build(
+    let outdir = libutil.buildSim(
       nodePath: nodeof(this).path,
       path: props.path,
       handler: props.handler,
@@ -34,17 +36,16 @@ pub class Inflight impl cloud.IFunctionHandler {
       "127.0.0.1:{runtimePort}"
     ];
     let flags = MutMap<str>{};
-    let var network: str? = nil;
     let platform = Inflight.os();
     if platform != "darwin" && platform != "win32" {
-      network = "host";
+      this.network = "host";
     }
 
     let runner = new containers.Container(
-      image: "public.ecr.aws/lambda/python:3.12",
+      image: outdir,
       name: "python-runner",
       volumes: {
-        "/var/task:ro,delegated": outdir,
+        "/var/task:ro,delegated": props.path,
       },
       env: {
         DOCKER_LAMBDA_STAY_OPEN: "1",
@@ -54,7 +55,7 @@ pub class Inflight impl cloud.IFunctionHandler {
       exposedPort: port,
       args: args,
       flags: flags.copy(),
-      network: network,
+      network: this.network,
       entrypoint: "/usr/local/bin/aws-lambda-rie",
     );
     
@@ -104,7 +105,7 @@ pub class Inflight impl cloud.IFunctionHandler {
       };
 
       let var host = "http://host.docker.internal";
-      if let network = network {
+      if let network = this.network {
         if network == "host" {
           host = "http://127.0.0.1";
         }
@@ -154,6 +155,9 @@ pub class Inflight impl cloud.IFunctionHandler {
     }
     
     let res = http.post(this.url, { body: body });
+    if !res.ok {
+      log("Failed to invoke the function: {Json.stringify(res)}");
+    }
     return res.body;
   }
 
