@@ -20,8 +20,8 @@ pub struct CheckResult {
 /** Centralized storage for check results */
 pub class Results {
   pub static of(scope: std.IResource): Results {
-    let var root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
+    let var root = nodeof(scope).root;
+    let rootNode = nodeof(root);
 
     // special case where the root is an app with a test runner (which means we are running inside a test context)
     // in this case our app is actually the child called "Default". yes this is horribly hacky.
@@ -33,7 +33,7 @@ pub class Results {
     }
 
     let id = "checks.Results";
-    let exists: Results? = unsafeCast(std.Node.of(root).tryFindChild(id));
+    let exists: Results? = unsafeCast(nodeof(root).tryFindChild(id));
     let rootAsResource: Results = unsafeCast(root);
     return exists ?? new Results() as id in rootAsResource;
   }

@@ -93,8 +93,8 @@ class Host {
 
   pub static of(scope: std.IResource): Host {
     let uid = "DynamodbHost-7JOQ92VWh6OavMXYpWx9O";
-    let root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
+    let root = nodeof(scope).root;
+    let rootNode = nodeof(root);
     let host = unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
     nodeof(host).hidden = true;
     return host;
@@ -111,7 +111,7 @@ pub class Table_sim impl dynamodb_types.ITable {
     this.host = Host.of(this);
 
     this.adminEndpoint = this.host.ui?.endpoint;
-    let tableName = props.name ?? this.node.addr;
+    let tableName = props.name ?? nodeof(this).addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 

@@ -54,6 +54,6 @@ pub class Ngrok {
       }
 			throw "Couldn't find the ngrok tunnel for {props.url}";
 		});
-		urlRetriever.node.addDependency(ngrok);
+		nodeof(urlRetriever).addDependency(ngrok);
 	}
 }

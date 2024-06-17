@@ -8,7 +8,7 @@ pub class Util {
   pub extern "./util.js" inflight static _spawn(command: str, args: Array<str>, options: Map<Json>): void;
 
   pub static entrypointDir(scope: std.IResource): str {
-    return std.Node.of(scope).app.entrypointDir;
+    return nodeof(scope).app.entrypointDir;
   }
 
   pub static isPath(s: str): bool {
@@ -228,7 +228,7 @@ pub class Container {
         util.exec("docker", ["rm", "-f", containerName], { env: { PATH: pathEnv } });
       };
     }, {autoStart: false}) as "ContainerService";
-    std.Node.of(this.containerService).hidden = true;
+    nodeof(this.containerService).hidden = true;
 
     this.readinessService = new cloud.Service(inflight () => {
       let opts = this.props;
@@ -295,9 +295,9 @@ pub class Container {
         }
       }
     }, {autoStart: false}) as "ReadinessService";
-    std.Node.of(this.readinessService).hidden = true;
+    nodeof(this.readinessService).hidden = true;
 
-    std.Node.of(this.state).hidden = true;
+    nodeof(this.state).hidden = true;
   }
 
   pub inflight start(env: Map<str>) {

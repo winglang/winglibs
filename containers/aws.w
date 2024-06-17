@@ -5,7 +5,7 @@ pub class Aws {
   pub static getOrCreate(scope: std.IResource): Aws {
     let stack = nodeof(scope).root;
     let id = "WingAwsUtil";
-    let existing: Aws? = unsafeCast(stack.node.tryFindChild(id));
+    let existing: Aws? = unsafeCast(nodeof(stack).tryFindChild(id));
     return (existing ?? new Aws() as id in stack);
   }
 
