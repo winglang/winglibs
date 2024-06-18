@@ -21,11 +21,14 @@ def handler(event, context):
   table = lifted("table")
   response = table.get(Key={"id":"test"})
   table_value = response["Item"]["body"]
+  
+  custom = lifted("custom")
+  custom_data = custom["liftData"]["info"]
 
   bucket = lifted("bucket")
   value = bucket.get("test.txt")
-  bucket.put("test.txt", value + payload + foo_env + table_value)
-  
+  bucket.put("test.txt", value + payload + foo_env + table_value + custom_data)
+
   return {
     "statusCode": 200,
     "body": "Hello!"

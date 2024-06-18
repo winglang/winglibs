@@ -96,6 +96,15 @@ module.exports.Function = class Function extends Construct {
           target: "aws",
           props: {},
         }
+      } else if (typeof client.liftData === "function") {
+        client.onLift(this.dummy, allow);
+        clients[clientId] = {
+          type: "@winglibs.python.ILiftable",
+          target: "aws",
+          props: {
+            liftData: client.liftData(),
+          },
+        }
       }
     }
 
