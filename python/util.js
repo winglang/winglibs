@@ -103,7 +103,7 @@ exports.buildAws = (options) => {
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
       cpSync(requirementsPath, join(outdir, "requirements.txt"));
-      execSync(`docker run --rm -v ${outdir}:/var/task:rw --entrypoint python python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
+      execSync(`docker run --rm -v "${outdir}":/var/task:rw --entrypoint python python:3.12 -m pip install -r /var/task/requirements.txt -t /var/task/python`,
         {
           cwd: outdir, 
           env: { HOME: homeEnv, PATH: pathEnv }
