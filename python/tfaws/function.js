@@ -33,7 +33,7 @@ module.exports.Function = class Function extends Construct {
     const homeEnv = process.env["HOME"] || "";
     
     const outdir = buildAws({
-      nodePath: Node.of(handler).path,
+      nodePath: Node.of(this).path,
       path: pythonInflight.inner.props.path,
       handler: pythonInflight.inner.props.handler,
       homeEnv: homeEnv,
@@ -76,18 +76,21 @@ module.exports.Function = class Function extends Construct {
       // Custom resources
       if (typeof client.tableName === "string" &&
           typeof client.connection === "object" ) {
+        client.onLift(this.dummy, allow);
         clients[clientId] = {
           type: "@winglibs.dyanmodb.Table",
           target: "aws",
           props: { connection: client.connection },
         }
-      } else if (client.constructor?.name === "MobileClient") {
+      } else if (client.constructor?.name === "MobileNotifications") {
+        client.onLift(this.dummy, allow);
         clients[clientId] = {
-          type: "@winglibs.sns.MobileClient",
+          type: "@winglibs.sns.MobileNotifications",
           target: "aws",
           props: {},
         }
       } else if (client.constructor?.name === "EmailService") {
+        client.onLift(this.dummy, allow);
         clients[clientId] = {
           type: "@winglibs.ses.EmailService",
           target: "aws",

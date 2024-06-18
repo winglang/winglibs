@@ -206,7 +206,7 @@ pub inflight interface IClient {
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
 }
 
-pub interface ITable extends IClient {
+pub interface ITable extends IClient, std.IResource {
   setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
   inflight readWriteConnection(): Connection;
 }

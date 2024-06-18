@@ -3,6 +3,7 @@ const { App } = require("@winglang/sdk/lib/target-tf-aws/app.js");
 const { Node } = require("@winglang/sdk/lib/std/node.js");
 const awsProvider = require("@cdktf/provider-aws");
 const { Function } = require("./function.js");
+const { tryGetPythonInflight } = require("../inflight.js");
 
 module.exports.Topic = class Topic extends TfAwsTopic {
   constructor(
@@ -17,7 +18,8 @@ module.exports.Topic = class Topic extends TfAwsTopic {
     inflight,
     props = {}
   ) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.setConsumer(inflight, props);
     }
 
@@ -31,6 +33,7 @@ module.exports.Topic = class Topic extends TfAwsTopic {
       App.of(this).makeId(this, `${this.node.id}-OnMessage`),
       inflight,
       props,
+      pythonInflight,
     );
     this.handlers[inflight._id] = consumer;
 

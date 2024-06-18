@@ -76,5 +76,9 @@ pub class Table impl dynamodb_types.ITable {
   pub inflight readWriteConnection(): dynamodb_types.Connection {
     return this.implementation.readWriteConnection();
   }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    this.implementation.onLift(host, ops);
+  }
 }
 

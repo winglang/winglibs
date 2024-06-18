@@ -3,6 +3,7 @@ const { Node } = require("@winglang/sdk/lib/std/node.js");
 const { Duration } = require("@winglang/sdk/lib/std/duration.js");
 const awsProvider = require("@cdktf/provider-aws");
 const { Function } = require("./function.js");
+const { tryGetPythonInflight } = require("../inflight.js");
 
 module.exports.Queue = class Queue extends TfAwsQueue {
   constructor(
@@ -17,7 +18,8 @@ module.exports.Queue = class Queue extends TfAwsQueue {
     inflight,
     props = {},
   ) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.setConsumer(inflight, props);
     }
 
@@ -26,7 +28,7 @@ module.exports.Queue = class Queue extends TfAwsQueue {
       timeout: Duration.fromSeconds(
         this.queue.visibilityTimeoutSeconds ?? 30
       ),
-    });
+    }, pythonInflight);
     
     consumer.dummy.addPolicyStatements({
       actions: [

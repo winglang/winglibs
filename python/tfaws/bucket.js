@@ -2,6 +2,7 @@ const { Bucket: TfAwsBucket } = require("@winglang/sdk/lib/target-tf-aws/bucket.
 const { BucketEventType } = require("@winglang/sdk/lib/cloud/bucket.js");
 const { Node } = require("@winglang/sdk/lib/std/node.js");
 const { Topic } = require("./topic.js");
+const { tryGetPythonInflight } = require("../inflight.js");
 
 const EVENTS = {
   [BucketEventType.DELETE]: ["s3:ObjectRemoved:*"],
@@ -20,7 +21,8 @@ module.exports.Bucket = class Bucket extends TfAwsBucket {
   }
 
   onCreate(inflight, opts) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.onCreate(inflight, props);
     }
 
@@ -35,7 +37,8 @@ module.exports.Bucket = class Bucket extends TfAwsBucket {
   }
 
   onUpdate(inflight, opts) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.onUpdate(inflight, props);
     }
 
@@ -50,7 +53,8 @@ module.exports.Bucket = class Bucket extends TfAwsBucket {
   }
 
   onDelete(inflight, opts) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.onDelete(inflight, props);
     }
 
@@ -65,7 +69,8 @@ module.exports.Bucket = class Bucket extends TfAwsBucket {
   }
 
   onEvent(inflight, opts) {
-    if (inflight._inflightType !== "_inflightPython") {
+    const pythonInflight = tryGetPythonInflight(inflight);
+    if (!pythonInflight) {
       return super.onEvent(inflight, props);
     }
 
