@@ -56,7 +56,7 @@ pub struct SendRawEmailOptions {
   RawMessage: RawMessage;
 }
 
-pub interface IEmailService {
+pub interface IEmailService extends std.IResource {
   inflight sendEmail(options: SendEmailOptions): str?;
   inflight sendRawEmail(options: SendRawEmailOptions): str?;
 }

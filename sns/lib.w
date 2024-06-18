@@ -33,4 +33,8 @@ pub class MobileNotifications impl types.IMobileNotifications {
   pub inflight publish(options: types.PublishOptions): types.PublishResult {
     return this.inner.publish(options);
   }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    this.inner.onLift(host, ops);
+  }
 }
