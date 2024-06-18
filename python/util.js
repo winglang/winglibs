@@ -20,7 +20,8 @@ const createMD5ForProject = (requirementsFile, nodePath = "", path = "", handler
 
 const tryInspect = (imageName) => {
   try {
-    execSync(`docker inspect ${imageName}`);
+    console.log("Checking for image", imageName);
+    execSync(`docker inspect ${imageName}`, { stdio: "pipe" });
     return true;
   } catch {}
 };
@@ -67,7 +68,8 @@ RUN pip install -r /app/requirements.txt`
     writeFileSync(dockerfile, dockerfileContent);
   }
 
-  execSync(`docker build -t ${imageName} -f ${dockerfile} ${path}`,
+  console.log("Building image", imageName, dockerfile, path);
+  execSync(`docker build -t ${imageName} -f "${dockerfile}" "${path}"`,
     {
       cwd: __dirname,
       env: { HOME: homeEnv, PATH: pathEnv }
