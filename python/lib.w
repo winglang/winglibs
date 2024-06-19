@@ -7,6 +7,10 @@ bring "./sim/api_onrequest_inflight.w" as simapi;
 bring "./tfaws/inflight.w" as aws;
 bring "./tfaws/api_onrequest_inflight.w" as tfawsapi;
 
+pub interface ILiftable {
+  liftData(): Json;
+}
+
 pub class InflightFunction impl cloud.IFunctionHandler {
   _inflightType: str;
   inner: types.IInflight;

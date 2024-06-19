@@ -227,6 +227,18 @@ const getLifted = (resource, id) => {
         props: {},
       }
     }
+  } else if (typeof resource.liftData === "function") {
+    lifted = {
+      id,
+      path: resource.node.path,
+      handle: makeEnvVarName("LIFT_DATA", resource),
+      type: "@winglibs.python.ILiftable",
+      target: "sim",
+      resource,
+      props: {
+        liftData: resource.liftData(),
+      },
+    };
   }
   
   return lifted;
