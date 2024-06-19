@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/websockets",
   "description": "WebSocket library for Wing",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -29,6 +29,6 @@
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",
-    "@winglibs/dynamodb": "^0.1.6"
+    "@winglibs/dynamodb": "^0.1.12"
   }
 }

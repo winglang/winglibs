@@ -2,6 +2,9 @@
 
 /.github/workflows/*-pull.yaml linguist-generated
 /.github/workflows/*-release.yaml linguist-generated
+/.github/workflows/canary.yaml linguist-generated
 /**/package-lock.json linguist-generated
 /**/*.extern.d.ts linguist-generated
 /package-lock.json linguist-generated
+/.mergify.yml linguist-generated
+/.gitattributes linguist-generated

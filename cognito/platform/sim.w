@@ -161,7 +161,7 @@ pub class Cognito_sim impl types.ICognito {
           return cloud.ApiResponse.parseJson(res!);
         });
 
-        this.api.node.tryRemoveChild(handler.mapping.node.id);
+        nodeof(this.api).tryRemoveChild(handler.mapping.node.id);
 
         return;
       }

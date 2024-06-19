@@ -49,9 +49,9 @@ pub class EventBridgeBus {
     }
 
     let handler = new MyHandler(this.topic) as "EventBridgeOnMessageHandler{this.handlerCount}";
-    let node = std.Node.of(handler);
+    let node = nodeof(handler);
 
-    let handlerNode = std.Node.of(handler.onMessageHandler);
+    let handlerNode = nodeof(handler.onMessageHandler);
     this.handlerCount += 1;
 
     return handler.onMessageHandler;

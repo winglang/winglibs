@@ -42,7 +42,7 @@ pub class Vite_tf_aws {
 
     let bucket = new cloud.Bucket();
 
-    let terraformBucket: aws.s3Bucket.S3Bucket = unsafeCast(bucket.node.defaultChild);
+    let terraformBucket: aws.s3Bucket.S3Bucket = unsafeCast(nodeof(bucket).defaultChild);
     Util.listAllFiles(distDir, (file) => {
       let key = "/{file}";
       let filename = fs.absolute("{distDir}/{file}");
@@ -83,7 +83,7 @@ pub class Vite_tf_aws {
     );
 
     let originAccessControl = new aws.cloudfrontOriginAccessControl.CloudfrontOriginAccessControl(
-      name: "{this.node.path.substring(0, 64 - 4)}-oac",
+      name: "{nodeof(this).path.substring(0, 64 - 4)}-oac",
       originAccessControlOriginType: "s3",
       signingBehavior: "always",
       signingProtocol: "sigv4",

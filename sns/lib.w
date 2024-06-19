@@ -12,7 +12,7 @@ pub class MobileNotifications impl types.IMobileNotifications {
   new() {
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      if std.Node.of(this).app.isTestEnvironment {
+      if nodeof(this).app.isTestEnvironment {
         this.inner = new sim.MobileNotifications_sim();
       } else {
         this.inner = new aws.MobileNotifications_aws();  

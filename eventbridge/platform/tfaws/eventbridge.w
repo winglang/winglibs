@@ -19,7 +19,7 @@ pub class Bus impl types.IBus {
       this.busName = bus.name;
       this.busArn = bus.arn;
     } else {
-      let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props?.name ?? "eventbridge-{this.node.addr.substring(0, 8)}") as "EventBridge";
+      let bus = new tfAws.cloudwatchEventBus.CloudwatchEventBus(name: props?.name ?? "eventbridge-{nodeof(this).addr.substring(0, 8)}") as "EventBridge";
       this.busName = bus.name;
       this.busArn = bus.arn;
     }

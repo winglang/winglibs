@@ -65,7 +65,7 @@ pub class DatabaseRef {
 
   new() {
     // For database refs, we just need to have a secret connection string to use for queries
-    this.connectionSecret = new cloud.Secret(name: "connectionString_{this.node.id}");
+    this.connectionSecret = new cloud.Secret(name: "connectionString_{nodeof(this).id}");
 
     let target = util.env("WING_TARGET");
     if target == "tf-aws" {
@@ -240,7 +240,7 @@ class DatabaseRDS impl IDatabase {
     );
 
     let proxy = new tfaws.dbProxy.DbProxy(
-      name: "proxy{this.node.addr.substring(0, -8)}",
+      name: "proxy{nodeof(this).addr.substring(0, -8)}",
       engineFamily: "POSTGRESQL",
       auth: {
         secret_arn: cluster.masterUserSecret.get(0).secretArn
@@ -383,7 +383,7 @@ class DatabaseNeon impl IDatabase {
   neonProvider(): cdktf.TerraformProvider {
     let stack = cdktf.TerraformStack.of(this);
     let singletonKey = "WingNeonProvider";
-    let existing = stack.node.tryFindChild(singletonKey);
+    let existing = nodeof(stack).tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
     }
