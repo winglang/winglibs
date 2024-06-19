@@ -16,6 +16,6 @@ pub struct PublishResult {
   SequenceNumber: str?;
 }
 
-pub interface IMobileNotifications {
+pub interface IMobileNotifications extends std.IResource {
   inflight publish(options: PublishOptions): PublishResult;
 }

@@ -34,4 +34,8 @@ pub class EmailService impl types.IEmailService {
   pub inflight sendRawEmail(options: types.SendRawEmailOptions): str? {
     return this.inner.sendRawEmail(options);
   }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    this.inner.onLift(host, ops);
+  }
 }
