@@ -14,7 +14,7 @@ pub class Model impl a.IModel {
 
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      if std.Node.of(this).app.isTestEnvironment {
+      if nodeof(this).app.isTestEnvironment {
         // in case of test running on sim, use simulator version
         this.inner = new s.Model_sim(modelId) as "sim"; 
       } else {

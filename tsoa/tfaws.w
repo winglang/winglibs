@@ -93,7 +93,7 @@ pub class Service_tfaws impl types.IService {
     let handlerInvokeArn: str = unsafeCast(awsFn)?.invokeArn;
 
     this.api = new awsProvider.apiGatewayRestApi.ApiGatewayRestApi(
-      name: "wing-tsoa-api-{this.node.addr.substring(42-8)}",
+      name: "wing-tsoa-api-{nodeof(this).addr.substring(42-8)}",
       endpointConfiguration: {
         types: ["EDGE"]
       }

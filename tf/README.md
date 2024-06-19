@@ -169,7 +169,7 @@ class DnsimpleProvider {
   pub static getOrCreate(scope: std.IResource): tf.Provider {
     let root = nodeof(scope).root;
     let singletonKey = "WingDnsimpleProvider";
-    let existing = root.node.tryFindChild(singletonKey);
+    let existing = nodeof(root).tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
     }

@@ -52,7 +52,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       // - Get rid of the initial "root/Default/Default/" part (21 characters)
       // - Make room for the last 8 digits of the address (9 characters including hyphen). 255 is the maximum length of an AWS resource name
       // - Add the last 8 digits of the address
-      name: props.name ?? "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
+      name: props.name ?? "{nodeof(this).path.replaceAll("/", "-").substring(21, (255+21)-9)}-{nodeof(this).addr.substring(42-8)}",
       attribute: props.attributes,
       hashKey: props.hashKey,
       rangeKey: props.rangeKey,

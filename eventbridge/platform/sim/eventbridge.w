@@ -16,7 +16,7 @@ pub class Bus impl types.IBus {
           handler(event);
         }, pattern);
 
-        let node = std.Node.of(this);
+        let node = nodeof(this);
       }
     }
 
@@ -34,7 +34,7 @@ pub class Bus impl types.IBus {
           queue.push(Json.stringify(json));
         }, pattern);
 
-        let node = std.Node.of(this);
+        let node = nodeof(this);
 
         node.addConnection(
           name: "event rule",
