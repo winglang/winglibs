@@ -40,7 +40,7 @@ publishing them for you.
 | [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |
 | [websockets](./websockets) | [@winglibs/websockets](https://www.npmjs.com/package/@winglibs/websockets) | awscdk, sim, tf-aws |
-| [wingdocs](./wingdocs) | [@winglibs/wingdocs](https://www.npmjs.com/package/@winglibs/wingdocs) | sim |
+| [wingdocs](./wingdocs) | [@winglibs/wingdocs](https://www.npmjs.com/package/@winglibs/wingdocs) | sim, tf-aws |
 
 _Generated with `mkrepo.sh`. To update the list of supported platforms for a winglib, please update the "wing" section in its package.json file._
 
