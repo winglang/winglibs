@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/sh -x
+
 if [ -z "${DOCS_SOURCE}" ]; then
   echo "Missing DOCS_SOURCE"
   exit 1
