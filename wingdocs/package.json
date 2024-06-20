@@ -1,0 +1,16 @@
+{
+  "name": "@winglibs/wingdocs",
+  "description": "wingdocs library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "wingdocs"
+  },
+  "wing": {
+    "platforms": [
+      "sim"
+    ]
+  },
+  "license": "MIT"
+}

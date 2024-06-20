@@ -1,0 +1,336 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+@import url("../../static/fonts/GeneralSans/css/general-sans.css");
+
+/* You can override the default Infima variables here. */
+:root {
+  font-family: "GeneralSans-Regular", sans-serif;
+  --ifm-color-primary: #1c273d;
+  --ifm-color-primary-dark: #192337;
+  --ifm-color-primary-darker: #182134;
+  --ifm-color-primary-darkest: #141b2b;
+  --ifm-color-primary-light: #1f2b43;
+  --ifm-color-primary-lighter: #1b918a;
+  --ifm-color-primary-lightest: #24334f;
+  --ifm-code-font-size: 100%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-font-family-base: "GeneralSans-Regular", sans-serif;
+  --doc-sidebar-width: 250px !important;
+  --ifm-navbar-height: 80px;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+html[data-theme="dark"] {
+  /*#47aca6*/
+  /* 8bded9 */
+  /* 8fece6 */
+  font-family: "GeneralSans-Regular", sans-serif;
+  --ifm-color-primary: #2ad5c1;
+  --ifm-color-primary-dark: #23bab1;
+  --ifm-color-primary-darker: #21b0a7;
+  --ifm-color-primary-darkest: #1b918a;
+  --ifm-color-primary-light: #36d9cf;
+  --ifm-color-primary-lighter: #73dcd5;
+  --ifm-color-primary-lightest: #84e7e1;
+  --ifm-color-content: #f1f0f1;
+  --ifm-background-color: #111414;
+  --ifm-background-surface-color: #1c2021;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+.menu__link--sublist-caret:after,
+.menu__caret:before {
+  /* margin-left: 0.2rem; */
+  background: var(--ifm-menu-link-sublist-icon) 50% / 1rem 1rem;
+}
+
+.menu__list-item-collapsible > a {
+  font-weight: 600;
+}
+
+.theme-doc-sidebar-item-category-level-1 {
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.theme-doc-sidebar-item-link-level-1 {
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.theme-doc-sidebar-item-link-level-1 > a {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-weight: 600;
+  font-size: 1.12rem;
+}
+
+h5 {
+  font-weight: 600;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+h6 {
+  font-weight: 600;
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+a {
+  font-weight: 600;
+  color: var(--ifm-color-primary-lighter);
+}
+
+a:hover {
+  color: var(--ifm-color-primary-lightest);
+}
+
+button.navbar__toggle {
+  width: 1.15rem;
+  align-items: center;
+}
+
+.navbar__title {
+  font-size: inherit;
+}
+
+.navbar__logo {
+  height: 24px;
+  width: 139px;
+  margin-right: 0px;
+  padding-top: 0.2px;
+  padding-left: 5px;
+  padding-bottom: 0.8px;
+}
+
+.navbar__brand {
+  margin-right: 40px;
+}
+
+.navbar--fixed-top {
+  align-items: center;
+  padding: 0px 32px;
+  background-color: white;
+}
+
+html[data-theme="dark"] .navbar--fixed-top {
+  background-color: #121414;
+}
+
+.header-text-link svg[class^="iconExternalLink"] {
+  display: none;
+}
+
+.header-text-link {
+  padding: 20px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  align-items: center;
+}
+
+html[data-theme="dark"] .header-text-link {
+  color: #f1f0f1;
+}
+
+@media (min-width: 992px) and (max-width: 1380px) {
+  .header-text-link {
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+
+  .navbar__brand {
+    margin-right: 16px;
+  }
+}
+
+.header-text-link:hover {
+  color: var(--ifm-color-primary-lightest);
+  background-color: #f2f2f2;
+  border-radius: 8px;
+}
+
+html[data-theme="dark"] .header-text-link:hover {
+  color: var(--ifm-color-primary-lightest);
+  background-color: #272828;
+  border-radius: 8px;
+}
+
+.menu__link {
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}
+
+.menu__link:hover {
+  color: var(--ifm-color-primary-lightest);
+}
+
+.table-of-contents__link:hover {
+  color: var(--ifm-color-primary-lightest);
+}
+
+@media (max-width: 1040px) {
+  .header-slack-link {
+    display: none;
+  }
+}
+
+.header-slack-link svg[class^="iconExternalLink"] {
+  display: none;
+}
+
+.header-slack-link:hover {
+  opacity: 0.6;
+}
+
+.header-slack-link:before {
+  background: url("../../static/img/slack.svg") no-repeat;
+  content: "";
+  display: flex;
+  height: 26px;
+  width: 24px;
+  color: #334155;
+}
+
+html[data-theme="dark"] .header-slack-link:before {
+  background: url("../../static/img/slack-dark.svg") no-repeat;
+  color: #2bd5c1;
+}
+
+html[data-theme="dark"] .navbar__title {
+  color: #2ad5c1;
+}
+
+.header-github-link svg[class^="iconExternalLink"] {
+  display: none;
+}
+
+.header-github-link:hover {
+  opacity: 0.6;
+}
+
+.header-github-link:before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background: url("../../static/img/github-logo.svg") no-repeat;
+}
+
+html[data-theme="dark"] .header-github-link:before {
+  background: url("../../static/img/github-logo-dark.svg") no-repeat;
+}
+
+.footer--dark {
+  --ifm-footer-background-color: #212627;
+}
+
+.nav-git {
+  grid-column-gap: 8px;
+  grid-row-gap: 8px;
+  white-space: nowrap;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  font-size: 15px;
+  display: flex;
+  color: #2a3434;
+  background-color: #aef8ec;
+}
+
+.nav-git-mobile {
+  display: none;
+}
+
+@media (max-width: 1250px) {
+  .nav-git-button {
+    display: none;
+  }
+}
+
+@media (min-width: 1070px) and (max-width: 1250px) {
+  .nav-git-mobile {
+    display: flex;
+  }
+}
+
+.nav-git:hover {
+  background-color: #ebedf0;
+  text-decoration: none;
+}
+
+html[data-theme="dark"] .nav-git {
+  color: #f1f0f1;
+  background-color: #03120e;
+}
+
+html[data-theme="dark"] .nav-git:hover {
+  background-color: #444950;
+}
+
+.line-sep {
+  width: 1px;
+  height: 1.5em;
+  border-right: 1px solid #26413c;
+}
+
+/**
+  * Custom CSS for the Blog
+  */
+
+@media (min-width: 997px) {
+  .container {
+    max-width: 100% !important;
+    padding-left: 2.4rem !important;
+    padding-right: 2.4rem !important;
+  }
+  .docPage_node_modules-\@docusaurus-theme-classic-lib-theme-DocPage-Layout-styles-module,
+  .docPage__5DB {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
+h2[itemprop="headline"] a {
+  font-size: 3rem;
+  font-weight: 600;
+  color: #1c1e21;
+}
+html[data-theme="dark"] h2[itemprop="headline"] a {
+  color: #f1f0f1;
+}
+
+.sidebar_node_modules-\@docusaurus-theme-classic-lib-theme-BlogSidebar-Desktop-styles-module,
+.sidebar_re4s {
+  top: 0px !important;
+}
