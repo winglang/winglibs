@@ -1,5 +1,4 @@
-#!/bin/sh -x
-
+#!/bin/bash -x
 if [ -z "${DOCS_SOURCE}" ]; then
   echo "Missing DOCS_SOURCE"
   exit 1
@@ -30,5 +29,10 @@ mkdir -p "${DOCS_TARGET}"
 echo "Staging docs: ${DOCS_SOURCE} => ${DOCS_TARGET}"
 cp -r "${DOCS_SOURCE}/" "${DOCS_TARGET}"
 
+find .
+
+echo "Installing dependencies..."
 npm install
+
+echo "Building..."
 npm run build
