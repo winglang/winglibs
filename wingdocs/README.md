@@ -63,4 +63,4 @@ terraform apply
 
 ## License
 
-This library is licensed under the [MIT License](./LICENSE).
+This library is licensed under the [Wing Cloud License](./LICENSE).
