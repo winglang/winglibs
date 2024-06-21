@@ -64,6 +64,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       billingMode: "{this.billingMode}",
       removalPolicy: "{this.removalPolicy}",
       deletionProtectionEnabled: props.deletionProtection ?? false,
+      lifecycle: {
+        preventDestroy: props.deletionProtection ?? true
+      },
       streamEnabled: true,
       streamViewType: "NEW_AND_OLD_IMAGES",
       pointInTimeRecovery: {
