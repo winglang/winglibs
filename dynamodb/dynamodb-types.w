@@ -171,6 +171,19 @@ pub struct StreamConsumerOptions {
   startingPosition: str?;
 }
 
+pub enum BillingMode {
+  PAY_PER_REQUEST,
+  PROVISIONED
+}
+
+// This needs to be probably need to be moved to aws lib as it is not DynamoDB specific
+pub enum RemovalPolicy {
+  DESTROY,
+  RETAIN,
+  RETAIN_ON_UPDATE_OR_DELETE,
+  SNAPSHOT,
+}
+
 pub struct TableProps {
   name: str?;
   attributes: Array<AttributeDefinition>;
@@ -179,6 +192,9 @@ pub struct TableProps {
   timeToLiveAttribute: str?;
   globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
+  billingMode: BillingMode?;
+  removalPolicy: RemovalPolicy?;
+  deletionProtection: bool?;
 }
 
 pub struct Credentials {
