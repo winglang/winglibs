@@ -30,7 +30,7 @@ let mobileClient = new sns.MobileNotifications();
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
 
-let func = new cloud.Function(new python.InflightFunction(
+let func = new cloud.Function(new python.InflightFunctionHandler(
   path: fs.join(@dirname, "./test-assets"),
   handler: "main.handler",
   lift: {
