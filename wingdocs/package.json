@@ -1,0 +1,22 @@
+{
+  "name": "@winglibs/wingdocs",
+  "description": "Doc site for Wing platforms",
+  "version": "0.0.1",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": {
+    "name": "Wing Cloud Team",
+    "email": "ping@wing.cloud",
+    "url": "https://wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "wingdocs"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  }
+}
