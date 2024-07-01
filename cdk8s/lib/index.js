@@ -1,5 +1,5 @@
 const cdk8s = require('cdk8s');
-const { core } = require('@winglang/sdk');;
+const { core, std } = require('@winglang/sdk');;
 
 exports.Platform = class {
   target = "cdk8s";
@@ -20,6 +20,7 @@ exports.Platform = class {
         root.newAbstract = (fqn, scope, id, ...args) => this.newAbstract(fqn, scope, id, ...args);
         root.typeForFqn = fqn => this.typeForFqn(fqn);
 
+        std.Node._markRoot(props.rootConstruct);
         new props.rootConstruct(this, props.rootId ?? "Default");
       }
 
