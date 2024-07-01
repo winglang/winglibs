@@ -7,7 +7,7 @@ pub class CanaryWorkflow {
       let var testCommand = "wing test";
 
       if fs.exists("./{lib}/test.sh") {
-        testCommand = fs.readFile("./{lib}/test.sh", { encoding: "utf-8" });
+        testCommand = "./test.sh";
       }
 
       return [
