@@ -17,11 +17,10 @@ npm i @winglibs/tsoa
 ```js
 // main.w
 bring tsoa;
+bring fs;
 
 let service = new tsoa.Service(
-  controllerPathGlobs: ["./src/*Controller.ts"],
-  outputDirectory: "../build",
-  routesDir: "../build"
+  controllerPathGlobs: [fs.join(@dirname, "src/*Controller.ts")]
 );
 ```
 
@@ -58,7 +57,7 @@ public async getUser(
 ## Roadmap
 
 - [x] Support `sim` platform
-- [ ] Add Console support for http client (depends on https://github.com/winglang/wing/issues/6131) 
+- [x] Add Console support for http client (depends on https://github.com/winglang/wing/issues/6131) 
 - [x] Support `tf-aws` platform using [Amazon Api Gateway](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
 - [ ] Support `gcp` platform using [GCP Api Gateway](https://cloud.google.com/api-gateway)
 
