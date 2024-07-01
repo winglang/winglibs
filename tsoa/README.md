@@ -20,7 +20,7 @@ bring tsoa;
 bring fs;
 
 let service = new tsoa.Service(
-  controllerPathGlobs: [fs.join(@dirname, "src/*Controller.ts")]
+  controllers: [fs.join(@dirname, "src/*Controller.ts")]
 );
 ```
 
