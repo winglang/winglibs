@@ -2,43 +2,64 @@ bring cloud;
 bring ui;
 bring util;
 bring fs;
-bring "./types.w" as types;
-bring "./sim.w" as sim;
-bring "./tfaws.w" as tfaws;
+bring "./builder" as builder;
+bring "./types" as types;
+bring "./platforms" as platforms;
 
-/**
- * Starts a new TSOA service.
- */
-pub class Service impl types.IService {
-  inner: types.IService;
+/// Properties for a new TSOA service.
+pub struct ServiceProps {
+  /// An array of path globs that point to your route controllers that you would like to have tsoa include.
+  controllers: Array<str>?;
+}
+
+pub struct InvokeServiceRequest {
+  method: str;
+  path: str;
+  headers: Map<str>?;
+  query: Map<str>?;
+  body: str?;
+}
+
+/// TSOA Service
+pub class Service {
   pub url: str;
-  pub specFile: str;
+  pub function: cloud.Function;
 
-  new(props: types.ServiceProps) {
+  handler: inflight (Json): Json;
+
+  pub inflight invoke(req: InvokeServiceRequest): cloud.ApiResponse {
+    return cloud.ApiResponse.fromJson(Json.parse(this.function.invoke(Json.stringify(req))!));
+  }
+
+  new(props: ServiceProps) {
+    let b = builder.TSOABuilder.singleton(nodeof(this));
+    for controller in props.controllers ?? [] {
+      b.controllers.push(controller);
+    }
+
     let target = util.env("WING_TARGET");
+    this.handler = b.makeHandler();
+
     if target == "sim" {
-      let service = new sim.Service_sim(props);
-      this.inner = service;
-      this.url = service.url;
-      this.specFile = service.specFile;
+      let service = new platforms.SimService(this.handler);
+      this.function = service.function;
+      this.url = service.api.url;
     } elif target == "tf-aws" {
-      let service = new tfaws.Service_tfaws(props);
-      this.inner = service;
+      let service = new platforms.AWSService(this.handler);
+      this.function = service.function;
       this.url = service.url;
-      this.specFile = service.specFile;
     } else {
       throw "Unknown target: {target}";
     }
 
-    new ui.HttpClient("Http Client", inflight () => {
-      return this.url;
-    }, inflight () => {
-      return fs.readFile(this.specFile);
-    });
+    if let builderService = b.service {
+      nodeof(this.function).addDependency(builderService);
+    }
+
     new cloud.Endpoint(this.url);
   }
 
-  pub lift(client: std.Resource, ops: types.LiftOptions) {
-    this.inner.lift(client, ops);
-  }
+  pub lift(data: types.LiftOptions) {
+    unsafeCast(this.handler)?.lift(data);
+  }    
 }
