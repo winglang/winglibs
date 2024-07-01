@@ -37,6 +37,7 @@ jobs:
             jwt
             lock
             messagefanout
+            momento
             ngrok
             openai
             postgres

@@ -71,6 +71,9 @@ pull_request_rules:
       - -check-failure=build-messagefanout
       - -check-pending=build-messagefanout
       - -check-stale=build-messagefanout
+      - -check-failure=build-momento
+      - -check-pending=build-momento
+      - -check-stale=build-momento
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
@@ -171,6 +174,9 @@ pull_request_rules:
       - -check-failure=build-messagefanout
       - -check-pending=build-messagefanout
       - -check-stale=build-messagefanout
+      - -check-failure=build-momento
+      - -check-pending=build-momento
+      - -check-stale=build-momento
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok

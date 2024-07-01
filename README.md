@@ -25,6 +25,7 @@ publishing them for you.
 | [jwt](./jwt) | [@winglibs/jwt](https://www.npmjs.com/package/@winglibs/jwt) | * |
 | [lock](./lock) | [@winglibs/lock](https://www.npmjs.com/package/@winglibs/lock) | * |
 | [messagefanout](./messagefanout) | [@winglibs/messagefanout](https://www.npmjs.com/package/@winglibs/messagefanout) | sim, tf-aws |
+| [momento](./momento) | [@winglibs/momento](https://www.npmjs.com/package/@winglibs/momento) | sim |
 | [ngrok](./ngrok) | [@winglibs/ngrok](https://www.npmjs.com/package/@winglibs/ngrok) | * |
 | [openai](./openai) | [@winglibs/openai](https://www.npmjs.com/package/@winglibs/openai) | * |
 | [postgres](./postgres) | [@winglibs/postgres](https://www.npmjs.com/package/@winglibs/postgres) | sim, tf-aws |
