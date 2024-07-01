@@ -29,7 +29,7 @@ pub class ClusterBase impl ICluster {
     let singletonKey = "WingKubernetesProvider";
     let attributes = this.attributes();
     let existing = nodeof(root).tryFindChild(singletonKey);
-    if existing? {
+    if existing != nil {
       return unsafeCast(existing);
     }
 
@@ -50,7 +50,7 @@ pub class ClusterBase impl ICluster {
     let singletonKey = "WingHelmProvider";
     let attributes = this.attributes();
     let existing = nodeof(root).tryFindChild(singletonKey);
-    if existing? {
+    if existing != nil {
       return unsafeCast(existing);
     }
 

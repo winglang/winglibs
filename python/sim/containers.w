@@ -104,7 +104,7 @@ pub class Container {
     this.public = props.public ?? false;
 
     if this.public {
-      if !props.port? {
+      if props.port == nil {
         throw "'port' is required if 'public' is enabled";
       }
 
@@ -113,7 +113,7 @@ pub class Container {
       this.publicUrlKey = key;
     }
 
-    if props.port? {
+    if props.port != nil {
       let key = "internal_url";
       this.internalUrl = this.state.token(key);
       this.internalUrlKey = key;
@@ -268,7 +268,7 @@ pub class Container {
 
       if let port = opts.port {
         let hostPort = out?.tryGetAt(0)?.tryGet("NetworkSettings")?.tryGet("Ports")?.tryGet("{port}/tcp")?.tryGetAt(0)?.tryGet("HostPort")?.tryAsStr();
-        if !hostPort? {
+        if hostPort == nil {
           throw "Container does not listen to port {port}";
         }
 
