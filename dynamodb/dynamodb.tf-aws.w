@@ -32,7 +32,7 @@ class Util {
   ): Json;
 
   pub inflight static safeUnmarshall(item: Json?, options: Json?): Json? {
-    if item? {
+    if item != nil {
       return Util.unmarshall(item, options);
     }
     return nil;
