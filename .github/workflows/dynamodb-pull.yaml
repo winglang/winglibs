@@ -22,10 +22,7 @@ jobs:
         run: npm install --include=dev
         working-directory: dynamodb
       - name: Test
-        run: |
-          for testfile in tests/*.test.w; do
-            wing test "$testfile"
-          done
+        run: ./test.sh
         working-directory: dynamodb
       - name: Pack
         run: wing pack
