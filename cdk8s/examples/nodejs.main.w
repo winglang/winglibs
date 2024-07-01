@@ -1,8 +1,9 @@
 bring "cdk8s-plus-27" as k8s;
+bring fs;
 
 // lets create a volume that contains our app.
 let appData = new k8s.ConfigMap();
-appData.addDirectory("./nodejs-app");
+appData.addDirectory(fs.join(@dirname, "./nodejs-app"));
 
 let appVolume = k8s.Volume.fromConfigMap(this, "App", appData);
 
