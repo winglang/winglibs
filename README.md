@@ -36,6 +36,7 @@ publishing them for you.
 | [simtools](./simtools) | [@winglibs/simtools](https://www.npmjs.com/package/@winglibs/simtools) | sim |
 | [slack](./slack) | [@winglibs/slack](https://www.npmjs.com/package/@winglibs/slack) | sim, tf-aws |
 | [sns](./sns) | [@winglibs/sns](https://www.npmjs.com/package/@winglibs/sns) | awscdk, sim, tf-aws |
+| [stripe](./stripe) | [@winglibs/stripe](https://www.npmjs.com/package/@winglibs/stripe) | sim |
 | [tf](./tf) | [@winglibs/tf](https://www.npmjs.com/package/@winglibs/tf) | sim, tf-aws |
 | [tsoa](./tsoa) | [@winglibs/tsoa](https://www.npmjs.com/package/@winglibs/tsoa) | sim |
 | [vite](./vite) | [@winglibs/vite](https://www.npmjs.com/package/@winglibs/vite) | sim, tf-aws |

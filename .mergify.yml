@@ -104,6 +104,9 @@ pull_request_rules:
       - -check-failure=build-sns
       - -check-pending=build-sns
       - -check-stale=build-sns
+      - -check-failure=build-stripe
+      - -check-pending=build-stripe
+      - -check-stale=build-stripe
       - -check-failure=build-tf
       - -check-pending=build-tf
       - -check-stale=build-tf
@@ -204,6 +207,9 @@ pull_request_rules:
       - -check-failure=build-sns
       - -check-pending=build-sns
       - -check-stale=build-sns
+      - -check-failure=build-stripe
+      - -check-pending=build-stripe
+      - -check-stale=build-stripe
       - -check-failure=build-tf
       - -check-pending=build-tf
       - -check-stale=build-tf

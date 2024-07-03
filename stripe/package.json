@@ -1,0 +1,21 @@
+{
+  "name": "@winglibs/stripe",
+  "description": "Stripe library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "stripe"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws",
+      "awscdk"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "stripe": "^15.10.0"
+  }
+}

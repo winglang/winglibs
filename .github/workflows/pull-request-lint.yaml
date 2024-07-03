@@ -48,6 +48,7 @@ jobs:
             simtools
             slack
             sns
+            stripe
             tf
             tsoa
             vite
