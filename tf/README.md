@@ -187,7 +187,7 @@ Use `DnsimpleProvider.getOrCreate(scope)` to get the provider instance.
 
 ## `tf.Element`
 
-Just a blog of JSON that goes into the Terraform output:
+Just a blob of JSON that goes into the Terraform output:
 
 ```js
 bring tf;
