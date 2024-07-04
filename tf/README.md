@@ -185,9 +185,28 @@ class DnsimpleProvider {
 
 Use `DnsimpleProvider.getOrCreate(scope)` to get the provider instance.
 
+## `tf.Element`
+
+Just a blog of JSON that goes into the Terraform output:
+
+```js
+bring tf;
+
+new tf.Element({ 
+  provider: [
+    { aws: {  } },
+    { aws: { alias: "server_function" } },
+    { aws: { alias: "global", region: "us-east-1" } }
+  ]
+});
+```
+
+The above example will add a `provider` section to the output Terraform with a set of providers.
+
 ## Maintainers
 
 * [Elad Ben-Israel](@eladb)
+* [Chris Rybicki](@Chriscbr)
 
 ## License
 
