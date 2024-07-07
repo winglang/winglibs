@@ -176,14 +176,6 @@ pub enum BillingMode {
   PROVISIONED
 }
 
-// This needs to be probably need to be moved to aws lib as it is not DynamoDB specific
-pub enum RemovalPolicy {
-  DESTROY,
-  RETAIN,
-  RETAIN_ON_UPDATE_OR_DELETE,
-  SNAPSHOT,
-}
-
 pub struct TableProps {
   name: str?;
   attributes: Array<AttributeDefinition>;
@@ -193,7 +185,6 @@ pub struct TableProps {
   globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
   billingMode: BillingMode?;
-  removalPolicy: RemovalPolicy?;
   deletionProtection: bool?;
 }
 
