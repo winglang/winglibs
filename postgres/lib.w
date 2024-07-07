@@ -384,7 +384,7 @@ class DatabaseNeon impl IDatabase {
     let stack = cdktf.TerraformStack.of(this);
     let singletonKey = "WingNeonProvider";
     let existing = nodeof(stack).tryFindChild(singletonKey);
-    if existing? {
+    if existing != nil {
       return unsafeCast(existing);
     }
 

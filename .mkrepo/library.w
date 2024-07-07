@@ -42,7 +42,7 @@ pub class Library {
       let var testCommand = "wing test";
 
       if (fs.exists("./{libdir}/test.sh")) {
-        testCommand = fs.readFile("./{libdir}/test.sh", { encoding: "utf-8" });
+        testCommand = "./test.sh";
       }
 
       steps.push({

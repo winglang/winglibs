@@ -101,7 +101,7 @@ pub class Cognito_tfaws impl types.ICognito {
 
     let apiSpec: MutJson = unsafeCast(this.api)?.apiSpec;
     let var cognitoDefinition = MutJson{};
-    if !props? || !props?.authenticationType? || props?.authenticationType == types.AuthenticationType.COGNITO_USER_POOLS {
+    if props == nil || props?.authenticationType == nil || props?.authenticationType == types.AuthenticationType.COGNITO_USER_POOLS {
       cognitoDefinition = {
         type: "apiKey",
         name: props?.headerKey ?? "Authorization",
@@ -169,11 +169,11 @@ pub class Cognito_tfaws impl types.ICognito {
   addSecurity(path: str, method: str) {
     let apiSpec: MutJson = unsafeCast(this.api)?.apiSpec;
     let paths = apiSpec.get("paths");
-    if !paths.tryGet(path)? {
+    if paths.tryGet(path) == nil {
       throw "Path {path} not found. `cloud.Api.{method}({path}) must be called before.`";
     }
     let methods = paths.get(path);
-    if !methods.tryGet(method)? {
+    if methods.tryGet(method) == nil {
       throw "Method {method} not found. `cloud.Api.{method}({path}) must be called before.`";
     }
     let spec = methods.get(method);

@@ -171,7 +171,7 @@ pub class Table_sim impl dynamodb_types.ITable {
             }
 
             let provisionedThroughput: Json? = (() => {
-              if gsi.readCapacity? || gsi.writeCapacity? {
+              if gsi.readCapacity != nil || gsi.writeCapacity != nil {
                 return {
                   ReadCapacityUnits: gsi.readCapacity,
                   WriteCapacityUnits: gsi.writeCapacity,

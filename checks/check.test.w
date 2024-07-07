@@ -45,7 +45,7 @@ test "latest() returns the last check status" {
   let result = check.run();
   let latest = check.latest();
   log(Json.stringify(latest));
-  expect.equal(latest?, true);
+  expect.equal(latest != nil, true);
   expect.equal(result, latest);
 }
 

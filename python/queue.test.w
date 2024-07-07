@@ -8,7 +8,7 @@ bring "./lib.w" as python;
 let bucket = new cloud.Bucket();
 
 let queue = new cloud.Queue();
-queue.setConsumer(new python.InflightQueueConsumer(
+queue.setConsumer(new python.InflightQueueConsumerHandler(
   path: fs.join(@dirname, "./test-assets"),
   handler: "main.queue_consumer_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));

@@ -128,7 +128,7 @@ pub class Cognito_sim impl types.ICognito {
             };
           }
 
-          if !authHeader? {
+          if authHeader == nil {
             return {
               status: () => {
                 if authType == types.AuthenticationType.COGNITO_USER_POOLS {
@@ -180,7 +180,7 @@ pub class Cognito_sim impl types.ICognito {
 
   pub inflight adminConfirmUser(email: str): void {
     let row = this.table.tryGet(email);
-    if !row? {
+    if row == nil {
       throw "User not found";
     }
 
@@ -193,7 +193,7 @@ pub class Cognito_sim impl types.ICognito {
 
   pub inflight initiateAuth(email: str, password: str): str {
     let row = this.table.tryGet(email);
-    if !row? {
+    if row == nil {
       throw "User not found";
     }
 

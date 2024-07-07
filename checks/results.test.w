@@ -20,7 +20,7 @@ test "store/load test" {
   let response = c2.results.latest(checkid);
   log(Json.stringify(response));
 
-  assert(response?);
+  assert(response != nil);
   assert(response?.ok == true);
   assert(response?.timestamp == ts);
 }

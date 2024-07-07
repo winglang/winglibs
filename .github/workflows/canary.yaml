@@ -99,12 +99,9 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: |
+          command: |-
             cd cdk8s
-            #!/bin/sh
-            cd examples
-            wing compile -t ../lib/index.js nodejs.main.w
-            wing compile -t ../lib/index.js ubuntu.main.w
+            ./test.sh
           timeout_minutes: 5
   canary-checks:
     name: Test checks
@@ -201,11 +198,9 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: |
+          command: |-
             cd dynamodb
-            for testfile in tests/*.test.w; do
-              wing test "$testfile"
-            done
+            ./test.sh
           timeout_minutes: 5
   canary-eventbridge:
     name: Test eventbridge
@@ -566,12 +561,9 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: |
+          command: |-
             cd react
-            cd test/react-project
-            npm install
-            cd ../..
-            wing test
+            ./test.sh
           timeout_minutes: 5
   canary-redis:
     name: Test redis

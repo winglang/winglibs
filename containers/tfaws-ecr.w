@@ -58,7 +58,7 @@ pub class Repository {
     // null provider singleton
     let root = nodeof(this).root;
     let nullProviderId = "NullProvider";
-    if !nodeof(root).tryFindChild(nullProviderId)? {
+    if nodeof(root).tryFindChild(nullProviderId) == nil {
       new null_provider.provider.NullProvider() as nullProviderId in root;
     }
     
