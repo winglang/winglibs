@@ -237,7 +237,13 @@ pub class Table_sim impl dynamodb_types.ITable {
           state.set("tableName", tableName);
           return true;
         } catch error {
-          return false;
+          // container might be starting up
+          if error == "socket hang up" || error == "read ECONNRESET" {
+            return false;
+          }
+
+          log(error);
+          throw error;
         }
       });
     });
