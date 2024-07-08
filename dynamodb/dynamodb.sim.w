@@ -238,7 +238,7 @@ pub class Table_sim impl dynamodb_types.ITable {
           return true;
         } catch error {
           // container might be starting up
-          if error == "socket hang up" {
+          if error == "socket hang up" || error == "read ECONNRESET" {
             return false;
           }
 
