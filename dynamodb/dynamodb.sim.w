@@ -281,6 +281,10 @@ pub class Table_sim impl dynamodb_types.ITable {
     return this.client.put(options);
   }
 
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
+  }
+
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
     return this.client.transactWrite(options);
   }
