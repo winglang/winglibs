@@ -26,7 +26,7 @@ bring "./lib/stripe.w" as Stripe;
 
 let stripeSecretKey = new cloud.Secret(name: "STRIPE_API_TOKEN") as "Stripe Secret";
 let webhookSecret = new cloud.Secret(name: "STRIPE_ENDPOINT_SECRET") as "Webhook Secret";
-let stripe = new Stripe.Webhook({ webhookSecret: webhookSecret, secretKey: stripeSecretKey }) as "Stripe integration";
+let stripe = new Stripe.Webhook(webhookSecret: webhookSecret, secretKey: stripeSecretKey) as "Stripe integration";
 
 // Listen to any stripe event
 stripe.onEvent("customer.created", inflight (ctx, event) => {
