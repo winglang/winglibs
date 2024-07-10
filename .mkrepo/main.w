@@ -29,7 +29,11 @@ for file in fs.readdir(".") {
   libs.push(lib);
 }
 
-readme.update(libs.copy());
+try {
+  readme.update(libs.copy());
+} catch e {
+  log(e);
+}
 
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
