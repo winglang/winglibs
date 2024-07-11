@@ -27,7 +27,7 @@ struct DynamoDBStreamEvent {
 
 class Util {
   extern "./dynamodb.mjs" pub inflight static unmarshall(
-    item: Json,
+    item: Json?,
     options: Json?,
   ): Json;
 
@@ -79,7 +79,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
             ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
             Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
               wrapNumbers: true,
-            }),
+            })!,
             NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
               wrapNumbers: true,
             }),
