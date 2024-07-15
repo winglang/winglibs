@@ -4,21 +4,22 @@ bring expect;
 bring "../dynamodb.w" as dynamodb;
 
 let table = new dynamodb.Table(
-  name: "my-table-name",
+  name: "my-explicit-table-name",
   attributes: [ { name: "id", type: "S" } ],
   hashKey: "id"
-) as "explicit_name";
+) as "explicit name";
 
 let table2 = new dynamodb.Table(
   attributes: [ { name: "id", type: "S" } ],
   hashKey: "id"
-) as "implicit_name";
+) as "implicit name";
 
-test "explicit table name" {
-  expect.equal(table.tableName, "my-table-name");
-}
+// It is not possible to create 2 tests with the explicit 
+// table name when using AWS; running the tests in parallel
+// will result in a conflict when creating more than one table
+// with the same name.
+test "explicit and implicit table name" {
+  expect.equal(table.tableName, "my-explicit-table-name");
 
-test "implicit table name" {
-  log(table.tableName);
-  assert(table.tableName.length > 0);
+  assert(table2.tableName.contains("implicit-name"));
 }

@@ -4,6 +4,7 @@ bring cloud;
 bring ui;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
+bring "./dynamodb-base.w" as dynamodb_base;
 
 inflight interface Client {
   inflight createTable(input: Json): Json;
@@ -101,7 +102,7 @@ class Host {
   }
 }
 
-pub class Table_sim impl dynamodb_types.ITable {
+pub class Table_sim extends dynamodb_base.TableBase impl dynamodb_types.ITable {
   host: Host;
   pub tableName: str;
   pub connection: dynamodb_types.Connection;
@@ -111,7 +112,7 @@ pub class Table_sim impl dynamodb_types.ITable {
     this.host = Host.of(this);
 
     this.adminEndpoint = this.host.ui?.endpoint;
-    let tableName = props.name ?? nodeof(this).addr;
+    let tableName = props.name ?? this.getImplicidTableName(nodeof(this).path, nodeof(this).addr);
     let state = new sim.State();
     this.tableName = state.token("tableName");
 

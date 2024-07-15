@@ -4,6 +4,7 @@ bring "cdktf" as cdktf;
 bring "@cdktf/provider-aws" as tfaws;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
+bring "./dynamodb-base.w" as dynamodb_base;
 
 struct DynamoDBStreamEventDynamoDB {
   ApproximateCreationDateTime: str;
@@ -39,7 +40,7 @@ class Util {
   }
 }
 
-pub class Table_tfaws impl dynamodb_types.ITable {
+pub class Table_tfaws extends dynamodb_base.TableBase impl dynamodb_types.ITable {
   pub tableName: str;
   table: tfaws.dynamodbTable.DynamodbTable;
 
@@ -47,12 +48,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   new(props: dynamodb_types.TableProps) {
     this.table = new tfaws.dynamodbTable.DynamodbTable({
-      // Generate a unique name for the table:
-      // - Replace slashes with hyphens
-      // - Get rid of the initial "root/Default/Default/" part (21 characters)
-      // - Make room for the last 8 digits of the address (9 characters including hyphen). 255 is the maximum length of an AWS resource name
-      // - Add the last 8 digits of the address
-      name: props.name ?? "{regex.compile("[^a-zA-Z0-9._-]+").replaceAll(nodeof(this).path, "-").substring(21, (255+21)-9)}-{nodeof(this).addr.substring(42-8)}",
+      name: props.name ?? this.getImplicidTableName(nodeof(this).path, nodeof(this).addr),
       attribute: props.attributes,
       hashKey: props.hashKey,
       rangeKey: props.rangeKey,

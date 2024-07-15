@@ -4,7 +4,7 @@ bring expect;
 bring "../dynamodb.w" as dynamodb;
 
 let table = new dynamodb.Table(
-  name: "my-table-name",
+  name: "my-connection-table",
   attributes: [ { name: "id", type: "S" } ],
   hashKey: "id"
 );
@@ -12,7 +12,7 @@ let table = new dynamodb.Table(
 if util.env("WING_TARGET") == "sim" {
 
   test "sim returns localhost" {
-    expect.equal(table.connection.tableName, "my-table-name");
+    expect.equal(table.connection.tableName, "my-connection-table");
     expect.equal(table.connection.clientConfig?.credentials?.accessKeyId, "local");
     expect.equal(table.connection.clientConfig?.credentials?.secretAccessKey, "local");
     expect.equal(table.connection.clientConfig?.region, "local");
@@ -22,7 +22,7 @@ if util.env("WING_TARGET") == "sim" {
 } else {
 
   test "non-sim returns the table name and nil" {
-    expect.equal(table.connection.tableName, "my-table-name");
+    expect.equal(table.connection.tableName, "my-connection-table");
     expect.equal(table.connection.clientConfig, nil);
   }
 
