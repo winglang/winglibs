@@ -11,7 +11,7 @@ pub class EmailService impl types.IEmailService {
   new(props: types.EmailServiceProps) {
     let target = util.env("WING_TARGET");
     if target == "sim" {
-      if std.Node.of(this).app.isTestEnvironment {
+      if nodeof(this).app.isTestEnvironment {
         this.inner = new sim.EmailService_sim(props);
       } else {
         this.inner = new tfaws.EmailService_tfaws(props);  
@@ -33,5 +33,9 @@ pub class EmailService impl types.IEmailService {
 
   pub inflight sendRawEmail(options: types.SendRawEmailOptions): str? {
     return this.inner.sendRawEmail(options);
+  }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    this.inner.onLift(host, ops);
   }
 }

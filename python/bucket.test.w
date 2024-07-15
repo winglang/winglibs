@@ -6,7 +6,7 @@ bring fs;
 bring "./lib.w" as python;
 
 let bucket = new cloud.Bucket();
-bucket.onCreate(new python.InflightBucketEvent(
+bucket.onCreate(new python.InflightBucketEventHandler(
   path: fs.join(@dirname, "./test-assets"),
   handler: "main.bucket_oncreate_handler",
 ).lift(bucket, id: "bucket", allow: ["put"]));

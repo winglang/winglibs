@@ -27,12 +27,12 @@ struct DynamoDBStreamEvent {
 
 class Util {
   extern "./dynamodb.mjs" pub inflight static unmarshall(
-    item: Json,
+    item: Json?,
     options: Json?,
   ): Json;
 
   pub inflight static safeUnmarshall(item: Json?, options: Json?): Json? {
-    if item? {
+    if item != nil {
       return Util.unmarshall(item, options);
     }
     return nil;
@@ -52,7 +52,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       // - Get rid of the initial "root/Default/Default/" part (21 characters)
       // - Make room for the last 8 digits of the address (9 characters including hyphen). 255 is the maximum length of an AWS resource name
       // - Add the last 8 digits of the address
-      name: props.name ?? "{this.node.path.replaceAll("/", "-").substring(21, (255+21)-9)}-{this.node.addr.substring(42-8)}",
+      name: props.name ?? "{nodeof(this).path.replaceAll("/", "-").substring(21, (255+21)-9)}-{nodeof(this).addr.substring(42-8)}",
       attribute: props.attributes,
       hashKey: props.hashKey,
       rangeKey: props.rangeKey,
@@ -79,7 +79,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
             ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
             Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
               wrapNumbers: true,
-            }),
+            })!,
             NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
               wrapNumbers: true,
             }),
@@ -132,6 +132,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
       }
+      if ops.contains("update") {
+        actions.push("dynamodb:UpdateItem");
+      }
       if ops.contains("scan") {
         actions.push("dynamodb:Scan");
       }
@@ -182,6 +185,10 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

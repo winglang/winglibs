@@ -8,6 +8,14 @@ bring ses;
 bring fs;
 bring "./lib.w" as python;
 
+class CustomLiftable impl python.ILiftable {
+  pub liftData(): Json {
+    return {
+      "info": "CustomData",
+    };
+  }
+}
+
 let table = new dynamodb.Table(
   attributes: [
     {
@@ -22,7 +30,7 @@ let mobileClient = new sns.MobileNotifications();
 let bucket = new cloud.Bucket();
 bucket.addObject("test.txt", "Hello, world!");
 
-let func = new cloud.Function(new python.InflightFunction(
+let func = new cloud.Function(new python.InflightFunctionHandler(
   path: fs.join(@dirname, "./test-assets"),
   handler: "main.handler",
   lift: {
@@ -42,6 +50,10 @@ let func = new cloud.Function(new python.InflightFunction(
       obj: emailClient,
       allow: ["sendEmail"],
     },
+    "custom": {
+      obj: new CustomLiftable(),
+      allow: [],
+    }
   },
 ), { env: { "FOO": "bar" } });
 
@@ -51,5 +63,5 @@ new std.Test(inflight () => {
   let res = func.invoke("function1");
   log("res: {res ?? "null"}");
   expect.equal(Json.parse(res!).get("body"), "Hello!");
-  expect.equal(bucket.get("test.txt"), "Hello, world!function1bardynamoDbValue");
+  expect.equal(bucket.get("test.txt"), "Hello, world!function1bardynamoDbValueCustomData");
 }, timeout: 3m) as "invokes the function";

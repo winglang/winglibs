@@ -29,7 +29,7 @@ pub class Tunnel {
     this.onConnectHandlers = MutArray<inflight (str): void>[];
 
     if !nodeof(this).app.isTestEnvironment {
-      if !util.tryEnv("NGROK_AUTHTOKEN")? {
+      if util.tryEnv("NGROK_AUTHTOKEN") == nil {
         throw "NGROK_AUTHTOKEN is not defined";
       }
 

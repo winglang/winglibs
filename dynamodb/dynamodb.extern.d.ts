@@ -5,7 +5,7 @@ export default interface extern {
   getPort: () => Promise<number>,
   processRecordsAsync: (endpoint: string, tableName: string, handler: (arg0: StreamRecord) => Promise<void>, options?: (StreamConsumerOptions) | undefined) => Promise<void>,
   startDbAdmin: (options: StartDbAdminOptions) => Promise<StartDbAdminResponse$Inflight>,
-  unmarshall: (item: Readonly<any>, options?: (Readonly<any>) | undefined) => Promise<Readonly<any>>,
+  unmarshall: (item?: (Readonly<any>) | undefined, options?: (Readonly<any>) | undefined) => Promise<Readonly<any>>,
 }
 export interface Credentials {
   readonly accessKeyId: string;

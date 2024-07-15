@@ -28,8 +28,8 @@ pub class ClusterBase impl ICluster {
     let root = nodeof(this).root;
     let singletonKey = "WingKubernetesProvider";
     let attributes = this.attributes();
-    let existing = root.node.tryFindChild(singletonKey);
-    if existing? {
+    let existing = nodeof(root).tryFindChild(singletonKey);
+    if existing != nil {
       return unsafeCast(existing);
     }
 
@@ -49,8 +49,8 @@ pub class ClusterBase impl ICluster {
     let root = nodeof(this).root;
     let singletonKey = "WingHelmProvider";
     let attributes = this.attributes();
-    let existing = root.node.tryFindChild(singletonKey);
-    if existing? {
+    let existing = nodeof(root).tryFindChild(singletonKey);
+    if existing != nil {
       return unsafeCast(existing);
     }
 
@@ -85,7 +85,7 @@ pub class Cluster extends ClusterBase impl ICluster {
   pub static getOrCreate(scope: std.IResource): ICluster {
     let root = nodeof(scope).root;
     let uid = "WingEksCluster";
-    let existing: ICluster? = unsafeCast(root.node.tryFindChild(uid));
+    let existing: ICluster? = unsafeCast(nodeof(root).tryFindChild(uid));
 
     let newCluster = (): ICluster => {
       if let attrs = Cluster.tryReadParameters(scope) {
@@ -189,7 +189,7 @@ pub class Cluster extends ClusterBase impl ICluster {
     let lbRole = new cdktf.TerraformHclModule(
       source: "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks",
       variables: {
-        role_name: "eks-lb-role-{this.node.addr}",
+        role_name: "eks-lb-role-{nodeof(this).addr}",
         attach_load_balancer_controller_policy: true,
         oidc_providers: {
           main: {

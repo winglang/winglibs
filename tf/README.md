@@ -169,7 +169,7 @@ class DnsimpleProvider {
   pub static getOrCreate(scope: std.IResource): tf.Provider {
     let root = nodeof(scope).root;
     let singletonKey = "WingDnsimpleProvider";
-    let existing = root.node.tryFindChild(singletonKey);
+    let existing = nodeof(root).tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
     }
@@ -185,9 +185,28 @@ class DnsimpleProvider {
 
 Use `DnsimpleProvider.getOrCreate(scope)` to get the provider instance.
 
+## `tf.Element`
+
+Just a blob of JSON that goes into the Terraform output:
+
+```js
+bring tf;
+
+new tf.Element({ 
+  provider: [
+    { aws: {  } },
+    { aws: { alias: "server_function" } },
+    { aws: { alias: "global", region: "us-east-1" } }
+  ]
+});
+```
+
+The above example will add a `provider` section to the output Terraform with a set of providers.
+
 ## Maintainers
 
 * [Elad Ben-Israel](@eladb)
+* [Chris Rybicki](@Chriscbr)
 
 ## License
 

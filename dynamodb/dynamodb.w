@@ -61,6 +61,10 @@ pub class Table impl dynamodb_types.ITable {
     return this.implementation.put(options);
   }
 
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.implementation.update(options);
+  }
+
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
     return this.implementation.transactWrite(options);
   }
@@ -75,6 +79,10 @@ pub class Table impl dynamodb_types.ITable {
 
   pub inflight readWriteConnection(): dynamodb_types.Connection {
     return this.implementation.readWriteConnection();
+  }
+
+  pub onLift(host: std.IInflightHost, ops: Array<str>) {
+    this.implementation.onLift(host, ops);
   }
 }
 

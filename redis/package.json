@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/redis",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Redis resource for Wing",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@winglibs/containers": "^0.0.27",
+    "@winglibs/containers": "^0.1.2",
     "redis": "^4.6.11"
   }
 }

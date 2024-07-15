@@ -9,23 +9,26 @@ def handler(event, context):
   foo_env = os.getenv("FOO")
   
   email_client = lifted("email")
-  email_client.send_email(Source="bot@wing.cloud", Destination={'ToAddresses': ['bot@monada.co',],},Message={'Subject': {'Data': 'Winglang Test Email!',},'Body': {'Text': {'Data': 'Hello from Python!',},}},)
+  email_client.send_email(Source="eladc@wing.cloud", Destination={'ToAddresses': ['eladc@monada.co',],},Message={'Subject': {'Data': 'Winglang Test Email!',},'Body': {'Text': {'Data': 'Hello from Python!',},}},)
 
   mobile_client = lifted("sms")
   mobile_client.publish(
     Message="Hello from Python!",
     Subject="Test Subject",
-    PhoneNumber="1234567890",
+    PhoneNumber="+972503292946",
   )
 
   table = lifted("table")
   response = table.get(Key={"id":"test"})
   table_value = response["Item"]["body"]
+  
+  custom = lifted("custom")
+  custom_data = custom["liftData"]["info"]
 
   bucket = lifted("bucket")
   value = bucket.get("test.txt")
-  bucket.put("test.txt", value + payload + foo_env + table_value)
-  
+  bucket.put("test.txt", value + payload + foo_env + table_value + custom_data)
+
   return {
     "statusCode": 200,
     "body": "Hello!"

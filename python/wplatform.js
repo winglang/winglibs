@@ -4,32 +4,18 @@ const { Queue: TfAwsQueue } = require("./tfaws/queue.js");
 const { Topic: TfAwsTopic } = require("./tfaws/topic.js");
 const { Bucket: TfAwsBucket } = require("./tfaws/bucket.js");
 const { Api: TfAwsApi } = require("./tfaws/api.js");
-
+const { tryGetPythonInflight } = require("./inflight.js");
 const FUNCTION_FQN = "@winglang/sdk.cloud.Function";
 const QUEUE_FQN = "@winglang/sdk.cloud.Queue";
 const TOPIC_FQN = "@winglang/sdk.cloud.Topic";
 const BUCKET_FQN = "@winglang/sdk.cloud.Bucket";
 const API_FQN = "@winglang/sdk.cloud.Api";
 
-const tryGetPythonInflight = (inflight) => {
-  if (inflight._inflightType === "_inflightPython") {
-    return inflight; 
-  } else {
-    // inflight was lifted to another inflight
-    for (let l of inflight._liftMap?.handle || []) {
-      const lifted = tryGetPythonInflight(l[0]);
-      if (lifted) {
-        return lifted;
-      }
-    }
-  }
-};
-
 const createFunction = (target, scope, id, inflight, props) => {
   const pythonInflight = tryGetPythonInflight(inflight);
   if (pythonInflight) {
     if (target === "tf-aws") {
-      return new TfAwsFunction(scope, id, inflight, props);
+      return new TfAwsFunction(scope, id, inflight, props, pythonInflight);
     } else if (target === "sim") {
       return new SimFunction(scope, id, inflight, props, pythonInflight);
     }

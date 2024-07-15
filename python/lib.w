@@ -7,7 +7,11 @@ bring "./sim/api_onrequest_inflight.w" as simapi;
 bring "./tfaws/inflight.w" as aws;
 bring "./tfaws/api_onrequest_inflight.w" as tfawsapi;
 
-pub class InflightFunction impl cloud.IFunctionHandler {
+pub interface ILiftable {
+  liftData(): Json;
+}
+
+pub class InflightFunctionHandler impl cloud.IFunctionHandler {
   _inflightType: str;
   inner: types.IInflight;
 
@@ -39,7 +43,7 @@ pub class InflightFunction impl cloud.IFunctionHandler {
   }
 }
 
-pub class InflightQueueConsumer impl cloud.IQueueSetConsumerHandler {
+pub class InflightQueueConsumerHandler impl cloud.IQueueSetConsumerHandler {
   _inflightType: str;
   inner: types.IInflight;
 
@@ -71,7 +75,7 @@ pub class InflightQueueConsumer impl cloud.IQueueSetConsumerHandler {
   }
 }
 
-pub class InflightTopicOnMessage impl cloud.ITopicOnMessageHandler {
+pub class InflightTopicOnMessageHandler impl cloud.ITopicOnMessageHandler {
   _inflightType: str;
   inner: types.IInflight;
 
@@ -103,7 +107,7 @@ pub class InflightTopicOnMessage impl cloud.ITopicOnMessageHandler {
   }
 }
 
-pub class InflightBucketEvent impl cloud.IBucketEventHandler {
+pub class InflightBucketEventHandler impl cloud.IBucketEventHandler {
   _inflightType: str;
   inner: types.IBucketEventInflight;
 

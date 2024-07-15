@@ -93,8 +93,8 @@ class Host {
 
   pub static of(scope: std.IResource): Host {
     let uid = "DynamodbHost-7JOQ92VWh6OavMXYpWx9O";
-    let root = std.Node.of(scope).root;
-    let rootNode = std.Node.of(root);
+    let root = nodeof(scope).root;
+    let rootNode = nodeof(root);
     let host = unsafeCast(rootNode.tryFindChild(uid)) ?? new Host() as uid in root;
     nodeof(host).hidden = true;
     return host;
@@ -111,7 +111,7 @@ pub class Table_sim impl dynamodb_types.ITable {
     this.host = Host.of(this);
 
     this.adminEndpoint = this.host.ui?.endpoint;
-    let tableName = props.name ?? this.node.addr;
+    let tableName = props.name ?? nodeof(this).addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
 
@@ -169,7 +169,7 @@ pub class Table_sim impl dynamodb_types.ITable {
             }
 
             let provisionedThroughput: Json? = (() => {
-              if gsi.readCapacity? || gsi.writeCapacity? {
+              if gsi.readCapacity != nil || gsi.writeCapacity != nil {
                 return {
                   ReadCapacityUnits: gsi.readCapacity,
                   WriteCapacityUnits: gsi.writeCapacity,
@@ -237,7 +237,13 @@ pub class Table_sim impl dynamodb_types.ITable {
           state.set("tableName", tableName);
           return true;
         } catch error {
-          return false;
+          // container might be starting up
+          if error == "socket hang up" || error == "read ECONNRESET" {
+            return false;
+          }
+
+          log(error);
+          throw error;
         }
       });
     });
@@ -273,6 +279,10 @@ pub class Table_sim impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
