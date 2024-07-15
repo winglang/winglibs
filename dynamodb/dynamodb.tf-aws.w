@@ -128,6 +128,9 @@ pub class Table_tfaws extends dynamodb_base.TableBase impl dynamodb_types.ITable
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
       }
+      if ops.contains("update") {
+        actions.push("dynamodb:UpdateItem");
+      }
       if ops.contains("scan") {
         actions.push("dynamodb:Scan");
       }
