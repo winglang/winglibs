@@ -76,7 +76,7 @@ class Cache_tf impl ICache {
 class MomentoProvider {
   pub static getOrCreate(scope: std.IResource): tf.Provider {
     let root = nodeof(scope).root;
-    let singletonKey = "WingMomentoProvider";
+    let singletonKey = "MomentoProvider";
     let existing = root.node.tryFindChild(singletonKey);
     if existing? {
       return unsafeCast(existing);
@@ -84,8 +84,8 @@ class MomentoProvider {
 
     return new tf.Provider(
       name: "momento",
-      source: "Chriscbr/momento",
-      version: "0.1.2",
+      source: "momentohq/momento",
+      version: "0.1.0",
     ) as singletonKey in root;
   }
 }
