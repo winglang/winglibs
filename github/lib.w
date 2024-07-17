@@ -1,6 +1,5 @@
 bring cloud;
 bring http;
-bring ex;
 bring util;
 bring "./probot/types.w" as probot;
 bring "./octokit/types.w" as octokit;

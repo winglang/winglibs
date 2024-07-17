@@ -39,8 +39,9 @@ export interface IHostedLiftable extends ILiftable {
   The list of requested inflight methods
   needed by the inflight host are given by `ops`.
   
-  This method is commonly used for adding permissions, environment variables, or
-  other capabilities to the inflight host. */
+  Any preflight class can implement this instance method to add permissions,
+  environment variables, or other capabilities to the inflight host when
+  one or more of its methods are called. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
 }
 /** Options for `construct.addMetadata()`. */
@@ -186,8 +187,9 @@ export interface IResource extends IConstruct, IHostedLiftable {
   The list of requested inflight methods
   needed by the inflight host are given by `ops`.
   
-  This method is commonly used for adding permissions, environment variables, or
-  other capabilities to the inflight host. */
+  Any preflight class can implement this instance method to add permissions,
+  environment variables, or other capabilities to the inflight host when
+  one or more of its methods are called. */
   readonly onLift: (host: IInflightHost, ops: (readonly (string)[])) => void;
 }
 /** Shared behavior between all Wing SDK resources. */
