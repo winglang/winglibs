@@ -39,8 +39,8 @@ new gitattributes.GitAttributes();
 
 let skipCanaryTests = [
   "containers", // https://github.com/winglang/wing/issues/5716
-  "cognito", // TODO: needs to be updated to use dynamodb.Table
-  "python", // TODO: needs to be refactored to handle the new cloud.Function signature
+  "cognito", // https://github.com/winglang/wing/issues/6924
+  "python", // https://github.com/winglang/wing/issues/6923
 ];
 
 new canary.CanaryWorkflow(workflowdir, libs.copy(), skipCanaryTests);
