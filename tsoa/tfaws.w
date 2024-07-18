@@ -86,7 +86,7 @@ pub class Service_tfaws impl types.IService {
     );
     
     this.func = new TSOAFunction({ RegisterRoutes: res.routesFile }, inflight (event, context) => {
-      return Service_tfaws.runHandler(event, context, this.clients);
+      return Service_tfaws.runHandler(event!, context!, this.clients);
     });
 
     let awsFn = aws.Function.from(this.func.fn)!;

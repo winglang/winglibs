@@ -38,7 +38,7 @@ pub class Check impl ICheck {
     this.checkpath = nodeof(this).path;
     this.results = r.Results.of(this);
 
-    let wrapper = inflight (): str => {
+    let wrapper = inflight (): Json => {
       log("running check {this.checkpath} ({this.checkid})...");
       let ts = datetime.utcNow().toIso();
 
@@ -65,7 +65,7 @@ pub class Check impl ICheck {
 
       this.results.store(result);
 
-      return Json.stringify(result);
+      return result;
     };
 
     if props?.deploy ?? true {
@@ -92,7 +92,7 @@ pub class Check impl ICheck {
    */
   pub inflight run(): r.CheckResult {
     let result = this.invoker.invoke("")!;
-    return r.CheckResult.fromJson(Json.parse(result));
+    return r.CheckResult.fromJson(result);
   }
 
   /**
