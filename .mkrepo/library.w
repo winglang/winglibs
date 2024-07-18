@@ -78,12 +78,6 @@ pub class Library {
         run: testCommand,
         "working-directory": libdir,
       });
-
-      steps.push({
-        name: "Pack",
-        run: "wing pack",
-        "working-directory": libdir,
-      });
     };
 
     let releaseSteps = MutArray<Json>[];
@@ -91,6 +85,35 @@ pub class Library {
 
     addCommonSteps(pullSteps);
     addCommonSteps(releaseSteps);
+
+    pullSteps.push({
+      name: "Pack",
+      run: "wing pack",
+      "working-directory": libdir,
+    });
+
+    let githubTokenWithAuth = "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}";
+
+    releaseSteps.push({
+      name: "Automated version bump",
+      uses: "phips28/gh-action-bump-version@master",
+      env: {
+        GITHUB_TOKEN: githubTokenWithAuth,
+        PACKAGEJSON_DIR: libdir,
+      },
+      with: {
+        "minor-wording": "add,Adds,new",
+        "major-wording": "MAJOR,cut-major",
+        "patch-wording": "patch,fixes",
+        "rc-wording": "RELEASE,alpha",
+      },
+    });
+
+    releaseSteps.push({
+      name: "Pack",
+      run: "wing pack",
+      "working-directory": libdir,
+    });
 
     releaseSteps.push({
       name: "Get package version",
@@ -108,7 +131,6 @@ pub class Library {
     });
 
     let tagName = "{this.name}-v\$\{\{ env.WINGLIB_VERSION \}\}";
-    let githubTokenWithAuth = "\$\{\{ secrets.PROJEN_GITHUB_TOKEN }}";
 
     releaseSteps.push({
       name: "Tag commit",

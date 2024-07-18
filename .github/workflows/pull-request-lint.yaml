@@ -37,6 +37,7 @@ jobs:
             jwt
             lock
             messagefanout
+            my-test
             ngrok
             openai
             postgres
