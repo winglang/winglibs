@@ -58,6 +58,7 @@ pub class Table_tfaws extends dynamodb_base.TableBase impl dynamodb_types.ITable
       pointInTimeRecovery: {
         enabled: props.pointInTimeRecovery,
       },
+      globalSecondaryIndex: props.globalSecondaryIndex,
     });
 
     this.tableName = this.table.name;
@@ -157,6 +158,7 @@ pub class Table_tfaws extends dynamodb_base.TableBase impl dynamodb_types.ITable
           effect: aws.Effect.ALLOW,
           resources: [
             this.table.arn,
+            "{this.table.arn}/index/*",
           ],
         });
       }
