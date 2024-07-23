@@ -1,7 +1,7 @@
 {
-  "name": "@winglibs/cdk8s",
-  "description": "cdk8s library for Wing",
-  "version": "0.0.3",
+  "name": "@winglibs/k8s",
+  "description": "Wing for Kubernetes",
+  "version": "0.0.4",
   "author": {
     "name": "Elad Ben-Israel",
     "email": "eladb@wing.cloud"
@@ -9,11 +9,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
-    "directory": "cdk8s"
+    "directory": "k8s"
   },
   "wing": {
     "platforms": [
-      "cdk8s"
+      "k8s"
     ]
   },
   "license": "MIT",

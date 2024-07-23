@@ -38,7 +38,9 @@ new prlint.PullRequestLintWorkflow(workflowdir, libs.copy());
 new gitattributes.GitAttributes();
 
 let skipCanaryTests = [
-  "containers" // https://github.com/winglang/wing/issues/5716
+  "containers", // https://github.com/winglang/wing/issues/5716
+  "cognito", // https://github.com/winglang/wing/issues/6924
+  "python", // https://github.com/winglang/wing/issues/6923
 ];
 
 new canary.CanaryWorkflow(workflowdir, libs.copy(), skipCanaryTests);

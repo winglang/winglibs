@@ -2,11 +2,13 @@ const cdk8s = require('cdk8s');
 const { core, std } = require('@winglang/sdk');;
 
 exports.Platform = class {
-  target = "cdk8s";
+  target = "k8s";
 
   newApp(props) {
     const app = new cdk8s.App({ outdir: props.outdir });
-    const chart = new cdk8s.Chart(app, "Chart");
+
+    const labels = process.env.WING_K8S_LABELS ? JSON.parse(process.env.WING_K8S_LABELS) : {};
+    const chart = new cdk8s.Chart(app, "Chart", { labels });
 
     class App extends core.App {
       _target = "cdk8s";
