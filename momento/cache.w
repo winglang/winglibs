@@ -1,4 +1,5 @@
 bring cloud;
+bring sim;
 bring util;
 bring tf;
 
@@ -42,6 +43,8 @@ pub class Cache {
     let defaultTtl = props.defaultTtl ?? 60s;
     if target.startsWith("tf") {
       this.inner = new Cache_tf({ token, name, defaultTtl });
+    } if target == "sim" {
+      this.inner = new Cache_sim({ token, name, defaultTtl });
     } else {
       throw "unsupported target: " + target;
     }
@@ -85,6 +88,57 @@ class Cache_tf impl ICache {
     let token = this.token.value(cache: true);
     let ttl = opts?.ttl ?? 60s;
     Cache_tf._set(token, this.name, key, value, ttl.seconds);
+  }
+}
+
+inflight class CacheBackend_sim impl sim.IResource {
+  values: MutMap<str>;
+  expirations: MutMap<num>;
+
+  new(ctx: sim.IResourceContext) {
+    this.values = {};
+    this.expirations = {};
+  }
+
+  pub onStop() {}
+
+  pub get(key: str): str? {
+    if this.expirations[key] < datetime.systemNow().timestamp {
+      this.values.delete(key);
+      this.expirations.delete(key);
+      return nil;
+    }
+    return this.values.tryGet(key);
+  }
+
+  pub set(key: str, value: str, opts: Json): void {
+    let ttl = num.fromJson(opts.tryGet("ttl") ?? 60);
+    this.values[key] = value;
+    let now = datetime.systemNow().timestamp;
+    this.expirations[key] = now + ttl;
+  }
+}
+
+class Cache_sim impl ICache {
+  name: str;
+  backend: sim.Resource;
+
+  new(props: CacheProps) {
+    this.name = props.name!;
+    this.backend = new sim.Resource(inflight (ctx) => {
+      return new CacheBackend_sim(ctx);
+    });
+  }
+
+  pub inflight get(key: str): str? {
+    let response = this.backend.call("get", [Json key]);
+    return response.tryAsStr();
+  }
+
+  pub inflight set(key: str, value: str, opts: CacheSetOptions?): void {
+    this.backend.call("set", [Json key, Json value, Json {
+      ttl: opts?.ttl?.seconds,
+    }]);
   }
 }
 
