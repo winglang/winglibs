@@ -1,7 +1,6 @@
-# cdk8s support for Wing
+# Wing for Kubernetes
 
-This library is a custom Wing platform that can be used to synthesize Kubernetes YAML manifests
-through [cdk8s](https://cdk8s.io) constructs.
+A framework for synthesizing Kubernetes manifests using Winglang.
 
 ## Prerequisites
 
@@ -18,45 +17,71 @@ npm i -g winglang
 Create a new project and install this library:
 
 ```sh
-mkdir wing-loves-cdk8s
-cd wing-loves-cdk8s
-npm i @winglibs/cdk8s
-```
-
-If you wish to use [cdk8s-plus](https://cdk8s.io/docs/latest/plus/), you'll also
-need to install it (choose the relevant K8S version):
-
-```sh
-npm i cdk8s-plus-27
+mkdir wing-loves-k8s
+cd wing-loves-k8s
+npm i @winglibs/k8s
 ```
 
 ## Usage
 
-Let's define a Deployment resource with 3 replicas of the `ubuntu` public Docker image:
+Let's define an app with a simple Kubernetes object:
 
 ```js
-// ubuntu.main.w
-bring "cdk8s-plus-27" as k8s;
+// main.w
+bring k8s;
 
-let deployment = new k8s.Deployment(replicas: 3);
-deployment.addContainer(image: "ubuntu");
+new k8s.ApiObject(
+  apiVersion: "v1",
+  kind: "ConfigMap",
+  spec: {
+    data: {
+      key: "value",
+    },
+  }
+);
 ```
 
 Now, compile it to YAML:
 
 ```sh
-$ wing compile -t @winglibs/cdk8s ubuntu.main.w
-target/ubuntu.main.cdk8s
+$ wing compile -t @winglibs/k8s ubuntu.main.w
+target/ubuntu.main.k8s
 ```
 
-The output is a valid K8S YAML is in `target/ubuntu.main.cdk8s`:
+You 
+
+The output is a valid K8S YAML is in `target/ubuntu.main.k8s`:
 
 ```sh
-$ ls target/ubuntu.main.cdk8s
+$ ls target/ubuntu.main.k8s
 chart-c86185a7.k8s.yaml
 ```
 
-Here's a more interesting example:
+### Creating Helm charts
+
+You can set `WING_K8S_OUTPUT` to `helm` in order to produce a helm chart instead of simple manifest.
+This requires a `Chart.yaml` file next in the current directory.
+
+### Applying labels to all resources
+
+You can use the `WING_K8S_LABELS` environment variable to apply labels to all resources in an app.
+The value is a JSON-encoded map.
+
+```sh
+export WING_K8S_LABELS='{ "my-label": "123", "your-label": "444" }'
+wing compile -t @winglibs/k8s main.w
+```
+
+### CDK8s Support
+
+This library supports [cdk8s](https://cdk8s.io) and
+[cdk8s-plus](https://cdk8s.io/docs/latest/plus/), so you can do stuff like this:
+
+```sh
+npm i cdk8s-plus-27
+```
+
+And then:
 
 ```js
 bring "cdk8s-plus-27" as k8s;
@@ -89,15 +114,6 @@ container.mount(appPath, appVolume);
 deployment.exposeViaService(serviceType: k8s.ServiceType.LOAD_BALANCER);
 ```
 
-### Applying labels to all resources
-
-You can use the `WING_K8S_LABELS` environment variable to apply labels to all resources in an app.
-The value is a JSON-encoded map.
-
-```sh
-export WING_K8S_LABELS='{ "my-label": "123", "your-label": "444" }'
-wing compile -t @winglibs/cdk8s main.w
-```
 
 ## Roadmap
 
