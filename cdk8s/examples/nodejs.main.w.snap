@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chart-app-configmap-c85bc1e0
+data:
+  index.js: console.log("hello, k8s");
+immutable: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chart-app-deployment-c843205c
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 3
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: Chart-App-Deployment-c84d7818
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: Chart-App-Deployment-c84d7818
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - command:
+            - node
+            - index.js
+            - "80"
+          image: node:14.4.0-alpine3.12
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 80
+          volumeMounts:
+            - mountPath: /var/lib/app
+              name: configmap-chart-app-configmap-c85bc1e0
+          workingDir: /var/lib/app
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            name: chart-app-configmap-c85bc1e0
+          name: configmap-chart-app-configmap-c85bc1e0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chart-app-deployment-service-c857421f
+spec:
+  externalIPs: []
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    cdk8s.io/metadata.addr: Chart-App-Deployment-c84d7818
+  type: LoadBalancer

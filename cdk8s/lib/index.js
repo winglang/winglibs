@@ -6,7 +6,9 @@ exports.Platform = class {
 
   newApp(props) {
     const app = new cdk8s.App({ outdir: props.outdir });
-    const chart = new cdk8s.Chart(app, "Chart");
+
+    const labels = process.env.WING_K8S_LABELS ? JSON.parse(process.env.WING_K8S_LABELS) : {};
+    const chart = new cdk8s.Chart(app, "Chart", { labels });
 
     class App extends core.App {
       _target = "cdk8s";

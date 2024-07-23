@@ -89,6 +89,16 @@ container.mount(appPath, appVolume);
 deployment.exposeViaService(serviceType: k8s.ServiceType.LOAD_BALANCER);
 ```
 
+### Applying labels to all resources
+
+You can use the `WING_K8S_LABELS` environment variable to apply labels to all resources in an app.
+The value is a JSON-encoded map.
+
+```sh
+export WING_K8S_LABELS='{ "my-label": "123", "your-label": "444" }'
+wing compile -t @winglibs/cdk8s main.w
+```
+
 ## Roadmap
 
 * [ ] Support generating Wing bindings from K8S API specifications and CRDs ([`cdk8s
