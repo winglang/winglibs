@@ -1,6 +1,6 @@
 bring "cdk8s" as cdk8s;
 
-pub struct ApiObjectProps extends cdk8s.ApiObjectProps{
+pub struct ApiObjectProps extends cdk8s.ApiObjectProps {
   spec: Json?;
 }
 

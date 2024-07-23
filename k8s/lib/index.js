@@ -2,7 +2,7 @@ const cdk8s = require('cdk8s');
 const { core, std } = require('@winglang/sdk');;
 
 exports.Platform = class {
-  target = "cdk8s";
+  target = "k8s";
 
   newApp(props) {
     const app = new cdk8s.App({ outdir: props.outdir });
