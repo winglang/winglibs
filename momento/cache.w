@@ -1,10 +1,16 @@
+bring cloud;
 bring util;
 bring tf;
 
 pub struct CacheProps {
+  /// A secret containing the Momento API key to use for accessing
+  /// the cache at runtime.
+  token: cloud.Secret;
+
   /// The name of the cache.
   /// @default - a unique id will be generated
   name: str?;
+
   /// The default time-to-live for cache entries.
   /// @default 60
   defaultTtl: duration?;
@@ -32,8 +38,12 @@ pub class Cache {
     let target = util.env("WING_TARGET");
     let node = nodeof(this);
     let name = props.name ?? node.id.substring(0, 8) + "_" + node.addr.substring(34);
+    let token = props.token;
+    let defaultTtl = props.defaultTtl ?? 60s;
     if target.startsWith("tf") {
-      this.inner = new Cache_tf({ name: name, defaultTtl: props.defaultTtl });
+      this.inner = new Cache_tf({ token, name, defaultTtl });
+    } else {
+      throw "unsupported target: " + target;
     }
   }
 
@@ -48,28 +58,33 @@ pub class Cache {
 
 class Cache_tf impl ICache {
   name: str;
+  token: cloud.Secret;
+
   new(props: CacheProps) {
     this.name = props.name!;
+    this.token = props.token;
+
+    // Create a momento_cache resource to model the cache.
     new tf.Resource(type: "momento_cache", attributes: {
       name: this.name,
     });
+
+    // Ensure a provider is available.
     MomentoProvider.getOrCreate(this);
   }
 
-  extern "./cache.ts" static inflight _get(cacheName: str, key: str): str?;
-  extern "./cache.ts" static inflight _set(cacheName: str, key: str, value: str, ttl: num): void;
+  extern "./cache.ts" static inflight _get(token: str, cacheName: str, key: str): str?;
+  extern "./cache.ts" static inflight _set(token: str, cacheName: str, key: str, value: str, ttl: num): void;
 
   pub inflight get(key: str): str? {
-    return Cache_tf._get(this.name, key);
+    let token = this.token.value(cache: true);
+    return Cache_tf._get(token, this.name, key);
   }
 
   pub inflight set(key: str, value: str, opts: CacheSetOptions?): void {
+    let token = this.token.value(cache: true);
     let ttl = opts?.ttl ?? 60s;
-    Cache_tf._set(this.name, key, value, ttl.seconds);
-  }
-
-  pub onLift(host: std.IInflightHost, ops: Array<str>) {
-    host.addEnvironment("MOMENTO_AUTH_TOKEN", util.env("MOMENTO_AUTH_TOKEN"));
+    Cache_tf._set(token, this.name, key, value, ttl.seconds);
   }
 }
 
@@ -77,8 +92,8 @@ class MomentoProvider {
   pub static getOrCreate(scope: std.IResource): tf.Provider {
     let root = nodeof(scope).root;
     let singletonKey = "MomentoProvider";
-    let existing = root.node.tryFindChild(singletonKey);
-    if existing? {
+    let existing = nodeof(root).tryFindChild(singletonKey);
+    if existing != nil {
       return unsafeCast(existing);
     }
 

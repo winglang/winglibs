@@ -1,9 +1,11 @@
+bring cloud;
 bring expect;
 bring "./cache.w" as momento;
 bring util;
 
-let c = new momento.Cache() as "WinglyCache";
-let c2 = new momento.Cache() as "WinglyCache2";
+let token = new cloud.Secret(name: "MOMENTO_API_KEY");
+
+let c = new momento.Cache(token: token) as "WinglyCache";
 
 test "can set and get a cache value" {
   c.set("key", "value", ttl: 10s);

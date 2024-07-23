@@ -7,23 +7,21 @@ import {
   CacheSet,
 } from "@gomomento/sdk";
 
-let cacheClient: CacheClient;
+let cacheClients: Record<string, CacheClient> = {};
 
-async function createCacheClient() {
-  if (!cacheClient) {
-    cacheClient = await CacheClient.create({
+async function createCacheClient(token: string) {
+  if (!cacheClients[token]) {
+    cacheClients[token] = await CacheClient.create({
       configuration: Configurations.Lambda.latest(),
-      credentialProvider: CredentialProvider.fromEnvironmentVariable({
-        environmentVariableName: "MOMENTO_AUTH_TOKEN",
-      }),
+      credentialProvider: CredentialProvider.fromString(token),
       defaultTtlSeconds: 60, // won't be used
     });
   }
 }
 
-export const _get: types["_get"] = async (cacheName, key) => {
-  await createCacheClient();
-  const getResponse = await cacheClient.get(cacheName, key);
+export const _get: types["_get"] = async (token, cacheName, key) => {
+  await createCacheClient(token);
+  const getResponse = await cacheClients[token].get(cacheName, key);
   if (getResponse instanceof CacheGet.Hit) {
     return getResponse.valueString();
   } else if (getResponse instanceof CacheGet.Miss) {
@@ -35,9 +33,17 @@ export const _get: types["_get"] = async (cacheName, key) => {
   }
 };
 
-export const _set: types["_set"] = async (cacheName, key, value, ttl) => {
-  await createCacheClient();
-  const setResponse = await cacheClient.set(cacheName, key, value, { ttl });
+export const _set: types["_set"] = async (
+  token,
+  cacheName,
+  key,
+  value,
+  ttl
+) => {
+  await createCacheClient(token);
+  const setResponse = await cacheClients[token].set(cacheName, key, value, {
+    ttl,
+  });
   if (setResponse instanceof CacheSet.Success) {
     return;
   } else if (setResponse instanceof CacheSet.Error) {

@@ -13,7 +13,6 @@
   },
   "wing": {
     "platforms": [
-      "sim",
       "tf-aws",
       "tf-gcp",
       "tf-azure"
