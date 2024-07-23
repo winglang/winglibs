@@ -1,24 +1,17 @@
 bring cloud;
 bring util;
-bring ex;
 bring "./lib.w" as msgfanout;
 
 let fanout = new msgfanout.MessageFanout();
 
-let table = new ex.Table(
-  name: "users",
-  primaryKey: "msgId",
-  columns: {
-    "message" => ex.ColumnType.STRING
-  }
-);
+let data = new cloud.Bucket();
 
 fanout.addConsumer(inflight (msg: str) => {
-  table.insert("first", { message: "first {msg}" });
+  data.putJson("first", { message: "first {msg}" });
 }, name: "first");
 
 fanout.addConsumer(inflight (msg: str) => {
-  table.insert("second", { message: "second {msg}" });
+  data.putJson("second", { message: "second {msg}" });
 }, name: "second");
 
 test "message fanout" {
@@ -26,6 +19,6 @@ test "message fanout" {
   
   util.sleep(10s);
 
-  assert(table.get("first")["message"] == "first hello 👋");  
-  assert(table.get("second")["message"] == "second hello 👋");
+  assert(data.getJson("first")["message"] == "first hello 👋");  
+  assert(data.getJson("second")["message"] == "second hello 👋");
 }

@@ -31,8 +31,7 @@ pub class FifoQueue_aws impl api.IFifoQueue {
 
   pub setConsumer(handler: inflight (str) : void, options: api.SetConsumerOptions?) {
     let lambdaFn = new cloud.Function(inflight (event) => {
-      let json: Json = unsafeCast(event);
-      let sqsEvent = SqsEvent.fromJson(event);
+      let sqsEvent = SqsEvent.fromJson(event!);
       for message in sqsEvent.Records {
         handler(message.body);
       }
