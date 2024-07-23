@@ -27,6 +27,16 @@ jobs:
       - name: Test
         run: wing test
         working-directory: budget
+      - name: Automated version bump
+        uses: phips28/gh-action-bump-version@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          PACKAGEJSON_DIR: budget
+        with:
+          minor-wording: add,Adds,new
+          major-wording: MAJOR,cut-major
+          patch-wording: patch,fixes
+          rc-wording: RELEASE,alpha
       - name: Pack
         run: wing pack
         working-directory: budget
