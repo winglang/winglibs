@@ -1,0 +1,27 @@
+{
+  "name": "@winglibs/momento",
+  "description": "momento library for Wing",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "momento"
+  },
+  "author": {
+    "email": "chrisr@wing.cloud",
+    "name": "Chris Rybicki"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws",
+      "tf-gcp",
+      "tf-azure"
+    ]
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@gomomento/sdk": "^1.93.0",
+    "@winglibs/tf": "^0.0.5"
+  }
+}

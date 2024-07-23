@@ -37,6 +37,7 @@ jobs:
             k8s
             lock
             messagefanout
+            momento
             ngrok
             openai
             postgres
