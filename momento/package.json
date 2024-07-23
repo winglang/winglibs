@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "peerDependencies": {
-    "@gomomento/sdk": "^1.87.0",
+    "@gomomento/sdk": "^1.93.0",
     "@winglibs/tf": "^0.0.5"
   }
 }
