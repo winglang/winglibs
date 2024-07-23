@@ -1,7 +1,7 @@
 queue_rules:
   - name: default
     speculative_checks: 2
-    conditions:
+    queue_conditions:
       - -files=.mergify.yml
 pull_request_rules:
   - name: automatic merge
@@ -13,7 +13,7 @@ pull_request_rules:
           if `{{head}}` is up-to-date with `{{base}}` and the queue is empty.
       queue:
         name: default
-        method: squash
+        merge_method: squash
         commit_message_template: |-
           {{ title }} (#{{ number }})
           {{ body }}
