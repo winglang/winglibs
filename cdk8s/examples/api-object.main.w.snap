@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: bang-bang
+    fang: fang
+  name: your-config
+spec:
+  data:
+    key: value
