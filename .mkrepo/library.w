@@ -175,6 +175,9 @@ pub class Library {
 
     pullJobs.set("build-{this.name}", {
       "runs-on": "ubuntu-latest",
+      permissions: {
+        contents: "write"
+      },
       steps: pullSteps.copy(),
     });
 
