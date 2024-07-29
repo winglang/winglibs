@@ -43,7 +43,7 @@ pub class Cache {
     let defaultTtl = props.defaultTtl ?? 60s;
     if target.startsWith("tf") {
       this.inner = new Cache_tf({ token, name, defaultTtl });
-    } if target == "sim" {
+    } elif target == "sim" {
       this.inner = new Cache_sim({ token, name, defaultTtl });
     } else {
       throw "unsupported target: " + target;
@@ -155,6 +155,9 @@ class MomentoProvider {
       name: "momento",
       source: "momentohq/momento",
       version: "0.1.0",
+      attributes: {
+        api_key: util.env("MOMENTO_API_KEY"),
+      }
     ) as singletonKey in root;
   }
 }
