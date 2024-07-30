@@ -15,6 +15,7 @@ publishing them for you.
 | [bedrock](./bedrock) | [@winglibs/bedrock](https://www.npmjs.com/package/@winglibs/bedrock) | sim, tf-aws |
 | [budget](./budget) | [@winglibs/budget](https://www.npmjs.com/package/@winglibs/budget) | sim, tf-aws |
 | [checks](./checks) | [@winglibs/checks](https://www.npmjs.com/package/@winglibs/checks) | * |
+| [cloudv2](./cloudv2) | [@winglibs/cloudv2](https://www.npmjs.com/package/@winglibs/cloudv2) | sim, tf-aws |
 | [cognito](./cognito) | [@winglibs/cognito](https://www.npmjs.com/package/@winglibs/cognito) | sim, tf-aws |
 | [containers](./containers) | [@winglibs/containers](https://www.npmjs.com/package/@winglibs/containers) | sim, tf-aws |
 | [dynamodb](./dynamodb) | [@winglibs/dynamodb](https://www.npmjs.com/package/@winglibs/dynamodb) | sim, tf-aws |
