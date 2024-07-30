@@ -1,6 +1,10 @@
 {
   "name": "@winglibs/cloudv2",
-  "description": "cloudv2 library for Wing",
+  "description": "Standard cloud library for Wing",
+  "author": {
+    "email": "chrisr@wing.cloud",
+    "name": "Chris Rybicki"
+  },
   "version": "0.0.1",
   "repository": {
     "type": "git",
