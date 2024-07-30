@@ -39,6 +39,7 @@ interface ICounter {
 
 pub class Counter impl ICounter {
   inner: ICounter;
+  pub initial: num;
   new(props: CounterProps) {
     nodeof(this).title = "Counter";
     nodeof(this).description = "A distributed atomic counter";
@@ -47,6 +48,7 @@ pub class Counter impl ICounter {
 
     let target = util.env("WING_TARGET");
     let id = nodeof(this).id;
+    this.initial = props.initial ?? 0;
     if target == "sim" {
       this.inner = new Counter_sim(props) as id;
     } elif target == "tf-aws" {

@@ -1,4 +1,4 @@
-bring cloud;
+bring "../../" as cloud;
 bring expect;
 
 let counterA = new cloud.Counter() as "counterA";
