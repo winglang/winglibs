@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Containers",
+      "summary": "Deploy containers with Wing"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

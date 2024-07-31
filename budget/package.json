@@ -24,6 +24,10 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "AWS Budget",
+      "summary": "A Wing library for working with [AWS Budgets]"
+    }
   }
 }

@@ -14,7 +14,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "JWT authentication",
+      "summary": "Wing library for JWT authentication"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

@@ -21,7 +21,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Vite",
+      "summary": "A Wing library to deploy [Vite applications](https://vitejs.dev/) to the cloud."
+    }
   },
   "peerDependencies": {
     "@cdktf/provider-aws": "^19.12.0",

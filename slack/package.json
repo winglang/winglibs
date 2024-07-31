@@ -18,7 +18,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Slack",
+      "summary": "A Wing library for working with [Slack](https://slack.com/)"
+    }
   },
   "license": "MIT"
 }

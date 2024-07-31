@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "React",
+      "summary": "A Wing library for [React](https://react.dev/)"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

@@ -21,7 +21,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon Cognito",
+      "summary": "A wing library to work with Amazon Cognito"
+    }
   },
   "license": "MIT"
 }

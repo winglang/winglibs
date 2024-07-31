@@ -16,7 +16,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Message Fanout",
+      "summary": "Wing library to fan out messages"
+    }
   },
   "peerDependencies": {
     "@aws-sdk/client-sns": "^3.511.0",

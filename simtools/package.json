@@ -14,7 +14,11 @@
   "wing": {
     "platforms": [
       "sim"
-    ]
+    ],
+    "docs": {
+      "title": "Wing simulator utils",
+      "summary": "[Wing simulator](https://www.winglang.io/docs/platforms/sim) utility library"
+    }
   },
   "license": "MIT"
 }

@@ -20,7 +20,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "FIFO Queue",
+      "summary": "A wing library to work with FIFO (first-in first-out) Queues"
+    }
   },
   "license": "MIT"
 }

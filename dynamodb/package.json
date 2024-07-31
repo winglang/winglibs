@@ -19,7 +19,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon DynamoDB",
+      "summary": "A Wing library for Amazon DynamoDB"
+    }
   },
   "license": "MIT",
   "peerDependencies": {
