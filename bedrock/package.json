@@ -19,8 +19,7 @@
     ],
     "docs": {
       "title": "Amazon Bedrock",
-      "summary": "A Wing library for Amazon Bedrock",
-      "demoURL": "http://winglang.io/docs/examples/basic-auth-api"
+      "summary": "A Wing library for Amazon Bedrock"
     }
   },
   "peerDependencies": {
