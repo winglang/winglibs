@@ -17,7 +17,8 @@
     ],
     "docs": {
       "title": "Redis",
-      "summary": "A Wing library for [Redis](https://redis.io/)"
+      "summary": "A Wing library for [Redis](https://redis.io/)",
+      "demoURL": "https://www.winglang.io/docs/examples/redis"
     }
   },
   "license": "MIT",
