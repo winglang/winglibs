@@ -23,7 +23,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "Cloud checks",
+      "summary": "A self-validation mechanism for cloud applications"
+    }
   },
   "license": "MIT"
 }

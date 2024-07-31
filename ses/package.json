@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon SES",
+      "summary": "Wing library for interacting with Amazon SES."
+    }
   },
   "license": "MIT",
   "peerDependencies": {

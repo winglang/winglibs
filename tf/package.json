@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Terraform utilities",
+      "summary": "Terraform utilities library for Wing"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

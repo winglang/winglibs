@@ -25,7 +25,11 @@
       "sim",
       "tf-aws",
       "awscdk"
-    ]
+    ],
+    "docs": {
+      "title": "WebSocket",
+      "summary": "A Wing library that enables you to create WebSockets using Wing."
+    }
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",

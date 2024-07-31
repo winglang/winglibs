@@ -17,7 +17,11 @@
       "tf-aws",
       "tf-gcp",
       "tf-azure"
-    ]
+    ],
+    "docs": {
+      "title": "Momento",
+      "summary": "Wing library for [momento](https://www.gomomento.com/)"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon SageMaker",
+      "summary": "The library enables owners of a trained sagemaker model, to access its Endpoints from a winglang [inflight](https://www.winglang.io/docs/concepts/inflights#inflight-code) code."
+    }
   },
   "license": "MIT",
   "peerDependencies": {

@@ -15,7 +15,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "GitHub",
+      "summary": "A wing library to work with GitHub Probot"
+    }
   },
   "peerDependencies": {
     "@probot/adapter-aws-lambda-serverless": "^3.0.4",

@@ -15,7 +15,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "OpenAI",
+      "summary": "Wing library for [OpenAI](https://openai.com/)"
+    }
   },
   "peerDependencies": {
     "openai": "^4.28.4"

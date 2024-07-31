@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Python",
+      "summary": "A Wing library for running [Python](https://www.python.org/) code in [inflight](https://www.winglang.io/docs/concepts/inflights#inflight-code)."
+    }
   },
   "license": "MIT",
   "peerDependencies": {
