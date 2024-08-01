@@ -1,7 +1,6 @@
 bring sim;
 bring util;
 bring cloud;
-bring ui;
 bring "./dynamodb-types.w" as dynamodb_types;
 bring "./dynamodb-client.w" as dynamodb_client;
 
@@ -10,18 +9,6 @@ inflight interface Client {
   inflight deleteTable(input: Json): Json;
   inflight updateTimeToLive(input: Json): Json;
   inflight describeTable(input: Json): Json;
-}
-
-struct StartDbAdminOptions {
-  endpoint: str;
-  currentdir: str;
-  homeEnv: str;
-  pathEnv: str;
-}
-
-inflight interface StartDbAdminResponse {
-  inflight port(): num;
-  inflight close(): void;
 }
 
 class Util {
@@ -33,49 +20,11 @@ class Util {
     handler: inflight (dynamodb_types.StreamRecord): void,
     options: dynamodb_types.StreamConsumerOptions?,
   ): void;
-  extern "./dynamodb.mjs" pub static inflight startDbAdmin(options: StartDbAdminOptions): StartDbAdminResponse;
   extern "./dynamodb.mjs" pub static dirname(): str;
-}
-
-struct AdminUIProps {
-  endpoint: str;
-}
-
-class AdminUI {
-  pub endpoint: str;
-
-  new(props: AdminUIProps) {
-    let state = new sim.State();
-    let port = state.token("dbAdminPort");
-    this.endpoint = "http://localhost:{port}";
-
-    let currentdir = Util.dirname();
-    let homeEnv = util.tryEnv("HOME") ?? "";
-    let pathEnv = util.tryEnv("PATH") ?? "";
-
-    new cloud.Service(inflight () => {
-      try {
-        let res = Util.startDbAdmin(
-          endpoint: props.endpoint,
-          currentdir: currentdir,
-          homeEnv: homeEnv,
-          pathEnv: pathEnv
-        );
-        state.set("dbAdminPort", "{res.port()}");
-        return () => {
-          res.close();
-        };
-      } catch e {
-        log(e);
-        throw e;
-      }
-    });
-  }
 }
 
 class Host {
   pub endpoint: str;
-  pub ui: AdminUI?;
 
   new() {
     let container = new sim.Container(
@@ -85,10 +34,6 @@ class Host {
     );
 
     this.endpoint = "http://localhost:{container.hostPort!}";
-
-    if !nodeof(this).app.isTestEnvironment {
-      this.ui = new AdminUI(endpoint: this.endpoint);
-    }
   }
 
   pub static of(scope: std.IResource): Host {
@@ -105,12 +50,10 @@ pub class Table_sim impl dynamodb_types.ITable {
   host: Host;
   pub tableName: str;
   pub connection: dynamodb_types.Connection;
-  pub adminEndpoint: str?;
 
   new(props: dynamodb_types.TableProps) {
     this.host = Host.of(this);
 
-    this.adminEndpoint = this.host.ui?.endpoint;
     let tableName = props.name ?? nodeof(this).addr;
     let state = new sim.State();
     this.tableName = state.token("tableName");
