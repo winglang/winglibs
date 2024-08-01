@@ -177,6 +177,8 @@ class Counter_tfaws impl ICounter {
   hashKey: str;
   defaultKey: str; // TODO: module-level constants - https://github.com/winglang/wing/issues/3606
   envKey: str;
+  tableName: str;
+  tableArn: str;
   new(props: CounterProps) {
     this.initial = props.initial ?? 0;
     this.hashKey = "id";
@@ -188,6 +190,8 @@ class Counter_tfaws impl ICounter {
     ) as "Default";
     this.defaultKey = "default";
     this.envKey = "COUNTER_" + myutil.shortHash(this);
+    this.tableName = this.table.name;
+    this.tableArn = this.table.arn;
   }
 
   extern "./counter-aws.ts" static inflight _inc(amount: num, key: str, tableName: str, hashKey: str, initial: num): num;
@@ -196,19 +200,19 @@ class Counter_tfaws impl ICounter {
   extern "./counter-aws.ts" static inflight _set(value: num, key: str, tableName: str, hashKey: str): void;
 
   pub inflight inc(amount: num?, key: str?): num {
-    return Counter_tfaws._inc(amount ?? 1, key ?? this.defaultKey, this.table.name, this.hashKey, this.initial);
+    return Counter_tfaws._inc(amount ?? 1, key ?? this.defaultKey, this.tableName, this.hashKey, this.initial);
   }
 
   pub inflight dec(amount: num?, key: str?): num {
-    return Counter_tfaws._dec(amount ?? 1, key ?? this.defaultKey, this.table.name, this.hashKey, this.initial);
+    return Counter_tfaws._dec(amount ?? 1, key ?? this.defaultKey, this.tableName, this.hashKey, this.initial);
   }
 
   pub inflight peek(key: str?): num {
-    return Counter_tfaws._peek(key ?? this.defaultKey, this.table.name, this.hashKey, this.initial);
+    return Counter_tfaws._peek(key ?? this.defaultKey, this.tableName, this.hashKey, this.initial);
   }
 
   pub inflight set(value: num, key: str?): void {
-    Counter_tfaws._set(value, key ?? this.defaultKey, this.table.name, this.hashKey);
+    Counter_tfaws._set(value, key ?? this.defaultKey, this.tableName, this.hashKey);
   }
 
   pub onLift(host: std.IInflightHost, ops: Array<str>) {
@@ -230,8 +234,8 @@ class Counter_tfaws impl ICounter {
     awsHost.addPolicyStatements({
       actions: actions.copy(),
       effect: aws.Effect.ALLOW,
-      resources: [this.table.arn],
+      resources: [this.tableArn],
     });
-    awsHost.addEnvironment(this.envKey, this.table.name);
+    awsHost.addEnvironment(this.envKey, this.tableName);
   }
 }
