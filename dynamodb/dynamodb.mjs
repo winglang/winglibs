@@ -126,27 +126,6 @@ export const processRecordsAsync = async (
   });
 };
 
-export const startDbAdmin = async (options) => {
-  const { endpoint, currentdir, homeEnv, pathEnv } = options;
-  const code = `
-require("${currentdir}/dbadmin.cjs").startDbAdminProcess(${JSON.stringify({ endpoint })});
-`
-  const child = spawn("node", ["-e", code], { env: { HOME: homeEnv, PATH: pathEnv }, cwd: process.cwd() });
-  const close = () => child.kill("SIGINT");
-  return new Promise((resolve) => {
-    child.stdout.on("data", (chunk) => {
-      const payload = chunk.toString();
-      if (payload.startsWith("port=")) {
-        resolve({
-          port: () => parseInt(payload.slice(5), 10),
-          close,
-        });
-        child.stdout.removeAllListeners("data");
-      }
-    });
-  });
-}
-
 export const dirname = () => {
   return __dirname;
 };
