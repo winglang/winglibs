@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/github",
   "description": "A Wing library for GitHub Probot",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": {
     "name": "Elad Cohen",
     "email": "eladc@wing.cloud"
@@ -15,7 +15,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "GitHub",
+      "summary": "A wing library to work with GitHub Probot"
+    }
   },
   "peerDependencies": {
     "@probot/adapter-aws-lambda-serverless": "^3.0.4",

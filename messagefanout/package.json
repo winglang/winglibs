@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/messagefanout",
   "description": "Message fanout library for Wing",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -16,7 +16,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Message Fanout",
+      "summary": "Wing library to fan out messages"
+    }
   },
   "peerDependencies": {
     "@aws-sdk/client-sns": "^3.511.0",

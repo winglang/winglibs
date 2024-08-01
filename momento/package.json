@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/momento",
   "description": "momento library for Wing",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -17,7 +17,11 @@
       "tf-aws",
       "tf-gcp",
       "tf-azure"
-    ]
+    ],
+    "docs": {
+      "title": "Momento",
+      "summary": "Wing library for [momento](https://www.gomomento.com/)"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

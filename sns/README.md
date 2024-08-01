@@ -1,6 +1,6 @@
 # sns
 
-This library allows you to interact with the AWS SNS Service.
+This library allows you to interact with the Amazon SNS Service.
 
 ## Prerequisites
 

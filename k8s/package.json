@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/k8s",
   "description": "Wing for Kubernetes",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": {
     "name": "Elad Ben-Israel",
     "email": "eladb@wing.cloud"
@@ -14,7 +14,11 @@
   "wing": {
     "platforms": [
       "k8s"
-    ]
+    ],
+    "docs": {
+      "title": "Kubernetes (k8s)",
+      "summary": "Wing for Kubernetes"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/eventbridge",
   "description": "Amazon EventBridge library for Wing",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -17,7 +17,11 @@
       "sim",
       "tf-aws",
       "awscdk"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon EventBridge",
+      "summary": "A Wing library for working with Amazon EventBridge"
+    }
   },
   "peerDependencies": {
     "@aws-sdk/client-eventbridge": "^3.525.0",

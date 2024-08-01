@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/vite",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Wing resource that allows deploying a Vite application to the cloud",
   "repository": {
     "type": "git",
@@ -21,7 +21,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Vite",
+      "summary": "A Wing library to deploy [Vite applications](https://vitejs.dev/) to the cloud."
+    }
   },
   "peerDependencies": {
     "@cdktf/provider-aws": "^19.12.0",

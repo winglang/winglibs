@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/dynamodb",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "DynamoDB library for Wing",
   "author": {
     "name": "Cristian Pallarés",
@@ -19,7 +19,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon DynamoDB",
+      "summary": "A Wing library for Amazon DynamoDB"
+    }
   },
   "license": "MIT",
   "peerDependencies": {

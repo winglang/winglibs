@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/slack",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Slack library for Wing",
   "repository": {
     "type": "git",
@@ -18,7 +18,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Slack",
+      "summary": "A Wing library for working with [Slack](https://slack.com/)"
+    }
   },
   "license": "MIT"
 }

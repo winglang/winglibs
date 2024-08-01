@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/budget",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "AWS Budget",
   "keywords": [
     "AWS",
@@ -24,6 +24,10 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "AWS Budget",
+      "summary": "A Wing library for working with [AWS Budgets]"
+    }
   }
 }

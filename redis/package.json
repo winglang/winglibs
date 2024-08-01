@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/redis",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Redis resource for Wing",
   "repository": {
     "type": "git",
@@ -14,7 +14,12 @@
   "wing": {
     "platforms": [
       "sim"
-    ]
+    ],
+    "docs": {
+      "title": "Redis",
+      "summary": "A Wing library for [Redis](https://redis.io/)",
+      "demoURL": "https://www.winglang.io/docs/examples/redis"
+    }
   },
   "license": "MIT",
   "peerDependencies": {
