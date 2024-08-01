@@ -5,8 +5,6 @@ let target = util.env("WING_TARGET");
 
 let counter = new cloud.Counter(initial: 1) as "aws-wing-counter";
 
-// TODO: implement aws.Counter.from
-
 let getCounterInfo = (c: cloud.Counter): Map<str>? => {
   if let counter = cloud.AwsCounter.from(c) {
     return {

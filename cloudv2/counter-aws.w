@@ -86,6 +86,8 @@ pub class Counter_tfaws impl counter_types.ICounter, IAwsCounter {
   }
 }
 
+// TODO: move this into an "aws" namespace
+
 pub class AwsCounter {
   pub static from(c: counter_types.ICounter): IAwsCounter? {
     let obj = unsafeCast(c);
