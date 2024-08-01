@@ -106,9 +106,11 @@ pub class Table_sim impl dynamodb_types.ITable {
   pub tableName: str;
   pub connection: dynamodb_types.Connection;
   pub adminEndpoint: str?;
+  billingMode: dynamodb_types.BillingMode;
 
   new(props: dynamodb_types.TableProps) {
     this.host = Host.of(this);
+    this.billingMode = props.billingMode ?? dynamodb_types.BillingMode.PAY_PER_REQUEST;
 
     this.adminEndpoint = this.host.ui?.endpoint;
     let tableName = props.name ?? nodeof(this).addr;
@@ -204,7 +206,8 @@ pub class Table_sim impl dynamodb_types.ITable {
             AttributeDefinitions: attributeDefinitions.copy(),
             KeySchema: keySchemas.copy(),
             GlobalSecondaryIndexes: globalSecondaryIndexes,
-            BillingMode: "PAY_PER_REQUEST",
+            BillingMode: "{this.billingMode}",
+            DeletionProtection: props.deletionProtection ?? false,
             StreamSpecification: {
               StreamEnabled: true,
               StreamViewType: "NEW_AND_OLD_IMAGES",

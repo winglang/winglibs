@@ -182,6 +182,11 @@ pub struct StreamConsumerOptions {
   startingPosition: str?;
 }
 
+pub enum BillingMode {
+  PAY_PER_REQUEST,
+  PROVISIONED
+}
+
 pub struct TableProps {
   name: str?;
   attributes: Array<AttributeDefinition>;
@@ -190,6 +195,8 @@ pub struct TableProps {
   timeToLiveAttribute: str?;
   globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
+  billingMode: BillingMode?;
+  deletionProtection: bool?;
 }
 
 pub struct Credentials {
