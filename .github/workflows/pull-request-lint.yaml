@@ -27,6 +27,7 @@ jobs:
             bedrock
             budget
             checks
+            cloudv2
             cognito
             containers
             dynamodb

@@ -41,6 +41,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cloudv2
+      - -check-pending=build-cloudv2
+      - -check-stale=build-cloudv2
       - -check-failure=build-cognito
       - -check-pending=build-cognito
       - -check-stale=build-cognito
@@ -144,6 +147,9 @@ pull_request_rules:
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cloudv2
+      - -check-pending=build-cloudv2
+      - -check-stale=build-cloudv2
       - -check-failure=build-cognito
       - -check-pending=build-cognito
       - -check-stale=build-cognito
