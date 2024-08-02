@@ -16,7 +16,7 @@ pub class Cognito impl types.ICognito {
       this.clientId = "sim-client-id";
       this.userPoolId = "sim-user-pool-id";
       this.identityPoolId = "sim-identity-pool-id";
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let auth = new tfaws.Cognito_tfaws(api, props) as "tf-aws";
       this.clientId = auth.clientId;
       this.userPoolId = auth.userPoolId;

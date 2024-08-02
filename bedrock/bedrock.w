@@ -21,7 +21,7 @@ pub class Model impl a.IModel {
         // in case of running on sim interactively (in development mode), use AWS version
         this.inner = new t.Model_tfaws(modelId) as "tf-aws";  
       }
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new t.Model_tfaws(modelId) as "tf-aws";
     } else {
       throw "Unsupported target {target}";

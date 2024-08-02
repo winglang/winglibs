@@ -16,7 +16,7 @@ pub class EmailService impl types.IEmailService {
       } else {
         this.inner = new tfaws.EmailService_tfaws(props);  
       }
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new tfaws.EmailService_tfaws(props);
     } else {
       throw "Unknown target: {target}";

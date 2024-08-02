@@ -17,9 +17,9 @@ pub class MobileNotifications impl types.IMobileNotifications {
       } else {
         this.inner = new aws.MobileNotifications_aws();  
       }
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.MobileNotifications_aws();
-    } elif target == "awscdk" {
+    } else if target == "awscdk" {
       this.inner = new aws.MobileNotifications_aws();
     } else {
       throw "Unsupported target {target}";

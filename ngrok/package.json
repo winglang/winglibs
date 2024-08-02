@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/ngrok",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "ngrok library for Wing",
   "author": {
     "name": "Elad Ben-Israel",

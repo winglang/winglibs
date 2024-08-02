@@ -56,7 +56,7 @@ pub class EmailService_tfaws impl types.IEmailService {
             "*"
           ]
         });
-      } elif ops.contains("sendRawEmail") {
+      } else if ops.contains("sendRawEmail") {
         awsFunc.addPolicyStatements({
           effect: awsUtils.Effect.ALLOW,
           actions: ["ses:SendRawEmail"],

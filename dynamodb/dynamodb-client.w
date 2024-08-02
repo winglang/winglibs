@@ -76,19 +76,19 @@ pub inflight class Client impl dynamodb_types.IClient {
         transactItems.push({
           ConditionCheck: Json.deepCopy(input),
         });
-      } elif let operation = item.Delete {
+      } else if let operation = item.Delete {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({
           Delete: Json.deepCopy(input),
         });
-      } elif let operation = item.Put {
+      } else if let operation = item.Put {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({
           Put: Json.deepCopy(input),
         });
-      } elif let operation = item.Update {
+      } else if let operation = item.Update {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({

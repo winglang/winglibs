@@ -10,7 +10,7 @@ pub class Alert {
   new(props: shared.AlertProps) {
     if util.env("WING_TARGET") == "tf-aws" {
       this.platform = new tfaws.AlertTfAws(props);
-    } elif util.env("WING_TARGET") == "sim" {
+    } else if util.env("WING_TARGET") == "sim" {
       this.platform = new sim.AlertSim(props);
     } else {
       throw "unknown platform";

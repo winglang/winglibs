@@ -133,7 +133,7 @@ pub class Cognito_sim impl types.ICognito {
               status: () => {
                 if authType == types.AuthenticationType.COGNITO_USER_POOLS {
                   return 401;
-                } elif authType == types.AuthenticationType.AWS_IAM {
+                } else if authType == types.AuthenticationType.AWS_IAM {
                   return 403;
                 }
               }(),
@@ -148,7 +148,7 @@ pub class Cognito_sim impl types.ICognito {
                 body: "Unauthorized"
               };
             }
-          } elif authType == types.AuthenticationType.AWS_IAM {
+          } else if authType == types.AuthenticationType.AWS_IAM {
             if !authHeader!.contains("AWS4-HMAC-SHA256 Credential=sim-access") {
               return {
                 status: 403,

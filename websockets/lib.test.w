@@ -60,7 +60,7 @@ let receiver = new cloud.Service(inflight () => {
       assert(n >= 1 && n < 10);
       if msg == "1" {
         log("first message received");
-      } elif msg == "9" {
+      } else if msg == "9" {
         log("last message received");
         ws.close();
       }
@@ -89,7 +89,7 @@ let sender = new cloud.Service(inflight () => {
       assert(n >= 1 && n < 10);
       if msg == "1" {
         log("sender also receive the first message");
-      } elif msg == "9" {
+      } else if msg == "9" {
         log("sender also receive the last message");
         ws.close();
       }

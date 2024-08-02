@@ -15,9 +15,9 @@ pub class Bus impl types.IBus {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       this.inner = new sim.Bus(props) as "sim";
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.Bus(props) as "tf-aws";
-    } elif target == "awscdk" {
+    } else if target == "awscdk" {
       this.inner = new awscdk.Bus(props) as "awscdk";
     } else {
       throw "Unsupported target {target}";

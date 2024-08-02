@@ -19,7 +19,7 @@ pub class Table impl dynamodb_types.ITable {
       this.tableName = sim.tableName;
       this.implementation = sim;
       nodeof(sim).hidden = true;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let tfaws = new dynamodb_tfaws.Table_tfaws(props);
       this.connection = tfaws.connection;
       this.tableName = tfaws.tableName;

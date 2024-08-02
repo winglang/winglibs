@@ -23,7 +23,7 @@ pub class InflightFunctionHandler impl cloud.IFunctionHandler {
       let implementation = new sim.Inflight(props);
       nodeof(implementation).hidden = true;
       this.inner = implementation;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
       throw "Unsupported target ${target}";
@@ -55,7 +55,7 @@ pub class InflightQueueConsumerHandler impl cloud.IQueueSetConsumerHandler {
       let implementation = new sim.Inflight(props);
       nodeof(implementation).hidden = true;
       this.inner = implementation;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
       throw "Unsupported target ${target}";
@@ -87,7 +87,7 @@ pub class InflightTopicOnMessageHandler impl cloud.ITopicOnMessageHandler {
       let implementation = new sim.Inflight(props);
       nodeof(implementation).hidden = true;
       this.inner = implementation;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
       throw "Unsupported target ${target}";
@@ -119,7 +119,7 @@ pub class InflightBucketEventHandler impl cloud.IBucketEventHandler {
       let implementation = new sim.BucketEventInflight(props);
       nodeof(implementation).hidden = true;
       this.inner = implementation;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.Inflight_tfaws(props);
     } else {
       throw "Unsupported target ${target}";
@@ -151,7 +151,7 @@ pub class InflightApiEndpointHandler impl cloud.IApiEndpointHandler {
       let implementation = new simapi.InflightApiEndpointHandler(props);
       nodeof(implementation).hidden = true;
       this.inner = implementation;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new tfawsapi.InflightApiEndpointHandler_aws(props);
     } else {
       throw "Unsupported target ${target}";

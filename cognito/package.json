@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/cognito",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A wing library to work with AWS Cognito",
   "author": {
     "name": "Elad Cohen",

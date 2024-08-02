@@ -21,7 +21,7 @@ pub class Service impl types.IService {
       this.inner = service;
       this.url = service.url;
       this.specFile = service.specFile;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let service = new tfaws.Service_tfaws(props);
       this.inner = service;
       this.url = service.url;
