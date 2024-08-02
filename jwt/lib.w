@@ -89,7 +89,7 @@ pub class Util {
       };
       let decoded = JwtUtil._jwt().verify(token, getKey, options.options);
       return decoded;
-    } elif let jwksUri = options.jwksUri {
+    } else if let jwksUri = options.jwksUri {
       let client = JwtUtil._jwt().jwksClient(jwksUri: jwksUri);
       let getKey = inflight (header: JwtHeader, callback: inflight (str, str): void) => {
         try {

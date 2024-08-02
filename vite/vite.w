@@ -16,7 +16,7 @@ pub class Vite {
       let implementation = new vite_sim.Vite_sim(props);
       nodeof(implementation).hidden = true;
       this.url = implementation.url;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let implementation = new vite_tf_aws.Vite_tf_aws(props);
       nodeof(implementation).hidden = true;
       this.url = implementation.url;

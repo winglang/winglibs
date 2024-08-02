@@ -9,7 +9,7 @@ pub class FifoQueue impl api.IFifoQueue {
     let target = util.env("WING_TARGET");
     if target == "sim" {
       this.inner = new sim.FifoQueue_sim() as "sim";
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new aws.FifoQueue_aws(props) as "tf-aws";
     } else {
       throw "Unsupported target {target}";

@@ -18,9 +18,9 @@ pub class Util {
   pub static timeUnitToStr(timeUnit: TimeUnit): str {
     if timeUnit == TimeUnit.DAILY {
       return "DAILY";
-    } elif timeUnit == TimeUnit.MONTHLY {
+    } else if timeUnit == TimeUnit.MONTHLY {
       return "MONTHLY";
-    } elif timeUnit == TimeUnit.ANNUALLY {
+    } else if timeUnit == TimeUnit.ANNUALLY {
       return "ANNUALLY";
     }
   }

@@ -114,7 +114,7 @@ pub class Cognito_tfaws impl types.ICognito {
           ]
         }
       };
-    } elif props?.authenticationType == types.AuthenticationType.AWS_IAM {
+    } else if props?.authenticationType == types.AuthenticationType.AWS_IAM {
       cognitoDefinition = {
         "type": "apiKey",
         "name": "Authorization",

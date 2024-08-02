@@ -11,7 +11,7 @@ pub class MessageFanout impl api.IMessageFanout {
 
     if target == "tf-aws" {
       this.inner = new tf_aws.MessageFanout_tfaws();
-    } elif target == "sim" {
+    } else if target == "sim" {
       this.inner = new sim.MessageFanout_sim();
     } else {
       throw "unsupported target {target}";

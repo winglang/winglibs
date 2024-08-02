@@ -23,7 +23,7 @@ pub class Counter impl counter_types.ICounter {
     this.initial = props.initial ?? 0;
     if target == "sim" {
       this.inner = new counter_sim.Counter_sim(props) as id;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new counter_aws.Counter_tfaws(props) as id;
     } else {
       throw "Unsupported target: " + target;
