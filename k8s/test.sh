@@ -1,5 +1,6 @@
 #!/bin/sh
 t() {
+  echo "$1 ================"
   out=$(wing compile -t ./lib/index.js $1)
 
   cat $out/*.yaml > $1.actual.snap
