@@ -5,6 +5,7 @@ metadata:
     app: bang-bang
     fang: fang
   name: your-config
+  namespace: flanging
 spec:
   data:
     key: value
