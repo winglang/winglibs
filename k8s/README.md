@@ -2,10 +2,6 @@
 
 A framework for synthesizing Kubernetes manifests using Winglang.
 
-## Prerequisites
-
-* [Wing CLI](https://winglang.io).
-
 ## Installation
 
 Install the Wing CLI:
@@ -62,13 +58,16 @@ chart-c86185a7.k8s.yaml
 You can set `WING_K8S_OUTPUT` to `helm` in order to produce a helm chart instead of simple manifest.
 This requires a `Chart.yaml` file next in the current directory.
 
-### Applying labels to all resources
+### Default labels and namespace
 
 You can use the `WING_K8S_LABELS` environment variable to apply labels to all resources in an app.
 The value is a JSON-encoded map.
 
+The `WING_K8S_NAMESPACE` variable can be used to specify the default namespace.
+
 ```sh
 export WING_K8S_LABELS='{ "my-label": "123", "your-label": "444" }'
+export WING_K8S_NAMESPACE='my-namespace'
 wing compile -t @winglibs/k8s main.w
 ```
 

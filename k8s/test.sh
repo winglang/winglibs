@@ -1,8 +1,10 @@
 #!/bin/sh
 t() {
+  echo "$1 ================"
   out=$(wing compile -t ./lib/index.js $1)
 
   cat $out/*.yaml > $1.actual.snap
+  cat $1.actual.snap
 
   if [ -f "$1.snap" ]; then
     diff $1.snap $1.actual.snap
@@ -23,7 +25,10 @@ t() {
 
 t examples/nodejs.main.w
 t examples/ubuntu.main.w
-WING_K8S_LABELS='{"app":"bang-bang", "fang": "fang"}' t examples/api-object.main.w
+
+WING_K8S_LABELS='{"app":"bang-bang", "fang": "fang"}' \
+  WING_K8S_NAMESPACE=flanging \
+  t examples/api-object.main.w
 
 echo "compiling all test files..."
 wing compile -t ./lib/index.js *.test.w
