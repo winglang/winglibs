@@ -3,6 +3,7 @@ t() {
   out=$(wing compile -t ./lib/index.js $1)
 
   cat $out/*.yaml > $1.actual.snap
+  cat $1.actual.snap
 
   if [ -f "$1.snap" ]; then
     diff $1.snap $1.actual.snap
