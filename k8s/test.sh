@@ -28,3 +28,5 @@ WING_K8S_NAMESPACE=flanging
 
 echo "compiling all test files..."
 wing compile -t ./lib/index.js *.test.w
+
+cat target/root.test.k8s/*.yaml
