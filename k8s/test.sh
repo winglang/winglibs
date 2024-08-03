@@ -22,11 +22,10 @@ t() {
 }
 
 t examples/nodejs.main.w
-t examples/ubuntu.main.w
+
 WING_K8S_LABELS='{"app":"bang-bang", "fang": "fang"}' t examples/api-object.main.w
 WING_K8S_NAMESPACE=flanging
+t examples/ubuntu.main.w
 
 echo "compiling all test files..."
 wing compile -t ./lib/index.js *.test.w
-
-cat target/root.test.k8s/*.yaml
