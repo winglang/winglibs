@@ -3,4 +3,4 @@
 bring expect;
 
 let root = nodeof(this).root;
-expect.equal(nodeof(root).path, "Chart/App/Default");
+expect.equal(nodeof(root).path, "Default/Default/Default");
