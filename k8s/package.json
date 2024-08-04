@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/k8s",
   "description": "Wing for Kubernetes",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": {
     "name": "Elad Ben-Israel",
     "email": "eladb@wing.cloud"
