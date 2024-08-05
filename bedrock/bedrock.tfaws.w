@@ -1,7 +1,7 @@
 bring "./api.w" as b;
 bring aws;
 
-pub class Model_tfaws impl b.IModel {
+internal class Model_tfaws impl b.IModel {
   pub modelId: str;
 
   new(modelId: str) {

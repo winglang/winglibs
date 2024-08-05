@@ -1,6 +1,6 @@
 bring "./api.w" as b;
 
-pub class Model_sim impl b.IModel {
+internal class Model_sim impl b.IModel {
   modelId: str;
   var mockResponse: inflight (Json): Json;
 

@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/bedrock",
   "description": "A Wing library for Amazon Bedrock",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": {
     "name": "Eyal Keren",
     "email": "eyalk@wing.cloud"
