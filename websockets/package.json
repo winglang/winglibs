@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/websockets",
   "description": "WebSocket library for Wing",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -16,6 +16,7 @@
     "cdktf": "^0.20.6",
     "@aws-sdk/client-apigatewaymanagementapi": "^3.451.0",
     "@cdktf/provider-aws": "^19.12.0",
+    "@winglibs/dynamodb": "^0.2.1",
     "aws-cdk-lib": "^2.109.0",
     "get-port": "^7.0.0",
     "ws": "^8.14.2"
@@ -32,7 +33,6 @@
     }
   },
   "devDependencies": {
-    "@types/ws": "^8.5.10",
-    "@winglibs/dynamodb": "^0.1.12"
+    "@types/ws": "^8.5.10"
   }
 }
