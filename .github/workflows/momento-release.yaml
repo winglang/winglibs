@@ -1,19 +1,19 @@
-name: cdk8s-release
+name: momento-release
 on:
   push:
     branches:
       - main
     paths:
-      - cdk8s/**
-      - "!cdk8s/package-lock.json"
+      - momento/**
+      - "!momento/package-lock.json"
 jobs:
-  build-cdk8s:
+  build-momento:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: cdk8s
+          sparse-checkout: momento
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -23,32 +23,32 @@ jobs:
         run: npm i -g winglang
       - name: Install dependencies
         run: npm install --include=dev
-        working-directory: cdk8s
+        working-directory: momento
       - name: Test
-        run: ./test.sh
-        working-directory: cdk8s
+        run: wing test
+        working-directory: momento
       - name: Pack
         run: wing pack
-        working-directory: cdk8s
+        working-directory: momento
       - name: Get package version
         run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
           "$GITHUB_ENV"
-        working-directory: cdk8s
+        working-directory: momento
       - name: Publish
         run: npm publish --access=public --registry https://registry.npmjs.org --tag
           latest *.tgz
-        working-directory: cdk8s
+        working-directory: momento
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Tag commit
         uses: tvdias/github-tagger@v0.0.1
         with:
           repo-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
-          tag: cdk8s-v${{ env.WINGLIB_VERSION }}
+          tag: momento-v${{ env.WINGLIB_VERSION }}
       - name: GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          name: cdk8s v${{ env.WINGLIB_VERSION }}
-          tag_name: cdk8s-v${{ env.WINGLIB_VERSION }}
+          name: momento v${{ env.WINGLIB_VERSION }}
+          tag_name: momento-v${{ env.WINGLIB_VERSION }}
           files: "*.tgz"
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}

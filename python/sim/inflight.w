@@ -119,7 +119,7 @@ pub class Inflight impl cloud.IFunctionHandler {
         let var value = e.value;
         if value.contains("http://localhost") {
           value = value.replaceAll("http://localhost", host);
-        } elif value.contains("http://127.0.0.1") {
+        } else if value.contains("http://127.0.0.1") {
           value = value.replaceAll("http://127.0.0.1", host);
         }
         env.set(e.key, value);

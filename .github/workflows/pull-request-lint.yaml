@@ -26,8 +26,8 @@ jobs:
             revert
             bedrock
             budget
-            cdk8s
             checks
+            cloudv2
             cognito
             containers
             dynamodb
@@ -35,8 +35,10 @@ jobs:
             fifoqueue
             github
             jwt
+            k8s
             lock
             messagefanout
+            momento
             ngrok
             openai
             postgres

@@ -27,7 +27,7 @@ struct DynamoDBStreamEvent {
 
 class Util {
   extern "./dynamodb.mjs" pub inflight static unmarshall(
-    item: Json,
+    item: Json?,
     options: Json?,
   ): Json;
 
@@ -62,6 +62,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       pointInTimeRecovery: {
         enabled: props.pointInTimeRecovery,
       },
+      globalSecondaryIndex: props.globalSecondaryIndex,
     });
 
     this.tableName = this.table.name;
@@ -79,7 +80,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
             ApproximateCreationDateTime: record.dynamodb.ApproximateCreationDateTime,
             Keys: Util.safeUnmarshall(record.dynamodb.Keys, {
               wrapNumbers: true,
-            }),
+            })!,
             NewImage: Util.safeUnmarshall(record.dynamodb.NewImage, {
               wrapNumbers: true,
             }),
@@ -132,6 +133,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
       }
+      if ops.contains("update") {
+        actions.push("dynamodb:UpdateItem");
+      }
       if ops.contains("scan") {
         actions.push("dynamodb:Scan");
       }
@@ -158,6 +162,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           effect: aws.Effect.ALLOW,
           resources: [
             this.table.arn,
+            "{this.table.arn}/index/*",
           ],
         });
       }
@@ -182,6 +187,10 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.client.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.client.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

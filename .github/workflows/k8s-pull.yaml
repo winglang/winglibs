@@ -1,0 +1,29 @@
+name: k8s-pull
+on:
+  pull_request:
+    paths:
+      - k8s/**
+jobs:
+  build-k8s:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: k8s
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: k8s
+      - name: Test
+        run: ./test.sh
+        working-directory: k8s
+      - name: Pack
+        run: wing pack
+        working-directory: k8s

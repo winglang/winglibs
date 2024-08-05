@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/ses",
   "description": "Wing library for interacting with AWS SES",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -15,7 +15,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon SES",
+      "summary": "Wing library for interacting with Amazon SES."
+    }
   },
   "license": "MIT",
   "peerDependencies": {

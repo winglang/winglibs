@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/cognito",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "A wing library to work with AWS Cognito",
   "author": {
     "name": "Elad Cohen",
@@ -21,7 +21,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon Cognito",
+      "summary": "A wing library to work with Amazon Cognito"
+    }
   },
   "license": "MIT"
 }

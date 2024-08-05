@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/websockets",
   "description": "WebSocket library for Wing",
-  "version": "0.3.8",
+  "version": "0.3.10",
   "repository": {
     "type": "git",
     "url": "https://github.com/winglang/winglibs.git",
@@ -25,7 +25,11 @@
       "sim",
       "tf-aws",
       "awscdk"
-    ]
+    ],
+    "docs": {
+      "title": "WebSocket",
+      "summary": "A Wing library that enables you to create WebSockets using Wing."
+    }
   },
   "devDependencies": {
     "@types/ws": "^8.5.10",

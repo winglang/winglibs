@@ -16,7 +16,7 @@ pub class App {
 
     if target == "sim" {
       this.inner = new appSim.AppSim(props);
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new appTfAws.AppTfAws(props); 
     } else {
       throw "unknown platform {target}";

@@ -61,6 +61,12 @@ pub inflight class Client impl dynamodb_types.IClient {
     return unsafeCast(this.client.put(input));
   }
 
+  pub inflight update(options: dynamodb_types.UpdateOptions):  dynamodb_types.UpdateOutput {
+    let input: MutJson = options;
+    input.set("TableName", this.tableName);
+    return unsafeCast(this.client.update(input)); 
+  }
+
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
     let transactItems = MutArray<Json> [];
     for item in options.TransactItems {
@@ -70,19 +76,19 @@ pub inflight class Client impl dynamodb_types.IClient {
         transactItems.push({
           ConditionCheck: Json.deepCopy(input),
         });
-      } elif let operation = item.Delete {
+      } else if let operation = item.Delete {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({
           Delete: Json.deepCopy(input),
         });
-      } elif let operation = item.Put {
+      } else if let operation = item.Put {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({
           Put: Json.deepCopy(input),
         });
-      } elif let operation = item.Update {
+      } else if let operation = item.Update {
         let input: MutJson = operation;
         input.set("TableName", this.tableName);
         transactItems.push({

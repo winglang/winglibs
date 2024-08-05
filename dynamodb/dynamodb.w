@@ -10,7 +10,6 @@ pub class Table impl dynamodb_types.ITable {
 
   pub connection: dynamodb_types.Connection;
   pub tableName: str;
-  pub adminEndpoint: str?;
 
   new(props: dynamodb_types.TableProps) {
     let target = util.env("WING_TARGET");
@@ -18,10 +17,9 @@ pub class Table impl dynamodb_types.ITable {
       let sim = new dynamodb_sim.Table_sim(props);
       this.connection = sim.connection;
       this.tableName = sim.tableName;
-      this.adminEndpoint = sim.adminEndpoint;
       this.implementation = sim;
       nodeof(sim).hidden = true;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let tfaws = new dynamodb_tfaws.Table_tfaws(props);
       this.connection = tfaws.connection;
       this.tableName = tfaws.tableName;
@@ -35,10 +33,12 @@ pub class Table impl dynamodb_types.ITable {
       return this.tableName;
     }) as "Table Name";
 
-    if let adminEndpoint = this.adminEndpoint {
-      new ui.Field("Admin", inflight () => {
-        return "{adminEndpoint}/tables/{this.tableName}";
-      }, link: true) as "Admin";
+    if target == "sim" {
+      new ui.Table(
+        scan: inflight () => {
+          return this.implementation.scan().Items;
+        },
+      ) as "TableUIField";
     }
 
     nodeof(this).icon = "table-cells";
@@ -59,6 +59,10 @@ pub class Table impl dynamodb_types.ITable {
 
   pub inflight put(options: dynamodb_types.PutOptions): dynamodb_types.PutOutput {
     return this.implementation.put(options);
+  }
+
+  pub inflight update(options: dynamodb_types.UpdateOptions): dynamodb_types.UpdateOutput {
+    return this.implementation.update(options);
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {

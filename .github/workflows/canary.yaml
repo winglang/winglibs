@@ -70,39 +70,6 @@ jobs:
             cd budget
             wing test
           timeout_minutes: 5
-  canary-cdk8s:
-    name: Test cdk8s
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: cdk8s
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
-          registry-url: https://registry.npmjs.org
-      - name: Install winglang and dependencies
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: npm i -g winglang --loglevel verbose
-          timeout_minutes: 3
-      - name: Install dependencies
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: cd cdk8s && npm i --include=dev --loglevel verbose
-          timeout_minutes: 3
-      - name: Run tests
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: |-
-            cd cdk8s
-            ./test.sh
-          timeout_minutes: 5
   canary-checks:
     name: Test checks
     runs-on: ubuntu-latest
@@ -136,14 +103,14 @@ jobs:
             cd checks
             wing test
           timeout_minutes: 5
-  canary-cognito:
-    name: Test cognito
+  canary-cloudv2:
+    name: Test cloudv2
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          sparse-checkout: cognito
+          sparse-checkout: cloudv2
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -159,14 +126,14 @@ jobs:
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
-          command: cd cognito && npm i --include=dev --loglevel verbose
+          command: cd cloudv2 && npm i --include=dev --loglevel verbose
           timeout_minutes: 3
       - name: Run tests
         uses: nick-fields/retry@v3
         with:
           max_attempts: 3
           command: |-
-            cd cognito
+            cd cloudv2
             wing test
           timeout_minutes: 5
   canary-dynamodb:
@@ -334,6 +301,39 @@ jobs:
             cd jwt
             wing test
           timeout_minutes: 5
+  canary-k8s:
+    name: Test k8s
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: k8s
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang and dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
+          timeout_minutes: 3
+      - name: Install dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: cd k8s && npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd k8s
+            ./test.sh
+          timeout_minutes: 5
   canary-lock:
     name: Test lock
     runs-on: ubuntu-latest
@@ -398,6 +398,39 @@ jobs:
           max_attempts: 3
           command: |-
             cd messagefanout
+            wing test
+          timeout_minutes: 5
+  canary-momento:
+    name: Test momento
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: momento
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang and dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: npm i -g winglang --loglevel verbose
+          timeout_minutes: 3
+      - name: Install dependencies
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: cd momento && npm i --include=dev --loglevel verbose
+          timeout_minutes: 3
+      - name: Run tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          command: |-
+            cd momento
             wing test
           timeout_minutes: 5
   canary-ngrok:
@@ -497,39 +530,6 @@ jobs:
           max_attempts: 3
           command: |-
             cd postgres
-            wing test
-          timeout_minutes: 5
-  canary-python:
-    name: Test python
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: python
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.x
-          registry-url: https://registry.npmjs.org
-      - name: Install winglang and dependencies
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: npm i -g winglang --loglevel verbose
-          timeout_minutes: 3
-      - name: Install dependencies
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: cd python && npm i --include=dev --loglevel verbose
-          timeout_minutes: 3
-      - name: Run tests
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          command: |-
-            cd python
             wing test
           timeout_minutes: 5
   canary-react:

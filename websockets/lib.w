@@ -17,11 +17,11 @@ pub class WebSocket impl api.IWebSocket {
       let ws = new tfaws.WebSocket_tfaws(props) as props.name;
       this.url = ws.url;
       this.inner = ws;
-    } elif target == "awscdk" {
+    } else if target == "awscdk" {
       let ws = new awscdk.WebSocket_awscdk(props) as props.name;
       this.url = ws.url;
       this.inner = ws;
-    } elif target == "sim" {
+    } else if target == "sim" {
       let ws = new sim.WebSocket_sim(props) as props.name;
       this.url = ws.url;
       this.inner = ws;

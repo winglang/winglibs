@@ -18,7 +18,7 @@ npm i @winglibs/budget
 
 Add your budget alert to the code:
 
-```wing
+```js
 bring budget;
 
 new budget.Alert(

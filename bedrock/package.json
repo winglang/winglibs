@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/bedrock",
   "description": "A Wing library for Amazon Bedrock",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "author": {
     "name": "Eyal Keren",
     "email": "eyalk@wing.cloud"
@@ -16,7 +16,11 @@
     "platforms": [
       "sim",
       "tf-aws"
-    ]
+    ],
+    "docs": {
+      "title": "Amazon Bedrock",
+      "summary": "A Wing library for Amazon Bedrock"
+    }
   },
   "peerDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.484.0"

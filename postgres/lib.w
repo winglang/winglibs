@@ -103,13 +103,13 @@ pub class Database {
       }, link: true) as "connection";
 
       nodeof(sim).hidden = true;
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       let tfawsParams = RequiredTFAwsProps.fromJson(app.parameters.read(schema: RequiredTFAwsProps.schema()));
       if tfawsParams.postgresEngine == "rds" {
         let aurora = new DatabaseRDS(props);
         this.connection = aurora.connection;
         this.inner = aurora;
-      } elif tfawsParams.postgresEngine == "neon" {
+      } else if tfawsParams.postgresEngine == "neon" {
         let neon = new DatabaseNeon(props);
         this.connection = neon.connection;
         this.inner = neon;

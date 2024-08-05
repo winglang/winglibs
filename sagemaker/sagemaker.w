@@ -23,7 +23,7 @@ pub class Endpoint impl types.ISageMaker {
         // in case of running on sim interactively (in development mode), use AWS version
         this.inner = new t.SageMaker_tfaws(endpointName, inferenceComponentName) as "tf-aws";  
       }
-    } elif target == "tf-aws" {
+    } else if target == "tf-aws" {
       this.inner = new t.SageMaker_tfaws(endpointName, inferenceComponentName) as "tf-aws";
     } else {
       throw "Unsupported target {target}";

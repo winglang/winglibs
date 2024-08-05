@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-c870426f
+data:
+  index.js: console.log("hello, k8s");
+immutable: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-c87ec702
+spec:
+  minReadySeconds: 0
+  progressDeadlineSeconds: 600
+  replicas: 3
+  selector:
+    matchLabels:
+      cdk8s.io/metadata.addr: Deployment-c8c1f37c
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        cdk8s.io/metadata.addr: Deployment-c8c1f37c
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - command:
+            - node
+            - index.js
+            - "80"
+          image: node:14.4.0-alpine3.12
+          imagePullPolicy: Always
+          name: main
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 1500m
+              memory: 2048Mi
+            requests:
+              cpu: 1000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          startupProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 80
+          volumeMounts:
+            - mountPath: /var/lib/app
+              name: configmap-configmap-c870426f
+          workingDir: /var/lib/app
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      restartPolicy: Always
+      securityContext:
+        fsGroupChangePolicy: Always
+        runAsNonRoot: true
+      setHostnameAsFQDN: false
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            name: configmap-c870426f
+          name: configmap-configmap-c870426f
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deployment-service-c8f11c8e
+spec:
+  externalIPs: []
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    cdk8s.io/metadata.addr: Deployment-c8c1f37c
+  type: LoadBalancer

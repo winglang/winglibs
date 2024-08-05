@@ -1,0 +1,25 @@
+{
+  "name": "@winglibs/cloudv2",
+  "description": "Standard cloud library for Wing",
+  "author": {
+    "email": "chrisr@wing.cloud",
+    "name": "Chris Rybicki"
+  },
+  "version": "0.0.2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "cloudv2"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ]
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.621.0",
+    "@cdktf/provider-aws": "^19.28.0"
+  },
+  "license": "MIT"
+}

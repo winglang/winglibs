@@ -1,7 +1,7 @@
 queue_rules:
   - name: default
     speculative_checks: 2
-    conditions:
+    queue_conditions:
       - -files=.mergify.yml
 pull_request_rules:
   - name: automatic merge
@@ -13,7 +13,7 @@ pull_request_rules:
           if `{{head}}` is up-to-date with `{{base}}` and the queue is empty.
       queue:
         name: default
-        method: squash
+        merge_method: squash
         commit_message_template: |-
           {{ title }} (#{{ number }})
           {{ body }}
@@ -38,12 +38,12 @@ pull_request_rules:
       - -check-failure=build-budget
       - -check-pending=build-budget
       - -check-stale=build-budget
-      - -check-failure=build-cdk8s
-      - -check-pending=build-cdk8s
-      - -check-stale=build-cdk8s
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cloudv2
+      - -check-pending=build-cloudv2
+      - -check-stale=build-cloudv2
       - -check-failure=build-cognito
       - -check-pending=build-cognito
       - -check-stale=build-cognito
@@ -65,12 +65,18 @@ pull_request_rules:
       - -check-failure=build-jwt
       - -check-pending=build-jwt
       - -check-stale=build-jwt
+      - -check-failure=build-k8s
+      - -check-pending=build-k8s
+      - -check-stale=build-k8s
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock
       - -check-failure=build-messagefanout
       - -check-pending=build-messagefanout
       - -check-stale=build-messagefanout
+      - -check-failure=build-momento
+      - -check-pending=build-momento
+      - -check-stale=build-momento
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok
@@ -141,12 +147,12 @@ pull_request_rules:
       - -check-failure=build-budget
       - -check-pending=build-budget
       - -check-stale=build-budget
-      - -check-failure=build-cdk8s
-      - -check-pending=build-cdk8s
-      - -check-stale=build-cdk8s
       - -check-failure=build-checks
       - -check-pending=build-checks
       - -check-stale=build-checks
+      - -check-failure=build-cloudv2
+      - -check-pending=build-cloudv2
+      - -check-stale=build-cloudv2
       - -check-failure=build-cognito
       - -check-pending=build-cognito
       - -check-stale=build-cognito
@@ -168,12 +174,18 @@ pull_request_rules:
       - -check-failure=build-jwt
       - -check-pending=build-jwt
       - -check-stale=build-jwt
+      - -check-failure=build-k8s
+      - -check-pending=build-k8s
+      - -check-stale=build-k8s
       - -check-failure=build-lock
       - -check-pending=build-lock
       - -check-stale=build-lock
       - -check-failure=build-messagefanout
       - -check-pending=build-messagefanout
       - -check-stale=build-messagefanout
+      - -check-failure=build-momento
+      - -check-pending=build-momento
+      - -check-stale=build-momento
       - -check-failure=build-ngrok
       - -check-pending=build-ngrok
       - -check-stale=build-ngrok

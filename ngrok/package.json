@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/ngrok",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "ngrok library for Wing",
   "author": {
     "name": "Elad Ben-Israel",
@@ -14,7 +14,11 @@
   "wing": {
     "platforms": [
       "*"
-    ]
+    ],
+    "docs": {
+      "title": "ngrok",
+      "summary": "Wing library for [ngrok](https://ngrok.com/). Create local tunnels to Wing endpoints."
+    }
   },
   "license": "MIT",
   "peerDependencies": {
