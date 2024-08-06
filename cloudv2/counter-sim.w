@@ -47,9 +47,7 @@ inflight class CounterBackend impl sim.IResource {
   }
 }
 
-// TODO: internal access modifiers - https://github.com/winglang/wing/issues/4156
-
-pub class Counter_sim impl counter_types.ICounter {
+internal class Counter_sim impl counter_types.ICounter {
   initial: num;
   backend: sim.Resource;
   defaultKey: str; // TODO: module-level constants - https://github.com/winglang/wing/issues/3606

@@ -9,7 +9,7 @@ pub interface IAwsCounter {
   dynamoTableName(): str;
 }
 
-pub class Counter_tfaws impl counter_types.ICounter, IAwsCounter {
+internal class Counter_tfaws impl counter_types.ICounter, IAwsCounter {
   initial: num;
   table: tfaws.dynamodbTable.DynamodbTable;
   hashKey: str;
