@@ -1,10 +1,10 @@
-bring "./workload.w" as containers;
+bring "../" as containers;
 bring http;
 bring expect;
 
 let app = new containers.Workload(
   name: "my-app",
-  image: "./test/my_app",
+  image: "{@dirname}/my_app",
   port: 3000,
   public: true,
 );

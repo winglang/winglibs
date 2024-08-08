@@ -62,15 +62,15 @@
       }
     },
     "kubernetes_ingress_v1": {
-      "http-echo_DataKubernetesIngressV1_14943683": {
+      "Workload_http-echo_DataKubernetesIngressV1_A36C9067": {
         "//": {
           "metadata": {
-            "path": "root/Default/Default/http-echo/http-echo/DataKubernetesIngressV1",
-            "uniqueId": "http-echo_DataKubernetesIngressV1_14943683"
+            "path": "root/Default/Default/Workload/http-echo/DataKubernetesIngressV1",
+            "uniqueId": "Workload_http-echo_DataKubernetesIngressV1_A36C9067"
           }
         },
         "depends_on": [
-          "helm_release.http-echo_Release_2E4AC011"
+          "helm_release.Workload_http-echo_Release_73477725"
         ],
         "metadata": {
           "name": "http-echo"
@@ -92,7 +92,7 @@
       "enable_dns_hostnames": true,
       "enable_nat_gateway": true,
       "private_subnet_tags": {
-        "kubernetes.io/cluster/wing-eks-c81852": "shared",
+        "kubernetes.io/cluster/wing-eks-c8281f": "shared",
         "kubernetes.io/role/internal-elb": "1"
       },
       "private_subnets": [
@@ -101,7 +101,7 @@
         "10.0.3.0/24"
       ],
       "public_subnet_tags": {
-        "kubernetes.io/cluster/wing-eks-c81852": "shared",
+        "kubernetes.io/cluster/wing-eks-c8281f": "shared",
         "kubernetes.io/role/elb": "1"
       },
       "public_subnets": [
@@ -130,7 +130,7 @@
         }
       },
       "cluster_endpoint_public_access": true,
-      "cluster_name": "wing-eks-c81852",
+      "cluster_name": "wing-eks-c8281f",
       "cluster_version": "1.27",
       "create_cluster_security_group": false,
       "create_node_security_group": false,
@@ -179,7 +179,7 @@
     },
     "WingEksCluster_ekscluster_name_E1D79024": {
       "description": "eks.cluster_name",
-      "value": "wing-eks-c81852"
+      "value": "wing-eks-c8281f"
     },
     "WingEksCluster_eksendpoint_FD8710BA": {
       "description": "eks.endpoint",
@@ -201,7 +201,7 @@
               "eks",
               "get-token",
               "--cluster-name",
-              "wing-eks-c81852"
+              "wing-eks-c8281f"
             ],
             "command": "aws"
           },
@@ -218,7 +218,7 @@
             "eks",
             "get-token",
             "--cluster-name",
-            "wing-eks-c81852"
+            "wing-eks-c8281f"
           ],
           "command": "aws"
         },
@@ -262,18 +262,18 @@
           },
           {
             "name": "clusterName",
-            "value": "wing-eks-c81852"
+            "value": "wing-eks-c8281f"
           }
         ]
       },
-      "http-echo_Release_2E4AC011": {
+      "Workload_http-echo_Release_73477725": {
         "//": {
           "metadata": {
-            "path": "root/Default/Default/http-echo/http-echo/Release",
-            "uniqueId": "http-echo_Release_2E4AC011"
+            "path": "root/Default/Default/Workload/http-echo/Release",
+            "uniqueId": "Workload_http-echo_Release_73477725"
           }
         },
-        "chart": ".wing/helm/http-echo-273a4641f9f305c101f6b0ae07761c77",
+        "chart": ".wing/helm/http-echo-63344863709bcf4e44f7b887311641a4",
         "depends_on": [
         ],
         "name": "http-echo",
@@ -316,7 +316,7 @@
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.31.0"
+        "version": "5.56.1"
       },
       "helm": {
         "source": "helm",

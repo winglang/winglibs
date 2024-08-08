@@ -1,6 +1,6 @@
 bring cloud;
 bring http;
-bring "./workload.w" as containers;
+bring "../" as containers;
 bring expect;
 
 let app = new containers.Workload(

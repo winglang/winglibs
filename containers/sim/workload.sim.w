@@ -3,7 +3,7 @@ bring util;
 bring cloud;
 bring sim;
 bring ui;
-bring "./api.w" as api;
+bring "../api.w" as api;
 
 pub class Workload_sim impl api.IWorkload {
   pub publicUrl: str?;

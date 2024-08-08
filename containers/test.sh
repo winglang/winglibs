@@ -6,5 +6,5 @@ else
 fi
 
 DEBUG=1 wing test
-wing test -t tf-aws -s $snapshot_mode containers.test.w
-wing test -t tf-aws -s $snapshot_mode containers-with-readiness.test.w
+WING_CONTAINERS_PROVIDER="eks" wing test -t tf-aws -s $snapshot_mode test/containers.test.w
+WING_CONTAINERS_PROVIDER="eks" wing test -t tf-aws -s $snapshot_mode test/containers-with-readiness.test.w

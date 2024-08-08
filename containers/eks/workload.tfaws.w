@@ -1,4 +1,4 @@
-bring "./api.w" as api;
+bring "../api.w" as api;
 bring "./tfaws-eks.w" as eks;
 bring "cdk8s-plus-27" as plus;
 bring "cdk8s" as cdk8s;
@@ -6,7 +6,7 @@ bring "cdktf" as cdktf;
 bring "./tfaws-ecr.w" as ecr;
 bring "@cdktf/provider-kubernetes" as k8s;
 bring "@cdktf/provider-helm" as helm_provider;
-bring "./helm.w" as helm;
+bring "../helm/helm.w" as helm;
 bring fs;
 bring cloud;
 

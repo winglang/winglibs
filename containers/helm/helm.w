@@ -1,4 +1,4 @@
-bring "./api.w" as api;
+bring "../api.w" as api;
 bring "cdk8s-plus-27" as plus;
 bring "cdk8s" as cdk8s;
 

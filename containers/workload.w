@@ -1,8 +1,8 @@
 bring util;
-bring "./workload.sim.w" as sim;
-bring "./workload.tfaws.w" as tfaws;
+bring "./sim/workload.sim.w" as sim;
+bring "./eks/workload.tfaws.w" as tfaws;
 bring "./api.w" as api;
-bring "./helm.w" as helm;
+bring "./helm/helm.w" as helm;
 bring http;
 bring fs;
 bring ui;
@@ -63,9 +63,22 @@ pub class Workload impl api.IWorkload {
   }
 
   resolveProvider(target: str): str {
-    let allowed = ["eks", "helm"];
-    let params: Json = nodeof(this).app.parameters.value("containers");
-    let provider = params?.tryGet("provider")?.tryAsStr();
+    let value = (): str? => {
+      if let p = util.tryEnv("WING_CONTAINERS_PROVIDER") {
+        return p;
+      }
+
+      let params: Json = nodeof(this).app.parameters.value("containers");
+      if let provider = params?.tryGet("provider")?.tryAsStr() {
+        return provider;
+      }
+  
+      return "ecs";
+    };
+
+    let allowed = ["eks", "helm", "ecs"];
+    let provider = value();
+
     if provider == nil {
       throw "Missing 'provider' under 'containers' in wing.toml. Allowed values are {allowed.join(", ")}";
     }

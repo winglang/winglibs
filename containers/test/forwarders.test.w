@@ -2,10 +2,10 @@ bring cloud;
 bring util;
 bring http;
 bring expect;
-bring "./workload.w" as w;
+bring "../" as containers;
 
-let workload = new w.Workload(
-  image: "./test/forwarders",
+let workload = new containers.Workload(
+  image: "{@dirname}/forwarders",
   name: "forwarders",
   port: 3000,
   public: true,

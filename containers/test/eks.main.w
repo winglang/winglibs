@@ -1,4 +1,4 @@
-bring "./tfaws-eks.w" as eks;
+bring "../eks/tfaws-eks.w" as eks;
 bring util;
 
 if util.env("WING_TARGET") == "tf-aws" {

@@ -316,7 +316,7 @@
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.31.0"
+        "version": "5.56.1"
       },
       "helm": {
         "source": "helm",
