@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: tsoa
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: tsoa
       - name: Pack
         run: wing pack

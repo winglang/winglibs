@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: cognito
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: cognito
       - name: Pack
         run: wing pack

@@ -28,7 +28,7 @@ jobs:
         run: wing test
         working-directory: simtools
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: simtools
       - name: Pack
         run: wing pack
