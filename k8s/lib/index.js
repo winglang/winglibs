@@ -1,5 +1,7 @@
-const cdk8s = require('cdk8s');
-const { core, std } = require('@winglang/sdk');;
+console.log("loading @winglibs/k8s");
+
+// const cdk8s = require('cdk8s');
+// const { core, std } = require('@winglang/sdk');;
 
 // exports.Platform = class {
 //     target = "k8s";
