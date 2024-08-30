@@ -80,9 +80,20 @@ pub class Library {
       });
 
       steps.push({
+        name: "Generate docs",
+        run: "wing doc",
+        "working-directory": libdir,
+      });
+
+      steps.push({
         name: "Pack",
         run: "wing pack",
         "working-directory": libdir,
+      });
+
+      steps.push({
+        name: "Check for missing changes",
+        run: "git diff --exit-code || (echo 'Please run \"npm install\", \"wing test\", and \"wing gen-docs\" from ./{libdir}, and commit any changes to your branch.' && exit 1)",
       });
     };
 

@@ -24,6 +24,13 @@ jobs:
       - name: Test
         run: wing test
         working-directory: sagemaker
+      - name: Generate docs
+        run: wing doc
+        working-directory: sagemaker
       - name: Pack
         run: wing pack
         working-directory: sagemaker
+      - name: Check for missing changes
+        run: git diff --exit-code || (echo 'Please run "npm install", "wing test", and
+          "wing gen-docs" from ./sagemaker, and commit any changes to your
+          branch.' && exit 1)

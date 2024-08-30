@@ -24,6 +24,13 @@ jobs:
       - name: Test
         run: ./test.sh
         working-directory: k8s
+      - name: Generate docs
+        run: wing doc
+        working-directory: k8s
       - name: Pack
         run: wing pack
         working-directory: k8s
+      - name: Check for missing changes
+        run: git diff --exit-code || (echo 'Please run "npm install", "wing test", and
+          "wing gen-docs" from ./k8s, and commit any changes to your branch.' &&
+          exit 1)

@@ -4,7 +4,7 @@ bring "./gitattributes.w" as gitattributes;
 bring "./library.w" as l;
 bring "./mergify.w" as mergify;
 bring "./pr-lint.w" as prlint;
-bring "./pr-diff.w" as prdiff;
+bring "./check-config.w" as checkconfig;
 bring "./stale.w" as stale;
 bring "./readme.w" as readme;
 
@@ -33,7 +33,7 @@ readme.update(libs.copy());
 
 new stale.StaleWorkflow(workflowdir);
 new mergify.MergifyWorkflow(libs.copy());
-new prdiff.PullRequestDiffWorkflow(workflowdir);
+new checkconfig.CheckConfigWorkflow(workflowdir);
 new prlint.PullRequestLintWorkflow(workflowdir, libs.copy());
 new gitattributes.GitAttributes();
 

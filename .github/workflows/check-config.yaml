@@ -1,4 +1,4 @@
-name: Pull Request Diff
+name: Check Config Files
 on:
   pull_request: {}
 jobs:
@@ -13,7 +13,7 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: Install winglang
         run: npm i -g winglang
-      - name: Update config files
+      - name: Generate config files
         run: ./mkrepo.sh
       - name: Check for missing changes
         run: git diff --exit-code || (echo 'Please run "./mkrepo.sh" from the root of
