@@ -28,7 +28,7 @@ jobs:
         run: wing test
         working-directory: jwt
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: jwt
       - name: Pack
         run: wing pack

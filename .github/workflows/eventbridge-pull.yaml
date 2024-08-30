@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: eventbridge
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: eventbridge
       - name: Pack
         run: wing pack

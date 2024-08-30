@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: websockets
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: websockets
       - name: Pack
         run: wing pack
