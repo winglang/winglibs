@@ -28,7 +28,7 @@ jobs:
         run: wing test
         working-directory: sagemaker
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: sagemaker
       - name: Pack
         run: wing pack

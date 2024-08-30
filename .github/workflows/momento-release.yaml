@@ -28,7 +28,7 @@ jobs:
         run: wing test
         working-directory: momento
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: momento
       - name: Pack
         run: wing pack

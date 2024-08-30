@@ -25,7 +25,7 @@ jobs:
         run: ./test.sh
         working-directory: k8s
       - name: Generate docs
-        run: wing doc
+        run: wing gen-docs
         working-directory: k8s
       - name: Pack
         run: wing pack
