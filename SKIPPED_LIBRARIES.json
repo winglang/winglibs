@@ -1,0 +1,16 @@
+{
+  "skipped-packages": [
+    {
+      "name": "containers",
+      "reason": "https://github.com/winglang/wing/issues/5716"
+    },
+    {
+      "name": "cognito",
+      "reason": "https://github.com/winglang/wing/issues/6924"
+    },
+    {
+      "name": "python",
+      "reason": "https://github.com/winglang/wing/issues/6923"
+    }
+  ]
+}
