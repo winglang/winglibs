@@ -2,4 +2,4 @@
 echo "Compiling..."
 wing compile .
 echo "Generating docs..."
-wing gen-docs
+DEBUG="*" wing gen-docs
