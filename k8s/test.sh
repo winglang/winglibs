@@ -14,9 +14,9 @@ else
 fi
 
 echo "Done"
-echo "Removing lib/blah.txt"
+echo "Removing lib/"
 
-rm lib/blah.txt
+rm -rf lib
 
 ( DEBUG="*" wing gen-docs ) & pid=$!
 ( sleep 2 && kill -HUP $pid ) 2>/dev/null & watcher=$!
