@@ -2,9 +2,13 @@
 echo "Compiling..."
 wing compile .
 echo "Generating docs..."
-timeout 5s 'DEBUG="*" wing gen-docs'
 
-if [ $? -eq 124 ]; then
-    echo "Command timed out after 5 seconds"
-    exit 1
+( DEBUG="*" wing gen-docs ) & pid=$!
+( sleep 2 && kill -HUP $pid ) 2>/dev/null & watcher=$!
+if wait $pid 2>/dev/null; then
+    echo "your_command finished"
+    pkill -HUP -P $watcher
+    wait $watcher
+else
+    echo "your_command interrupted"
 fi
