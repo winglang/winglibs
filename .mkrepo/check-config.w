@@ -1,9 +1,13 @@
 bring fs;
 
-pub class PullRequestDiffWorkflow {
+/// Create a workflow that runs mkrepo.sh to generate any config files
+/// for the monorepo, and detect if any changes are detected.
+/// This makes sure that the CI fails if any config files are out of date
+/// or if they're manually edited by accident.
+pub class CheckConfigWorkflow {
   new(workflowdir: str) {
-    fs.writeYaml("{workflowdir}/pull-request-diff.yaml", {
-      name: "Pull Request Diff",
+    fs.writeYaml("{workflowdir}/check-config.yaml", {
+      name: "Check Config Files",
       on: {
         pull_request: {}
       },
@@ -27,7 +31,7 @@ pub class PullRequestDiffWorkflow {
               "run": "npm i -g winglang",
             },
             {
-              "name": "Update config files",
+              "name": "Generate config files",
               "run": "./mkrepo.sh",
             },
             {
