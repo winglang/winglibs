@@ -28,7 +28,7 @@ jobs:
         run: wing test
         working-directory: github
       - name: Generate docs
-        run: wing gen-docs
+        run: wing docs
         working-directory: github
       - name: Pack
         run: wing pack

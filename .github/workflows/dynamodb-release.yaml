@@ -28,7 +28,7 @@ jobs:
         run: ./test.sh
         working-directory: dynamodb
       - name: Generate docs
-        run: wing gen-docs
+        run: wing docs
         working-directory: dynamodb
       - name: Pack
         run: wing pack

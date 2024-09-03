@@ -81,7 +81,7 @@ pub class Library {
 
       steps.push({
         name: "Generate docs",
-        run: "wing gen-docs",
+        run: "wing docs",
         "working-directory": libdir,
       });
 

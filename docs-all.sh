@@ -27,6 +27,6 @@ for package in */; do
   (
     cd $package
     npm i
-    $WING gen-docs
+    $WING docs
   )
 done

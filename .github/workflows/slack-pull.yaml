@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: slack
       - name: Generate docs
-        run: wing gen-docs
+        run: wing docs
         working-directory: slack
       - name: Pack
         run: wing pack
