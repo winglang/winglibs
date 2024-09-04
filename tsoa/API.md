@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/tsoa.Service_tfaws">Service_tfaws</a>
@@ -14,93 +14,105 @@
   - <a href="#@winglibs/tsoa.SpecProps">SpecProps</a>
   - <a href="#@winglibs/tsoa.StartServiceOptions">StartServiceOptions</a>
 
-<h3 id="@winglibs/tsoa.Service_tfaws">Service_tfaws (preflight class)</h3>
+### Service_tfaws (preflight class) <a class="wing-docs-anchor" id="@winglibs/tsoa.Service_tfaws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ServiceProps): Service_tfaws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>specFile</code> | <code>str</code> | *No description* |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>lift(client: Resource, ops: LiftOptions): void</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.Service_sim">Service_sim (preflight class)</h3>
+### Service_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/tsoa.Service_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ServiceProps): Service_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>specFile</code> | <code>str</code> | *No description* |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>lift(client: Resource, ops: LiftOptions): void</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.Service">Service (preflight class)</h3>
+### Service (preflight class) <a class="wing-docs-anchor" id="@winglibs/tsoa.Service"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ServiceProps): Service
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>specFile</code> | <code>str</code> | *No description* |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>lift(client: Resource, ops: LiftOptions): void</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.IService">IService (interface)</h3>
+### IService (interface) <a class="wing-docs-anchor" id="@winglibs/tsoa.IService"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>lift(client: Resource, ops: LiftOptions): void</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.LiftOptions">LiftOptions (struct)</h3>
+### LiftOptions (struct) <a class="wing-docs-anchor" id="@winglibs/tsoa.LiftOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>allow</code> | <code>Array<str></code> | *No description* |
 | <code>id</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.ServiceProps">ServiceProps (struct)</h3>
+### ServiceProps (struct) <a class="wing-docs-anchor" id="@winglibs/tsoa.ServiceProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -111,18 +123,22 @@ new(props: ServiceProps): Service
 | <code>spec</code> | <code>SpecProps?</code> | *No description* |
 | <code>watchDir</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.SpecProps">SpecProps (struct)</h3>
+### SpecProps (struct) <a class="wing-docs-anchor" id="@winglibs/tsoa.SpecProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>outputDirectory</code> | <code>str?</code> | *No description* |
 | <code>specVersion</code> | <code>num?</code> | *No description* |
 
-<h3 id="@winglibs/tsoa.StartServiceOptions">StartServiceOptions (struct)</h3>
+### StartServiceOptions (struct) <a class="wing-docs-anchor" id="@winglibs/tsoa.StartServiceOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

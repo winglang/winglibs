@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/openai.OpenAI">OpenAI</a>
@@ -8,37 +8,43 @@
   - <a href="#@winglibs/openai.CompletionParams">CompletionParams</a>
   - <a href="#@winglibs/openai.OpenAIProps">OpenAIProps</a>
 
-<h3 id="@winglibs/openai.OpenAI">OpenAI (preflight class)</h3>
+### OpenAI (preflight class) <a class="wing-docs-anchor" id="@winglibs/openai.OpenAI"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: OpenAIProps?): OpenAI
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight createCompletion(prompt: str, params: CompletionParams?): str</code> | *No description* |
 | <code>static inflight createNewInflightClient(apiKey: str, org: str?): IClient</code> | *No description* |
 
-<h3 id="@winglibs/openai.CompletionParams">CompletionParams (struct)</h3>
+### CompletionParams (struct) <a class="wing-docs-anchor" id="@winglibs/openai.CompletionParams"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>maxTokens</code> | <code>num?</code> | *No description* |
 | <code>model</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/openai.OpenAIProps">OpenAIProps (struct)</h3>
+### OpenAIProps (struct) <a class="wing-docs-anchor" id="@winglibs/openai.OpenAIProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

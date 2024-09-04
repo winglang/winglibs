@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/postgres.Database">Database</a>
@@ -12,69 +12,79 @@
   - <a href="#@winglibs/postgres.ConnectionOptions">ConnectionOptions</a>
   - <a href="#@winglibs/postgres.DatabaseProps">DatabaseProps</a>
 
-<h3 id="@winglibs/postgres.Database">Database (preflight class)</h3>
+### Database (preflight class) <a class="wing-docs-anchor" id="@winglibs/postgres.Database"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: DatabaseProps): Database
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>connection</code> | <code>ConnectionOptions</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight connectionOptions(): ConnectionOptions</code> | *No description* |
 | <code>inflight query(query: str): Array<Map<Json>></code> | *No description* |
 
-<h3 id="@winglibs/postgres.DatabaseRef">DatabaseRef (preflight class)</h3>
+### DatabaseRef (preflight class) <a class="wing-docs-anchor" id="@winglibs/postgres.DatabaseRef"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): DatabaseRef
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight query(query: str): Array<Map<Json>></code> | *No description* |
 
-<h3 id="@winglibs/postgres.IDatabase">IDatabase (interface)</h3>
+### IDatabase (interface) <a class="wing-docs-anchor" id="@winglibs/postgres.IDatabase"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight connectionOptions(): ConnectionOptions?</code> | *No description* |
 | <code>inflight query(query: str): Array<Map<Json>></code> | *No description* |
 
-<h3 id="@winglibs/postgres.AwsParameters">AwsParameters (struct)</h3>
+### AwsParameters (struct) <a class="wing-docs-anchor" id="@winglibs/postgres.AwsParameters"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>postgresEngine</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/postgres.ConnectionOptions">ConnectionOptions (struct)</h3>
+### ConnectionOptions (struct) <a class="wing-docs-anchor" id="@winglibs/postgres.ConnectionOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -85,9 +95,11 @@ new(): DatabaseRef
 | <code>ssl</code> | <code>bool</code> | *No description* |
 | <code>user</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/postgres.DatabaseProps">DatabaseProps (struct)</h3>
+### DatabaseProps (struct) <a class="wing-docs-anchor" id="@winglibs/postgres.DatabaseProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

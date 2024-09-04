@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/messagefanout.MessageFanout">MessageFanout</a>
@@ -11,81 +11,91 @@
 - **Structs**
   - <a href="#@winglibs/messagefanout.commons.MessageFanoutProps">commons.MessageFanoutProps</a>
 
-<h3 id="@winglibs/messagefanout.MessageFanout">MessageFanout (preflight class)</h3>
+### MessageFanout (preflight class) <a class="wing-docs-anchor" id="@winglibs/messagefanout.MessageFanout"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): MessageFanout
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addConsumer(handler: inflight (str): void, props: MessageFanoutProps): void</code> | *No description* |
 | <code>inflight publish(message: str): void</code> | *No description* |
 
-<h3 id="@winglibs/messagefanout.platform.MessageFanout_tfaws">platform.MessageFanout_tfaws (preflight class)</h3>
+### platform.MessageFanout_tfaws (preflight class) <a class="wing-docs-anchor" id="@winglibs/messagefanout.platform.MessageFanout_tfaws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): MessageFanout_tfaws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addConsumer(handler: inflight (str): void, props: MessageFanoutProps): void</code> | *No description* |
 | <code>inflight publish(message: str): void</code> | *No description* |
 
-<h3 id="@winglibs/messagefanout.platform.MessageFanout_sim">platform.MessageFanout_sim (preflight class)</h3>
+### platform.MessageFanout_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/messagefanout.platform.MessageFanout_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): MessageFanout_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addConsumer(handler: inflight (str): void, props: MessageFanoutProps): void</code> | *No description* |
 | <code>inflight publish(message: str): void</code> | *No description* |
 
-<h3 id="@winglibs/messagefanout.commons.IMessageFanout">commons.IMessageFanout (interface)</h3>
+### commons.IMessageFanout (interface) <a class="wing-docs-anchor" id="@winglibs/messagefanout.commons.IMessageFanout"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>node</code> | <code>Node</code> | The tree node. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addConsumer(handler: inflight (str): void, props: MessageFanoutProps): void</code> | *No description* |
 | <code>inflight publish(message: str): void</code> | *No description* |
 
-<h3 id="@winglibs/messagefanout.commons.MessageFanoutProps">commons.MessageFanoutProps (struct)</h3>
+### commons.MessageFanoutProps (struct) <a class="wing-docs-anchor" id="@winglibs/messagefanout.commons.MessageFanoutProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

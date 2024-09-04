@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/cloudv2.Counter">Counter</a>
@@ -11,21 +11,23 @@
 - **Structs**
   - <a href="#@winglibs/cloudv2.CounterProps">CounterProps</a>
 
-<h3 id="@winglibs/cloudv2.Counter">Counter (preflight class)</h3>
+### Counter (preflight class) <a class="wing-docs-anchor" id="@winglibs/cloudv2.Counter"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: CounterProps): Counter
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>initial</code> | <code>num</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -34,31 +36,35 @@ new(props: CounterProps): Counter
 | <code>inflight peek(key: str?): num</code> | *No description* |
 | <code>inflight set(value: num, key: str?): void</code> | *No description* |
 
-<h3 id="@winglibs/cloudv2.AwsCounter">AwsCounter (preflight class)</h3>
+### AwsCounter (preflight class) <a class="wing-docs-anchor" id="@winglibs/cloudv2.AwsCounter"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): AwsCounter
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static from(c: ICounter): IAwsCounter?</code> | *No description* |
 
-<h3 id="@winglibs/cloudv2.ICounter">ICounter (interface)</h3>
+### ICounter (interface) <a class="wing-docs-anchor" id="@winglibs/cloudv2.ICounter"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -67,22 +73,26 @@ new(): AwsCounter
 | <code>inflight peek(key: str?): num</code> | Returns the current value of the counter. - `key` The key of the counter (defaults to "default") |
 | <code>inflight set(value: num, key: str?): void</code> | Sets the value of the counter. - `value` The new value of the counter - `key` The key of the counter (defaults to "default") |
 
-<h3 id="@winglibs/cloudv2.IAwsCounter">IAwsCounter (interface)</h3>
+### IAwsCounter (interface) <a class="wing-docs-anchor" id="@winglibs/cloudv2.IAwsCounter"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>dynamoTableArn(): str</code> | *No description* |
 | <code>dynamoTableName(): str</code> | *No description* |
 
-<h3 id="@winglibs/cloudv2.CounterProps">CounterProps (struct)</h3>
+### CounterProps (struct) <a class="wing-docs-anchor" id="@winglibs/cloudv2.CounterProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

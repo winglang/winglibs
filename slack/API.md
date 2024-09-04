@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/slack.SlackUtils">SlackUtils</a>
@@ -26,235 +26,247 @@
   - <a href="#@winglibs/slack.BlockType">BlockType</a>
   - <a href="#@winglibs/slack.FieldType">FieldType</a>
 
-<h3 id="@winglibs/slack.SlackUtils">SlackUtils (preflight class)</h3>
+### SlackUtils (preflight class) <a class="wing-docs-anchor" id="@winglibs/slack.SlackUtils"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): SlackUtils
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static inflight post(body: Json, token: str): Json</code> | *No description* |
 
-<h3 id="@winglibs/slack.Message">Message (inflight class)</h3>
+### Message (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.Message"></a>
 
 Represents a Message block see: https://api.slack.com/block-kit
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): Message
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>sections</code> | <code>MutArray<Section></code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight addSection(section: Section): void</code> | *No description* |
 | <code>inflight toJson(): Json</code> | Returns Json representation of message |
 
-<h3 id="@winglibs/slack.App">App (preflight class)</h3>
+### App (preflight class) <a class="wing-docs-anchor" id="@winglibs/slack.App"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AppProps): App
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>api</code> | <code>Api</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight channel(id: str): Channel</code> | Retrieve a channel object from a channel Id or name |
 | <code>onEvent(eventName: str, handler: inflight (EventContext, Json): Json?): void</code> | Register an event handler (for available events see: https://api.slack.com/events) |
 
-<h3 id="@winglibs/slack.Channel">Channel (inflight class)</h3>
+### Channel (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.Channel"></a>
 
 Represents the context of a slack channel
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): Channel
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>id</code> | <code>str</code> | The channel id |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight post(message: str): Json</code> | Post raw text to a channel |
 | <code>inflight postMessage(message: Message): Json</code> | Post a message block to a channel |
 
-<h3 id="@winglibs/slack.EventContext">EventContext (inflight class)</h3>
+### EventContext (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.EventContext"></a>
 
 Represents the context of an event callback
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): EventContext
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>channel</code> | <code>Channel</code> | *No description* |
 | <code>thread</code> | <code>Thread</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/slack.EventContext_Mock">EventContext_Mock (inflight class)</h3>
+### EventContext_Mock (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.EventContext_Mock"></a>
 
 Internally used for mocking event context
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): EventContext_Mock
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>channel</code> | <code>Channel</code> | *No description* |
 | <code>thread</code> | <code>Thread</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/slack.MockChannel">MockChannel (inflight class)</h3>
+### MockChannel (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.MockChannel"></a>
 
 Only used for internal testing
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): MockChannel
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>id</code> | <code>str</code> | The channel id |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight post(message: str): Json</code> | *No description* |
 | <code>inflight postMessage(message: Message): Json</code> | *No description* |
 
-<h3 id="@winglibs/slack.Thread">Thread (inflight class)</h3>
+### Thread (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.Thread"></a>
 
 Represents the context of a slack thread
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): Thread
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>channel</code> | <code>Channel</code> | The channel context |
 | <code>timestamp</code> | <code>str</code> | The thread timestamp |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight post(message: str): Json</code> | Post raw text to a thread |
 | <code>inflight postMessage(message: Message): Json</code> | Post a message to a thread |
 
-<h3 id="@winglibs/slack.IThread">IThread (interface)</h3>
+### IThread (interface) <a class="wing-docs-anchor" id="@winglibs/slack.IThread"></a>
 
 The bahvioral interface of a thread
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight post(message: str): Json</code> | *No description* |
 | <code>inflight postMessage(message: Message): Json</code> | *No description* |
 
-<h3 id="@winglibs/slack.Block">Block (struct)</h3>
+### Block (struct) <a class="wing-docs-anchor" id="@winglibs/slack.Block"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>fields</code> | <code>Array<Field></code> | *No description* |
 | <code>type</code> | <code>BlockType</code> | *No description* |
 
-<h3 id="@winglibs/slack.Field">Field (struct)</h3>
+### Field (struct) <a class="wing-docs-anchor" id="@winglibs/slack.Field"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>text</code> | <code>str</code> | *No description* |
 | <code>type</code> | <code>FieldType</code> | *No description* |
 
-<h3 id="@winglibs/slack.Section">Section (struct)</h3>
+### Section (struct) <a class="wing-docs-anchor" id="@winglibs/slack.Section"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>fields</code> | <code>Array<Field></code> | *No description* |
 
-<h3 id="@winglibs/slack.AppProps">AppProps (struct)</h3>
+### AppProps (struct) <a class="wing-docs-anchor" id="@winglibs/slack.AppProps"></a>
 
 Properties for Slack bot
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>ignoreBots</code> | <code>bool?</code> | Whether events from bot users should be ignored (default: true) |
 | <code>token</code> | <code>Secret</code> | The token secret to use for the app |
 
-<h3 id="@winglibs/slack.CallbackEvent">CallbackEvent (struct)</h3>
+### CallbackEvent (struct) <a class="wing-docs-anchor" id="@winglibs/slack.CallbackEvent"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -267,9 +279,11 @@ Properties for Slack bot
 | <code>type</code> | <code>str</code> | *No description* |
 | <code>user</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/slack.MessageCallbackEvent">MessageCallbackEvent (struct)</h3>
+### MessageCallbackEvent (struct) <a class="wing-docs-anchor" id="@winglibs/slack.MessageCallbackEvent"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -283,17 +297,21 @@ Properties for Slack bot
 | <code>type</code> | <code>str</code> | *No description* |
 | <code>user</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/slack.SlackEvent">SlackEvent (struct)</h3>
+### SlackEvent (struct) <a class="wing-docs-anchor" id="@winglibs/slack.SlackEvent"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>type</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/slack.VerificationEvent">VerificationEvent (struct)</h3>
+### VerificationEvent (struct) <a class="wing-docs-anchor" id="@winglibs/slack.VerificationEvent"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -301,17 +319,21 @@ Properties for Slack bot
 | <code>token</code> | <code>str</code> | *No description* |
 | <code>type</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/slack.BlockType">BlockType (enum)</h3>
+### BlockType (enum) <a class="wing-docs-anchor" id="@winglibs/slack.BlockType"></a>
 
-<h4>Values</h4>
+*No description*
+
+#### Values
 
 | **Name** | **Description** |
 | --- | --- |
 | <code>section</code> | *No description* |
 
-<h3 id="@winglibs/slack.FieldType">FieldType (enum)</h3>
+### FieldType (enum) <a class="wing-docs-anchor" id="@winglibs/slack.FieldType"></a>
 
-<h4>Values</h4>
+*No description*
+
+#### Values
 
 | **Name** | **Description** |
 | --- | --- |

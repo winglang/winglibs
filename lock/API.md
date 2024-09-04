@@ -1,25 +1,27 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/lock.Lock">Lock</a>
 - **Structs**
   - <a href="#@winglibs/lock.LockAcquireOptions">LockAcquireOptions</a>
 
-<h3 id="@winglibs/lock.Lock">Lock (preflight class)</h3>
+### Lock (preflight class) <a class="wing-docs-anchor" id="@winglibs/lock.Lock"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Lock
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -28,9 +30,11 @@ new(): Lock
 | <code>inflight tryAcquire(id: str, options: LockAcquireOptions): bool</code> | *No description* |
 | <code>inflight tryRelease(id: str): bool</code> | *No description* |
 
-<h3 id="@winglibs/lock.LockAcquireOptions">LockAcquireOptions (struct)</h3>
+### LockAcquireOptions (struct) <a class="wing-docs-anchor" id="@winglibs/lock.LockAcquireOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

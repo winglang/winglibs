@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/ngrok.Tunnel">Tunnel</a>
@@ -9,41 +9,47 @@
 - **Structs**
   - <a href="#@winglibs/ngrok.NgrokProps">NgrokProps</a>
 
-<h3 id="@winglibs/ngrok.Tunnel">Tunnel (preflight class)</h3>
+### Tunnel (preflight class) <a class="wing-docs-anchor" id="@winglibs/ngrok.Tunnel"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(url: str, props: NgrokProps?): Tunnel
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>onConnect(handler: inflight (str): void): void</code> | *No description* |
 
-<h3 id="@winglibs/ngrok.OnConnectHandler">OnConnectHandler (interface)</h3>
+### OnConnectHandler (interface) <a class="wing-docs-anchor" id="@winglibs/ngrok.OnConnectHandler"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight handle(url: str): void</code> | *No description* |
 
-<h3 id="@winglibs/ngrok.NgrokProps">NgrokProps (struct)</h3>
+### NgrokProps (struct) <a class="wing-docs-anchor" id="@winglibs/ngrok.NgrokProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

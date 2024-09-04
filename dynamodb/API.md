@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/dynamodb.Table">Table</a>
@@ -41,22 +41,24 @@
   - <a href="#@winglibs/dynamodb.UpdateOutput">UpdateOutput</a>
   - <a href="#@winglibs/dynamodb.ClientProps">ClientProps</a>
 
-<h3 id="@winglibs/dynamodb.Table">Table (preflight class)</h3>
+### Table (preflight class) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Table"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: TableProps): Table
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>connection</code> | <code>Connection</code> | *No description* |
 | <code>tableName</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -70,22 +72,24 @@ new(props: TableProps): Table
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.Table_tfaws">Table_tfaws (preflight class)</h3>
+### Table_tfaws (preflight class) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Table_tfaws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: TableProps): Table_tfaws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>connection</code> | <code>Connection</code> | *No description* |
 | <code>tableName</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -99,22 +103,24 @@ new(props: TableProps): Table_tfaws
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.Table_sim">Table_sim (preflight class)</h3>
+### Table_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Table_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: TableProps): Table_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>connection</code> | <code>Connection</code> | *No description* |
 | <code>tableName</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -128,19 +134,21 @@ new(props: TableProps): Table_sim
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.Client">Client (inflight class)</h3>
+### Client (inflight class) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Client"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Client
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -152,13 +160,15 @@ new(): Client
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.IClient">IClient (interface)</h3>
+### IClient (interface) <a class="wing-docs-anchor" id="@winglibs/dynamodb.IClient"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -170,15 +180,17 @@ new(): Client
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.ITable">ITable (interface)</h3>
+### ITable (interface) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ITable"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>node</code> | <code>Node</code> | The tree node. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -192,18 +204,22 @@ new(): Client
 | <code>inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput</code> | *No description* |
 | <code>inflight update(options: UpdateOptions): UpdateOutput</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.AttributeDefinition">AttributeDefinition (struct)</h3>
+### AttributeDefinition (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.AttributeDefinition"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>name</code> | <code>str</code> | *No description* |
 | <code>type</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.ClientConfig">ClientConfig (struct)</h3>
+### ClientConfig (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ClientConfig"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -211,27 +227,33 @@ new(): Client
 | <code>endpoint</code> | <code>str</code> | *No description* |
 | <code>region</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.Connection">Connection (struct)</h3>
+### Connection (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Connection"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>clientConfig</code> | <code>ClientConfig?</code> | *No description* |
 | <code>tableName</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.Credentials">Credentials (struct)</h3>
+### Credentials (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Credentials"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>accessKeyId</code> | <code>str</code> | *No description* |
 | <code>secretAccessKey</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.DeleteOptions">DeleteOptions (struct)</h3>
+### DeleteOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.DeleteOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -241,17 +263,21 @@ new(): Client
 | <code>Key</code> | <code>Json</code> | *No description* |
 | <code>ReturnValues</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.DeleteOutput">DeleteOutput (struct)</h3>
+### DeleteOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.DeleteOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Attributes</code> | <code>Json?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.GetOptions">GetOptions (struct)</h3>
+### GetOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.GetOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -261,17 +287,21 @@ new(): Client
 | <code>Key</code> | <code>Json</code> | *No description* |
 | <code>ProjectionExpression</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.GetOutput">GetOutput (struct)</h3>
+### GetOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.GetOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Item</code> | <code>Json?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.GlobalSecondaryIndex">GlobalSecondaryIndex (struct)</h3>
+### GlobalSecondaryIndex (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.GlobalSecondaryIndex"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -283,9 +313,11 @@ new(): Client
 | <code>readCapacity</code> | <code>num?</code> | *No description* |
 | <code>writeCapacity</code> | <code>num?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.PutOptions">PutOptions (struct)</h3>
+### PutOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.PutOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -295,17 +327,21 @@ new(): Client
 | <code>Item</code> | <code>Json</code> | *No description* |
 | <code>ReturnValues</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.PutOutput">PutOutput (struct)</h3>
+### PutOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.PutOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Attributes</code> | <code>Json?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.QueryOptions">QueryOptions (struct)</h3>
+### QueryOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.QueryOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -322,9 +358,11 @@ new(): Client
 | <code>ScanIndexForward</code> | <code>bool?</code> | *No description* |
 | <code>Select</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.QueryOutput">QueryOutput (struct)</h3>
+### QueryOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.QueryOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -334,9 +372,11 @@ new(): Client
 | <code>LastEvaluatedKey</code> | <code>Json?</code> | *No description* |
 | <code>ScannedCount</code> | <code>num</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.ScanOptions">ScanOptions (struct)</h3>
+### ScanOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ScanOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -353,9 +393,11 @@ new(): Client
 | <code>Select</code> | <code>str?</code> | *No description* |
 | <code>TotalSegments</code> | <code>num?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.ScanOutput">ScanOutput (struct)</h3>
+### ScanOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ScanOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -365,18 +407,22 @@ new(): Client
 | <code>LastEvaluatedKey</code> | <code>Json?</code> | *No description* |
 | <code>ScannedCount</code> | <code>num</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.StreamConsumerOptions">StreamConsumerOptions (struct)</h3>
+### StreamConsumerOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.StreamConsumerOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>batchSize</code> | <code>num?</code> | *No description* |
 | <code>startingPosition</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.StreamRecord">StreamRecord (struct)</h3>
+### StreamRecord (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.StreamRecord"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -384,9 +430,11 @@ new(): Client
 | <code>eventID</code> | <code>str</code> | *No description* |
 | <code>eventName</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.StreamRecordDynamodb">StreamRecordDynamodb (struct)</h3>
+### StreamRecordDynamodb (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.StreamRecordDynamodb"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -398,9 +446,11 @@ new(): Client
 | <code>SizeBytes</code> | <code>num</code> | *No description* |
 | <code>StreamViewType</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TableProps">TableProps (struct)</h3>
+### TableProps (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TableProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -412,9 +462,11 @@ new(): Client
 | <code>rangeKey</code> | <code>str?</code> | *No description* |
 | <code>timeToLiveAttribute</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteItem">TransactWriteItem (struct)</h3>
+### TransactWriteItem (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteItem"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -423,21 +475,11 @@ new(): Client
 | <code>Put</code> | <code>TransactWriteItemPut?</code> | *No description* |
 | <code>Update</code> | <code>TransactWriteItemUpdate?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteItemConditionCheck">TransactWriteItemConditionCheck (struct)</h3>
+### TransactWriteItemConditionCheck (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteItemConditionCheck"></a>
 
-<h4>Properties</h4>
+*No description*
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>ConditionExpression</code> | <code>str?</code> | *No description* |
-| <code>ExpressionAttributeNames</code> | <code>Map<str>?</code> | *No description* |
-| <code>ExpressionAttributeValues</code> | <code>Map<Json>?</code> | *No description* |
-| <code>Key</code> | <code>Json</code> | *No description* |
-| <code>ReturnValuesOnConditionCheckFailure</code> | <code>bool?</code> | *No description* |
-
-<h3 id="@winglibs/dynamodb.TransactWriteItemDelete">TransactWriteItemDelete (struct)</h3>
-
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -447,9 +489,25 @@ new(): Client
 | <code>Key</code> | <code>Json</code> | *No description* |
 | <code>ReturnValuesOnConditionCheckFailure</code> | <code>bool?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteItemPut">TransactWriteItemPut (struct)</h3>
+### TransactWriteItemDelete (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteItemDelete"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code>ConditionExpression</code> | <code>str?</code> | *No description* |
+| <code>ExpressionAttributeNames</code> | <code>Map<str>?</code> | *No description* |
+| <code>ExpressionAttributeValues</code> | <code>Map<Json>?</code> | *No description* |
+| <code>Key</code> | <code>Json</code> | *No description* |
+| <code>ReturnValuesOnConditionCheckFailure</code> | <code>bool?</code> | *No description* |
+
+### TransactWriteItemPut (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteItemPut"></a>
+
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -459,9 +517,11 @@ new(): Client
 | <code>Item</code> | <code>Json</code> | *No description* |
 | <code>ReturnValuesOnConditionCheckFailure</code> | <code>bool?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteItemUpdate">TransactWriteItemUpdate (struct)</h3>
+### TransactWriteItemUpdate (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteItemUpdate"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -472,23 +532,29 @@ new(): Client
 | <code>ReturnValuesOnConditionCheckFailure</code> | <code>bool?</code> | *No description* |
 | <code>UpdateExpression</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteOptions">TransactWriteOptions (struct)</h3>
+### TransactWriteOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>TransactItems</code> | <code>Array<TransactWriteItem></code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.TransactWriteOutput">TransactWriteOutput (struct)</h3>
+### TransactWriteOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.TransactWriteOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h3 id="@winglibs/dynamodb.UpdateOptions">UpdateOptions (struct)</h3>
+### UpdateOptions (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.UpdateOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -500,9 +566,11 @@ new(): Client
 | <code>ReturnValues</code> | <code>str?</code> | *No description* |
 | <code>UpdateExpression</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.UpdateOutput">UpdateOutput (struct)</h3>
+### UpdateOutput (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.UpdateOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -512,9 +580,11 @@ new(): Client
 | <code>Item</code> | <code>Json</code> | *No description* |
 | <code>ReturnValues</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/dynamodb.ClientProps">ClientProps (struct)</h3>
+### ClientProps (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ClientProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

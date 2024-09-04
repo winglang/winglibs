@@ -1,44 +1,48 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/bedrock.JokeMaker">JokeMaker</a>
   - <a href="#@winglibs/bedrock.Model">Model</a>
 
-<h3 id="@winglibs/bedrock.JokeMaker">JokeMaker (preflight class)</h3>
+### JokeMaker (preflight class) <a class="wing-docs-anchor" id="@winglibs/bedrock.JokeMaker"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): JokeMaker
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight makeJoke(topic: str): str</code> | *No description* |
 
-<h3 id="@winglibs/bedrock.Model">Model (preflight class)</h3>
+### Model (preflight class) <a class="wing-docs-anchor" id="@winglibs/bedrock.Model"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(modelId: str): Model
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>modelId</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |

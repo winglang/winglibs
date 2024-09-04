@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/github.ProbotApp">ProbotApp</a>
@@ -44,19 +44,21 @@
   - <a href="#@winglibs/github.octokit.OctoKit">octokit.OctoKit</a>
   - <a href="#@winglibs/github.ngrok.NgrokProps">ngrok.NgrokProps</a>
 
-<h3 id="@winglibs/github.ProbotApp">ProbotApp (preflight class)</h3>
+### ProbotApp (preflight class) <a class="wing-docs-anchor" id="@winglibs/github.ProbotApp"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ProbotAppProps): ProbotApp
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -65,71 +67,79 @@ new(props: ProbotAppProps): ProbotApp
 | <code>onPullRequestReopened(handler: inflight (PullRequestOpenedContext): void): void</code> | *No description* |
 | <code>inflight updateWebhookUrl(url: str): void</code> | *No description* |
 
-<h3 id="@winglibs/github.utils.LowkeysMap">utils.LowkeysMap (inflight class)</h3>
+### utils.LowkeysMap (inflight class) <a class="wing-docs-anchor" id="@winglibs/github.utils.LowkeysMap"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): LowkeysMap
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static inflight fromMap(map: Map<str>): Map<str></code> | *No description* |
 
-<h3 id="@winglibs/github.simutils.Port">simutils.Port (preflight class)</h3>
+### simutils.Port (preflight class) <a class="wing-docs-anchor" id="@winglibs/github.simutils.Port"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Port
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>port</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/github.simutils.Service">simutils.Service (preflight class)</h3>
+### simutils.Service (preflight class) <a class="wing-docs-anchor" id="@winglibs/github.simutils.Service"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(command: str, args: Array<str>, props: ServiceProps): Service
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/github.probot.ProbotAdapter">probot.ProbotAdapter (preflight class)</h3>
+### probot.ProbotAdapter (preflight class) <a class="wing-docs-anchor" id="@winglibs/github.probot.ProbotAdapter"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ProbotAdapterProps): ProbotAdapter
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -142,31 +152,35 @@ new(props: ProbotAdapterProps): ProbotAdapter
 | <code>inflight handlePush(handler: inflight (PushContext): void): void</code> | *No description* |
 | <code>inflight verifyAndReceive(props: VerifyAndReceieveProps): void</code> | *No description* |
 
-<h3 id="@winglibs/github.ngrok.Ngrok">ngrok.Ngrok (preflight class)</h3>
+### ngrok.Ngrok (preflight class) <a class="wing-docs-anchor" id="@winglibs/github.ngrok.Ngrok"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: NgrokProps): Ngrok
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/github.IProbotAppCredentialsSupplier">IProbotAppCredentialsSupplier (interface)</h3>
+### IProbotAppCredentialsSupplier (interface) <a class="wing-docs-anchor" id="@winglibs/github.IProbotAppCredentialsSupplier"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -174,50 +188,58 @@ new(props: NgrokProps): Ngrok
 | <code>inflight getPrivateKey(): str</code> | *No description* |
 | <code>inflight getWebhookSecret(): str</code> | *No description* |
 
-<h3 id="@winglibs/github.simutils.Process">simutils.Process (interface)</h3>
+### simutils.Process (interface) <a class="wing-docs-anchor" id="@winglibs/github.simutils.Process"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight kill(): void</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.IProbotAuth">probot.IProbotAuth (interface)</h3>
+### probot.IProbotAuth (interface) <a class="wing-docs-anchor" id="@winglibs/github.probot.IProbotAuth"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight call(instance: ProbotInstance, installationId: num): OctoKit</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.IProbotWebhooks">probot.IProbotWebhooks (interface)</h3>
+### probot.IProbotWebhooks (interface) <a class="wing-docs-anchor" id="@winglibs/github.probot.IProbotWebhooks"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight on(name: str, handler: inflight (): void): void</code> | *No description* |
 | <code>inflight verifyAndReceive(props: VerifyAndReceieveProps): void</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.IProbotAppCredentialsSupplier">probot.IProbotAppCredentialsSupplier (interface)</h3>
+### probot.IProbotAppCredentialsSupplier (interface) <a class="wing-docs-anchor" id="@winglibs/github.probot.IProbotAppCredentialsSupplier"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -225,54 +247,54 @@ new(props: NgrokProps): Ngrok
 | <code>inflight getPrivateKey(): str</code> | *No description* |
 | <code>inflight getWebhookSecret(): str</code> | *No description* |
 
-<h3 id="@winglibs/github.ProbotAppProps">ProbotAppProps (struct)</h3>
+### ProbotAppProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.ProbotAppProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>credentialsSupplier</code> | <code>IProbotAppCredentialsSupplier</code> | *No description* |
 
-<h3 id="@winglibs/github.simutils.ServiceProps">simutils.ServiceProps (struct)</h3>
+### simutils.ServiceProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.simutils.ServiceProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>cwd</code> | <code>str?</code> | *No description* |
 | <code>env</code> | <code>Map<str>?</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.Context">probot.Context (struct)</h3>
+### probot.Context (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.Context"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>id</code> | <code>str</code> | *No description* |
 | <code>octokit</code> | <code>OctoKit</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.ProbotInstance">probot.ProbotInstance (struct)</h3>
+### probot.ProbotInstance (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.ProbotInstance"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>auth</code> | <code>IProbotAuth</code> | *No description* |
 | <code>webhooks</code> | <code>IProbotWebhooks</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.PullRequestClosedContext">probot.PullRequestClosedContext (struct)</h3>
+### probot.PullRequestClosedContext (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.PullRequestClosedContext"></a>
 
-<h4>Properties</h4>
+*No description*
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>id</code> | <code>str</code> | *No description* |
-| <code>octokit</code> | <code>OctoKit</code> | *No description* |
-| <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
-
-<h3 id="@winglibs/github.probot.PullRequestContext">probot.PullRequestContext (struct)</h3>
-
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -280,19 +302,11 @@ new(props: NgrokProps): Ngrok
 | <code>octokit</code> | <code>OctoKit</code> | *No description* |
 | <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.PullRequestOpenedContext">probot.PullRequestOpenedContext (struct)</h3>
+### probot.PullRequestContext (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.PullRequestContext"></a>
 
-<h4>Properties</h4>
+*No description*
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>id</code> | <code>str</code> | *No description* |
-| <code>octokit</code> | <code>OctoKit</code> | *No description* |
-| <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
-
-<h3 id="@winglibs/github.probot.PullRequestSyncContext">probot.PullRequestSyncContext (struct)</h3>
-
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -300,9 +314,35 @@ new(props: NgrokProps): Ngrok
 | <code>octokit</code> | <code>OctoKit</code> | *No description* |
 | <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.PushContext">probot.PushContext (struct)</h3>
+### probot.PullRequestOpenedContext (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.PullRequestOpenedContext"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code>id</code> | <code>str</code> | *No description* |
+| <code>octokit</code> | <code>OctoKit</code> | *No description* |
+| <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
+
+### probot.PullRequestSyncContext (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.PullRequestSyncContext"></a>
+
+*No description*
+
+#### Properties
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code>id</code> | <code>str</code> | *No description* |
+| <code>octokit</code> | <code>OctoKit</code> | *No description* |
+| <code>payload</code> | <code>PullRequestPayload</code> | *No description* |
+
+### probot.PushContext (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.PushContext"></a>
+
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -310,9 +350,11 @@ new(props: NgrokProps): Ngrok
 | <code>octokit</code> | <code>OctoKit</code> | *No description* |
 | <code>payload</code> | <code>PushPayload</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.VerifyAndReceieveProps">probot.VerifyAndReceieveProps (struct)</h3>
+### probot.VerifyAndReceieveProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.VerifyAndReceieveProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -321,9 +363,11 @@ new(props: NgrokProps): Ngrok
 | <code>payload</code> | <code>str</code> | *No description* |
 | <code>signature</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.CreateAdapterOptions">probot.CreateAdapterOptions (struct)</h3>
+### probot.CreateAdapterOptions (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.CreateAdapterOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -331,17 +375,21 @@ new(props: NgrokProps): Ngrok
 | <code>privateKey</code> | <code>str</code> | *No description* |
 | <code>webhookSecret</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.probot.ProbotAdapterProps">probot.ProbotAdapterProps (struct)</h3>
+### probot.ProbotAdapterProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.probot.ProbotAdapterProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>credentialsSupplier</code> | <code>IProbotAppCredentialsSupplier</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.CompareCommitsProps">octokit.CompareCommitsProps (struct)</h3>
+### octokit.CompareCommitsProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.CompareCommitsProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -350,42 +398,52 @@ new(props: NgrokProps): Ngrok
 | <code>owner</code> | <code>str</code> | *No description* |
 | <code>repo</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.CompareCommitsResponse">octokit.CompareCommitsResponse (struct)</h3>
+### octokit.CompareCommitsResponse (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.CompareCommitsResponse"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>data</code> | <code>CompareCommitsResponseData</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.CompareCommitsResponseCommit">octokit.CompareCommitsResponseCommit (struct)</h3>
+### octokit.CompareCommitsResponseCommit (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.CompareCommitsResponseCommit"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>sha</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.CompareCommitsResponseData">octokit.CompareCommitsResponseData (struct)</h3>
+### octokit.CompareCommitsResponseData (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.CompareCommitsResponseData"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>commits</code> | <code>Array<CompareCommitsResponseCommit></code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.CompareCommitsResponseFile">octokit.CompareCommitsResponseFile (struct)</h3>
+### octokit.CompareCommitsResponseFile (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.CompareCommitsResponseFile"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>filaname</code> | <code>str</code> | *No description* |
 | <code>sha</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetCommitProps">octokit.GetCommitProps (struct)</h3>
+### octokit.GetCommitProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetCommitProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -393,25 +451,31 @@ new(props: NgrokProps): Ngrok
 | <code>ref</code> | <code>str</code> | *No description* |
 | <code>repo</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetCommitResponse">octokit.GetCommitResponse (struct)</h3>
+### octokit.GetCommitResponse (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetCommitResponse"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>data</code> | <code>GetCommitResponseData</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetCommitResponseData">octokit.GetCommitResponseData (struct)</h3>
+### octokit.GetCommitResponseData (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetCommitResponseData"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>files</code> | <code>Array<GetCommitResponseFile>?</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetCommitResponseFile">octokit.GetCommitResponseFile (struct)</h3>
+### octokit.GetCommitResponseFile (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetCommitResponseFile"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -419,9 +483,11 @@ new(props: NgrokProps): Ngrok
 | <code>sha</code> | <code>str</code> | *No description* |
 | <code>status</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetContentProps">octokit.GetContentProps (struct)</h3>
+### octokit.GetContentProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetContentProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -430,18 +496,22 @@ new(props: NgrokProps): Ngrok
 | <code>ref</code> | <code>str?</code> | *No description* |
 | <code>repo</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetContentResponse">octokit.GetContentResponse (struct)</h3>
+### octokit.GetContentResponse (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetContentResponse"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>data</code> | <code>GetContentResponseData</code> | *No description* |
 | <code>status</code> | <code>num</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.GetContentResponseData">octokit.GetContentResponseData (struct)</h3>
+### octokit.GetContentResponseData (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.GetContentResponseData"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -452,18 +522,22 @@ new(props: NgrokProps): Ngrok
 | <code>size</code> | <code>num</code> | *No description* |
 | <code>type</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.ListReposResponse">octokit.ListReposResponse (struct)</h3>
+### octokit.ListReposResponse (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.ListReposResponse"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>data</code> | <code>Array<ListReposResponseData></code> | *No description* |
 | <code>status</code> | <code>num</code> | *No description* |
 
-<h3 id="@winglibs/github.octokit.OctoKit">octokit.OctoKit (struct)</h3>
+### octokit.OctoKit (struct) <a class="wing-docs-anchor" id="@winglibs/github.octokit.OctoKit"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -473,9 +547,11 @@ new(props: NgrokProps): Ngrok
 | <code>pulls</code> | <code>OctoKitPulls</code> | *No description* |
 | <code>repos</code> | <code>OctoKitRepos</code> | *No description* |
 
-<h3 id="@winglibs/github.ngrok.NgrokProps">ngrok.NgrokProps (struct)</h3>
+### ngrok.NgrokProps (struct) <a class="wing-docs-anchor" id="@winglibs/github.ngrok.NgrokProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

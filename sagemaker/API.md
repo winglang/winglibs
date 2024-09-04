@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/sagemaker.Endpoint">Endpoint</a>
@@ -12,81 +12,91 @@
   - <a href="#@winglibs/sagemaker.InvocationOptions">InvocationOptions</a>
   - <a href="#@winglibs/sagemaker.InvocationOutput">InvocationOutput</a>
 
-<h3 id="@winglibs/sagemaker.Endpoint">Endpoint (preflight class)</h3>
+### Endpoint (preflight class) <a class="wing-docs-anchor" id="@winglibs/sagemaker.Endpoint"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(endpointName: str, inferenceComponentName: str): Endpoint
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>endpointName</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight invoke(body: Json, options: InvocationOptions?): InvocationOutput</code> | *No description* |
 
-<h3 id="@winglibs/sagemaker.SageMaker_tfaws">SageMaker_tfaws (preflight class)</h3>
+### SageMaker_tfaws (preflight class) <a class="wing-docs-anchor" id="@winglibs/sagemaker.SageMaker_tfaws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(endpointName: str, inferenceComponentName: str): SageMaker_tfaws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>endpointName</code> | <code>str</code> | *No description* |
 | <code>inferenceComponentName</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight invoke(body: Json, options: InvocationOptions?): InvocationOutput</code> | *No description* |
 
-<h3 id="@winglibs/sagemaker.SageMaker_sim">SageMaker_sim (preflight class)</h3>
+### SageMaker_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/sagemaker.SageMaker_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(endpointName: str, inferenceName: str): SageMaker_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight invoke(body: Json, options: InvocationOptions?): InvocationOutput</code> | *No description* |
 | <code>setMockResponse(fn: inflight (Json, InvocationOptions?): InvocationOutput): void</code> | *No description* |
 
-<h3 id="@winglibs/sagemaker.ISageMaker">ISageMaker (interface)</h3>
+### ISageMaker (interface) <a class="wing-docs-anchor" id="@winglibs/sagemaker.ISageMaker"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight invoke(body: Json, InvocationOptions: InvocationOptions?): InvocationOutput</code> | *No description* |
 
-<h3 id="@winglibs/sagemaker.InvocationOptions">InvocationOptions (struct)</h3>
+### InvocationOptions (struct) <a class="wing-docs-anchor" id="@winglibs/sagemaker.InvocationOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -100,9 +110,11 @@ new(endpointName: str, inferenceName: str): SageMaker_sim
 | <code>TargetModel</code> | <code>str?</code> | *No description* |
 | <code>TargetVariant</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/sagemaker.InvocationOutput">InvocationOutput (struct)</h3>
+### InvocationOutput (struct) <a class="wing-docs-anchor" id="@winglibs/sagemaker.InvocationOutput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

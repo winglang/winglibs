@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/redis.Util">Util</a>
@@ -10,37 +10,41 @@
   - <a href="#@winglibs/redis.IRedis">IRedis</a>
   - <a href="#@winglibs/redis.IRedisClient">IRedisClient</a>
 
-<h3 id="@winglibs/redis.Util">Util (preflight class)</h3>
+### Util (preflight class) <a class="wing-docs-anchor" id="@winglibs/redis.Util"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Util
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static inflight newRedisClient(url: str, redisPassword: str): IRedisClient</code> | *No description* |
 
-<h3 id="@winglibs/redis.Redis">Redis (preflight class)</h3>
+### Redis (preflight class) <a class="wing-docs-anchor" id="@winglibs/redis.Redis"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Redis
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -53,19 +57,21 @@ new(): Redis
 | <code>inflight set(key: str, value: str): void?</code> | *No description* |
 | <code>inflight url(): str</code> | *No description* |
 
-<h3 id="@winglibs/redis.Redis_sim">Redis_sim (preflight class)</h3>
+### Redis_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/redis.Redis_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Redis_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -78,13 +84,15 @@ new(): Redis_sim
 | <code>inflight set(key: str, value: str): void</code> | *No description* |
 | <code>inflight url(): str</code> | *No description* |
 
-<h3 id="@winglibs/redis.IRedis">IRedis (interface)</h3>
+### IRedis (interface) <a class="wing-docs-anchor" id="@winglibs/redis.IRedis"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -97,13 +105,15 @@ new(): Redis_sim
 | <code>inflight set(key: str, value: str): void</code> | *No description* |
 | <code>inflight url(): str</code> | *No description* |
 
-<h3 id="@winglibs/redis.IRedisClient">IRedisClient (interface)</h3>
+### IRedisClient (interface) <a class="wing-docs-anchor" id="@winglibs/redis.IRedisClient"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |

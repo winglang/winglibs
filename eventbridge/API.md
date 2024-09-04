@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/eventbridge.Bus">Bus</a>
@@ -18,19 +18,21 @@
   - <a href="#@winglibs/eventbridge.platform.aws.PutEventCommandEntry">platform.aws.PutEventCommandEntry</a>
   - <a href="#@winglibs/eventbridge.platform.aws.PutEventCommandInput">platform.aws.PutEventCommandInput</a>
 
-<h3 id="@winglibs/eventbridge.Bus">Bus (preflight class)</h3>
+### Bus (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.Bus"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: BusProps?): Bus
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -38,19 +40,21 @@ new(props: BusProps?): Bus
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribeQueue(name: str, queue: Queue, pattern: Json): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.tfaws.Bus">platform.tfaws.Bus (preflight class)</h3>
+### platform.tfaws.Bus (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.tfaws.Bus"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: BusProps?): Bus
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -58,19 +62,21 @@ new(props: BusProps?): Bus
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribeQueue(name: str, queue: Queue, pattern: Json): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.sim.Bus">platform.sim.Bus (preflight class)</h3>
+### platform.sim.Bus (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.sim.Bus"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: BusProps?): Bus
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -78,38 +84,42 @@ new(props: BusProps?): Bus
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribeQueue(name: str, queue: Queue, pattern: Json): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.sim.EventBridgeBus">platform.sim.EventBridgeBus (preflight class)</h3>
+### platform.sim.EventBridgeBus (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.sim.EventBridgeBus"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: BusProps?): EventBridgeBus
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribe(callback: inflight (Event): void, pattern: Json): Resource</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.awscdk.Bus">platform.awscdk.Bus (preflight class)</h3>
+### platform.awscdk.Bus (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.awscdk.Bus"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: BusProps?): Bus
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -118,34 +128,38 @@ new(props: BusProps?): Bus
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribeQueue(name: str, queue: Queue, pattern: Json): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.aws.Util">platform.aws.Util (preflight class)</h3>
+### platform.aws.Util (preflight class) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.aws.Util"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Util
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static inflight _putEvent(name: str, event: PutEventCommandInput): void</code> | *No description* |
 | <code>static inflight putEvent(name: str, events: Array<PublishEvent>): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.IBus">IBus (interface)</h3>
+### IBus (interface) <a class="wing-docs-anchor" id="@winglibs/eventbridge.IBus"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>node</code> | <code>Node</code> | The tree node. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -153,18 +167,22 @@ new(): Util
 | <code>inflight putEvents(events: Array<PublishEvent>): void</code> | *No description* |
 | <code>subscribeQueue(name: str, queue: Queue, pattern: Json): void</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.BusProps">BusProps (struct)</h3>
+### BusProps (struct) <a class="wing-docs-anchor" id="@winglibs/eventbridge.BusProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>debug</code> | <code>bool?</code> | *No description* |
 | <code>name</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.Event">Event (struct)</h3>
+### Event (struct) <a class="wing-docs-anchor" id="@winglibs/eventbridge.Event"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -178,9 +196,11 @@ new(): Util
 | <code>time</code> | <code>str</code> | *No description* |
 | <code>version</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.PublishEvent">PublishEvent (struct)</h3>
+### PublishEvent (struct) <a class="wing-docs-anchor" id="@winglibs/eventbridge.PublishEvent"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -190,9 +210,11 @@ new(): Util
 | <code>source</code> | <code>str</code> | *No description* |
 | <code>version</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.aws.PutEventCommandEntry">platform.aws.PutEventCommandEntry (struct)</h3>
+### platform.aws.PutEventCommandEntry (struct) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.aws.PutEventCommandEntry"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -202,9 +224,11 @@ new(): Util
 | <code>Resources</code> | <code>Array<str></code> | *No description* |
 | <code>Source</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/eventbridge.platform.aws.PutEventCommandInput">platform.aws.PutEventCommandInput (struct)</h3>
+### platform.aws.PutEventCommandInput (struct) <a class="wing-docs-anchor" id="@winglibs/eventbridge.platform.aws.PutEventCommandInput"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

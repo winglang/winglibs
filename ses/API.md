@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/ses.EmailService_tfaws">EmailService_tfaws</a>
@@ -21,94 +21,104 @@
   - <a href="#@winglibs/ses.SendEmailOptions">SendEmailOptions</a>
   - <a href="#@winglibs/ses.SendRawEmailOptions">SendRawEmailOptions</a>
 
-<h3 id="@winglibs/ses.EmailService_tfaws">EmailService_tfaws (preflight class)</h3>
+### EmailService_tfaws (preflight class) <a class="wing-docs-anchor" id="@winglibs/ses.EmailService_tfaws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: EmailServiceProps): EmailService_tfaws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight sendEmail(options: SendEmailOptions): str?</code> | *No description* |
 | <code>inflight sendRawEmail(options: SendRawEmailOptions): str?</code> | *No description* |
 
-<h3 id="@winglibs/ses.EmailService_sim">EmailService_sim (preflight class)</h3>
+### EmailService_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/ses.EmailService_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: EmailServiceProps): EmailService_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight sendEmail(options: SendEmailOptions): str?</code> | *No description* |
 | <code>inflight sendRawEmail(options: SendRawEmailOptions): str?</code> | *No description* |
 
-<h3 id="@winglibs/ses.EmailService">EmailService (preflight class)</h3>
+### EmailService (preflight class) <a class="wing-docs-anchor" id="@winglibs/ses.EmailService"></a>
 
 EmailService can used for defining and interacting with AWS SES.
 When running the simulator in a non test environment, it will use the
 actual cloud implementation.
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(props: EmailServiceProps): EmailService
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight sendEmail(options: SendEmailOptions): str?</code> | *No description* |
 | <code>inflight sendRawEmail(options: SendRawEmailOptions): str?</code> | *No description* |
 
-<h3 id="@winglibs/ses.IEmailService">IEmailService (interface)</h3>
+### IEmailService (interface) <a class="wing-docs-anchor" id="@winglibs/ses.IEmailService"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>node</code> | <code>Node</code> | The tree node. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight sendEmail(options: SendEmailOptions): str?</code> | *No description* |
 | <code>inflight sendRawEmail(options: SendRawEmailOptions): str?</code> | *No description* |
 
-<h3 id="@winglibs/ses.Body">Body (struct)</h3>
+### Body (struct) <a class="wing-docs-anchor" id="@winglibs/ses.Body"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Html</code> | <code>Content?</code> | *No description* |
 | <code>Text</code> | <code>Content?</code> | *No description* |
 
-<h3 id="@winglibs/ses.CloudWatchDestination">CloudWatchDestination (struct)</h3>
+### CloudWatchDestination (struct) <a class="wing-docs-anchor" id="@winglibs/ses.CloudWatchDestination"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -116,25 +126,31 @@ new(props: EmailServiceProps): EmailService
 | <code>dimensionName</code> | <code>str</code> | *No description* |
 | <code>valueSource</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/ses.ConfigurationSet">ConfigurationSet (struct)</h3>
+### ConfigurationSet (struct) <a class="wing-docs-anchor" id="@winglibs/ses.ConfigurationSet"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>name</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/ses.Content">Content (struct)</h3>
+### Content (struct) <a class="wing-docs-anchor" id="@winglibs/ses.Content"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Data</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/ses.Destination">Destination (struct)</h3>
+### Destination (struct) <a class="wing-docs-anchor" id="@winglibs/ses.Destination"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -142,9 +158,11 @@ new(props: EmailServiceProps): EmailService
 | <code>CcAddresses</code> | <code>Array<str>?</code> | *No description* |
 | <code>ToAddresses</code> | <code>Array<str>?</code> | *No description* |
 
-<h3 id="@winglibs/ses.EmailServiceProps">EmailServiceProps (struct)</h3>
+### EmailServiceProps (struct) <a class="wing-docs-anchor" id="@winglibs/ses.EmailServiceProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -152,9 +170,11 @@ new(props: EmailServiceProps): EmailService
 | <code>emailIdentities</code> | <code>Array<str>?</code> | *No description* |
 | <code>eventDestination</code> | <code>EventDestination?</code> | *No description* |
 
-<h3 id="@winglibs/ses.EventDestination">EventDestination (struct)</h3>
+### EventDestination (struct) <a class="wing-docs-anchor" id="@winglibs/ses.EventDestination"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -162,26 +182,32 @@ new(props: EmailServiceProps): EmailService
 | <code>matchingTypes</code> | <code>Array<str></code> | *No description* |
 | <code>name</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/ses.Message">Message (struct)</h3>
+### Message (struct) <a class="wing-docs-anchor" id="@winglibs/ses.Message"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Body</code> | <code>Body?</code> | *No description* |
 | <code>Subject</code> | <code>Content?</code> | *No description* |
 
-<h3 id="@winglibs/ses.RawMessage">RawMessage (struct)</h3>
+### RawMessage (struct) <a class="wing-docs-anchor" id="@winglibs/ses.RawMessage"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>Data</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/ses.SendEmailOptions">SendEmailOptions (struct)</h3>
+### SendEmailOptions (struct) <a class="wing-docs-anchor" id="@winglibs/ses.SendEmailOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -189,9 +215,11 @@ new(props: EmailServiceProps): EmailService
 | <code>Message</code> | <code>Message?</code> | *No description* |
 | <code>Source</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/ses.SendRawEmailOptions">SendRawEmailOptions (struct)</h3>
+### SendRawEmailOptions (struct) <a class="wing-docs-anchor" id="@winglibs/ses.SendRawEmailOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

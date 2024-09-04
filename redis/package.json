@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/redis",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Redis resource for Wing",
   "repository": {
     "type": "git",

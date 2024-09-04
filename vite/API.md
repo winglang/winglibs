@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/vite.Vite">Vite</a>
@@ -9,63 +9,71 @@
 - **Structs**
   - <a href="#@winglibs/vite.ViteProps">ViteProps</a>
 
-<h3 id="@winglibs/vite.Vite">Vite (preflight class)</h3>
+### Vite (preflight class) <a class="wing-docs-anchor" id="@winglibs/vite.Vite"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ViteProps): Vite
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/vite.Vite_tf_aws">Vite_tf_aws (preflight class)</h3>
+### Vite_tf_aws (preflight class) <a class="wing-docs-anchor" id="@winglibs/vite.Vite_tf_aws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ViteProps): Vite_tf_aws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/vite.Vite_sim">Vite_sim (preflight class)</h3>
+### Vite_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/vite.Vite_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ViteProps): Vite_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/vite.ViteProps">ViteProps (struct)</h3>
+### ViteProps (struct) <a class="wing-docs-anchor" id="@winglibs/vite.ViteProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

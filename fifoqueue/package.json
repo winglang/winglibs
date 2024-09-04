@@ -1,6 +1,6 @@
 {
   "name": "@winglibs/fifoqueue",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A wing library to work with FIFO (first-in first-out) Queues",
   "author": {
     "name": "Elad Cohen",
