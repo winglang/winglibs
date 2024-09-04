@@ -25,7 +25,7 @@ jobs:
         run: wing test
         working-directory: python
       - name: Generate docs
-        run: wing gen-docs
+        run: wing docs
         working-directory: python
       - name: Pack
         run: wing pack
