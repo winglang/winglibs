@@ -1,23 +1,25 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/simtools.Util">Util</a>
 
-<h3 id="@winglibs/simtools.Util">Util (preflight class)</h3>
+### Util (preflight class) <a class="wing-docs-anchor" id="@winglibs/simtools.Util"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Util
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |

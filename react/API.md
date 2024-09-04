@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/react.Utils">Utils</a>
@@ -13,19 +13,21 @@
 - **Structs**
   - <a href="#@winglibs/react.AppProps">AppProps</a>
 
-<h3 id="@winglibs/react.Utils">Utils (preflight class)</h3>
+### Utils (preflight class) <a class="wing-docs-anchor" id="@winglibs/react.Utils"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Utils
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -33,19 +35,21 @@ new(): Utils
 | <code>static execSync(command: str, env: MutMap<str>, cwd: str): void</code> | *No description* |
 | <code>static inflight serveStaticFiles(path: str, port: num): inflight (): void</code> | *No description* |
 
-<h3 id="@winglibs/react.AppTfAws">AppTfAws (preflight class)</h3>
+### AppTfAws (preflight class) <a class="wing-docs-anchor" id="@winglibs/react.AppTfAws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AppProps): AppTfAws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -53,81 +57,91 @@ new(props: AppProps): AppTfAws
 | <code>getUrl(): str</code> | *No description* |
 | <code>addEnvironment(key: str, value: str): void</code> | *No description* |
 
-<h3 id="@winglibs/react.AppSim">AppSim (preflight class)</h3>
+### AppSim (preflight class) <a class="wing-docs-anchor" id="@winglibs/react.AppSim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AppProps): AppSim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>getUrl(): str</code> | *No description* |
 | <code>addEnvironment(key: str, value: str): void</code> | *No description* |
 
-<h3 id="@winglibs/react.App">App (preflight class)</h3>
+### App (preflight class) <a class="wing-docs-anchor" id="@winglibs/react.App"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AppProps): App
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>url</code> | <code>str</code> | *No description* |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addEnvironment(key: str, value: str): void</code> | *No description* |
 
-<h3 id="@winglibs/react.AppBase">AppBase (preflight class)</h3>
+### AppBase (preflight class) <a class="wing-docs-anchor" id="@winglibs/react.AppBase"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AppProps): AppBase
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addEnvironment(key: str, value: str): void</code> | *No description* |
 
-<h3 id="@winglibs/react.IApp">IApp (interface)</h3>
+### IApp (interface) <a class="wing-docs-anchor" id="@winglibs/react.IApp"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>addEnvironment(key: str, value: str): void</code> | *No description* |
 | <code>getUrl(): str</code> | *No description* |
 
-<h3 id="@winglibs/react.AppProps">AppProps (struct)</h3>
+### AppProps (struct) <a class="wing-docs-anchor" id="@winglibs/react.AppProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

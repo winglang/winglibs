@@ -1,21 +1,23 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/k8s.ApiObject">ApiObject</a>
 - **Structs**
   - <a href="#@winglibs/k8s.ApiObjectProps">ApiObjectProps</a>
 
-<h3 id="@winglibs/k8s.ApiObject">ApiObject (preflight class)</h3>
+### ApiObject (preflight class) <a class="wing-docs-anchor" id="@winglibs/k8s.ApiObject"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: ApiObjectProps): ApiObject
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -26,7 +28,7 @@ new(props: ApiObjectProps): ApiObject
 | <code>metadata</code> | <code>ApiObjectMetadataDefinition</code> | Metadata associated with this API object. |
 | <code>name</code> | <code>str</code> | The name of the API object. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -36,9 +38,11 @@ new(props: ApiObjectProps): ApiObject
 | <code>static of(c: IConstruct): ApiObject</code> | Returns the `ApiObject` named `Resource` which is a child of the given construct. |
 | <code>toJson(): any</code> | Renders the object to Kubernetes JSON. |
 
-<h3 id="@winglibs/k8s.ApiObjectProps">ApiObjectProps (struct)</h3>
+### ApiObjectProps (struct) <a class="wing-docs-anchor" id="@winglibs/k8s.ApiObjectProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

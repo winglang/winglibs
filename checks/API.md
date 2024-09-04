@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/checks.Results">Results</a>
@@ -13,19 +13,21 @@
   - <a href="#@winglibs/checks.CheckProps">CheckProps</a>
   - <a href="#@winglibs/checks.CheckHttpProps">CheckHttpProps</a>
 
-<h3 id="@winglibs/checks.Results">Results (preflight class)</h3>
+### Results (preflight class) <a class="wing-docs-anchor" id="@winglibs/checks.Results"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Results
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
@@ -33,60 +35,68 @@ new(): Results
 | <code>static of(scope: IResource): Results</code> | *No description* |
 | <code>inflight store(result: CheckResult): void</code> | *No description* |
 
-<h3 id="@winglibs/checks.Check">Check (preflight class)</h3>
+### Check (preflight class) <a class="wing-docs-anchor" id="@winglibs/checks.Check"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(handler: inflight (): void, props: CheckProps?): Check
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight latest(): CheckResult?</code> | *No description* |
 | <code>inflight run(): CheckResult</code> | *No description* |
 
-<h3 id="@winglibs/checks.CheckHttp">CheckHttp (preflight class)</h3>
+### CheckHttp (preflight class) <a class="wing-docs-anchor" id="@winglibs/checks.CheckHttp"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(url: str, options: CheckHttpProps?): CheckHttp
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight latest(): CheckResult?</code> | *No description* |
 | <code>inflight run(): CheckResult</code> | *No description* |
 
-<h3 id="@winglibs/checks.ICheck">ICheck (interface)</h3>
+### ICheck (interface) <a class="wing-docs-anchor" id="@winglibs/checks.ICheck"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight latest(): CheckResult?</code> | *No description* |
 | <code>inflight run(): CheckResult</code> | *No description* |
 
-<h3 id="@winglibs/checks.CheckResult">CheckResult (struct)</h3>
+### CheckResult (struct) <a class="wing-docs-anchor" id="@winglibs/checks.CheckResult"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -96,9 +106,11 @@ new(url: str, options: CheckHttpProps?): CheckHttp
 | <code>ok</code> | <code>bool</code> | *No description* |
 | <code>timestamp</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/checks.CheckProps">CheckProps (struct)</h3>
+### CheckProps (struct) <a class="wing-docs-anchor" id="@winglibs/checks.CheckProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -106,9 +118,11 @@ new(url: str, options: CheckHttpProps?): CheckHttp
 | <code>rate</code> | <code>duration?</code> | *No description* |
 | <code>testing</code> | <code>bool?</code> | *No description* |
 
-<h3 id="@winglibs/checks.CheckHttpProps">CheckHttpProps (struct)</h3>
+### CheckHttpProps (struct) <a class="wing-docs-anchor" id="@winglibs/checks.CheckHttpProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

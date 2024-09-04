@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/sns.MobileNotifications_sim">MobileNotifications_sim</a>
@@ -13,91 +13,101 @@
   - <a href="#@winglibs/sns.PublishOptions">PublishOptions</a>
   - <a href="#@winglibs/sns.PublishResult">PublishResult</a>
 
-<h3 id="@winglibs/sns.MobileNotifications_sim">MobileNotifications_sim (preflight class)</h3>
+### MobileNotifications_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/sns.MobileNotifications_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): MobileNotifications_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight publish(options: PublishOptions): PublishResult</code> | *No description* |
 
-<h3 id="@winglibs/sns.MobileNotifications">MobileNotifications (preflight class)</h3>
+### MobileNotifications (preflight class) <a class="wing-docs-anchor" id="@winglibs/sns.MobileNotifications"></a>
 
 MobileNotifications is a client for interacting with SNS mobile service.
 No cloud resources are created when using this class.
 When running the simulator in a non test environment, it will use the
 actual cloud implementation.
 
-<h4>Constructor</h4>
+#### Constructor
 
-<pre>
+```
 new(): MobileNotifications
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight publish(options: PublishOptions): PublishResult</code> | *No description* |
 
-<h3 id="@winglibs/sns.MobileNotifications_aws">MobileNotifications_aws (preflight class)</h3>
+### MobileNotifications_aws (preflight class) <a class="wing-docs-anchor" id="@winglibs/sns.MobileNotifications_aws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): MobileNotifications_aws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight publish(options: PublishOptions): PublishResult</code> | *No description* |
 
-<h3 id="@winglibs/sns.IMobileNotifications">IMobileNotifications (interface)</h3>
+### IMobileNotifications (interface) <a class="wing-docs-anchor" id="@winglibs/sns.IMobileNotifications"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>node</code> | <code>Node</code> | The tree node. |
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight publish(options: PublishOptions): PublishResult</code> | *No description* |
 
-<h3 id="@winglibs/sns.MessageAttributeValue">MessageAttributeValue (struct)</h3>
+### MessageAttributeValue (struct) <a class="wing-docs-anchor" id="@winglibs/sns.MessageAttributeValue"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>DataType</code> | <code>str?</code> | *No description* |
 | <code>StringValue</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/sns.PublishOptions">PublishOptions (struct)</h3>
+### PublishOptions (struct) <a class="wing-docs-anchor" id="@winglibs/sns.PublishOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -107,9 +117,11 @@ new(): MobileNotifications_aws
 | <code>Subject</code> | <code>str?</code> | *No description* |
 | <code>TopicArn</code> | <code>str?</code> | *No description* |
 
-<h3 id="@winglibs/sns.PublishResult">PublishResult (struct)</h3>
+### PublishResult (struct) <a class="wing-docs-anchor" id="@winglibs/sns.PublishResult"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

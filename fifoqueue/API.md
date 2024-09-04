@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/fifoqueue.FifoQueue">FifoQueue</a>
@@ -13,79 +13,89 @@
   - <a href="#@winglibs/fifoqueue.PushOptions">PushOptions</a>
   - <a href="#@winglibs/fifoqueue.SetConsumerOptions">SetConsumerOptions</a>
 
-<h3 id="@winglibs/fifoqueue.FifoQueue">FifoQueue (preflight class)</h3>
+### FifoQueue (preflight class) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.FifoQueue"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: FifoQueueProps?): FifoQueue
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight push(message: str, options: PushOptions): void</code> | *No description* |
 | <code>setConsumer(fn: inflight (str): void, options: SetConsumerOptions?): void</code> | *No description* |
 
-<h3 id="@winglibs/fifoqueue.FifoQueue_sim">FifoQueue_sim (preflight class)</h3>
+### FifoQueue_sim (preflight class) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.FifoQueue_sim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): FifoQueue_sim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight push(message: str, options: PushOptions): void</code> | *No description* |
 | <code>setConsumer(handler: inflight (str): void, options: SetConsumerOptions?): void</code> | *No description* |
 
-<h3 id="@winglibs/fifoqueue.FifoQueue_aws">FifoQueue_aws (preflight class)</h3>
+### FifoQueue_aws (preflight class) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.FifoQueue_aws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: FifoQueueProps?): FifoQueue_aws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight push(message: str, options: PushOptions): void</code> | *No description* |
 | <code>setConsumer(handler: inflight (str): void, options: SetConsumerOptions?): void</code> | *No description* |
 
-<h3 id="@winglibs/fifoqueue.IFifoQueue">IFifoQueue (interface)</h3>
+### IFifoQueue (interface) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.IFifoQueue"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>inflight push(message: str, options: PushOptions): void</code> | *No description* |
 | <code>setConsumer(handler: inflight (str): void, options: SetConsumerOptions?): void</code> | *No description* |
 
-<h3 id="@winglibs/fifoqueue.FifoQueueProps">FifoQueueProps (struct)</h3>
+### FifoQueueProps (struct) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.FifoQueueProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -93,17 +103,21 @@ new(props: FifoQueueProps?): FifoQueue_aws
 | <code>retentionPeriod</code> | <code>duration?</code> | How long a queue retains a message. |
 | <code>timeout</code> | <code>duration?</code> | How long a queue's consumers have to process a message. |
 
-<h3 id="@winglibs/fifoqueue.PushOptions">PushOptions (struct)</h3>
+### PushOptions (struct) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.PushOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>groupId</code> | <code>str</code> | *No description* |
 
-<h3 id="@winglibs/fifoqueue.SetConsumerOptions">SetConsumerOptions (struct)</h3>
+### SetConsumerOptions (struct) <a class="wing-docs-anchor" id="@winglibs/fifoqueue.SetConsumerOptions"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |

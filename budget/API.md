@@ -1,6 +1,6 @@
-<h2>API Reference</h2>
+## API Reference
 
-<h3>Table of Contents</h3>
+### Table of Contents
 
 - **Classes**
   - <a href="#@winglibs/budget.Alert">Alert</a>
@@ -14,85 +14,97 @@
 - **Enums**
   - <a href="#@winglibs/budget.TimeUnit">TimeUnit</a>
 
-<h3 id="@winglibs/budget.Alert">Alert (preflight class)</h3>
+### Alert (preflight class) <a class="wing-docs-anchor" id="@winglibs/budget.Alert"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AlertProps): Alert
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/budget.AlertTfAws">AlertTfAws (preflight class)</h3>
+### AlertTfAws (preflight class) <a class="wing-docs-anchor" id="@winglibs/budget.AlertTfAws"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AlertProps): AlertTfAws
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/budget.AlertSim">AlertSim (preflight class)</h3>
+### AlertSim (preflight class) <a class="wing-docs-anchor" id="@winglibs/budget.AlertSim"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(props: AlertProps): AlertSim
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/budget.Util">Util (preflight class)</h3>
+### Util (preflight class) <a class="wing-docs-anchor" id="@winglibs/budget.Util"></a>
 
-<h4>Constructor</h4>
+*No description*
 
-<pre>
+#### Constructor
+
+```
 new(): Util
-</pre>
+```
 
-<h4>Properties</h4>
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 | **Signature** | **Description** |
 | --- | --- |
 | <code>static timeUnitToStr(timeUnit: TimeUnit): str</code> | *No description* |
 
-<h3 id="@winglibs/budget.IAlert">IAlert (interface)</h3>
+### IAlert (interface) <a class="wing-docs-anchor" id="@winglibs/budget.IAlert"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 *No properties*
 
-<h4>Methods</h4>
+#### Methods
 
 *No methods*
 
-<h3 id="@winglibs/budget.AlertProps">AlertProps (struct)</h3>
+### AlertProps (struct) <a class="wing-docs-anchor" id="@winglibs/budget.AlertProps"></a>
 
-<h4>Properties</h4>
+*No description*
+
+#### Properties
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
@@ -101,9 +113,11 @@ new(): Util
 | <code>name</code> | <code>str</code> | *No description* |
 | <code>timeUnit</code> | <code>TimeUnit?</code> | *No description* |
 
-<h3 id="@winglibs/budget.TimeUnit">TimeUnit (enum)</h3>
+### TimeUnit (enum) <a class="wing-docs-anchor" id="@winglibs/budget.TimeUnit"></a>
 
-<h4>Values</h4>
+*No description*
+
+#### Values
 
 | **Name** | **Description** |
 | --- | --- |

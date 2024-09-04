@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/github",
   "description": "A Wing library for GitHub Probot",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "author": {
     "name": "Elad Cohen",
     "email": "eladc@wing.cloud"
