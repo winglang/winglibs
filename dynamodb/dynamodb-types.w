@@ -195,6 +195,8 @@ pub struct TableProps {
   timeToLiveAttribute: str?;
   globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
+
+  /// Billing mode for the table. Defaults to `PAY_PER_REQUEST`.
   billingMode: BillingMode?;
 
   /// Enables deletion protection for table. Disabled by default.
