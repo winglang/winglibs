@@ -40,6 +40,8 @@
   - <a href="#@winglibs/dynamodb.UpdateOptions">UpdateOptions</a>
   - <a href="#@winglibs/dynamodb.UpdateOutput">UpdateOutput</a>
   - <a href="#@winglibs/dynamodb.ClientProps">ClientProps</a>
+- **Enums**
+  - <a href="#@winglibs/dynamodb.BillingMode">BillingMode</a>
 
 ### Table (preflight class) <a class="wing-docs-anchor" id="@winglibs/dynamodb.Table"></a>
 
@@ -186,9 +188,7 @@ new(): Client
 
 #### Properties
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>node</code> | <code>Node</code> | The tree node. |
+*No properties*
 
 #### Methods
 
@@ -455,6 +455,8 @@ new(): Client
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>attributes</code> | <code>Array<AttributeDefinition></code> | *No description* |
+| <code>billingMode</code> | <code>BillingMode?</code> | Billing mode for the table. Defaults to `PAY_PER_REQUEST`. |
+| <code>deletionProtection</code> | <code>bool?</code> | Enables deletion protection for table. Disabled by default.  For the Terraform AWS provider, this will also enable `lifecycle { prevent_destroy = true }` |
 | <code>globalSecondaryIndex</code> | <code>Array<GlobalSecondaryIndex>?</code> | *No description* |
 | <code>hashKey</code> | <code>str</code> | *No description* |
 | <code>name</code> | <code>str?</code> | *No description* |
@@ -592,4 +594,15 @@ new(): Client
 | <code>endpoint</code> | <code>str?</code> | *No description* |
 | <code>region</code> | <code>str?</code> | *No description* |
 | <code>tableName</code> | <code>str</code> | *No description* |
+
+### BillingMode (enum) <a class="wing-docs-anchor" id="@winglibs/dynamodb.BillingMode"></a>
+
+*No description*
+
+#### Values
+
+| **Name** | **Description** |
+| --- | --- |
+| <code>PAY_PER_REQUEST</code> | *No description* |
+| <code>PROVISIONED</code> | *No description* |
 
