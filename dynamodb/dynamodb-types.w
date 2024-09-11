@@ -182,6 +182,11 @@ pub struct StreamConsumerOptions {
   startingPosition: str?;
 }
 
+pub enum BillingMode {
+  PAY_PER_REQUEST,
+  PROVISIONED
+}
+
 pub struct TableProps {
   name: str?;
   attributes: Array<AttributeDefinition>;
@@ -190,6 +195,14 @@ pub struct TableProps {
   timeToLiveAttribute: str?;
   globalSecondaryIndex: Array<GlobalSecondaryIndex>?;
   pointInTimeRecovery: bool?;
+
+  /// Billing mode for the table. Defaults to `PAY_PER_REQUEST`.
+  billingMode: BillingMode?;
+
+  /// Enables deletion protection for table. Disabled by default.
+  ///
+  /// For the Terraform AWS provider, this will also enable `lifecycle { prevent_destroy = true }`
+  deletionProtection: bool?;
 }
 
 pub struct Credentials {

@@ -142,12 +142,13 @@ pub class Table_sim impl dynamodb_types.ITable {
 
       util.waitUntil(() => {
         try {
+          let billingMode = props.billingMode ?? dynamodb_types.BillingMode.PAY_PER_REQUEST;
           client.createTable({
             TableName: tableName,
             AttributeDefinitions: attributeDefinitions.copy(),
             KeySchema: keySchemas.copy(),
             GlobalSecondaryIndexes: globalSecondaryIndexes,
-            BillingMode: "PAY_PER_REQUEST",
+            BillingMode: "{billingMode}",
             StreamSpecification: {
               StreamEnabled: true,
               StreamViewType: "NEW_AND_OLD_IMAGES",

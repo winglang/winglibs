@@ -46,6 +46,8 @@ pub class Table_tfaws impl dynamodb_types.ITable {
   pub connection: dynamodb_types.Connection;
 
   new(props: dynamodb_types.TableProps) {
+    let billingMode = props.billingMode ?? dynamodb_types.BillingMode.PAY_PER_REQUEST;
+
     this.table = new tfaws.dynamodbTable.DynamodbTable({
       // Generate a unique name for the table:
       // - Replace slashes with hyphens
@@ -56,7 +58,11 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       attribute: props.attributes,
       hashKey: props.hashKey,
       rangeKey: props.rangeKey,
-      billingMode: "PAY_PER_REQUEST",
+      billingMode: "{billingMode}",
+      deletionProtectionEnabled: props.deletionProtection ?? false,
+      lifecycle: {
+        preventDestroy: props.deletionProtection ?? false,
+      },
       streamEnabled: true,
       streamViewType: "NEW_AND_OLD_IMAGES",
       pointInTimeRecovery: {
