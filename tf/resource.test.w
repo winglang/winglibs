@@ -3,7 +3,7 @@ bring util;
 
 if util.env("WING_TARGET").startsWith("tf") {
   let role = new tf.Resource({
-    type: "aws_iam_role",
+    terraformResourceType: "aws_iam_role",
     attributes: {
       inline_policy: {
         name: "lambda-invoke",
