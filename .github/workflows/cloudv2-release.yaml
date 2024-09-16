@@ -34,9 +34,9 @@ jobs:
         run: wing pack
         working-directory: cloudv2
       - name: Check for missing changes
-        run: git diff --exit-code || (echo 'Please run "npm install", "wing test", and
-          "wing gen-docs" from ./cloudv2, and commit any changes to your
-          branch.' && exit 1)
+        run: git diff --exit-code || (echo 'Please run "npm install && wing test && wing
+          docs" from ./cloudv2, and commit any changes to your branch.' && exit
+          1)
       - name: Get package version
         run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
           "$GITHUB_ENV"
