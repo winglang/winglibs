@@ -31,6 +31,6 @@ jobs:
         run: wing pack
         working-directory: python
       - name: Check for missing changes
-        run: git diff --exit-code || (echo 'Please run "npm install", "wing test", and
-          "wing gen-docs" from ./python, and commit any changes to your branch.'
-          && exit 1)
+        run: git diff --exit-code || (echo 'Please run "npm install && wing test && wing
+          docs" from ./python, and commit any changes to your branch.' && exit
+          1)
