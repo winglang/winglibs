@@ -142,7 +142,15 @@ new(config: Json): Element
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code>attributes</code> | <code>Json?</code> | *No description* |
-| <code>type</code> | <code>str</code> | *No description* |
+| <code>connection</code> | <code>any?</code> | *No description* |
+| <code>count</code> | <code>any?</code> | *No description* |
+| <code>dependsOn</code> | <code>Array<ITerraformDependable>?</code> | *No description* |
+| <code>forEach</code> | <code>ITerraformIterator?</code> | *No description* |
+| <code>lifecycle</code> | <code>TerraformResourceLifecycle?</code> | *No description* |
+| <code>provider</code> | <code>TerraformProvider?</code> | *No description* |
+| <code>provisioners</code> | <code>Array<any>?</code> | *No description* |
+| <code>terraformGeneratorMetadata</code> | <code>TerraformProviderGeneratorMetadata?</code> | *No description* |
+| <code>terraformResourceType</code> | <code>str</code> | *No description* |
 
 ### ProviderProps (struct) <a class="wing-docs-anchor" id="@winglibs/tf.ProviderProps"></a>
 
