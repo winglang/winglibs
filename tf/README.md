@@ -18,13 +18,14 @@ Represents an arbitrary Terraform resource.
 
 > `tf.Resource` can only be used when compiling your Wing program to a `tf-*` target.
 
-It takes a `type` and `attributes` properties:
+It takes a `terraformResourceType` and `attributes` properties, as well as all the properties of the `TerraformResource`
+class from CDKTF.
 
 ```js
 bring tf;
 
 let role = new tf.Resource({
-  type: "aws_iam_role",
+  terraformResourceType: "aws_iam_role",
   attributes: {
     inline_policy: {
       name: "lambda-invoke",
