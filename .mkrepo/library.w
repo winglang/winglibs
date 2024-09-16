@@ -93,7 +93,7 @@ pub class Library {
 
       steps.push({
         name: "Check for missing changes",
-        run: "git diff --exit-code || (echo 'Please run \"npm install\", \"wing test\", and \"wing gen-docs\" from ./{libdir}, and commit any changes to your branch.' && exit 1)",
+        run: "git diff --exit-code || (echo 'Please run \"npm install && wing test && wing docs\" from ./{libdir}, and commit any changes to your branch.' && exit 1)",
       });
     };
 
