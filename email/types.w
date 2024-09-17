@@ -1,4 +1,5 @@
 pub interface IEmail {
+  /// Sends a simple email.
   inflight send(options: SendEmailOptions): void;
 }
 
