@@ -1,0 +1,29 @@
+{
+  "name": "@winglibs/email",
+  "description": "An email library for Wing",
+  "version": "0.0.1",
+  "author": {
+    "name": "Chris Rybicki",
+    "email": "chrisr@wing.cloud"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/winglang/winglibs.git",
+    "directory": "email"
+  },
+  "wing": {
+    "platforms": [
+      "sim",
+      "tf-aws"
+    ],
+    "docs": {
+      "title": "Email",
+      "summary": "A wing library for sending emails"
+    }
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@cdktf/provider-aws": "^19.33.0",
+    "@aws-sdk/client-sesv2": "^3.651.1"
+  }
+}
