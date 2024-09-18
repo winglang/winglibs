@@ -1,0 +1,60 @@
+name: email-release
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - email/**
+      - "!email/package-lock.json"
+jobs:
+  build-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: email
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          registry-url: https://registry.npmjs.org
+      - name: Install winglang
+        run: npm i -g winglang
+      - name: Install dependencies
+        run: npm install --include=dev
+        working-directory: email
+      - name: Test
+        run: wing test
+        working-directory: email
+      - name: Generate docs
+        run: wing docs
+        working-directory: email
+      - name: Pack
+        run: wing pack
+        working-directory: email
+      - name: Check for missing changes
+        run: git diff --exit-code || (echo 'Please run "npm install && wing test && wing
+          docs" from ./email, and commit any changes to your branch.' && exit 1)
+      - name: Get package version
+        run: echo WINGLIB_VERSION=$(node -p "require('./package.json').version") >>
+          "$GITHUB_ENV"
+        working-directory: email
+      - name: Publish
+        run: npm publish --access=public --registry https://registry.npmjs.org --tag
+          latest *.tgz
+        working-directory: email
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Tag commit
+        uses: tvdias/github-tagger@v0.0.1
+        with:
+          repo-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          tag: email-v${{ env.WINGLIB_VERSION }}
+      - name: GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: email v${{ env.WINGLIB_VERSION }}
+          tag_name: email-v${{ env.WINGLIB_VERSION }}
+          files: "*.tgz"
+          token: ${{ secrets.PROJEN_GITHUB_TOKEN }}

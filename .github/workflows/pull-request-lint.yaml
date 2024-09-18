@@ -31,6 +31,7 @@ jobs:
             cognito
             containers
             dynamodb
+            email
             eventbridge
             fifoqueue
             github
