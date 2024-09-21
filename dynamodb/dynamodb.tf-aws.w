@@ -211,6 +211,25 @@ pub class Table_tfaws impl dynamodb_types.ITable {
     return this.client.query(options);
   }
 
+  pub inflight batchGet(options: dynamodb_types.TableBatchGetOptions): dynamodb_types.BatchGetOutput {
+    return this.client.batchGet(
+      RequestItems: {
+        this.tableName => options
+      },
+      ReturnConsumedCapacity: options.ReturnConsumedCapacity,
+    );
+  }
+
+  pub inflight batchWrite(options: dynamodb_types.TableBatchWriteOptions): dynamodb_types.BatchWriteOutput {
+    return this.client.batchWrite(
+      RequestItems: {
+        this.tableName => options
+      },
+      ReturnConsumedCapacity: options.ReturnConsumedCapacity,
+      ReturnItemCollectionMetrics: options.ReturnItemCollectionMetrics,
+    );
+  }
+
   pub inflight readWriteConnection(): dynamodb_types.Connection {
     return this.connection;
   }

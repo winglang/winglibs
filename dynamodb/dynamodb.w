@@ -77,6 +77,14 @@ pub class Table impl dynamodb_types.ITable {
     return this.implementation.query(options);
   }
 
+  pub inflight batchGet(options: dynamodb_types.TableBatchGetOptions): dynamodb_types.BatchGetOutput {
+    return this.implementation.batchGet(options);
+  }
+
+  pub inflight batchWrite(options: dynamodb_types.TableBatchWriteOptions): dynamodb_types.BatchWriteOutput {
+    return this.implementation.batchWrite(options);
+  }
+
   pub inflight readWriteConnection(): dynamodb_types.Connection {
     return this.implementation.readWriteConnection();
   }
@@ -85,4 +93,3 @@ pub class Table impl dynamodb_types.ITable {
     this.implementation.onLift(host, ops);
   }
 }
-

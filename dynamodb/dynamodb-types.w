@@ -153,6 +153,58 @@ pub struct TransactWriteOptions {
 
 pub struct TransactWriteOutput {}
 
+pub struct TableBatchGetOptions {
+  Keys: Array<Json>;
+  AttributesToGet: Array<str>?;
+  ConsistentRead: bool?;
+  ExpressionAttributeNames: Map<str>?;
+  ProjectionExpression: str?;
+  ReturnConsumedCapacity: str?;
+}
+
+pub struct BatchGetOptions {
+  RequestItems: Map<TableBatchGetOptions>;
+  ReturnConsumedCapacity: str?;
+}
+
+pub struct BatchGetOutput {
+  UnprocessedKeys: Map<TableBatchGetOptions>;
+  Responses: Map<Array<Json>>?;
+  ConsumedCapacity: Array<Json>?;
+}
+
+pub struct DeleteRequest {
+  Key: Json;
+}
+
+pub struct PutRequest {
+  Item: Json;
+}
+
+pub struct WriteRequest {
+  DeleteRequest: DeleteRequest?;
+  PutRequest: PutRequest?;
+}
+
+pub struct TableBatchWriteOptions {
+  DeleteRequests: Array<DeleteRequest>?;
+  PutRequests: Array<PutRequest>?;
+  ReturnConsumedCapacity: str?;
+  ReturnItemCollectionMetrics: str?;
+}
+
+pub struct BatchWriteOptions {
+  RequestItems: Map<TableBatchWriteOptions>;
+  ReturnConsumedCapacity: str?;
+  ReturnItemCollectionMetrics: str?;
+}
+
+pub struct BatchWriteOutput {
+  UnprocessedItems: Map<TableBatchWriteOptions>?;
+  ItemCollectionMetrics: Json?;
+  ConsumedCapacity: Array<Json>?;
+}
+
 pub struct AttributeDefinition {
   name: str;
   type: str;
@@ -221,7 +273,7 @@ pub struct Connection {
   clientConfig: ClientConfig?;
 }
 
-pub inflight interface IClient {
+pub inflight interface IDynamoResource {
   inflight delete(options: DeleteOptions): DeleteOutput;
   inflight get(options: GetOptions): GetOutput;
   inflight put(options: PutOptions): PutOutput;
@@ -231,7 +283,14 @@ pub inflight interface IClient {
   inflight transactWrite(options: TransactWriteOptions): TransactWriteOutput;
 }
 
-pub interface ITable extends IClient, std.IResource {
+pub inflight interface IClient extends IDynamoResource {
+  inflight batchGet(options: BatchGetOptions): BatchGetOutput;
+  inflight batchWrite(options: BatchWriteOptions): BatchWriteOutput;
+}
+
+pub interface ITable extends IDynamoResource, std.IResource {
   setStreamConsumer(handler: inflight (StreamRecord): void, options: StreamConsumerOptions?): void;
   inflight readWriteConnection(): Connection;
+  inflight batchGet(options: TableBatchGetOptions): BatchGetOutput;
+  inflight batchWrite(options: TableBatchWriteOptions): BatchWriteOutput;
 }
