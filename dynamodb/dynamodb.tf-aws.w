@@ -136,6 +136,12 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       if ops.contains("get") {
         actions.push("dynamodb:GetItem");
       }
+      if ops.contains("batchGet") {
+        actions.push("dynamodb:BatchGetItem");
+      }
+      if ops.contains("batchWrite") {
+        actions.push("dynamodb:BatchWriteItem");
+      }
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
       }
