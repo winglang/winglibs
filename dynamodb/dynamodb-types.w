@@ -153,15 +153,23 @@ pub struct TransactWriteOptions {
 
 pub struct TransactWriteOutput {}
 
+/// `TableBatchGetOptions` is used as an input to the `batchGet` operation on a Table or Client
+/// (through [`BatchGetOptions`](#@winglibs/dynamodb.BatchGetOptions)).
 pub struct TableBatchGetOptions {
   Keys: Array<Json>;
   AttributesToGet: Array<str>?;
   ConsistentRead: bool?;
   ExpressionAttributeNames: Map<str>?;
   ProjectionExpression: str?;
+
+  /// When passed in on a **Table** resource, `ReturnConsumedCapacity` will be hoisted to the top
+  /// level inside of the request. When passed in on a **Client** resource (via
+  /// [`BatchGetOptions`](#@winglibs/dynamodb.BatchGetOptions)), setting `ReturnConsumedCapacity`
+  /// here has no effect, set it inside of the top-level instead.
   ReturnConsumedCapacity: str?;
 }
 
+/// Input to the `batchGet` operation on a Client.
 pub struct BatchGetOptions {
   RequestItems: Map<TableBatchGetOptions>;
   ReturnConsumedCapacity: str?;
@@ -173,26 +181,54 @@ pub struct BatchGetOutput {
   ConsumedCapacity: Array<Json>?;
 }
 
+/// Represents a request to perform a `DeleteItem` operation on an item.
 pub struct DeleteRequest {
+  /// `Key` is a map of attribute name to attribute values, representing the primary key of the item
+  /// to delete. All of the table's primary key attributes must be specified
   Key: Json;
 }
 
+/// Represents a request to perform a `PutItem` operation on an item.
 pub struct PutRequest {
+  /// A map of attribute name to attribute values, representing the primary key of an item to be
+  /// processed by PutItem. All of the table's primary key attributes must be specified, and their
+  /// data types must match those of the table's key schema. If any attributes are present in the item
+  /// that are part of an index key schema for the table, their types must match the index key
+  /// schema.
   Item: Json;
 }
 
+/// Represents an operation to perform - either `DeleteItem` or `PutItem`. Used internally to map
+/// from the `DeleteRequests` or `PutRequests` on `TableBatchWriteOptions` to the contract required
+/// from DynamoDB.
 pub struct WriteRequest {
   DeleteRequest: DeleteRequest?;
   PutRequest: PutRequest?;
 }
 
+/// `TableBatchWriteOptions` is used as an input to the `batchWrite` operation on a Table or Client
+/// (through [`BatchWriteOptions`](#@winglibs/dynamodb.BatchWriteOptions)).
 pub struct TableBatchWriteOptions {
+  /// `DeleteRequests` contains a list of `DeleteItem` operations to perform on this table.
   DeleteRequests: Array<DeleteRequest>?;
+
+  /// `PutRequests` contains a list of `PutItem` operations to perform on this table.
   PutRequests: Array<PutRequest>?;
+
+  /// When passed in on a **Table** resource, `ReturnConsumedCapacity` will be hoisted to the top
+  /// level inside of the request. When passed in on a **Client** resource (via
+  /// [`BatchWriteOptions`](#@winglibs/dynamodb.BatchWriteOptions)), setting
+  /// `ReturnConsumedCapacity` here has no effect, set it inside of the top-level instead.
   ReturnConsumedCapacity: str?;
+
+  /// When passed in on a **Table** resource, `ReturnItemCollectionMetrics` will be hoisted to the
+  /// top level inside of the request. When passed in on a **Client** resource (via
+  /// [`BatchWriteOptions`](#@winglibs/dynamodb.BatchWriteOptions)), setting
+  /// `ReturnConsumedCapacity` here has no effect, set it inside of the top-level instead.
   ReturnItemCollectionMetrics: str?;
 }
 
+/// Input to the `batchWrite` operation on a Client.
 pub struct BatchWriteOptions {
   RequestItems: Map<TableBatchWriteOptions>;
   ReturnConsumedCapacity: str?;
