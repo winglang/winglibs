@@ -48,7 +48,6 @@
   - <a href="#@winglibs/dynamodb.TransactWriteOutput">TransactWriteOutput</a>
   - <a href="#@winglibs/dynamodb.UpdateOptions">UpdateOptions</a>
   - <a href="#@winglibs/dynamodb.UpdateOutput">UpdateOutput</a>
-  - <a href="#@winglibs/dynamodb.WriteRequest">WriteRequest</a>
   - <a href="#@winglibs/dynamodb.ClientProps">ClientProps</a>
 - **Enums**
   - <a href="#@winglibs/dynamodb.BillingMode">BillingMode</a>
@@ -720,19 +719,6 @@ Represents a request to perform a `PutItem` operation on an item.
 | <code>ExpressionAttributeValues</code> | <code>Map<Json>?</code> | *No description* |
 | <code>Item</code> | <code>Json</code> | *No description* |
 | <code>ReturnValues</code> | <code>str?</code> | *No description* |
-
-### WriteRequest (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.WriteRequest"></a>
-
-Represents an operation to perform - either `DeleteItem` or `PutItem`. Used internally to map
-from the `DeleteRequests` or `PutRequests` on `TableBatchWriteOptions` to the contract required
-from DynamoDB.
-
-#### Properties
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>DeleteRequest</code> | <code>DeleteRequest?</code> | *No description* |
-| <code>PutRequest</code> | <code>PutRequest?</code> | *No description* |
 
 ### ClientProps (struct) <a class="wing-docs-anchor" id="@winglibs/dynamodb.ClientProps"></a>
 

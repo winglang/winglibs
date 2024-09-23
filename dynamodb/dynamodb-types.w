@@ -198,10 +198,10 @@ pub struct PutRequest {
   Item: Json;
 }
 
-/// Represents an operation to perform - either `DeleteItem` or `PutItem`. Used internally to map
-/// from the `DeleteRequests` or `PutRequests` on `TableBatchWriteOptions` to the contract required
-/// from DynamoDB.
-pub struct WriteRequest {
+// Represents an operation to perform - either `DeleteItem` or `PutItem`. Used internally to map
+// from the `DeleteRequests` or `PutRequests` on `TableBatchWriteOptions` to the contract required
+// from DynamoDB.
+internal struct WriteRequest {
   DeleteRequest: DeleteRequest?;
   PutRequest: PutRequest?;
 }
