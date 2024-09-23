@@ -64,7 +64,7 @@ pub inflight class Client impl dynamodb_types.IClient {
   pub inflight update(options: dynamodb_types.UpdateOptions):  dynamodb_types.UpdateOutput {
     let input: MutJson = options;
     input.set("TableName", this.tableName);
-    return unsafeCast(this.client.update(input)); 
+    return unsafeCast(this.client.update(input));
   }
 
   pub inflight transactWrite(options: dynamodb_types.TransactWriteOptions): dynamodb_types.TransactWriteOutput {
@@ -113,5 +113,33 @@ pub inflight class Client impl dynamodb_types.IClient {
     let input: MutJson = options;
     input.set("TableName", this.tableName);
     return unsafeCast(this.client.query(input));
+  }
+
+  pub inflight batchGet(options: dynamodb_types.BatchGetOptions): dynamodb_types.BatchGetOutput {
+    return unsafeCast(this.client.batchGet(options));
+  }
+
+  pub inflight batchWrite(options: dynamodb_types.BatchWriteOptions): dynamodb_types.BatchWriteOutput {
+    let reqItems = MutMap<MutArray<dynamodb_types.WriteRequest>> {};
+
+    for item in options.RequestItems.entries() {
+      let tableReqs = MutArray<dynamodb_types.WriteRequest> [];
+
+      for DeleteRequest in item.value.DeleteRequests ?? [] {
+        tableReqs.push({ DeleteRequest });
+      }
+
+      for PutRequest in item.value.PutRequests ?? [] {
+        tableReqs.push({ PutRequest });
+      }
+
+      reqItems.set(item.key, tableReqs);
+    }
+
+    return unsafeCast(this.client.batchWrite({
+      RequestItems: Json.parse(Json.stringify(reqItems)),
+      ReturnConsumedCapacity: options.ReturnConsumedCapacity,
+      ReturnItemCollectionMetrics: options.ReturnItemCollectionMetrics,
+    }));
   }
 }

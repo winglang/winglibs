@@ -136,6 +136,12 @@ pub class Table_tfaws impl dynamodb_types.ITable {
       if ops.contains("get") {
         actions.push("dynamodb:GetItem");
       }
+      if ops.contains("batchGet") {
+        actions.push("dynamodb:BatchGetItem");
+      }
+      if ops.contains("batchWrite") {
+        actions.push("dynamodb:BatchWriteItem");
+      }
       if ops.contains("put") {
         actions.push("dynamodb:PutItem");
       }
@@ -209,6 +215,25 @@ pub class Table_tfaws impl dynamodb_types.ITable {
 
   pub inflight query(options: dynamodb_types.QueryOptions): dynamodb_types.QueryOutput {
     return this.client.query(options);
+  }
+
+  pub inflight batchGet(options: dynamodb_types.TableBatchGetOptions): dynamodb_types.BatchGetOutput {
+    return this.client.batchGet(
+      RequestItems: {
+        this.tableName => options
+      },
+      ReturnConsumedCapacity: options.ReturnConsumedCapacity,
+    );
+  }
+
+  pub inflight batchWrite(options: dynamodb_types.TableBatchWriteOptions): dynamodb_types.BatchWriteOutput {
+    return this.client.batchWrite(
+      RequestItems: {
+        this.tableName => options
+      },
+      ReturnConsumedCapacity: options.ReturnConsumedCapacity,
+      ReturnItemCollectionMetrics: options.ReturnItemCollectionMetrics,
+    );
   }
 
   pub inflight readWriteConnection(): dynamodb_types.Connection {
