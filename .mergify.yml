@@ -3,6 +3,10 @@ queue_rules:
     speculative_checks: 2
     queue_conditions:
       - -files=.mergify.yml
+    merge_method: squash
+    commit_message_template: |-
+      {{ title }} (#{{ number }})
+      {{ body }}
 pull_request_rules:
   - name: automatic merge
     actions:
@@ -13,10 +17,6 @@ pull_request_rules:
           if `{{head}}` is up-to-date with `{{base}}` and the queue is empty.
       queue:
         name: default
-        merge_method: squash
-        commit_message_template: |-
-          {{ title }} (#{{ number }})
-          {{ body }}
     conditions:
       - -files=.mergify.yml
       - -title~=(?i)wip

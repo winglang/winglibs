@@ -20,7 +20,9 @@ pub class MergifyWorkflow {
           "speculative_checks": 2,
           "queue_conditions": [
             "-files=.mergify.yml",
-          ]
+          ],
+          "merge_method": "squash",
+          "commit_message_template": "\{\{ title \}\} (#\{\{ number \}\})\n\{\{ body \}\}"
         }
       ],
       "pull_request_rules": [
@@ -32,8 +34,6 @@ pub class MergifyWorkflow {
             },
             "queue": {
               "name": "default",
-              "merge_method": "squash",
-              "commit_message_template": "\{\{ title \}\} (#\{\{ number \}\})\n\{\{ body \}\}"
             }
           },
           "conditions": Array<Json>[
