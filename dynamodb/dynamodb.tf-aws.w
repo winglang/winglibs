@@ -76,6 +76,9 @@ pub class Table_tfaws impl dynamodb_types.ITable {
   }
 
   pub setStreamConsumer(handler: inflight (dynamodb_types.StreamRecord): void, options: dynamodb_types.StreamConsumerOptions?) {
+
+    let startingPosition = options?.startingPosition ?? "LATEST";
+
     let consumer = new cloud.Function(inflight (eventStr) => {
       let event: DynamoDBStreamEvent = unsafeCast(eventStr);
       for record in event.Records {
@@ -120,7 +123,7 @@ pub class Table_tfaws impl dynamodb_types.ITable {
           eventSourceArn: this.table.streamArn,
           functionName: lambda.functionName,
           batchSize: options?.batchSize,
-          startingPosition: options?.startingPosition,
+          startingPosition,
           // filterCriteria: unsafeCast(options?.filterCriteria),
         },
       );
