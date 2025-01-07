@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/react",
   "description": "React library for Wing",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": {
     "name": "Meir Elbaz",
     "email": "maornet@gmail.com"
