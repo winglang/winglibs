@@ -177,8 +177,8 @@ new(): MockChannel
 
 | **Signature** | **Description** |
 | --- | --- |
-| <code>inflight post(message: str): Json</code> | *No description* |
-| <code>inflight postMessage(message: Message): Json</code> | *No description* |
+| <code>inflight post(message: str): Json</code> | Post raw text to a channel |
+| <code>inflight postMessage(message: Message): Json</code> | Post a message block to a channel |
 
 ### Thread (inflight class) <a class="wing-docs-anchor" id="@winglibs/slack.Thread"></a>
 

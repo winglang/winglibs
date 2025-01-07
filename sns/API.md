@@ -82,9 +82,7 @@ new(): MobileNotifications_aws
 
 #### Properties
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>node</code> | <code>Node</code> | The tree node. |
+*No properties*
 
 #### Methods
 

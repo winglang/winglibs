@@ -1,7 +1,7 @@
 bring cloud;
 bring sim;
 bring ui;
-bring ex;
+bring dynamodb;
 bring "@cdktf/provider-aws" as aws;
 bring "../types.w" as types;
 
@@ -40,7 +40,7 @@ interface ICallable {
 pub class Cognito_sim impl types.ICognito {
   api: cloud.Api;
   counter: cloud.Counter;
-  table: ex.Table;
+  table: dynamodb.Table;
   props: types.CognitoProps?;
 
   new(api: cloud.Api, props: types.CognitoProps?) {
@@ -51,11 +51,15 @@ pub class Cognito_sim impl types.ICognito {
 
     this.setUi();
 
-    this.table = new ex.Table(name: "users", primaryKey: "email", columns: {
-      "email" => ex.ColumnType.STRING,
-      "password" => ex.ColumnType.STRING,
-      "confirmed" => ex.ColumnType.BOOLEAN,
-    }) as "users";
+    this.table = new dynamodb.Table(
+      attributes: [
+        {
+          name: "email",
+          type: "S",
+        },
+      ],
+      hashKey: "email",
+    ) as "users";
     nodeof(this.table).hidden = true;
   }
 
@@ -66,7 +70,7 @@ pub class Cognito_sim impl types.ICognito {
       } else {
         return "Authorized";
       }
-    }, refreshRate: 2s); 
+    }, refreshRate: 2s);
 
     new ui.Button("Toggle Auth", inflight () => {
       this.counter.inc();
@@ -158,7 +162,7 @@ pub class Cognito_sim impl types.ICognito {
           }
 
           let res = func.invoke(Json.stringify(req));
-          return cloud.ApiResponse.parseJson(res!);
+          return cloud.ApiResponse.parseJson(Json.stringify(res));
         });
 
         nodeof(this.api).tryRemoveChild(handler.mapping.node.id);
@@ -171,37 +175,51 @@ pub class Cognito_sim impl types.ICognito {
   }
 
   pub inflight signUp(email: str, password: str): void {
-    this.table.upsert(email, {
-      "email": email,
-      "password": password,
-      "confirmed": false,
-    });
+    this.table.put(
+      Item: {
+        "email": email,
+        "password": password,
+        "confirmed": false,
+      },
+    );
   }
 
   pub inflight adminConfirmUser(email: str): void {
-    let row = this.table.tryGet(email);
-    if row == nil {
+    let row = this.table.get(
+      Key: {
+        "email": email,
+      },
+    );
+    if row.Item == nil {
       throw "User not found";
     }
 
-    this.table.update(email, {
-      "email": email,
-      "password": row!["password"].asStr(),
-      "confirmed": true,
-    });
+    this.table.update(
+      Key: {
+        "email": email,
+      },
+      UpdateExpression: "set confirmed = :confirmed",
+      ExpressionAttributeValues: {
+        ":confirmed": true,
+      },
+    );
   }
 
   pub inflight initiateAuth(email: str, password: str): str {
-    let row = this.table.tryGet(email);
-    if row == nil {
+    let row = this.table.get(
+      Key: {
+        "email": email,
+      },
+    );
+    if row.Item == nil {
       throw "User not found";
     }
 
-    if row!["email"].asStr() != email || row!["password"].asStr() != password {
+    if row.Item!["email"].asStr() != email || row.Item!["password"].asStr() != password {
       throw "Invalid credentials";
     }
 
-    if !row!["confirmed"].asBool() {
+    if !row.Item!["confirmed"].asBool() {
       throw "User not confirmed";
     }
 

@@ -27,5 +27,8 @@
       "summary": "A wing library to work with Amazon Cognito"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@winglibs/dynamodb": "^0.3.1"
+  }
 }
