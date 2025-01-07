@@ -124,9 +124,7 @@ new(props: WebSocketProps): WebSocket_awscdk
 
 #### Properties
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>node</code> | <code>Node</code> | The tree node. |
+*No properties*
 
 #### Methods
 
@@ -144,9 +142,7 @@ new(props: WebSocketProps): WebSocket_awscdk
 
 #### Properties
 
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code>node</code> | <code>Node</code> | The tree node. |
+*No properties*
 
 #### Methods
 
