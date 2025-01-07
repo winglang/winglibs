@@ -15,6 +15,7 @@
     "@aws-sdk/client-cognito-identity": "^3.564.0",
     "@aws-sdk/client-cognito-identity-provider": "^3.530.0",
     "@cdktf/provider-aws": "^19.12.0",
+    "@winglibs/dynamodb": "^0.3.1",
     "aws-sigv4-fetch": "^3.1.0"
   },
   "wing": {
@@ -27,8 +28,5 @@
       "summary": "A wing library to work with Amazon Cognito"
     }
   },
-  "license": "MIT",
-  "dependencies": {
-    "@winglibs/dynamodb": "^0.3.1"
-  }
+  "license": "MIT"
 }
