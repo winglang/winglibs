@@ -1,7 +1,7 @@
 {
   "name": "@winglibs/email",
   "description": "An email library for Wing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "Chris Rybicki",
     "email": "chrisr@wing.cloud"
