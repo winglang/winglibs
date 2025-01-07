@@ -14,7 +14,7 @@ exports._queryWithConnectionString = async function(query, connectionString) {
 }
 
 function encodePasswordInConnectionString(connectionString) {
-  const regex = /^(postgresql:\/\/)([^:]+):([^@]+)@([^:\/]+):(\d+)\/(.+)$/;
+  const regex = /^(postgresql:\/\/)([^:]+):([^@]+)@([^:\/]+)(:\d+)?\/(.+)$/;
   const match = connectionString.match(regex);
 
   if (!match) {
@@ -25,7 +25,7 @@ function encodePasswordInConnectionString(connectionString) {
 
   const encodedPassword = encodeURIComponent(password);
 
-  return `${protocol}${username}:${encodedPassword}@${host}:${port}/${database}`;
+  return `${protocol}${username}:${encodedPassword}@${host}${port ?? ""}/${database}`;
 }
 
 // workaround for readiness probe
